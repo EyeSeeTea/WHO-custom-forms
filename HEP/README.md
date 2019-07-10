@@ -12,7 +12,7 @@ $ yarn build
 Example:
 
 ```
-$ node lib/cli.js --url="https://admin:district@play.dhis2.org/2.30" --dataset-id="eZDhcZi6FLP"
+$ node lib/cli.js --url='https://admin:district@play.dhis2.org/2.30' --dataset-id='eZDhcZi6FLP'
 ```
 
 You can also run code directly from sources using [ts-node](https://www.npmjs.com/package/ts-node):
