@@ -2,7 +2,42 @@
     border: 1px solid red;
 }
 
-.custom-table {
+.table {
     display: flex;
     flex-direction: column;
+}
+
+.header {
+    display: flex;
+    flex: 1;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color: rgb(75, 75, 75);
+    height: 30px;
+}
+
+.elements {
+    display: flex;
+    flex: 8;
+}
+
+.column-big {
+    flex: 5;
+    align-content: center;
+    height: 100%;
+    background-color: rgb(238, 238, 238);
+}
+
+.column-small {
+    flex: 2;
+    align-content: center;
+    text-align: center;
+    font-size: 13px;
+    background-color: rgb(243, 243, 243);
+    border: 1px solid rgb(221, 221, 221);
+    padding-top: 5px;
+}
+
+.antigen-tag {
+    font-weight: bold;
 }
