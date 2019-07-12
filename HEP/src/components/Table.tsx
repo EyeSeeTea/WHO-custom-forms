@@ -1,15 +1,9 @@
 import { createElement } from "typed-html";
 import { Section, SectionDataElement } from "../models/Form";
 import { EntryField } from "./EntryField";
-import { Checkbox } from "./Checkbox";
 
-export interface TableAttributes {
+interface TableAttributes {
     section: Section;
-}
-
-export interface RowAttributes {
-    field: SectionDataElement;
-    checkbox: SectionDataElement;
 }
 
 const Header = () => (
@@ -22,26 +16,37 @@ const Header = () => (
     </div>
 );
 
-function Row(attributes: RowAttributes): string {
-    const { field, checkbox } = attributes;
-    return (
-        <div>
-            <div>{field.shortName}</div>
-            <div>
-                <EntryField
-                    dataElementId={field.id}
-                    categoryOptionComboId={field.categoryCombo.id}
-                />
-            </div>
-            <div>
-                <Checkbox
-                    dataElementId={checkbox.id}
-                    categoryOptionComboId={checkbox.categoryCombo.id}
-                />
-            </div>
-            <div>{checkbox.shortName}</div>
+function NameRows(attributes: { fields: SectionDataElement[] }): string {
+    const rows = attributes.fields.map(de => (
+        <div class="elements-row">
+            <div class="column-big">{de.shortName}</div>
         </div>
-    );
+    ));
+    return <div class="name-field">{rows}</div>;
+}
+
+function CheckBoxGroup(attributes: { checkboxes: SectionDataElement[] }): string {
+    const rows = attributes.checkboxes.map(de => (
+        <div class="elements-row">
+            <EntryField
+                dataElementId={de.id}
+                categoryOptionComboId={de.categoryCombo.id}
+                checkbox
+            />
+            <div>{de.shortName}</div>
+        </div>
+    ));
+
+    return <div class="checkbox-group">{rows}</div>;
+}
+
+function OnlyFields(attributes: { fields: SectionDataElement[] }) {
+    const rows = attributes.fields.map(de => (
+        <div class="field-container">
+            <EntryField dataElementId={de.id} categoryOptionComboId={de.categoryCombo.id} />
+        </div>
+    ));
+    return <div class="checkbox-group">{rows}</div>;
 }
 
 export function Table(attributes: TableAttributes): string {
@@ -49,8 +54,13 @@ export function Table(attributes: TableAttributes): string {
     return (
         <div class="table">
             <Header />
-            <div class="elements"> Elements </div>
-            <Row field={fields[0]} checkbox={checkboxes[0]} />
+            <div class="elements">
+                <NameRows fields={fields} />
+                <OnlyFields fields={fields} />
+                <CheckBoxGroup checkboxes={checkboxes} />
+                <OnlyFields fields={fields} />
+                <CheckBoxGroup checkboxes={checkboxes} />
+            </div>
         </div>
     );
 }
