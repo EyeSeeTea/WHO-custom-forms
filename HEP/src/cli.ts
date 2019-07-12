@@ -1,14 +1,10 @@
 import { ArgumentParser } from "argparse";
 import * as _ from "lodash";
 
-import {
-    Dhis2Metadata,
-    DataSet,
-    DataEntryForm,
-    MetadataPayload
-} from "./Dhis2Metadata";
-import { CustomFormExample } from "./components/CustomFormExample";
+import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
+import { DataEntryForm } from "./models/Form";
 import { getResource } from "./utils";
+import { Form } from "./models/Form";
 
 import { getUid, prettyJSON } from "./utils";
 
@@ -16,17 +12,17 @@ function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
         version: "0.0.1",
         addHelp: true,
-        description: "Argparse example"
+        description: "Argparse example",
     });
 
     parser.addArgument(["-u", "--url"], {
         required: true,
-        help: "DHIS2 instance URL: http[s]://username:password@server:port"
+        help: "DHIS2 instance URL: http[s]://username:password@server:port",
     });
 
     parser.addArgument(["-d", "--dataset-id"], {
         required: true,
-        help: "DATASET_ID"
+        help: "DATASET_ID",
     });
 
     return parser;
@@ -37,8 +33,9 @@ async function getDataSetPayload(
     dataSetId: string
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
-        "dataSets:fields": ":owner",
-        "dataSets:filter": `id:eq:${dataSetId}`
+        "dataSets:fields":
+            "[:all],sections[id,displayName,dataElements[id,shortName,categoryCombo,valueType]]",
+        "dataSets:filter": `id:eq:${dataSetId}`,
     });
     const dataSet = _.first(dataSets || []);
 
@@ -46,36 +43,35 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const customFormHtml = await getCustomFormHtml();
-    const formId = dataSet.dataEntryForm
-        ? dataSet.dataEntryForm.id
-        : getUid(dataSet.id);
+    const formHtml = Form.getFormHtml(dataSet);
+    const customFormHtml = await getAssembledHtml(formHtml);
+
+    const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
     const dataEntryForm: DataEntryForm = {
         id: formId,
         name: formId,
         htmlCode: customFormHtml,
-        style: "NONE"
+        style: "NONE",
     };
 
     const dataSetWithForm = {
         ...dataSet,
-        dataEntryForm: { id: dataEntryForm.id }
+        dataEntryForm: { id: dataEntryForm.id },
     };
 
     return {
         dataSets: [dataSetWithForm],
-        dataEntryForms: [dataEntryForm]
+        dataEntryForms: [dataEntryForm],
     };
 }
 
-async function getCustomFormHtml(): Promise<string> {
-    const html = CustomFormExample({});
+async function getAssembledHtml(formHtml: string): Promise<string> {
     const style = await getResource("custom-form.css");
     const javascript = await getResource("custom-form.js");
     const styleHtml = `<style>${style}</style>`;
     const javascriptHtml = `<script type="text/javascript">${javascript}</script>`;
-    return styleHtml + javascriptHtml + html;
+    return styleHtml + javascriptHtml + formHtml;
 }
 
 async function main(): Promise<void> {
@@ -83,6 +79,8 @@ async function main(): Promise<void> {
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const dataSetId = args.dataset_id;
     const payload = await getDataSetPayload(d2Metadata, dataSetId);
+    //await getDataSetPayload(d2Metadata, dataSetId);
+
     const response = await d2Metadata.post(payload, {});
 
     if (response.status !== "OK") {

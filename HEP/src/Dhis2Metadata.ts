@@ -2,22 +2,18 @@ import fetch from "node-fetch";
 import * as qs from "qs";
 
 import { safeParseJSON } from "./utils";
+import { Section, DataEntryForm } from "./models/Form";
 
 export interface DataSet {
     id: string;
     name: string;
     dataEntryForm?: { id: string };
-}
-
-export interface DataEntryForm {
-    id: string;
-    name: string;
-    htmlCode: string;
-    style: "NORMAL" | "COMFORTABLE" | "COMPACT" | "NONE";
+    dataSetElements: { dataElement: { id: string } }[];
+    sections: Section[];
 }
 
 export interface MetadataPayload {
-    dataSets: DataSet[];
+    dataSets: { id: string; dataEntryForm: { id: string } }[];
     dataEntryForms: DataEntryForm[];
 }
 
@@ -69,21 +65,18 @@ export class Dhis2Metadata {
 
         return fetch(url, {
             method: "GET",
-            headers: this.headers
+            headers: this.headers,
         }).then(safeParseJSON);
     }
 
-    async post(
-        payload: MetadataPayload,
-        options: MetadataOptions
-    ): Promise<MetadataResponse> {
+    async post(payload: MetadataPayload, options: MetadataOptions): Promise<MetadataResponse> {
         const url = this.getEndpoint("/metadata", options);
         this.debug(`POST ${url}`);
 
         return fetch(url, {
             method: "POST",
             body: JSON.stringify(payload),
-            headers: this.headers
+            headers: this.headers,
         }).then(safeParseJSON);
     }
 }

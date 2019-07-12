@@ -1,3 +1,8 @@
 .cde-NONE {
     border: 1px solid red;
 }
+
+.custom-table {
+    display: flex;
+    flex-direction: column;
+}

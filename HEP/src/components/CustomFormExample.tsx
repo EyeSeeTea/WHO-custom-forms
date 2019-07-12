@@ -1,4 +1,4 @@
-import { createElement } from "typed-html";
+/*import { createElement } from "typed-html";
 import { EntryField } from "./EntryField";
 import { Tabs } from "./Tabs";
 
@@ -34,3 +34,4 @@ const items = [
 export function CustomFormExample(_attributes: CustomFormAttributes): string {
     return <Tabs items={items} />;
 }
+*/

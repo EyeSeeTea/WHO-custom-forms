@@ -1,20 +1,21 @@
 import { createElement } from "typed-html";
+import { Section } from "../models/Form";
+import { Table } from "./Table";
 
 export interface TabsAttributes {
-    items: Array<{
-        title: string;
-        contents: string;
-    }>;
+    sections: Section[];
 }
 
 export function Tabs(attributes: TabsAttributes): string {
-    const { items } = attributes;
-
+    const { sections } = attributes;
+    const items = sections.map(s => {
+        return {
+            title: s.displayName,
+            contents: <Table section={s} />,
+        };
+    });
     return (
-        <div
-            id="tabs"
-            class="ui-tabs ui-corner-all ui-widget ui-widget-content"
-        >
+        <div id="tabs" class="ui-tabs ui-corner-all ui-widget ui-widget-content">
             <ul
                 role="tablist"
                 class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"
