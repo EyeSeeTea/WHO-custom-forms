@@ -17,11 +17,10 @@ const Header = () => (
 );
 
 function NameRows(attributes: { fields: SectionDataElement[] }): string {
-    const rows = attributes.fields.map(de => (
-        <div class="elements-row">
-            <div class="column-big">{de.shortName}</div>
-        </div>
-    ));
+    const rows = attributes.fields.map((de, index) => {
+        const background = index % 2 === 0 ? "even-row" : "odd-row";
+        return <div class={`column-big ${background} center-text`}>{de.shortName}</div>;
+    });
     return <div class="name-field">{rows}</div>;
 }
 
@@ -30,23 +29,26 @@ function CheckBoxGroup(attributes: { checkboxes: SectionDataElement[] }): string
         <div class="elements-row">
             <EntryField
                 dataElementId={de.id}
-                categoryOptionComboId={de.categoryCombo.id}
+                categoryOptionComboId={de.categoryCombo.categoryOptionCombos[0].id}
                 checkbox
             />
             <div>{de.shortName}</div>
         </div>
     ));
 
-    return <div class="checkbox-group">{rows}</div>;
+    return <div class="field-group checkbox-group">{rows}</div>;
 }
 
 function OnlyFields(attributes: { fields: SectionDataElement[] }) {
     const rows = attributes.fields.map(de => (
         <div class="field-container">
-            <EntryField dataElementId={de.id} categoryOptionComboId={de.categoryCombo.id} />
+            <EntryField
+                dataElementId={de.id}
+                categoryOptionComboId={de.categoryCombo.categoryOptionCombos[1].id}
+            />
         </div>
     ));
-    return <div class="checkbox-group">{rows}</div>;
+    return <div class="field-group">{rows}</div>;
 }
 
 export function Table(attributes: TableAttributes): string {
