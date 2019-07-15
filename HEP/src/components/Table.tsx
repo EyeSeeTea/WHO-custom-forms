@@ -24,12 +24,18 @@ function NameRows(attributes: { fields: SectionDataElement[] }): string {
     return <div class="name-field">{rows}</div>;
 }
 
-function CheckBoxGroup(attributes: { checkboxes: SectionDataElement[] }): string {
-    const rows = attributes.checkboxes.map(de => (
+function CheckBoxGroup(attributes: {
+    checkboxes: SectionDataElement[];
+    categoryOptionCombo: number;
+}): string {
+    const { checkboxes, categoryOptionCombo } = attributes;
+    const rows = checkboxes.map(de => (
         <div class="elements-row">
             <EntryField
                 dataElementId={de.id}
-                categoryOptionComboId={de.categoryCombo.categoryOptionCombos[0].id}
+                categoryOptionComboId={
+                    de.categoryCombo.categoryOptionCombos[categoryOptionCombo].id
+                }
                 checkbox
             />
             <div>{de.shortName}</div>
@@ -39,12 +45,15 @@ function CheckBoxGroup(attributes: { checkboxes: SectionDataElement[] }): string
     return <div class="field-group checkbox-group">{rows}</div>;
 }
 
-function OnlyFields(attributes: { fields: SectionDataElement[] }) {
-    const rows = attributes.fields.map(de => (
+function OnlyFields(attributes: { fields: SectionDataElement[]; categoryOptionCombo: number }) {
+    const { fields, categoryOptionCombo } = attributes;
+    const rows = fields.map(de => (
         <div class="field-container">
             <EntryField
                 dataElementId={de.id}
-                categoryOptionComboId={de.categoryCombo.categoryOptionCombos[1].id}
+                categoryOptionComboId={
+                    de.categoryCombo.categoryOptionCombos[categoryOptionCombo].id
+                }
             />
         </div>
     ));
@@ -58,10 +67,10 @@ export function Table(attributes: TableAttributes): string {
             <Header />
             <div class="elements">
                 <NameRows fields={fields} />
-                <OnlyFields fields={fields} />
-                <CheckBoxGroup checkboxes={checkboxes} />
-                <OnlyFields fields={fields} />
-                <CheckBoxGroup checkboxes={checkboxes} />
+                <OnlyFields fields={fields} categoryOptionCombo={0} />
+                <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={0} />
+                <OnlyFields fields={fields} categoryOptionCombo={1} />
+                <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={1} />
             </div>
         </div>
     );

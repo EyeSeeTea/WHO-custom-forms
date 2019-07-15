@@ -19,18 +19,20 @@ export interface Section {
 export interface SectionDataElement {
     id: string;
     shortName: string;
-    categoryCombo: { id: string; categoryOptionCombos: { id: string }[] };
+    categoryCombo: { id: string; categoryOptionCombos: { id: string; name: string }[] };
     valueType: string;
 }
 
 export interface OrderedSection {
     checkboxes: SectionDataElement[];
     fields: SectionDataElement[];
+    globalEntry: SectionDataElement[];
 }
 
 export const valueTypes = {
-    checkbox: "TRUE_ONLY",
+    checkbox: ["TRUE_ONLY"],
     entryField: ["INTEGER_ZERO_OR_POSITIVE", "PERCENTAGE"],
+    globalEntry: ["LONG_TEXT"],
 };
 
 export class Form {
@@ -52,10 +54,17 @@ function orderDataElements(dataElements: SectionDataElement[]) {
     return _.reduce(
         dataElements,
         (
-            acc: { checkboxes: SectionDataElement[]; fields: SectionDataElement[] },
+            acc: {
+                checkboxes: SectionDataElement[];
+                fields: SectionDataElement[];
+                globalEntry: SectionDataElement[];
+            },
             dataElement: SectionDataElement
         ) => {
-            if (valueTypes.entryField.includes(dataElement.valueType)) {
+            if (valueTypes.globalEntry.includes(dataElement.valueType)) {
+                const globalEntry = [...acc.globalEntry, dataElement];
+                return { ...acc, globalEntry };
+            } else if (valueTypes.entryField.includes(dataElement.valueType)) {
                 const fields = [...acc.fields, dataElement];
                 return { ...acc, fields };
             } else {
@@ -63,6 +72,6 @@ function orderDataElements(dataElements: SectionDataElement[]) {
                 return { ...acc, checkboxes };
             }
         },
-        { checkboxes: [], fields: [] }
+        { checkboxes: [], fields: [], globalEntry: [] }
     );
 }

@@ -34,7 +34,7 @@ async function getDataSetPayload(
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
         "dataSets:fields":
-            "[:all],sections[id,displayName,dataElements[id,shortName,categoryCombo[id,categoryOptionCombos],valueType]]",
+            "[:all],sections[id,displayName,dataElements[id,code,shortName,categoryCombo[id,categoryOptionCombos[id,name]],valueType]]",
         "dataSets:filter": `id:eq:${dataSetId}`,
     });
     const dataSet = _.first(dataSets || []);
