@@ -1,6 +1,6 @@
 function applyChangesToForm() {
     console.log("applyChangesToForm");
-    $("#tabs").tabs();
+    $("#completenessDiv").remove();
 }
 
 $(document).on("dhis2.de.event.formLoaded", applyChangesToForm);
