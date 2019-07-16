@@ -26,7 +26,3 @@ export function GlobalTextField(attributes: GlobalTextFieldAttributes): string {
         </div>
     );
 }
-/*
-<textarea id="AIUHrI7cFq2-sFwZ0glc9I7-val" name="entryfield" title="" value="" class="entryfield entryarea" tabindex="47" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"></textarea>
-
-*/

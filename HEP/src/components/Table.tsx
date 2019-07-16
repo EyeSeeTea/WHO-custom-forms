@@ -13,6 +13,7 @@ const Header = () => (
         <div class="column-small">SOURCE OF DATA</div>
         <div class="column-small antigen-tag">HCV</div>
         <div class="column-small">SOURCE OF DATA</div>
+        <div class="icon-group-container" />
     </div>
 );
 
@@ -60,6 +61,15 @@ function OnlyFields(attributes: { fields: SectionDataElement[]; categoryOptionCo
     return <div class="field-group">{rows}</div>;
 }
 
+function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
+    const rows = attributes.fields.map(de => (
+        <div class="icon-container">
+            <i class="fas fa-info-circle help-icon" title={`${de.shortName}`}></i>
+        </div>
+    ));
+    return <div class="icon-group-container">{rows}</div>;
+}
+
 export function Table(attributes: TableAttributes): string {
     const { fields, checkboxes } = attributes.section.formFields;
     return (
@@ -71,6 +81,7 @@ export function Table(attributes: TableAttributes): string {
                 <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={0} />
                 <OnlyFields fields={fields} categoryOptionCombo={1} />
                 <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={1} />
+                <HelpIconsGroup fields={fields} />
             </div>
         </div>
     );

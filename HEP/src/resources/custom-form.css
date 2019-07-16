@@ -107,3 +107,21 @@
     width: 99%;
     height: 70px;
 }
+
+.help-icon {
+    color: rgb(38, 121, 255);
+}
+
+.icon-group-container {
+    flex: 0.2;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.icon-container {
+    min-height: 30px;
+    padding-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -71,7 +71,8 @@ async function getAssembledHtml(formHtml: string): Promise<string> {
     const javascript = await getResource("custom-form.js");
     const styleHtml = `<style>${style}</style>`;
     const javascriptHtml = `<script type="text/javascript">${javascript}</script>`;
-    return styleHtml + javascriptHtml + formHtml;
+    const fontAwesome = `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">`;
+    return styleHtml + javascriptHtml + fontAwesome + formHtml;
 }
 
 async function main(): Promise<void> {
@@ -79,7 +80,6 @@ async function main(): Promise<void> {
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const dataSetId = args.dataset_id;
     const payload = await getDataSetPayload(d2Metadata, dataSetId);
-    //await getDataSetPayload(d2Metadata, dataSetId);
 
     const response = await d2Metadata.post(payload, {});
 
