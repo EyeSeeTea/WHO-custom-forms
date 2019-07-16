@@ -18,7 +18,7 @@ export interface Section {
 
 export interface SectionDataElement {
     id: string;
-    shortName: string;
+    formName: string;
     categoryCombo: { id: string; categoryOptionCombos: CategoryOptionCombo[] };
     valueType: string;
 }

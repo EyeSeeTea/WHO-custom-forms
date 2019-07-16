@@ -25,7 +25,7 @@ function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
 function NameRows(attributes: { fields: SectionDataElement[] }): string {
     const rows = attributes.fields.map((de, index) => {
         const background = index % 2 === 0 ? "even-row" : "odd-row";
-        return <div class={`column-big ${background} center-text`}>{de.shortName}</div>;
+        return <div class={`column-big ${background} center-text`}>{de.formName}</div>;
     });
     return <div class="name-field">{rows}</div>;
 }
@@ -55,7 +55,7 @@ function CheckBoxGroup(attributes: {
                 categoryOptionComboId={categoryOptionCombo.id}
                 checkbox
             />
-            <div>{de.shortName}</div>
+            <div>{de.formName}</div>
         </div>
     ));
 
@@ -65,7 +65,7 @@ function CheckBoxGroup(attributes: {
 function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
     const rows = attributes.fields.map(de => (
         <div class="icon-container">
-            <i class="fas fa-info-circle help-icon" title={`${de.shortName}`}></i>
+            <i class="fas fa-info-circle help-icon" title={`${de.formName}`}></i>
         </div>
     ));
     return <div class="icon-group-container">{rows}</div>;
