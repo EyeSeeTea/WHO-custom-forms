@@ -19,7 +19,7 @@ export interface Section {
 export interface SectionDataElement {
     id: string;
     shortName: string;
-    categoryCombo: { id: string; categoryOptionCombos: { id: string; name: string }[] };
+    categoryCombo: { id: string; categoryOptionCombos: CategoryOptionCombo[] };
     valueType: string;
 }
 
@@ -27,6 +27,11 @@ export interface OrderedSection {
     checkboxes: SectionDataElement[];
     fields: SectionDataElement[];
     globalEntry: SectionDataElement[];
+}
+
+export interface CategoryOptionCombo {
+    id: string;
+    name: string;
 }
 
 export const valueTypes = {
@@ -47,6 +52,12 @@ export class Form {
         const sections = this.getOrderedSections(dataSet.sections);
         const formHtml = CustomForm({ sections });
         return formHtml;
+    }
+
+    public static getCategoryOptionCombos(
+        dataElements: SectionDataElement[]
+    ): CategoryOptionCombo[] {
+        return dataElements[0].categoryCombo.categoryOptionCombos;
     }
 }
 

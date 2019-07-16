@@ -1,21 +1,26 @@
 import { createElement } from "typed-html";
-import { Section, SectionDataElement } from "../models/Form";
+import * as _ from "lodash";
+
+import { Section, SectionDataElement, Form, CategoryOptionCombo } from "../models/Form";
 import { EntryField } from "./EntryField";
 
 interface TableAttributes {
     section: Section;
 }
 
-const Header = () => (
-    <div class="header">
-        <div class="column-big" />
-        <div class="column-small antigen-tag">HBV</div>
-        <div class="column-small">SOURCE OF DATA</div>
-        <div class="column-small antigen-tag">HCV</div>
-        <div class="column-small">SOURCE OF DATA</div>
-        <div class="icon-group-container" />
-    </div>
-);
+function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
+    const headerTitles = attributes.categoryOptionCombos.map(cco => [
+        <div class="column-small antigen-tag">{cco.name}</div>,
+        <div class="column-small">SOURCE OF DATA</div>,
+    ]);
+    return (
+        <div class="header">
+            <div class="column-big" />
+            {_.flatten(headerTitles)}
+            <div class="icon-group-container" />
+        </div>
+    );
+}
 
 function NameRows(attributes: { fields: SectionDataElement[] }): string {
     const rows = attributes.fields.map((de, index) => {
@@ -25,18 +30,29 @@ function NameRows(attributes: { fields: SectionDataElement[] }): string {
     return <div class="name-field">{rows}</div>;
 }
 
+function OnlyFields(attributes: {
+    fields: SectionDataElement[];
+    categoryOptionCombo: CategoryOptionCombo;
+}) {
+    const { fields, categoryOptionCombo } = attributes;
+    const rows = fields.map(de => (
+        <div class="field-container">
+            <EntryField dataElementId={de.id} categoryOptionComboId={categoryOptionCombo.id} />
+        </div>
+    ));
+    return <div class="field-group">{rows}</div>;
+}
+
 function CheckBoxGroup(attributes: {
     checkboxes: SectionDataElement[];
-    categoryOptionCombo: number;
+    categoryOptionCombo: CategoryOptionCombo;
 }): string {
     const { checkboxes, categoryOptionCombo } = attributes;
     const rows = checkboxes.map(de => (
         <div class="elements-row">
             <EntryField
                 dataElementId={de.id}
-                categoryOptionComboId={
-                    de.categoryCombo.categoryOptionCombos[categoryOptionCombo].id
-                }
+                categoryOptionComboId={categoryOptionCombo.id}
                 checkbox
             />
             <div>{de.shortName}</div>
@@ -44,21 +60,6 @@ function CheckBoxGroup(attributes: {
     ));
 
     return <div class="field-group checkbox-group">{rows}</div>;
-}
-
-function OnlyFields(attributes: { fields: SectionDataElement[]; categoryOptionCombo: number }) {
-    const { fields, categoryOptionCombo } = attributes;
-    const rows = fields.map(de => (
-        <div class="field-container">
-            <EntryField
-                dataElementId={de.id}
-                categoryOptionComboId={
-                    de.categoryCombo.categoryOptionCombos[categoryOptionCombo].id
-                }
-            />
-        </div>
-    ));
-    return <div class="field-group">{rows}</div>;
 }
 
 function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
@@ -72,15 +73,17 @@ function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
 
 export function Table(attributes: TableAttributes): string {
     const { fields, checkboxes } = attributes.section.formFields;
+    const categoryOptionCombos = Form.getCategoryOptionCombos(fields);
+    const fieldsAndCheckboxes = categoryOptionCombos.map(cco => [
+        <OnlyFields fields={fields} categoryOptionCombo={cco} />,
+        <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={cco} />,
+    ]);
     return (
         <div class="table">
-            <Header />
+            <Header categoryOptionCombos={categoryOptionCombos} />
             <div class="elements">
                 <NameRows fields={fields} />
-                <OnlyFields fields={fields} categoryOptionCombo={0} />
-                <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={0} />
-                <OnlyFields fields={fields} categoryOptionCombo={1} />
-                <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={1} />
+                {_.flatten(fieldsAndCheckboxes)}
                 <HelpIconsGroup fields={fields} />
             </div>
         </div>
