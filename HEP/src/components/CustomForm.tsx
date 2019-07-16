@@ -2,6 +2,7 @@ import { createElement } from "typed-html";
 
 import { Tabs } from "./Tabs";
 import { GlobalTextFields } from "./GlobalTextFields";
+import { DhisSubmitButton } from "./DhisSubmitButton";
 import { Section, Form } from "../models/Form";
 
 interface CustomFormAttributes {
@@ -19,6 +20,7 @@ export function CustomForm(_attributes: CustomFormAttributes): string {
                 dataElements={globalDataElements}
                 categoryOptionCombos={categoryOptionCombos}
             />
+            <DhisSubmitButton />
         </div>
     );
 }

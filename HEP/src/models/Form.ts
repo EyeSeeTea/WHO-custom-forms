@@ -18,6 +18,7 @@ export interface Section {
 
 export interface SectionDataElement {
     id: string;
+    code: string;
     formName: string;
     categoryCombo: { id: string; categoryOptionCombos: CategoryOptionCombo[] };
     valueType: string;
@@ -37,7 +38,7 @@ export interface CategoryOptionCombo {
 export const valueTypes = {
     checkbox: ["TRUE_ONLY"],
     entryField: ["INTEGER_ZERO_OR_POSITIVE", "PERCENTAGE"],
-    globalEntry: ["LONG_TEXT"],
+    globalEntryCode: "GLOBAL_ENTRY",
 };
 
 export class Form {
@@ -72,7 +73,7 @@ function orderDataElements(dataElements: SectionDataElement[]) {
             },
             dataElement: SectionDataElement
         ) => {
-            if (valueTypes.globalEntry.includes(dataElement.valueType)) {
+            if (valueTypes.globalEntryCode === dataElement.code) {
                 const globalEntry = [...acc.globalEntry, dataElement];
                 return { ...acc, globalEntry };
             } else if (valueTypes.entryField.includes(dataElement.valueType)) {

@@ -37,6 +37,7 @@
 
 .elements-row {
     display: flex;
+    padding-bottom: 5px;
 }
 
 .antigen-tag {
