@@ -3,7 +3,7 @@ import { createElement } from "typed-html";
 export function DhisSubmitButton() {
     return (
         <div
-            id="completenessDivMati"
+            id="completenessDivCustom"
             class="page inputCriteria"
             style="display: block; margin-top: 15px; width: 430px"
         >
