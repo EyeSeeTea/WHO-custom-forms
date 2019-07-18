@@ -4,16 +4,26 @@ import * as qs from "qs";
 import { safeParseJSON } from "./utils";
 import { Section, DataEntryForm } from "./models/Form";
 
+interface Ref {
+    id: string;
+}
+
+interface DataSetElement {
+    dataElement: Ref;
+    dataSet: Ref;
+    categoryCombo?: Ref;
+}
+
 export interface DataSet {
     id: string;
     name: string;
-    dataEntryForm?: { id: string };
-    dataSetElements: { dataElement: { id: string } }[];
+    dataEntryForm?: Ref;
+    dataSetElements: DataSetElement[];
     sections: Section[];
 }
 
 export interface MetadataPayload {
-    dataSets: { id: string; dataEntryForm: { id: string } }[];
+    dataSets: { id: string; dataEntryForm: Ref }[];
     dataEntryForms: DataEntryForm[];
 }
 

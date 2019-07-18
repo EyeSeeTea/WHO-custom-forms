@@ -2,9 +2,8 @@ import { ArgumentParser } from "argparse";
 import * as _ from "lodash";
 
 import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
-import { Form, DataEntryForm } from "./models/Form";
-import { getResource } from "./utils";
-
+import { DataEntryForm } from "./models/Form";
+import { AssembledFormHTML } from "./components/AssembledFormHTML";
 import { getUid, prettyJSON } from "./utils";
 
 function getParser(): ArgumentParser {
@@ -32,8 +31,13 @@ async function getDataSetPayload(
     dataSetId: string
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
-        "dataSets:fields":
-            "[:all],sections[id,displayName,dataElements[id,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],valueType]]",
+        "dataSets:fields": `:owner,
+            sections[
+                id,
+                displayName,
+                dataElements[id,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
+                valueType]
+            ]`,
         "dataSets:filter": `id:eq:${dataSetId}`,
     });
     const dataSet = _.first(dataSets || []);
@@ -42,8 +46,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const formHtml = Form.getFormHtml(dataSet);
-    const customFormHtml = await getAssembledHtml(formHtml, dataSet.id);
+    const customFormHtml = await AssembledFormHTML({ dataSet });
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -63,15 +66,6 @@ async function getDataSetPayload(
         dataSets: [dataSetWithForm],
         dataEntryForms: [dataEntryForm],
     };
-}
-
-async function getAssembledHtml(formHtml: string, dataSetId: string): Promise<string> {
-    const style = await getResource("custom-form.css");
-    const javascript = await getResource("custom-form.js");
-    const styleHtml = `<style>${style}</style>`;
-    const javascriptHtml = `<script id="custom-form-script" type="text/javascript" dataSetId=${dataSetId}>${javascript}</script>`;
-    const fontAwesome = `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">`;
-    return styleHtml + javascriptHtml + fontAwesome + formHtml;
 }
 
 async function main(): Promise<void> {

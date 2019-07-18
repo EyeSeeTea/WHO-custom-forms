@@ -1,5 +1,5 @@
 function applyChangesToForm() {
-    const datasetToApplyChanges = $("#custom-form-script").attr("dataSetId");
+    const datasetToApplyChanges = $("#custom-form-script").attr("data-dataset-id");
     const currentDataset = $("#selectedDataSetId").val();
     if (datasetToApplyChanges === currentDataset) {
         // removeAttr not working for some reason, WIP
