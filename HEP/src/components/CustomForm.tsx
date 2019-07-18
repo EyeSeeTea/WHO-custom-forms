@@ -9,9 +9,9 @@ interface CustomFormAttributes {
     sections: Section[];
 }
 
-export function CustomForm(_attributes: CustomFormAttributes): string {
-    const sections = _attributes.sections;
-    const globalDataElements = _attributes.sections[0].formFields.globalEntry;
+export function CustomForm(attributes: CustomFormAttributes): string {
+    const sections = attributes.sections;
+    const globalDataElements = attributes.sections[0].formFields.globalEntry;
     const categoryOptionCombos = Form.getCategoryOptionCombos(globalDataElements);
     return (
         <div>

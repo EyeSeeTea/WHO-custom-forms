@@ -45,7 +45,7 @@ export class Form {
     public static getOrderedSections(sections: Section[]): Section[] {
         return sections.map(section => ({
             ...section,
-            formFields: orderDataElements(section.dataElements),
+            formFields: sortDataElements(section.dataElements),
         }));
     }
 
@@ -62,6 +62,7 @@ export class Form {
     }
 }
 
+/*
 function orderDataElements(dataElements: SectionDataElement[]) {
     return _.reduce(
         dataElements,
@@ -86,4 +87,19 @@ function orderDataElements(dataElements: SectionDataElement[]) {
         },
         { checkboxes: [], fields: [], globalEntry: [] }
     );
+}
+*/
+
+function sortDataElements(dataElements: SectionDataElement[]): OrderedSection {
+    const { globalEntry, fields, checkboxes } = _.groupBy(dataElements, dataElement => {
+        if (valueTypes.globalEntryCode === dataElement.code) {
+            return "globalEntry";
+        } else if (valueTypes.entryField.includes(dataElement.valueType)) {
+            return "fields";
+        } else {
+            return "checkboxes";
+        }
+    });
+
+    return { globalEntry, fields, checkboxes };
 }
