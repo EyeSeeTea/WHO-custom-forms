@@ -35,11 +35,14 @@ function OnlyFields(attributes: {
     categoryOptionCombo: CategoryOptionCombo;
 }) {
     const { fields, categoryOptionCombo } = attributes;
-    const rows = fields.map(de => (
-        <div class="field-container">
-            <EntryField dataElementId={de.id} categoryOptionComboId={categoryOptionCombo.id} />
-        </div>
-    ));
+    const rows = fields.map((de, index) => {
+        const background = index % 2 === 0 ? "even-row" : "odd-row";
+        return (
+            <div class={`field-container ${background}`}>
+                <EntryField dataElementId={de.id} categoryOptionComboId={categoryOptionCombo.id} />
+            </div>
+        );
+    });
     return <div class="field-group">{rows}</div>;
 }
 
