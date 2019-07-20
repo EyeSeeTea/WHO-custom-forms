@@ -1,4 +1,4 @@
-import { DataSet } from "../Dhis2Metadata";
+import { DataSet, Ref } from "../Dhis2Metadata";
 import { CustomForm } from "../components/CustomForm";
 import * as _ from "lodash";
 
@@ -14,6 +14,19 @@ export interface Section {
     displayName: string;
     dataElements: SectionDataElement[];
     formFields: OrderedSection;
+    greyedFields: GreyedFields[];
+    fieldsToRemove: FieldsToRemove[];
+}
+
+interface GreyedFields {
+    id: string;
+    dataElement: Ref;
+    categoryOptionCombo: Ref;
+}
+
+export interface FieldsToRemove {
+    dataElement: string;
+    categoryOptionCombo: string;
 }
 
 export interface SectionDataElement {
@@ -51,6 +64,10 @@ export class Form {
         return sections.map(section => ({
             ...section,
             formFields: sortDataElements(section.dataElements),
+            fieldsToRemove: section.greyedFields.map(gf => ({
+                dataElement: gf.dataElement.id,
+                categoryOptionCombo: gf.categoryOptionCombo.id,
+            })),
         }));
     }
 

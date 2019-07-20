@@ -1,7 +1,13 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
 
-import { Section, SectionDataElement, Form, CategoryOptionCombo } from "../models/Form";
+import {
+    Section,
+    SectionDataElement,
+    Form,
+    CategoryOptionCombo,
+    FieldsToRemove,
+} from "../models/Form";
 import { EntryField } from "./EntryField";
 
 interface TableAttributes {
@@ -36,13 +42,22 @@ function NameRows(attributes: { fields: SectionDataElement[] }): string {
 function OnlyFields(attributes: {
     fields: SectionDataElement[];
     categoryOptionCombo: CategoryOptionCombo;
+    fieldsToRemove: FieldsToRemove[];
 }) {
-    const { fields, categoryOptionCombo } = attributes;
+    const { fields, categoryOptionCombo, fieldsToRemove } = attributes;
     const rows = fields.map((de, index) => {
         const background = index % 2 === 0 ? "even-row" : "odd-row";
+        const greyedField = fieldsToRemove.some(
+            fr => de.id === fr.dataElement && categoryOptionCombo.id === fr.categoryOptionCombo
+        );
         return (
             <div class={`field-container ${background}`}>
-                <EntryField dataElementId={de.id} categoryOptionComboId={categoryOptionCombo.id} />
+                {greyedField ? null : (
+                    <EntryField
+                        dataElementId={de.id}
+                        categoryOptionComboId={categoryOptionCombo.id}
+                    />
+                )}
             </div>
         );
     });
@@ -78,14 +93,17 @@ function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
 }
 
 export function Table(attributes: TableAttributes): string {
-    const { fields, checkboxes } = attributes.section.formFields;
+    const {
+        formFields: { fields, checkboxes },
+        fieldsToRemove,
+    } = attributes.section;
     const categoryOptionCombos = Form.getCategoryOptionCombos(fields);
     const fieldsAndCheckboxes = categoryOptionCombos.map(cco => [
-        <OnlyFields fields={fields} categoryOptionCombo={cco} />,
+        <OnlyFields fields={fields} categoryOptionCombo={cco} fieldsToRemove={fieldsToRemove} />,
         <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={cco} />,
     ]);
     return (
-        <div class="table">
+        <div class="custom-table">
             <Header categoryOptionCombos={categoryOptionCombos} />
             <div class="elements">
                 <NameRows fields={fields} />

@@ -35,6 +35,7 @@ async function getDataSetPayload(
             sections[
                 id,
                 displayName,
+                greyedFields[id,dataElement,categoryOptionCombo],
                 dataElements[id,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
                 valueType]
             ]`,

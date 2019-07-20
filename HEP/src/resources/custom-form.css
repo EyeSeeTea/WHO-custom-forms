@@ -1,4 +1,4 @@
-.table {
+.custom-table {
     display: flex;
     flex-direction: column;
     min-height: 130px;
@@ -14,7 +14,6 @@
 
 .elements {
     display: flex;
-    flex: 8;
 }
 
 .column-big {
@@ -51,7 +50,6 @@
 
 .checkbox-group {
     font-size: 11px;
-    border: 1px solid rgb(188, 188, 188);
 }
 
 .field-container {
@@ -66,6 +64,7 @@
     flex-direction: column;
     flex: 2;
     justify-content: flex-start;
+    border: 1px solid rgb(188, 188, 188);
 }
 
 .even-row {
@@ -77,8 +76,7 @@
 }
 
 .center-text {
-    padding-top: 5px;
-    padding-left: 5px;
+    padding: 5px;
     padding-bottom: 8px;
     align-items: center;
 }

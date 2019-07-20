@@ -4,7 +4,7 @@ import * as qs from "qs";
 import { safeParseJSON } from "./utils";
 import { Section, DataEntryForm } from "./models/Form";
 
-interface Ref {
+export interface Ref {
     id: string;
 }
 
