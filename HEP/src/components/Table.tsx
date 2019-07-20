@@ -9,10 +9,13 @@ interface TableAttributes {
 }
 
 function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
-    const headerTitles = attributes.categoryOptionCombos.map(cco => [
-        <div class="column-small antigen-tag">{cco.name}</div>,
-        <div class="column-small">SOURCE OF DATA</div>,
-    ]);
+    const headerTitles = attributes.categoryOptionCombos.map(cco => {
+        const background = Form.getCategoryOptionComboColor(cco);
+        return [
+            <div class={`column-small antigen-tag ${background}`}>{cco.name}</div>,
+            <div class={`column-small ${background}`}>SOURCE OF DATA</div>,
+        ];
+    });
     return (
         <div class="header">
             <div class="column-big" />

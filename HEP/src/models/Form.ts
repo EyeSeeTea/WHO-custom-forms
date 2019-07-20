@@ -41,6 +41,11 @@ export const valueTypes = {
     globalEntryCode: "GLOBAL_ENTRY",
 };
 
+const headerGroupColors: { [key: string]: string } = {
+    HBV: "hbv-color",
+    HCV: "hcv-color",
+};
+
 export class Form {
     public static getOrderedSections(sections: Section[]): Section[] {
         return sections.map(section => ({
@@ -60,35 +65,11 @@ export class Form {
     ): CategoryOptionCombo[] {
         return dataElements[0].categoryCombo.categoryOptionCombos;
     }
-}
 
-/*
-function orderDataElements(dataElements: SectionDataElement[]) {
-    return _.reduce(
-        dataElements,
-        (
-            acc: {
-                checkboxes: SectionDataElement[];
-                fields: SectionDataElement[];
-                globalEntry: SectionDataElement[];
-            },
-            dataElement: SectionDataElement
-        ) => {
-            if (valueTypes.globalEntryCode === dataElement.code) {
-                const globalEntry = [...acc.globalEntry, dataElement];
-                return { ...acc, globalEntry };
-            } else if (valueTypes.entryField.includes(dataElement.valueType)) {
-                const fields = [...acc.fields, dataElement];
-                return { ...acc, fields };
-            } else {
-                const checkboxes = [...acc.checkboxes, dataElement];
-                return { ...acc, checkboxes };
-            }
-        },
-        { checkboxes: [], fields: [], globalEntry: [] }
-    );
+    public static getCategoryOptionComboColor(cco: CategoryOptionCombo): string {
+        return headerGroupColors[cco.name];
+    }
 }
-*/
 
 function sortDataElements(dataElements: SectionDataElement[]): OrderedSection {
     const { globalEntry, fields, checkboxes } = _.groupBy(dataElements, dataElement => {
