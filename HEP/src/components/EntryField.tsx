@@ -10,7 +10,13 @@ export function EntryField(attributes: EntryFieldAttributes): string {
     const { dataElementId, categoryOptionComboId } = attributes;
     const id = `${dataElementId}-${categoryOptionComboId}-val`;
     return attributes.checkbox ? (
-        <input name="checkbox" class="checkbox" id={id} autocomplete="off" type="checkbox" />
+        <input
+            name="entrytrueonly"
+            class="entrytrueonly checkbox"
+            id={id}
+            autocomplete="off"
+            type="checkbox"
+        />
     ) : (
         <input name="entryfield" class="entryfield" id={id} autocomplete="off" />
     );
