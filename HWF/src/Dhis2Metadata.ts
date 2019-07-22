@@ -26,8 +26,15 @@ export interface ProgramStage {
     dataEntryForm: Ref;
     programStageDataElements: {
         id: string;
-        dataElements: Ref[];
-    };
+        dataElement: DataElement;
+    }[];
+}
+
+export interface DataElement {
+    id: string;
+    name: string;
+    formName: string;
+    valueType: string;
 }
 
 export interface MetadataPayload {
