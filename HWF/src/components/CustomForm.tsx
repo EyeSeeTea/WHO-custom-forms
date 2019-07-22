@@ -1,11 +1,11 @@
 import { createElement } from "typed-html";
-import { ProgramStage } from "../Dhis2Metadata";
+import { FormData } from "../models/Form";
 
 interface CustomFormAttributes {
-    programStage: ProgramStage;
+    formData: FormData;
 }
 
 export function CustomForm(attributes: CustomFormAttributes): string {
-    console.log(attributes.programStage);
+    console.log(attributes.formData);
     return <div class="test-class">Custom Form</div>;
 }
