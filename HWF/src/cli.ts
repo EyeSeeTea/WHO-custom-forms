@@ -5,8 +5,8 @@ import { Dhis2Metadata, Program, MetadataPayload, DataEntryForm } from "./Dhis2M
 import { Form } from "./models/Form";
 import { getResource } from "./utils";
 
-//import { getUid, prettyJSON } from "./utils";
-import { getUid } from "./utils";
+import { getUid, prettyJSON } from "./utils";
+//mport { getUid } from "./utils";
 
 function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
@@ -34,7 +34,7 @@ async function getProgramPayload(
 ): Promise<MetadataPayload> {
     const { programs } = await d2Metadata.get<{ programs: Program[] }>({
         "programs:fields":
-            ":all,programStages[id,formType,dataEntryForm,programStageDataElements[dataElement[id,name,formName,valueType]]]",
+            ":all,programStages[:all,programStageDataElements[dataElement[id,name,formName,valueType]]]",
         "programs:filter": `id:eq:${programId}`,
     });
     const program = _.first(programs || []);
@@ -84,10 +84,9 @@ async function main(): Promise<void> {
     const args = getParser().parseArgs();
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const programId = args.program_id;
-    //const payload = await getProgramPayload(d2Metadata, programId);
-    await getProgramPayload(d2Metadata, programId);
+    const payload = await getProgramPayload(d2Metadata, programId);
+    //await getProgramPayload(d2Metadata, programId);
 
-    /*
     const response = await d2Metadata.post(payload, {});
 
     if (response.status !== "OK") {
@@ -98,7 +97,7 @@ async function main(): Promise<void> {
         console.log(prettyJSON(response));
         console.log("Done");
         process.exit(0);
-    }*/
+    }
 }
 
 main();

@@ -3,13 +3,13 @@ import { CustomForm } from "../components/CustomForm";
 import * as _ from "lodash";
 
 export interface FormData {
-    formSections: FormSection[];
-    programStageId: string;
+    sections: FormSection[];
 }
 
 export interface FormSection {
     title: string;
     dataElements: DataElement[];
+    programStageId: string;
 }
 
 const formStaticSections = [
@@ -55,17 +55,19 @@ export class Form {
             formName: psde.dataElement.formName,
             valueType: psde.dataElement.valueType,
         }));
-        const formSections = formStaticSections.map(section => ({
+        const sections = formStaticSections.map(section => ({
             title: section.title,
+            programStageId: programStage.id,
             dataElements: section.dataElements.map(deName => {
                 const toSubstitute = dataElements.find(de => de.name === deName);
                 if (!toSubstitute) {
                     throw new Error(`Required dataElement not on programStage metadata`);
                 }
+
                 return toSubstitute;
             }),
         }));
-        return { formSections, programStageId: programStage.id };
+        return { sections };
     }
 }
 
