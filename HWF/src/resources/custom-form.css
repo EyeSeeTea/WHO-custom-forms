@@ -1,3 +1,26 @@
 .test-class {
     font-size: 40px;
 }
+
+.section-table {
+    display: flex;
+    flex-direction: column;
+}
+
+.table-row {
+    display: flex;
+    flex: 1;
+}
+
+.label-col {
+    flex: 1;
+}
+
+.field-col {
+    flex: 3;
+}
+
+.section-title {
+    font-size: 32px;
+    color: rgb(77, 83, 88);
+}
