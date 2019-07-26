@@ -6,7 +6,7 @@ export function Section(attributes: { section: FormSection }) {
     const { section } = attributes;
     return (
         <div>
-            <div class="section-title">{section.title}</div>
+            <div class="section-label">{section.title}</div>
             <Table dataElements={section.dataElements} programStageId={section.programStageId} />
         </div>
     );
