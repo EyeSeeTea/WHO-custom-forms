@@ -8,18 +8,17 @@ interface EntryFieldAttributes {
 
 export function EntryField(attributes: EntryFieldAttributes) {
     const { dataElement, programStageId } = attributes;
+    const type = dataElement.valueType === "EMAIL" ? "email" : "text";
     return (
         <input
-            type="email"
+            type={type}
             id={`${programStageId}-${dataElement.id}-val`}
             name={dataElement.id}
             title={dataElement.name}
             input-field-id={dataElement.id}
-            class="ng-pristine ng-untouched ng-valid ng-valid-required"
-            ng-class={`getInputNotifcationClass(prStDes.${dataElement.id}.dataElement.id, true)`}
+            class="form-control ng-pristine ng-untouched ng-valid ng-valid-required"
             ng-blur={`saveDatavalue(prStDes.${dataElement.id}, outerForm.${dataElement.id})`}
             ng-model={`currentEvent.${dataElement.id}`}
-            ng-required="false"
         ></input>
     );
 }
