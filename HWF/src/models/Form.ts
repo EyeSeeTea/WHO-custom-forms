@@ -54,6 +54,7 @@ export class Form {
             name: psde.dataElement.name,
             formName: psde.dataElement.formName,
             valueType: psde.dataElement.valueType,
+            optionSet: psde.dataElement.optionSet,
         }));
         const sections = formStaticSections.map(section => ({
             title: section.title,
@@ -63,7 +64,7 @@ export class Form {
                 if (!toSubstitute) {
                     throw new Error(`Required dataElement not on programStage metadata`);
                 }
-
+                console.log(toSubstitute.optionSet);
                 return toSubstitute;
             }),
         }));

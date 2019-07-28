@@ -7,10 +7,12 @@ interface CustomFormAttributes {
 }
 
 export function CustomForm(attributes: CustomFormAttributes): string {
-    console.log(attributes.formData);
+    const { sections } = attributes.formData;
     return (
         <div>
-            <Section section={attributes.formData.sections[0]} />
+            {sections.map(s => (
+                <Section section={s} />
+            ))}
         </div>
     );
 }

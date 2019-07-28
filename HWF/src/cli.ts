@@ -6,7 +6,6 @@ import { Form } from "./models/Form";
 import { getResource } from "./utils";
 
 import { getUid, prettyJSON } from "./utils";
-//mport { getUid } from "./utils";
 
 function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
@@ -33,8 +32,15 @@ async function getProgramPayload(
     programId: string
 ): Promise<MetadataPayload> {
     const { programs } = await d2Metadata.get<{ programs: Program[] }>({
-        "programs:fields":
-            ":all,programStages[:all,programStageDataElements[dataElement[id,name,formName,valueType]]]",
+        "programs:fields": `:all,
+            programStages[
+                :all,
+                programStageDataElements[
+                    dataElement[
+                        id,name,formName,valueType,
+                        optionSet[options[:all]]
+                    ]
+                ]`,
         "programs:filter": `id:eq:${programId}`,
     });
     const program = _.first(programs || []);
@@ -85,7 +91,6 @@ async function main(): Promise<void> {
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const programId = args.program_id;
     const payload = await getProgramPayload(d2Metadata, programId);
-    //await getProgramPayload(d2Metadata, programId);
 
     const response = await d2Metadata.post(payload, {});
 
