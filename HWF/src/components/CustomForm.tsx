@@ -10,8 +10,8 @@ export function CustomForm(attributes: CustomFormAttributes): string {
     const { sections } = attributes.formData;
     return (
         <div>
-            {sections.map(s => (
-                <Section section={s} />
+            {sections.map((s, index) => (
+                <Section section={s} i={index} />
             ))}
         </div>
     );

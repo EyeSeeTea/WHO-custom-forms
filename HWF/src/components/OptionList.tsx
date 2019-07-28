@@ -1,7 +1,9 @@
 import { createElement } from "typed-html";
+import { DataElement } from "../Dhis2Metadata";
 
-export function OptionList(attributes) {
-    return (
+export function OptionList(attributes: { dataElement: DataElement }) {
+    const { dataElement } = attributes;
+    const field = (
         <div class="optionListContainer">
             <div
                 ng-click="toggleOptionList()"
@@ -25,9 +27,30 @@ export function OptionList(attributes) {
             </div>
         </div>
     );
+    return createElement(
+        "d2-option-list",
+        {
+            class: "ng-isolate-scope",
+            d2Model: `${dataElement.id}`,
+            d2Required: `prStDes[${dataElement.id}].compulsory || mandatoryFields[${dataElement.id}]`,
+            d2Change: "saveDatavalue()",
+            d2MaxOptionSize: "maxOptionSize",
+            d2OptionFilter: "optionVisibility",
+            d2AllOptions: `optionSets[prStDes[${dataElement.id}].dataElement.optionSet.id].options`,
+        },
+        field
+    );
 }
 
 /*
+d2ModelId: "de.id",
+        d2Required: "prStDes[de.id].compulsory || mandatoryFields[de.id]",
+        d2Disabled: "!dataElementEditable(de)",
+        d2Change: "saveDatavalue()",
+        d2MaxOptionSize: "maxOptionSize",
+        d2OptionFilter: "optionVisibility",
+        d2AllOptions: "optionSets[prStDes[de.id].dataElement.optionSet.id].options",
+        class: "ng-isolate-scope",
 <div ng-click="toggleOptionList()" ng-if="!d2Disabled" class="optionListInput ng-scope" ng-class="{ 'optionListInputOpen': optionListOpen }">
     <div class="optionListInputText">
             <span ng-if="!d2Model[d2ModelId]" class="optionListInputTextPlaceholder ng-binding ng-scope">Select or search from the list</span><

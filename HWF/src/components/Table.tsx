@@ -1,9 +1,14 @@
 import { createElement } from "typed-html";
 import { EntryField } from "./EntryField";
 import { DataElement } from "../Dhis2Metadata";
+import { OptionList } from "./OptionList";
 
-function Row(attributes: { dataElement: DataElement; programStageId: string }) {
-    const { dataElement, programStageId } = attributes;
+function Row(attributes: {
+    dataElement: DataElement;
+    programStageId: string;
+    optionListElements: boolean;
+}) {
+    const { dataElement, programStageId, optionListElements } = attributes;
     const PopupTitle = <a>{dataElement.formName}</a>;
     const SpanElement = createElement(
         "span",
@@ -30,7 +35,11 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
                         class="hideInPrint ng-scope"
                         ng-if={`!isHidden(prStDes.${dataElement.id}.dataElement.id, currentEvent)`}
                     >
-                        <EntryField dataElement={dataElement} programStageId={programStageId} />
+                        {optionListElements ? (
+                            <OptionList dataElement={dataElement} />
+                        ) : (
+                            <EntryField dataElement={dataElement} programStageId={programStageId} />
+                        )}
                         <span
                             ng-messages={`outerForm.${dataElement.id}.$error`}
                             class="required ng-scope ng-inactive"
@@ -44,8 +53,12 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
     );
 }
 
-export function Table(attributes: { dataElements: DataElement[]; programStageId: string }) {
-    const { dataElements, programStageId } = attributes;
+export function Table(attributes: {
+    dataElements: DataElement[];
+    programStageId: string;
+    optionListElements: boolean;
+}) {
+    const { dataElements, programStageId, optionListElements } = attributes;
     return (
         <table class="dhis2-list-table-striped small-vertical-spacing">
             <thead>
@@ -56,7 +69,11 @@ export function Table(attributes: { dataElements: DataElement[]; programStageId:
             </thead>
             <tbody>
                 {dataElements.map(de => (
-                    <Row dataElement={de} programStageId={programStageId} />
+                    <Row
+                        dataElement={de}
+                        programStageId={programStageId}
+                        optionListElements={optionListElements}
+                    />
                 ))}
             </tbody>
         </table>
