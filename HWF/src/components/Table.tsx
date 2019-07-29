@@ -9,6 +9,8 @@ function Row(attributes: {
     optionListElements: boolean;
 }) {
     const { dataElement, programStageId, optionListElements } = attributes;
+
+    //Popup not working -
     const PopupTitle = <a>{dataElement.formName}</a>;
     const SpanElement = createElement(
         "span",
@@ -30,24 +32,29 @@ function Row(attributes: {
             <td>
                 {SpanElement}
                 <span class="not-for-screen ng-binding">Name of the respondent</span>
-                <td>
-                    <div
-                        class="hideInPrint ng-scope"
-                        ng-if={`!isHidden(prStDes.${dataElement.id}.dataElement.id, currentEvent)`}
-                    >
-                        {optionListElements ? (
-                            <OptionList dataElement={dataElement} />
-                        ) : (
-                            <EntryField dataElement={dataElement} programStageId={programStageId} />
-                        )}
-                        <span
-                            ng-messages={`outerForm.${dataElement.id}.$error`}
-                            class="required ng-scope ng-inactive"
-                            ng-if={`interacted(outerForm.${dataElement.id})`}
-                            ng-messages-include="./templates/error-messages.html"
-                        ></span>
-                    </div>
-                </td>
+            </td>
+            <td>
+                <div
+                    class="hideInPrint ng-scope"
+                    ng-if={`!isHidden(prStDes.${dataElement.id}.dataElement.id, currentEvent)`}
+                >
+                    {optionListElements ? (
+                        <OptionList dataElement={dataElement} />
+                    ) : (
+                        <EntryField dataElement={dataElement} programStageId={programStageId} />
+                    )}
+                    <span
+                        ng-messages={`outerForm.${dataElement.id}.$error`}
+                        class="required ng-scope ng-inactive"
+                        ng-if={`interacted(outerForm.${dataElement.id})`}
+                        ng-messages-include="./templates/error-messages.html"
+                    ></span>
+                </div>
+            </td>
+            <td>
+                <div class="icon-container">
+                    <i class="fas fa-info-circle help-icon" title={`help Text`}></i>
+                </div>
             </td>
         </tr>
     );
@@ -60,7 +67,7 @@ export function Table(attributes: {
 }) {
     const { dataElements, programStageId, optionListElements } = attributes;
     return (
-        <table class="dhis2-list-table-striped small-vertical-spacing">
+        <table class="dhis2-list-table-striped small-vertical-spacing table-width">
             <thead>
                 <tr>
                     <th class="ng-binding">Data element</th>

@@ -38,7 +38,7 @@ async function getProgramPayload(
                 programStageDataElements[
                     dataElement[
                         id,name,formName,valueType,
-                        optionSet[options[:all]]
+                        optionSet[id,options[:all]]
                     ]
                 ]`,
         "programs:filter": `id:eq:${programId}`,
@@ -77,11 +77,11 @@ async function getProgramPayload(
     };
 }
 
-async function getAssembledHtml(formHtml: string, dataSetId: string): Promise<string> {
+async function getAssembledHtml(formHtml: string, programId: string): Promise<string> {
     const style = await getResource("custom-form.css");
     const javascript = await getResource("custom-form.js");
     const styleHtml = `<style>${style}</style>`;
-    const javascriptHtml = `<script id="custom-form-script" type="text/javascript" dataSetId=${dataSetId}>${javascript}</script>`;
+    const javascriptHtml = `<script id="custom-form-script" type="text/javascript" programId=${programId}>${javascript}</script>`;
     const fontAwesome = `<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">`;
     return styleHtml + javascriptHtml + fontAwesome + formHtml;
 }

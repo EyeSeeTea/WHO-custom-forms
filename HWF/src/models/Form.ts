@@ -64,26 +64,9 @@ export class Form {
                 if (!toSubstitute) {
                     throw new Error(`Required dataElement not on programStage metadata`);
                 }
-                console.log(toSubstitute.optionSet);
                 return toSubstitute;
             }),
         }));
         return { sections };
     }
 }
-
-/*
-function sortDataElements(dataElements: SectionDataElement[]): OrderedSection {
-    const { globalEntry, fields, checkboxes } = _.groupBy(dataElements, dataElement => {
-        if (valueTypes.globalEntryCode === dataElement.code) {
-            return "globalEntry";
-        } else if (valueTypes.entryField.includes(dataElement.valueType)) {
-            return "fields";
-        } else {
-            return "checkboxes";
-        }
-    });
-
-    return { globalEntry, fields, checkboxes };
-}
-*/
