@@ -38,7 +38,7 @@ async function getProgramPayload(
                 programStageDataElements[
                     dataElement[
                         id,name,formName,valueType,
-                        optionSet[id,options[:all]]
+                        optionSet[id]
                     ]
                 ]`,
         "programs:filter": `id:eq:${programId}`,

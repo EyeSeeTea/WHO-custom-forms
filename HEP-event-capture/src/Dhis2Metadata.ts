@@ -39,13 +39,6 @@ export interface DataElement {
 
 export interface OptionSet {
     id: string;
-    options: Option[];
-}
-
-export interface Option {
-    id: string;
-    displayName: string;
-    code: number;
 }
 
 export interface MetadataPayload {
