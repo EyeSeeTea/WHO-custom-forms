@@ -38,3 +38,7 @@
 .table-width {
     width: 98%;
 }
+
+.bordered-div .row.col-sm-6.ng-scope {
+    display: none;
+}
