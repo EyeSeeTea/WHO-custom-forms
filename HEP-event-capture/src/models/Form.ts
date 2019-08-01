@@ -16,6 +16,7 @@ export const formCodes = {
     formSection: "HEP_POLICY_SECTION",
     sectionOrder: "SECTION_ORDER",
     formDataElementGroup: "HEP_POLICY_EVENT_CAPTURE",
+    optionList: "USE_OPTION_FIELD",
 };
 
 export class Form {
@@ -39,11 +40,17 @@ export class Form {
                 av => av.attribute.code === formCodes.sectionOrder
             );
             const order = orderAttribute && orderAttribute.value;
+            const formattedDataElements = deg.dataElements.map(de => ({
+                ...de,
+                useOptionList: de.attributeValues.some(
+                    av => av.attribute && av.attribute.code === formCodes.optionList
+                ),
+            }));
             return {
                 title: deg.shortName,
                 programStageId: programStage.id,
                 order,
-                dataElements: deg.dataElements,
+                dataElements: formattedDataElements,
             };
         });
 

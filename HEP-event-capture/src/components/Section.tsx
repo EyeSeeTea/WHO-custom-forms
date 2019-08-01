@@ -4,15 +4,10 @@ import { Table } from "./Table";
 
 export function Section(attributes: { section: FormSection; i: number }) {
     const { section } = attributes;
-    const optionListElements = attributes.i > 0; // can go as future dataElementGroup (section) attribute
     return (
         <div>
             <div class="section-label">{section.title}</div>
-            <Table
-                dataElements={section.dataElements}
-                programStageId={section.programStageId}
-                optionListElements={optionListElements}
-            />
+            <Table dataElements={section.dataElements} programStageId={section.programStageId} />
         </div>
     );
 }

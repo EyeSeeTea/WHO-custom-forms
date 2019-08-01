@@ -3,12 +3,8 @@ import { EntryField } from "./EntryField";
 import { DataElement } from "../Dhis2Metadata";
 import { OptionList } from "./OptionList";
 
-function Row(attributes: {
-    dataElement: DataElement;
-    programStageId: string;
-    optionListElements: boolean;
-}) {
-    const { dataElement, programStageId, optionListElements } = attributes;
+function Row(attributes: { dataElement: DataElement; programStageId: string }) {
+    const { dataElement, programStageId } = attributes;
 
     //Popup not working -
     const PopupTitle = <a>{dataElement.formName}</a>;
@@ -27,6 +23,8 @@ function Row(attributes: {
         },
         PopupTitle
     );
+
+    const optionListElement = dataElement.useOptionList;
     return (
         <tr class="ng-scope">
             <td>
@@ -38,7 +36,7 @@ function Row(attributes: {
                     class="hideInPrint ng-scope"
                     ng-if={`!isHidden(prStDes.${dataElement.id}.dataElement.id, currentEvent)`}
                 >
-                    {optionListElements ? (
+                    {optionListElement ? (
                         <OptionList dataElement={dataElement} />
                     ) : (
                         <EntryField dataElement={dataElement} programStageId={programStageId} />
@@ -60,12 +58,8 @@ function Row(attributes: {
     );
 }
 
-export function Table(attributes: {
-    dataElements: DataElement[];
-    programStageId: string;
-    optionListElements: boolean;
-}) {
-    const { dataElements, programStageId, optionListElements } = attributes;
+export function Table(attributes: { dataElements: DataElement[]; programStageId: string }) {
+    const { dataElements, programStageId } = attributes;
     return (
         <table class="dhis2-list-table-striped small-vertical-spacing table-width">
             <thead>
@@ -76,11 +70,7 @@ export function Table(attributes: {
             </thead>
             <tbody>
                 {dataElements.map(de => (
-                    <Row
-                        dataElement={de}
-                        programStageId={programStageId}
-                        optionListElements={optionListElements}
-                    />
+                    <Row dataElement={de} programStageId={programStageId} />
                 ))}
             </tbody>
         </table>

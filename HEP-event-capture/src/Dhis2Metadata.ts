@@ -33,7 +33,7 @@ interface DataElementGroup {
     code: string;
     shortName: string;
     dataElements: DataElement[];
-    attributeValues: { attribute: { code: string }; value: string | number }[];
+    attributeValues: AttributeValue[];
 }
 
 export interface DataElement {
@@ -43,6 +43,13 @@ export interface DataElement {
     valueType: string;
     optionSet: Ref;
     dataElementGroups: DataElementGroup[];
+    useOptionList?: boolean;
+    attributeValues: AttributeValue[];
+}
+
+interface AttributeValue {
+    attribute: { code: string };
+    value: string | number;
 }
 
 export interface MetadataPayload {
