@@ -12,34 +12,11 @@ export interface FormSection {
     programStageId: string;
 }
 
-const formStaticSections = [
-    {
-        title: "Reporter Info",
-        dataElements: [
-            "HEP_POLICY_Track_NameOfRespondent",
-            "HEP_POLICY_Track_EmailOfRespondent",
-            "HEP_POLICY_Track_InstitutionReporting",
-        ],
-    },
-    {
-        title: "Policy Framework",
-        dataElements: [
-            "HEP_POLICY_Track_NationalPlan",
-            "HEP_POLICY_Track_CivilSocietyRepresentativeInvolved",
-            "HEP_POLICY_Track_PoliciesStigmaDiscrimination",
-            "HEP_POLICY_Track_FundsAllocated",
-        ],
-    },
-    {
-        title: "National Guidelines",
-        dataElements: [
-            "HEP_POLICY_Track_OfficialGuidanceToTest",
-            "HEP_POLICY_Track_OfficialGuidanceForDiagnosed",
-            "HEP_POLICY_Track_TenofovirEntecavirFirstLine",
-            "HEP_POLICY_Track_InterferonFreeFirstLine",
-        ],
-    },
-];
+export const formCodes = {
+    formSection: "HEP_POLICY_SECTION",
+    sectionOrder: "SECTION_ORDER",
+    formDataElementGroup: "HEP_POLICY_EVENT_CAPTURE",
+};
 
 export class Form {
     public static getFormHtml(programStage: ProgramStage): string {
@@ -49,24 +26,32 @@ export class Form {
     }
 
     public static getFormData(programStage: ProgramStage): FormData {
-        const dataElements = programStage.programStageDataElements.map(psde => ({
-            id: psde.dataElement.id,
-            name: psde.dataElement.name,
-            formName: psde.dataElement.formName,
-            valueType: psde.dataElement.valueType,
-            optionSet: psde.dataElement.optionSet,
-        }));
-        const sections = formStaticSections.map(section => ({
-            title: section.title,
-            programStageId: programStage.id,
-            dataElements: section.dataElements.map(deName => {
-                const toSubstitute = dataElements.find(de => de.name === deName);
-                if (!toSubstitute) {
-                    throw new Error(`Required dataElement not on programStage metadata`);
-                }
-                return toSubstitute;
-            }),
-        }));
-        return { sections };
+        const allDataElementGroups = programStage.programStageDataElements.map(
+            psde =>
+                psde.dataElement.dataElementGroups.filter(deg =>
+                    new RegExp("^" + formCodes.formSection).test(deg.code)
+                )[0]
+        );
+        const dataElementGroups = _.uniqBy(allDataElementGroups, "code");
+
+        const sections = dataElementGroups.map(deg => {
+            const orderAttribute = deg.attributeValues.find(
+                av => av.attribute.code === formCodes.sectionOrder
+            );
+            const order = orderAttribute && orderAttribute.value;
+            return {
+                title: deg.shortName,
+                programStageId: programStage.id,
+                order,
+                dataElements: deg.dataElements,
+            };
+        });
+
+        const orderedSections: FormSection[] = _(sections)
+            .uniqBy("order")
+            .sortBy("order")
+            .value();
+
+        return { sections: orderedSections };
     }
 }

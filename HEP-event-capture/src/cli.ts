@@ -36,9 +36,19 @@ async function getProgramPayload(
             programStages[
                 :all,
                 programStageDataElements[
+                    id,
                     dataElement[
-                        id,name,formName,valueType,
-                        optionSet[id]
+                        id,
+                        dataElementGroups[
+                            id,
+                            dataElements[
+                                id,name,formName,valueType,   
+                                optionSet[id],
+                            ],
+                            code,
+                            shortName,
+                            attributeValues[value,attribute[code],
+                        ]
                     ]
                 ]`,
         "programs:filter": `id:eq:${programId}`,
@@ -52,7 +62,6 @@ async function getProgramPayload(
     }
 
     const programStage = program.programStages[0];
-
     const formHtml = Form.getFormHtml(programStage);
     const customFormHtml = await getAssembledHtml(formHtml, program.id);
 

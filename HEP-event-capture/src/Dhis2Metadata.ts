@@ -29,16 +29,20 @@ export interface ProgramStage {
     }[];
 }
 
+interface DataElementGroup {
+    code: string;
+    shortName: string;
+    dataElements: DataElement[];
+    attributeValues: { attribute: { code: string }; value: string | number }[];
+}
+
 export interface DataElement {
     id: string;
     name: string;
     formName: string;
     valueType: string;
-    optionSet: OptionSet;
-}
-
-export interface OptionSet {
-    id: string;
+    optionSet: Ref;
+    dataElementGroups: DataElementGroup[];
 }
 
 export interface MetadataPayload {
