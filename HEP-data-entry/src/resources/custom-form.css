@@ -4,33 +4,15 @@
     min-height: 130px;
 }
 
-.header {
-    display: flex;
-    flex: 1;
-    padding-top: 10px;
-    color: rgb(236, 236, 236);
-    height: 30px;
-}
-
-.elements {
-    display: flex;
-}
-
-.column-big {
-    flex: 5;
-    align-content: center;
-    padding-top: 2px;
+.empty-header-td {
     background-color: rgb(238, 238, 238);
 }
 
+.column-big {
+    width: 55%;
+}
 .column-small {
-    flex: 2;
-    align-content: center;
-    text-align: center;
-    font-size: 13px;
-    background-color: rgb(243, 243, 243);
     border: 1px solid rgb(221, 221, 221);
-    padding-top: 6px;
 }
 
 .elements-row {
@@ -39,31 +21,21 @@
 }
 
 .antigen-tag {
-    font-weight: bold;
-}
-
-.name-field {
-    display: flex;
-    flex-direction: column;
-    flex: 5;
+    text-align: center !important;
+    height: 30px;
 }
 
 .checkbox-group {
-    font-size: 11px;
+    font-size: 11px !important;
 }
 
 .field-container {
-    flex: 2;
-    align-items: center;
-    justify-content: center;
-    display: flex;
+    text-align: center;
+    border-left: 1px solid rgb(188, 188, 188);
+    border-right: 1px solid rgb(188, 188, 188);
 }
 
 .field-group {
-    display: flex;
-    flex-direction: column;
-    flex: 2;
-    justify-content: flex-start;
     border: 1px solid rgb(188, 188, 188);
 }
 
@@ -76,9 +48,7 @@
 }
 
 .center-text {
-    padding: 5px;
-    padding-bottom: 8px;
-    align-items: center;
+    padding: 8px;
 }
 
 .global-entry-area {
@@ -108,19 +78,13 @@
     color: rgb(38, 121, 255);
 }
 
-.icon-group-container {
-    display: flex;
-    flex-grow: 1;
-    flex: 0.2;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
 .icon-container {
     padding-left: 5px;
-    display: flex;
-    flex: 1;
-    align-items: center;
+    text-align: center;
+}
+
+.icon-column-header {
+    border-bottom: none !important;
 }
 
 .hbv-color {

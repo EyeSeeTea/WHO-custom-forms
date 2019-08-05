@@ -17,51 +17,50 @@ interface TableAttributes {
 function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
     const headerTitles = attributes.categoryOptionCombos.map(cco => {
         const background = Form.getCategoryOptionComboColor(cco);
-        return [
-            <div class={`column-small antigen-tag ${background}`}>{cco.name}</div>,
-            <div class={`column-small ${background}`}>SOURCE OF DATA</div>,
-        ];
+        return <th class={`column-small antigen-tag ${background}`}>{cco.name}</th>;
     });
     return (
-        <div class="header">
-            <div class="column-big" />
-            {_.flatten(headerTitles)}
-            <div class="icon-group-container" />
-        </div>
+        <thead>
+            <tr>
+                <th class="column-big empty-header-td" />
+                {_.flatten(headerTitles)}
+                <th class="icon-column-header" />
+            </tr>
+        </thead>
     );
 }
 
-function NameRows(attributes: { fields: SectionDataElement[] }): string {
-    const rows = attributes.fields.map((de, index) => {
-        const background = index % 2 === 0 ? "even-row" : "odd-row";
-        return <div class={`column-big ${background} center-text`}>{de.formName}</div>;
-    });
-    return <div class="name-field">{rows}</div>;
-}
-
-function OnlyFields(attributes: {
-    fields: SectionDataElement[];
-    categoryOptionCombo: CategoryOptionCombo;
+function FieldsRow(attributes: {
+    dataElement: SectionDataElement;
+    categoryOptionCombos: CategoryOptionCombo[];
     fieldsToRemove: FieldsToRemove[];
+    index: number;
 }) {
-    const { fields, categoryOptionCombo, fieldsToRemove } = attributes;
-    const rows = fields.map((de, index) => {
-        const background = index % 2 === 0 ? "even-row" : "odd-row";
+    const { dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
+    const background = index % 2 === 0 ? "even-row" : "odd-row";
+    console.log([index, index % 2 === 0, background]);
+    const fieldTds = categoryOptionCombos.map(coc => {
         const greyedField = fieldsToRemove.some(
-            fr => de.id === fr.dataElement && categoryOptionCombo.id === fr.categoryOptionCombo
+            fr => dataElement.id === fr.dataElement && coc.id === fr.categoryOptionCombo
         );
         return (
-            <div class={`field-container ${background}`}>
+            <td class={`field-container ${background}`}>
                 {greyedField ? null : (
-                    <EntryField
-                        dataElementId={de.id}
-                        categoryOptionComboId={categoryOptionCombo.id}
-                    />
+                    <EntryField dataElementId={dataElement.id} categoryOptionComboId={coc.id} />
                 )}
-            </div>
+            </td>
         );
     });
-    return <div class="field-group">{rows}</div>;
+
+    return (
+        <tr>
+            <td class={`column-big ${background} center-text`}>{dataElement.formName}</td>
+            {...fieldTds}
+            <td class="icon-container">
+                <i class="fas fa-info-circle help-icon" title={`${dataElement.formName}`}></i>
+            </td>
+        </tr>
+    );
 }
 
 function CheckBoxGroup(attributes: {
@@ -80,16 +79,7 @@ function CheckBoxGroup(attributes: {
         </div>
     ));
 
-    return <div class="field-group checkbox-group">{rows}</div>;
-}
-
-function HelpIconsGroup(attributes: { fields: SectionDataElement[] }) {
-    const rows = attributes.fields.map(de => (
-        <div class="icon-container">
-            <i class="fas fa-info-circle help-icon" title={`${de.formName}`}></i>
-        </div>
-    ));
-    return <div class="icon-group-container">{rows}</div>;
+    return <td class="field-group checkbox-group">{rows}</td>;
 }
 
 export function Table(attributes: TableAttributes): string {
@@ -98,18 +88,23 @@ export function Table(attributes: TableAttributes): string {
         fieldsToRemove,
     } = attributes.section;
     const categoryOptionCombos = Form.getCategoryOptionCombos(fields);
-    const fieldsAndCheckboxes = categoryOptionCombos.map(cco => [
-        <OnlyFields fields={fields} categoryOptionCombo={cco} fieldsToRemove={fieldsToRemove} />,
-        <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={cco} />,
-    ]);
     return (
-        <div class="custom-table">
+        <table class="custom-table">
             <Header categoryOptionCombos={categoryOptionCombos} />
-            <div class="elements">
-                <NameRows fields={fields} />
-                {_.flatten(fieldsAndCheckboxes)}
-                <HelpIconsGroup fields={fields} />
-            </div>
-        </div>
+            {fields.map((f, i) => (
+                <FieldsRow
+                    dataElement={f}
+                    categoryOptionCombos={categoryOptionCombos}
+                    fieldsToRemove={fieldsToRemove}
+                    index={i}
+                />
+            ))}
+            <tr>
+                <td class="column-big " />
+                {categoryOptionCombos.map(coc => (
+                    <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={coc} />
+                ))}
+            </tr>
+        </table>
     );
 }
