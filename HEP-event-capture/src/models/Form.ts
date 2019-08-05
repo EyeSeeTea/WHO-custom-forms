@@ -27,24 +27,38 @@ export class Form {
     }
 
     public static getFormData(programStage: ProgramStage): FormData {
+        if (
+            !programStage.programStageDataElements ||
+            _.isEmpty(programStage.programStageDataElements)
+        ) {
+            throw new Error("No programStage has no dataElements assigned");
+        }
         const allDataElementGroups = programStage.programStageDataElements.map(
             psde =>
-                psde.dataElement.dataElementGroups.filter(deg =>
-                    new RegExp("^" + formCodes.formSection).test(deg.code)
-                )[0]
+                psde.dataElement.dataElementGroups &&
+                psde.dataElement.dataElementGroups.find(
+                    deg => deg.code && deg.code.startsWith(formCodes.formSection)
+                )
         );
-        const dataElementGroups = _.uniqBy(allDataElementGroups, "code");
+        const dataElementGroups = _.uniqBy(_.compact(allDataElementGroups), "code");
 
         const sections = dataElementGroups.map(deg => {
+            if (!deg.attributeValues || !deg.dataElements || !deg.shortName) {
+                throw new Error(
+                    "DataElementGroups not complete, missing dataElements, attributes or shortName"
+                );
+            }
             const orderAttribute = deg.attributeValues.find(
                 av => av.attribute.code === formCodes.sectionOrder
             );
             const order = orderAttribute && orderAttribute.value;
             const formattedDataElements = deg.dataElements.map(de => ({
                 ...de,
-                useOptionList: de.attributeValues.some(
-                    av => av.attribute && av.attribute.code === formCodes.optionList
-                ),
+                useOptionList:
+                    de.attributeValues &&
+                    de.attributeValues.some(
+                        av => av.attribute && av.attribute.code === formCodes.optionList
+                    ),
             }));
             return {
                 title: deg.shortName,

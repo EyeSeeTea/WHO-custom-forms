@@ -27,6 +27,10 @@ export function OptionList(attributes: { dataElement: DataElement }) {
             </div>
         </div>
     );
+    if (!dataElement.optionSet) {
+        throw new Error("OptionList dataelement has no option set assigned");
+    }
+
     return createElement(
         "d2-option-list",
         {

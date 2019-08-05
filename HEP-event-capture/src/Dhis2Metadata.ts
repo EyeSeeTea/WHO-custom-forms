@@ -21,30 +21,30 @@ export interface Program {
 
 export interface ProgramStage {
     id: string;
-    formType: string;
-    dataEntryForm: Ref;
-    programStageDataElements: {
+    formType?: string;
+    dataEntryForm?: Ref;
+    programStageDataElements?: {
         id: string;
         dataElement: DataElement;
     }[];
 }
 
 interface DataElementGroup {
-    code: string;
-    shortName: string;
-    dataElements: DataElement[];
-    attributeValues: AttributeValue[];
+    code?: string;
+    shortName?: string;
+    dataElements?: DataElement[];
+    attributeValues?: AttributeValue[];
 }
 
 export interface DataElement {
     id: string;
     name: string;
-    formName: string;
-    valueType: string;
-    optionSet: Ref;
-    dataElementGroups: DataElementGroup[];
+    formName?: string;
+    valueType?: string;
+    optionSet?: Ref;
+    dataElementGroups?: DataElementGroup[];
     useOptionList?: boolean;
-    attributeValues: AttributeValue[];
+    attributeValues?: AttributeValue[];
 }
 
 interface AttributeValue {
