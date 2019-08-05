@@ -80,6 +80,9 @@ export class Form {
     public static getCategoryOptionCombos(
         dataElements: SectionDataElement[]
     ): CategoryOptionCombo[] {
+        if (_.isEmpty(dataElements)) {
+            throw new Error("No dataElements available");
+        }
         return dataElements[0].categoryCombo.categoryOptionCombos;
     }
 

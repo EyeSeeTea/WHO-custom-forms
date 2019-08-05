@@ -17,12 +17,13 @@
 
 .elements-row {
     display: flex;
-    padding-bottom: 5px;
+    padding-top: 5px;
 }
 
 .antigen-tag {
     text-align: center !important;
     height: 30px;
+    color: rgb(221, 221, 221) !important;
 }
 
 .checkbox-group {
@@ -93,4 +94,13 @@
 
 .hcv-color {
     background-color: rgb(189, 7, 17);
+}
+
+.checkbox-header {
+    border: 1px solid rgb(221, 221, 221);
+    text-align: center;
+    padding-top: 5px;
+    height: 20px;
+    font-size: 12px;
+    color: rgb(221, 221, 221);
 }

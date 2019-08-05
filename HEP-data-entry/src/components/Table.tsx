@@ -78,8 +78,15 @@ function CheckBoxGroup(attributes: {
             <div>{de.formName}</div>
         </div>
     ));
-
-    return <td class="field-group checkbox-group">{rows}</td>;
+    const background = Form.getCategoryOptionComboColor(categoryOptionCombo);
+    return (
+        <td class="field-group checkbox-group">
+            <div
+                class={`checkbox-header ${background}`}
+            >{`SOURCES OF DATA FOR ${categoryOptionCombo.name}`}</div>
+            {rows}
+        </td>
+    );
 }
 
 export function Table(attributes: TableAttributes): string {
