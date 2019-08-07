@@ -45,7 +45,7 @@ function FieldsRow(attributes: {
         );
         return (
             <td class={`field-container ${background}`}>
-                {greyedField ? null : (
+                {greyedField ? <p>{`Not applicable for ${coc.name}`}</p> : (
                     <EntryField dataElementId={dataElement.id} categoryOptionComboId={coc.id} />
                 )}
             </td>
