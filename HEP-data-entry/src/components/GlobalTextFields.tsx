@@ -11,7 +11,7 @@ export function GlobalTextFields(attributes: GlobalTextFieldAttributes): string 
     const { dataElements, categoryOptionCombos } = attributes;
     const fields = _.flatMap(dataElements, de =>
         categoryOptionCombos.map(coc => [
-            <div class="global-entry-title">{`${de.formName} for the ${coc.name} cascade`}</div>,
+            <div class="global-entry-title">{`${de.formName} for the whole ${coc.name} cascade`}</div>,
             <textarea
                 id={`${de.id}-${coc.id}-val`}
                 name="entryfield"
