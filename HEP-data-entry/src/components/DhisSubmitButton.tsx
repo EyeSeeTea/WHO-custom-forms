@@ -11,7 +11,7 @@ export function DhisSubmitButton() {
                 type="button"
                 id="completeButton"
                 name="completeButton"
-                value="Submit"
+                value="Submit: Check data consistency"
                 onclick="dhis2.de.validate( false ); registerCompleteDataSet()"
                 style="width:400px"
             />
