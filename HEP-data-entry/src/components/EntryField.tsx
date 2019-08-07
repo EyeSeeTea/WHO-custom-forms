@@ -3,21 +3,20 @@ import { createElement } from "typed-html";
 interface EntryFieldAttributes {
     dataElementId: string;
     categoryOptionComboId: string;
+    sectionId: string;
     checkbox?: boolean;
+    type?: "checkbox" | "radio"
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
-    const { dataElementId, categoryOptionComboId } = attributes;
-    const id = `${dataElementId}-${categoryOptionComboId}-val`;
-    return attributes.checkbox ? (
+    const { dataElementId, categoryOptionComboId, sectionId } = attributes;
+    return (
         <input
-            name="entrytrueonly"
-            class="entrytrueonly checkbox"
-            id={id}
+            name={`entry-${sectionId}-${categoryOptionComboId}`}
+            class={`entrytrueonly ${attributes.type}`}
+            id={`${dataElementId}-${categoryOptionComboId}-val`}
             autocomplete="off"
-            type="checkbox"
+            type={attributes.type || ""}
         />
-    ) : (
-        <input name="entryfield" class="entryfield" id={id} autocomplete="off" />
     );
 }
