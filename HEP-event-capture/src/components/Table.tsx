@@ -24,7 +24,7 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
         PopupTitle
     );
 
-    const optionListElement = dataElement.useOptionList;
+    const optionListElement = !!dataElement.optionSet;
     return (
         <tr class="ng-scope">
             <td>

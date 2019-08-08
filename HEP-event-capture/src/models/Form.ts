@@ -52,19 +52,12 @@ export class Form {
                 av => av.attribute.code === formCodes.sectionOrder
             );
             const order = orderAttribute && orderAttribute.value;
-            const formattedDataElements = deg.dataElements.map(de => ({
-                ...de,
-                useOptionList:
-                    de.attributeValues &&
-                    de.attributeValues.some(
-                        av => av.attribute && av.attribute.code === formCodes.optionList
-                    ),
-            }));
+
             return {
                 title: deg.shortName,
                 programStageId: programStage.id,
                 order,
-                dataElements: formattedDataElements,
+                dataElements: deg.dataElements,
             };
         });
 

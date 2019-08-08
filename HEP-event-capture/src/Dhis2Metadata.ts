@@ -43,7 +43,6 @@ export interface DataElement {
     valueType?: string;
     optionSet?: Ref;
     dataElementGroups?: DataElementGroup[];
-    useOptionList?: boolean;
     attributeValues?: AttributeValue[];
 }
 
