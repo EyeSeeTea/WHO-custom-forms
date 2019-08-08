@@ -49,11 +49,6 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
                     ></span>
                 </div>
             </td>
-            <td>
-                <div class="icon-container">
-                    <i class="fas fa-info-circle help-icon" title={`help Text`}></i>
-                </div>
-            </td>
         </tr>
     );
 }
