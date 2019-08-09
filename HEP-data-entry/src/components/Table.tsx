@@ -24,7 +24,6 @@ function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
             <tr>
                 <th class="column-big empty-header-td" />
                 {_.flatten(headerTitles)}
-                <th class="icon-column-header" />
             </tr>
         </thead>
     );
@@ -38,7 +37,6 @@ function FieldsRow(attributes: {
 }) {
     const { dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
     const background = index % 2 === 0 ? "even-row" : "odd-row";
-    console.log([index, index % 2 === 0, background]);
     const fieldTds = categoryOptionCombos.map(coc => {
         const greyedField = fieldsToRemove.some(
             fr => dataElement.id === fr.dataElement && coc.id === fr.categoryOptionCombo
@@ -46,7 +44,7 @@ function FieldsRow(attributes: {
         return (
             <td class={`field-container ${background}`}>
                 {greyedField ? null : (
-                    <EntryField dataElementId={dataElement.id} categoryOptionComboId={coc.id} />
+                    <EntryField dataElement={dataElement} categoryOptionComboId={coc.id} />
                 )}
             </td>
         );
@@ -54,11 +52,11 @@ function FieldsRow(attributes: {
 
     return (
         <tr>
-            <td class={`column-big ${background} center-text`}>{dataElement.formName}</td>
-            {...fieldTds}
-            <td class="icon-container">
+            <td class={`column-big ${background} center-text`}>
+                {dataElement.formName}
                 <i class="fas fa-info-circle help-icon" title={`${dataElement.formName}`}></i>
             </td>
+            {...fieldTds}
         </tr>
     );
 }
@@ -70,11 +68,7 @@ function CheckBoxGroup(attributes: {
     const { checkboxes, categoryOptionCombo } = attributes;
     const rows = checkboxes.map(de => (
         <div class="elements-row">
-            <EntryField
-                dataElementId={de.id}
-                categoryOptionComboId={categoryOptionCombo.id}
-                checkbox
-            />
+            <EntryField dataElement={de} categoryOptionComboId={categoryOptionCombo.id} checkbox />
             <div>{de.formName}</div>
         </div>
     ));

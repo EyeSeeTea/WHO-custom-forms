@@ -77,15 +77,7 @@
 
 .help-icon {
     color: rgb(38, 121, 255);
-}
-
-.icon-container {
     padding-left: 5px;
-    text-align: center;
-}
-
-.icon-column-header {
-    border-bottom: none !important;
 }
 
 .hbv-color {

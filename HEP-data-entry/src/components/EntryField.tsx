@@ -1,14 +1,15 @@
 import { createElement } from "typed-html";
+import { SectionDataElement } from "../models/Form";
 
 interface EntryFieldAttributes {
-    dataElementId: string;
+    dataElement: SectionDataElement;
     categoryOptionComboId: string;
     checkbox?: boolean;
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
-    const { dataElementId, categoryOptionComboId } = attributes;
-    const id = `${dataElementId}-${categoryOptionComboId}-val`;
+    const { dataElement, categoryOptionComboId } = attributes;
+    const id = `${dataElement.id}-${categoryOptionComboId}-val`;
     return attributes.checkbox ? (
         <input
             name="entrytrueonly"
@@ -18,6 +19,9 @@ export function EntryField(attributes: EntryFieldAttributes): string {
             type="checkbox"
         />
     ) : (
-        <input name="entryfield" class="entryfield" id={id} autocomplete="off" />
+        <div>
+            <input name="entryfield" class="entryfield" id={id} autocomplete="off" />
+            <i class="fas fa-info-circle help-icon" title={`${dataElement.formName}`}></i>
+        </div>
     );
 }
