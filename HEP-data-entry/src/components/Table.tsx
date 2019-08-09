@@ -30,12 +30,13 @@ function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
 }
 
 function FieldsRow(attributes: {
+    section: Section;
     dataElement: SectionDataElement;
     categoryOptionCombos: CategoryOptionCombo[];
     fieldsToRemove: FieldsToRemove[];
     index: number;
 }) {
-    const { dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
+    const { section, dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
     const background = index % 2 === 0 ? "even-row" : "odd-row";
     const fieldTds = categoryOptionCombos.map(coc => {
         const greyedField = fieldsToRemove.some(
@@ -43,8 +44,14 @@ function FieldsRow(attributes: {
         );
         return (
             <td class={`field-container ${background}`}>
-                {greyedField ? null : (
-                    <EntryField dataElement={dataElement} categoryOptionComboId={coc.id} />
+                {greyedField ? (
+                    <p>{`Not applicable for ${coc.name}`}</p>
+                ) : (
+                    <EntryField
+                        sectionId={section.id}
+                        dataElement={dataElement}
+                        categoryOptionComboId={coc.id}
+                    />
                 )}
             </td>
         );
@@ -63,12 +70,18 @@ function FieldsRow(attributes: {
 
 function CheckBoxGroup(attributes: {
     checkboxes: SectionDataElement[];
+    section: Section;
     categoryOptionCombo: CategoryOptionCombo;
 }): string {
-    const { checkboxes, categoryOptionCombo } = attributes;
+    const { checkboxes, categoryOptionCombo, section } = attributes;
     const rows = checkboxes.map(de => (
         <div class="elements-row">
-            <EntryField dataElement={de} categoryOptionComboId={categoryOptionCombo.id} checkbox />
+            <EntryField
+                sectionId={section.id}
+                dataElement={de}
+                categoryOptionComboId={categoryOptionCombo.id}
+                type={"radio"}
+            />
             <div>{de.formName}</div>
         </div>
     ));
@@ -84,16 +97,18 @@ function CheckBoxGroup(attributes: {
 }
 
 export function Table(attributes: TableAttributes): string {
+    const { section } = attributes;
     const {
         formFields: { fields, checkboxes },
         fieldsToRemove,
-    } = attributes.section;
+    } = section;
     const categoryOptionCombos = Form.getCategoryOptionCombos(fields);
     return (
         <table class="custom-table">
             <Header categoryOptionCombos={categoryOptionCombos} />
             {fields.map((f, i) => (
                 <FieldsRow
+                    section={section}
                     dataElement={f}
                     categoryOptionCombos={categoryOptionCombos}
                     fieldsToRemove={fieldsToRemove}
@@ -103,7 +118,11 @@ export function Table(attributes: TableAttributes): string {
             <tr>
                 <td class="column-big " />
                 {categoryOptionCombos.map(coc => (
-                    <CheckBoxGroup checkboxes={checkboxes} categoryOptionCombo={coc} />
+                    <CheckBoxGroup
+                        checkboxes={checkboxes}
+                        section={section}
+                        categoryOptionCombo={coc}
+                    />
                 ))}
             </tr>
         </table>
