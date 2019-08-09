@@ -78,7 +78,7 @@ export class Form {
         }
 
         const order = Number(shortName.substr(shortName.length - 1));
-        console.log({ order, shortName });
+
         if (!order) {
             throw new Error(
                 `DataElement ${dataElement.id} has no order number prepended to the shortName`

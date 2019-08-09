@@ -28,7 +28,7 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
     const optionListElement = !!dataElement.optionSet;
     return (
         <tr class="ng-scope">
-            <td>
+            <td style="padding:6px;">
                 {SpanElement}
                 <span class="not-for-screen ng-binding">Name of the respondent</span>
             </td>
