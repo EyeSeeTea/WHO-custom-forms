@@ -32,6 +32,7 @@ export interface FieldsToRemove {
 export interface SectionDataElement {
     id: string;
     code: string;
+    description?: string;
     formName: string;
     categoryCombo: { id: string; categoryOptionCombos: CategoryOptionCombo[] };
     valueType: string;
@@ -46,6 +47,10 @@ export interface OrderedSection {
 export interface CategoryOptionCombo {
     id: string;
     name: string;
+}
+
+export interface HelpTexts {
+    [key: string]: string;
 }
 
 export const valueTypes = {
@@ -88,6 +93,13 @@ export class Form {
 
     public static getCategoryOptionComboColor(cco: CategoryOptionCombo): string {
         return headerGroupColors[cco.name];
+    }
+
+    public static getHelpMessagesForDataElement(dataElement: SectionDataElement): HelpTexts {
+        if (!dataElement.description) {
+            return {};
+        }
+        return JSON.parse(dataElement.description);
     }
 }
 

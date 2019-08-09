@@ -1,26 +1,32 @@
 import { createElement } from "typed-html";
-import { SectionDataElement } from "../models/Form";
+import { SectionDataElement, CategoryOptionCombo, HelpTexts } from "../models/Form";
 
 interface EntryFieldAttributes {
     dataElement: SectionDataElement;
-    categoryOptionComboId: string;
+    categoryOptionCombo: CategoryOptionCombo;
     sectionId: string;
+    helpMessages?: HelpTexts;
     checkbox?: boolean;
     type?: "checkbox" | "radio";
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
-    const { dataElement, categoryOptionComboId, sectionId } = attributes;
+    const { dataElement, categoryOptionCombo, sectionId, helpMessages } = attributes;
     return (
         <div>
             <input
-                name={`entry-${sectionId}-${categoryOptionComboId}`}
+                name={`entry-${sectionId}-${categoryOptionCombo.id}`}
                 class={`entrytrueonly ${attributes.type}`}
-                id={`${dataElement.id}-${categoryOptionComboId}-val`}
+                id={`${dataElement.id}-${categoryOptionCombo.id}-val`}
                 autocomplete="off"
                 type={attributes.type || ""}
             />
-            <i class="fas fa-info-circle help-icon" title={`${dataElement.formName}`}></i>
+            {helpMessages ? (
+                <i
+                    class="fas fa-info-circle help-icon"
+                    title={`${helpMessages[categoryOptionCombo.name]}`}
+                ></i>
+            ) : null}
         </div>
     );
 }

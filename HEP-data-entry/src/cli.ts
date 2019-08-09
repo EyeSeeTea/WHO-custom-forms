@@ -36,7 +36,7 @@ async function getDataSetPayload(
                 id,
                 displayName,
                 greyedFields[id,dataElement,categoryOptionCombo],
-                dataElements[id,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
+                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
                 valueType]
             ]`,
         "dataSets:filter": `id:eq:${dataSetId}`,

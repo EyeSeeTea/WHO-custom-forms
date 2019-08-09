@@ -38,6 +38,7 @@ function FieldsRow(attributes: {
 }) {
     const { section, dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
     const background = index % 2 === 0 ? "even-row" : "odd-row";
+    const helpMessages = Form.getHelpMessagesForDataElement(dataElement);
     const fieldTds = categoryOptionCombos.map(coc => {
         const greyedField = fieldsToRemove.some(
             fr => dataElement.id === fr.dataElement && coc.id === fr.categoryOptionCombo
@@ -50,7 +51,8 @@ function FieldsRow(attributes: {
                     <EntryField
                         sectionId={section.id}
                         dataElement={dataElement}
-                        categoryOptionComboId={coc.id}
+                        categoryOptionCombo={coc}
+                        helpMessages={helpMessages}
                     />
                 )}
             </td>
@@ -61,7 +63,7 @@ function FieldsRow(attributes: {
         <tr>
             <td class={`column-big ${background} center-text`}>
                 {dataElement.formName}
-                <i class="fas fa-info-circle help-icon" title={`${dataElement.formName}`}></i>
+                <i class="fas fa-info-circle help-icon" title={`${helpMessages.main}`}></i>
             </td>
             {...fieldTds}
         </tr>
@@ -79,7 +81,7 @@ function CheckBoxGroup(attributes: {
             <EntryField
                 sectionId={section.id}
                 dataElement={de}
-                categoryOptionComboId={categoryOptionCombo.id}
+                categoryOptionCombo={categoryOptionCombo}
                 type={"radio"}
             />
             <div>{de.formName}</div>
