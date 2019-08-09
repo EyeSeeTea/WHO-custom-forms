@@ -92,7 +92,7 @@ function CheckBoxGroup(attributes: {
         <td class="field-group checkbox-group">
             <div
                 class={`checkbox-header ${background}`}
-            >{`SOURCES OF DATA FOR ${categoryOptionCombo.name}`}</div>
+            >{`SOURCES OF DATA FOR ${categoryOptionCombo.name} (${section.description})`}</div>
             {rows}
         </td>
     );

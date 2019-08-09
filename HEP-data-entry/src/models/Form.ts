@@ -11,6 +11,7 @@ export interface DataEntryForm {
 
 export interface Section {
     id: string;
+    description: string;
     displayName: string;
     dataElements: SectionDataElement[];
     formFields: OrderedSection;

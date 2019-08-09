@@ -34,6 +34,7 @@ async function getDataSetPayload(
         "dataSets:fields": `:owner,
             sections[
                 id,
+                description,
                 displayName,
                 greyedFields[id,dataElement,categoryOptionCombo],
                 dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
