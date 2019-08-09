@@ -2,6 +2,7 @@ import { createElement } from "typed-html";
 import { EntryField } from "./EntryField";
 import { DataElement } from "../Dhis2Metadata";
 import { OptionList } from "./OptionList";
+import { Form } from "../models/Form";
 
 function Row(attributes: { dataElement: DataElement; programStageId: string }) {
     const { dataElement, programStageId } = attributes;
@@ -55,6 +56,7 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
 
 export function Table(attributes: { dataElements: DataElement[]; programStageId: string }) {
     const { dataElements, programStageId } = attributes;
+    const sortedDataElements = Form.sortDataElements(dataElements);
     return (
         <table class="dhis2-list-table-striped small-vertical-spacing table-width">
             <thead>
@@ -64,7 +66,7 @@ export function Table(attributes: { dataElements: DataElement[]; programStageId:
                 </tr>
             </thead>
             <tbody>
-                {dataElements.map(de => (
+                {sortedDataElements.map(de => (
                     <Row dataElement={de} programStageId={programStageId} />
                 ))}
             </tbody>

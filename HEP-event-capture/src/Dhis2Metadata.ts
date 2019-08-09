@@ -41,6 +41,7 @@ export interface DataElement {
     name: string;
     formName?: string;
     valueType?: string;
+    shortName?: string;
     optionSet?: Ref;
     dataElementGroups?: DataElementGroup[];
     attributeValues?: AttributeValue[];

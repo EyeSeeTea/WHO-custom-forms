@@ -68,4 +68,27 @@ export class Form {
 
         return { sections: orderedSections };
     }
+
+    public static getDataElementSectionOrder(dataElement: DataElement): number {
+        const { shortName } = dataElement;
+        if (!shortName) {
+            throw new Error(
+                `DataElement ${dataElement.id} has no shortName with section order prepend defined.`
+            );
+        }
+
+        const order = Number(shortName.substr(shortName.length - 1));
+        console.log({ order, shortName });
+        if (!order) {
+            throw new Error(
+                `DataElement ${dataElement.id} has no order number prepended to the shortName`
+            );
+        }
+
+        return order;
+    }
+
+    public static sortDataElements(dataElements: DataElement[]) {
+        return _.orderBy(dataElements, de => this.getDataElementSectionOrder(de));
+    }
 }

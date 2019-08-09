@@ -41,7 +41,7 @@ async function getProgramPayload(
                         dataElementGroups[
                             id,
                             dataElements[
-                                id,name,formName,valueType,   
+                                id,name,formName,valueType,shortName, 
                                 attributeValues[value,attribute[code]],
                                 optionSet[id],
                             ],
