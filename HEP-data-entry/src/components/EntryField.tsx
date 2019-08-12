@@ -6,20 +6,23 @@ interface EntryFieldAttributes {
     categoryOptionCombo: CategoryOptionCombo;
     sectionId: string;
     helpMessages?: HelpTexts;
-    checkbox?: boolean;
     type?: "checkbox" | "radio";
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
     const { dataElement, categoryOptionCombo, sectionId, helpMessages } = attributes;
+    const formClass = attributes.type ? "entrytrueonly" : "entryfield";
+    const name = `${formClass}-${sectionId}-${categoryOptionCombo.id}`;
+    const type = attributes.type || "";
+
     return (
         <div>
             <input
-                name={`entry-${sectionId}-${categoryOptionCombo.id}`}
-                class={`entrytrueonly ${attributes.type}`}
+                name={name}
+                class={`${formClass} ${type}`}
                 id={`${dataElement.id}-${categoryOptionCombo.id}-val`}
                 autocomplete="off"
-                type={attributes.type || ""}
+                type={type}
             />
             {helpMessages ? (
                 <i

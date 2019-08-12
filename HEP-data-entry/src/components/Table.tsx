@@ -82,7 +82,7 @@ function CheckBoxGroup(attributes: {
                 sectionId={section.id}
                 dataElement={de}
                 categoryOptionCombo={categoryOptionCombo}
-                type={"radio"}
+                type="checkbox"
             />
             <div>{de.formName}</div>
         </div>
