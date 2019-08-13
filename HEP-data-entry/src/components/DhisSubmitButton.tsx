@@ -1,11 +1,5 @@
 import { createElement } from "typed-html";
 
-/**
- * Submit buttons
- * 
- * NOTE: Client has removed the "complete" feature for data sets.
- * To re-enable it, create a "completeButton" that executes "registerCompleteDataSet()".
- */
 export function DhisSubmitButton() {
     return (
         <div>
