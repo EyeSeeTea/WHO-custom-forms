@@ -1,0 +1,102 @@
+.custom-table {
+    display: flex;
+    flex-direction: column;
+    min-height: 130px;
+}
+
+.empty-header-td {
+    background-color: rgb(238, 238, 238);
+}
+
+.column-big {
+    width: 55%;
+}
+.column-small {
+    border: 1px solid rgb(221, 221, 221);
+}
+
+.elements-row {
+    display: flex;
+    padding-top: 5px;
+}
+
+.antigen-tag {
+    text-align: center !important;
+    height: 30px;
+    color: rgb(221, 221, 221) !important;
+}
+
+.checkbox-group {
+    font-size: 11px !important;
+}
+
+.field-container {
+    text-align: center;
+    border-left: 1px solid rgb(188, 188, 188);
+    border-right: 1px solid rgb(188, 188, 188);
+}
+
+.field-group {
+    border: 1px solid rgb(188, 188, 188);
+}
+
+.even-row {
+    background-color: rgb(243, 243, 243);
+}
+
+.odd-row {
+    background-color: rgb(253, 253, 253);
+}
+
+.center-text {
+    padding: 8px;
+}
+
+.global-entry-area {
+    border: 1px solid rgb(195, 195, 195);
+    border-radius: 4px;
+    margin-top: 15px;
+    padding: 10px;
+}
+
+.global-entry-title {
+    font-size: 14px;
+    font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: rgb(88, 93, 95);
+    border-bottom: 1px solid rgb(220, 220, 220);
+    margin-bottom: 3px;
+}
+
+.custom-text-area {
+    border-radius: 3px;
+    width: 99%;
+    height: 70px;
+}
+
+.help-icon {
+    color: rgb(38, 121, 255);
+    padding-left: 5px;
+}
+
+.hbv-color {
+    background-color: rgb(16, 113, 188);
+}
+
+.hcv-color {
+    background-color: rgb(189, 7, 17);
+}
+
+.checkbox-header {
+    border: 1px solid rgb(221, 221, 221);
+    text-align: center;
+    padding-top: 5px;
+    height: 20px;
+    font-size: 12px;
+    color: rgb(221, 221, 221);
+}
+
+.ui-tabs-anchor {
+    outline: none;
+}
