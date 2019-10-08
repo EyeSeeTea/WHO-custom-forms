@@ -1,0 +1,2782 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function() {
+      $("#mod2_tabs").tabs();
+    });
+
+    var yespartialno = [
+      "afgPWA9EO9d",
+      "eaxvIzrZDyz",
+      "RQZXBtwBToV",
+      "h580rDibPjP",
+      "c3tvWVyotti",
+      "u06rnfoY988",
+      "LTTnjIq6X6j",
+      "HZci3ozLEL4",
+      "aEDrisPWh6i",
+      "ubXH2Mko823",
+      "U5S2sbEnGT9",
+      "Qj97xn0ejxd",
+      "j4pHY4ToKPi",
+      "QcMU3E5D2eN",
+      "KcDPaDGLf9P",
+      "KYNXNZlaQBc",
+      "o64uNjIuRXr",
+      "nwRqq6w8MKq",
+      "Mx06wOF9Edi",
+      "PPfHCBsbdGU",
+      "zHNwRzmyOeL",
+      "x9MXiBfrfFG",
+      "XQgL1GHsnrT",
+      "wqcSEURdLVe",
+      "hJJOo4gRjQA",
+      "gs8HWsMAFFl",
+      "PE5XG7ZZgdc",
+      "wY9lL47ojb6",
+      "Dn2P7GXFCTr",
+      "EGGz5kkdVNl",
+      "GNErbB4poQO",
+      "Km3h0ydFI2j",
+      "qZ9h4jv9cgO",
+      "OBs444qCCU9",
+      "pnySnJ6om1A",
+      "l1U9oBgd2Pg",
+      "bq7cDa5kIgG",
+      "fLT65oEdyRn",
+      "TdnUj1l3Z4i",
+      "mHNrhvqWd3X",
+      "fhe12emlYec",
+      "JLq8DlnnFF9",
+      "Fu0P8tj6k3M",
+      "GEDhlVgull2",
+      "WsHpge8yVZM",
+      "cemAvj8TkMX",
+      "wTTVz32PAOn",
+      "YDkIX98NArQ",
+      "v6O0oWTXY34",
+      "VCZsq4EzHM1",
+      "m8xYEbXD3Ee",
+      "TYtubJjtDDs",
+      "pWAGDlaDi7y",
+      "kxeieT5f8wy",
+      "H4L8KbENVVk",
+      "PG2MTqzwOAT",
+      "KPlsuTaezlc",
+      "VQk5aenfDR4",
+      "Pf77Sb5TYCR",
+      "pyMHfUIDXRf",
+      "LJNl2upvs8S",
+      "YVbwt0lb1lA",
+      "vKV2AVBhstz"
+    ];
+    var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
+    var comments = [
+      "slfNDnwGD4i",
+      "KM3j2qURZvm",
+      "IRewF07UDgW",
+      "IS6oWwtsElu",
+      "S0cJazBoB9r",
+      "ZVZnw9CazmI",
+      "RBkF8N37tQl",
+      "xIdJZgy5GSy",
+      "oTTeFlxkljB",
+      "TVuwNm1PyRC",
+      "SUvvKWCJO5S",
+      "GRpQAAvLFM6",
+      "Bvwo2Tnwg6K",
+      "BAYPJS2PaYa",
+      "AuztI35M2eU",
+      "CHeEETUlnlu",
+      "hUTcFeRUFve",
+      "aNkwiAZwM7f",
+      "adhcUwpwjrt",
+      "EUuaZTsVCUP",
+      "HHu5mmkn9nI",
+      "SvnuCPrV3m8",
+      "M09xmOtGx9r",
+      "W1nqjNXF8t7",
+      "vVPyD60zs2c",
+      "qDrIfDpZQzJ",
+      "oBOgUPGLDM8",
+      "K9YrD3rxhIm",
+      "s6Rrf01L045",
+      "KI35YVBqwOH",
+      "Iz9uNISIBW5",
+      "BABcY9z1yhJ",
+      "kf5mAEgzRro",
+      "Px7yHDZGBQS",
+      "Jo5JCqQn6a4",
+      "HfUw03ynsgX",
+      "FbLuOUxYtvW",
+      "sIxOvk6qfU2",
+      "dNdiNzgxEAO",
+      "H7lhdWUUWxH",
+      "grFSq6NI6Rv",
+      "d5tEbnmf2Yl",
+      "zJNTztzEUjf",
+      "klUdBljsnYT",
+      "Ye7wRY6LeT4",
+      "OJ2BPEwWYG9",
+      "el5QnfrCW5R",
+      "w3Lz42yCAiU",
+      "uEt3e82IzsK",
+      "zAN1yQdYbcB",
+      "wTJuvXKZCrz",
+      "Z6c1T3O7q0S",
+      "GrZXd4osOGW",
+      "XQajU8YgbXg",
+      "ejraR8DfZPf",
+      "jQ05qNtE9HB",
+      "CPexoOTnUQZ",
+      "BK0kijGEWMy",
+      "EgaLdA1UaEV",
+      "gytTkeQWyoA",
+      "vRh6cPENAgr",
+      "kfQaLeZLepq",
+      "L8r8I4WDRUp"
+    ];
+
+    function updateCommentVisibility($textfield) {
+      const $checkboxes = $textfield
+        .closest("td")
+        .prev()
+        .find("input");
+      if ($checkboxes.is(":checked")) {
+        $textfield.removeAttr("disabled");
+        $textfield.css("background-color", "rgb(255, 255, 255)");
+      } else {
+        $textfield.prop("disabled", true);
+        $textfield.css("background-color", "rgb(204, 204, 204)");
+      }
+    }
+
+    function disableCommentLogic() {
+      $(".comments").toggle(false);
+      comments.forEach(function(comment) {
+        const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
+        updateCommentVisibility($textfield);
+        if ($textfield.val() !== "") {
+          $textfield
+            .closest("table")
+            .find(".comments")
+            .toggle(true);
+        }
+      });
+    }
+
+    yespartialno.forEach(function(dataElement) {
+      categoryIssues.forEach(function(option) {
+        $("#" + dataElement + "-" + option + "-val").on("click", function() {
+          const id = $(this).attr("id");
+          updateCommentVisibility(
+            $(this)
+              .closest("td")
+              .next()
+              .find("textarea")
+          );
+
+          if ($(this).is(":checked")) {
+            categoryIssues.forEach(function(id) {
+              if (id !== option) {
+                const str = "#" + dataElement + "-" + id + "-val";
+                if ($(str).is(":checked")) {
+                  $(str).click();
+                }
+              }
+            });
+          }
+        });
+      });
+    });
+
+    disableCommentLogic();
+    dhis2.util.on("dhis2.de.event.dataValuesLoaded", disableCommentLogic);
+
+    $(".comment-bubble").on("click", function() {
+      const col = $(this).parent()[0].cellIndex + 1;
+      $(this)
+        .closest("table")
+        .find("tr > *:nth-child(" + (col + 1) + ")")
+        .toggle();
+    });
+  });
+</script>
+<style type="text/css">
+  #cde table {
+    border-collapse: collapse;
+  }
+
+  #cde table,
+  #cde th,
+  #cde td {
+    border: 1px solid #c0c0c0;
+  }
+
+  #cde td,
+  #cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+    min-width: 170px;
+  }
+
+  .cde-greyfield {
+    background-color: #e0e0e0;
+  }
+
+  .comments textarea {
+    text-align: left;
+  }
+</style>
+<h3 style="text-align: center;">
+  <strong>Health Worker Force Education Regulation</strong>
+</h3>
+
+<h4 style="text-align: right;">
+  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
+    >Access the NHWA HANDBOOK</a
+  ><br />
+  <br />
+  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
+    >Access the NHWA USER GUIDE</a
+  >
+</h4>
+
+<div id="mod2_tabs">
+  <ul>
+    <li><a href="#tab0">Regulation&nbsp;</a></li>
+    <li><a href="#tab1">Accreditation</a></li>
+    <li><a href="#tab2">Lifelong Learning&nbsp;</a></li>
+    <li><a href="#tab3">Other Resources</a></li>
+  </ul>
+
+  <div id="tab0">
+    <h2>SECTION 1: Regulation</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th style="text-align: center;">
+              HWF Education and Training Programme
+            </th>
+            <th style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c892-ec17-157d-85389a275daf"
+                >Existence of national and/or sub-national standard<br />
+                on the duration and contents of education<br />
+                and training (3-01)</b
+              >
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td style="text-align: center;">
+              <input
+                id="afgPWA9EO9d-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="afgPWA9EO9d-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="afgPWA9EO9d-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="slfNDnwGD4i-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for General Medical Practitioner"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="eaxvIzrZDyz-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for General Medical Practitioner Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="eaxvIzrZDyz-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for General Medical Practitioner Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="eaxvIzrZDyz-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for General Medical Practitioner No"
+                value="[ Existence of national standard on the duration and contents of education and training for General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="KM3j2qURZvm-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for General Medical Practitioner"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="RQZXBtwBToV-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="RQZXBtwBToV-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="RQZXBtwBToV-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner No"
+                value="[ Existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="IRewF07UDgW-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="h580rDibPjP-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Nursing Professional Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="h580rDibPjP-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Nursing Professional Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="h580rDibPjP-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Nursing Professional No"
+                value="[ Existence of national standard on the duration and contents of education and training for Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="IS6oWwtsElu-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for Nursing Professional"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="c3tvWVyotti-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Midwifery Professional Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="c3tvWVyotti-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Midwifery Professional Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="c3tvWVyotti-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Midwifery Professional No"
+                value="[ Existence of national standard on the duration and contents of education and training for Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="S0cJazBoB9r-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for Midwifery Professional"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td style="text-align: center;">
+              <input
+                id="u06rnfoY988-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Dentist Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for Dentist Yes ]"
+              />Yes
+              <input
+                id="u06rnfoY988-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Dentist Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for Dentist Partial ]"
+              />Partial
+              <input
+                id="u06rnfoY988-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Dentist No"
+                value="[ Existence of national standard on the duration and contents of education and training for Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="ZVZnw9CazmI-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for Dentist"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for Dentist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td style="text-align: center;">
+              <input
+                id="LTTnjIq6X6j-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Pharmacist Yes"
+                value="[ Existence of national standard on the duration and contents of education and training for Pharmacist Yes ]"
+              />Yes
+              <input
+                id="LTTnjIq6X6j-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Pharmacist Partial"
+                value="[ Existence of national standard on the duration and contents of education and training for Pharmacist Partial ]"
+              />Partial
+              <input
+                id="LTTnjIq6X6j-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on the duration and contents of education and training for Pharmacist No"
+                value="[ Existence of national standard on the duration and contents of education and training for Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="RBkF8N37tQl-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on the duration and contents of education and training for Pharmacist"
+                value="[ Comment of existence of national standard on the duration and contents of education and training for Pharmacist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab1">
+    <h2>SECTION 2: Accreditation</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th style="text-align: center;">
+              HWF Education and Training Programme
+            </th>
+            <th style="text-align: center;">
+              Existence of national and/or sub-national mechanisms<br />
+              for accreditation of education and training institutions<br />
+              and their programmes, by programme, by occupation (3-02)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">
+              Existence of national and/or subnational mechanism<br />
+              on social accountability in accreditation (3-03)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">Effective implementation (3-04)</th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">
+              Existence of national and/or sub-national standards<br />
+              for the Social Determinants of Health (3-05)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">
+              Existence of national and/or sub-national standards on<br />
+              interprofessional education in accreditation standards (3-06)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">
+              Existence of cooperation between education and training<br />
+              institutions and health professional regulators to agree on the
+              standards (3-07)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td style="text-align: center;">
+              <input
+                id="HZci3ozLEL4-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="HZci3ozLEL4-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="HZci3ozLEL4-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="xIdJZgy5GSy-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Medical Doctor"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Medical Doctor ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aEDrisPWh6i-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="aEDrisPWh6i-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="aEDrisPWh6i-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="oTTeFlxkljB-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability Medical Doctors"
+                value="[ Comment of existence of national standard on mechanism on social accountability Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ubXH2Mko823-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="ubXH2Mko823-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="ubXH2Mko823-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="TVuwNm1PyRC-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability Medical Doctors"
+                value="[ Comment of effective implementation of national standards on social accountability Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="U5S2sbEnGT9-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="U5S2sbEnGT9-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="U5S2sbEnGT9-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="SUvvKWCJO5S-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Medical Doctors"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Qj97xn0ejxd-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="Qj97xn0ejxd-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="Qj97xn0ejxd-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="GRpQAAvLFM6-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Medical Doctors"
+                value="[ Comment of existence of national standard on interprofessional education in accreditation standards Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="j4pHY4ToKPi-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="j4pHY4ToKPi-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="j4pHY4ToKPi-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Bvwo2Tnwg6K-Xr12mI7VPn3-val"
+                title="Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Medical Doctors"
+                value="[ Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="QcMU3E5D2eN-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="QcMU3E5D2eN-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="QcMU3E5D2eN-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="BAYPJS2PaYa-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KcDPaDGLf9P-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability General Medical Practitioner Yes"
+                value="[ Existence of national standard on mechanism on social accountability General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="KcDPaDGLf9P-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability General Medical Practitioner Partial"
+                value="[ Existence of national standard on mechanism on social accountability General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="KcDPaDGLf9P-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability General Medical Practitioner No"
+                value="[ Existence of national standard on mechanism on social accountability General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="AuztI35M2eU-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability General Medical Practitioner"
+                value="[ Comment of existence of national standard on mechanism on social accountability General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KYNXNZlaQBc-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability General Medical Practitioner Yes"
+                value="[ Effective implementation of national standards on social accountability General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="KYNXNZlaQBc-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability General Medical Practitioner Partial"
+                value="[ Effective implementation of national standards on social accountability General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="KYNXNZlaQBc-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability General Medical Practitioner No"
+                value="[ Effective implementation of national standards on social accountability General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="CHeEETUlnlu-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability General Medical Practitioner"
+                value="[ Comment of effective implementation of national standards on social accountability General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="o64uNjIuRXr-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="o64uNjIuRXr-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="o64uNjIuRXr-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="hUTcFeRUFve-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Generalist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="nwRqq6w8MKq-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="nwRqq6w8MKq-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="nwRqq6w8MKq-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="aNkwiAZwM7f-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner"
+                value="[ Comment of existence of national standard on interprofessional education in accreditation standards Generalist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Mx06wOF9Edi-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="Mx06wOF9Edi-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="Mx06wOF9Edi-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="adhcUwpwjrt-Xr12mI7VPn3-val"
+                title="Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner"
+                value="[ Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="PPfHCBsbdGU-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="PPfHCBsbdGU-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="PPfHCBsbdGU-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="EUuaZTsVCUP-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="zHNwRzmyOeL-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard on mechanism on social accountability Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="zHNwRzmyOeL-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard on mechanism on social accountability Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="zHNwRzmyOeL-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Specialist Medical Practitioner No"
+                value="[ Existence of national standard on mechanism on social accountability Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="HHu5mmkn9nI-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard on mechanism on social accountability Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="x9MXiBfrfFG-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Specialist Medical Practitioner Yes"
+                value="[ Effective implementation of national standards on social accountability Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="x9MXiBfrfFG-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Specialist Medical Practitioner Partial"
+                value="[ Effective implementation of national standards on social accountability Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="x9MXiBfrfFG-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Specialist Medical Practitioner No"
+                value="[ Effective implementation of national standards on social accountability Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="SvnuCPrV3m8-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability Specialist Medical Practitioner"
+                value="[ Comment of effective implementation of national standards on social accountability Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="XQgL1GHsnrT-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="XQgL1GHsnrT-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="XQgL1GHsnrT-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="M09xmOtGx9r-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="wqcSEURdLVe-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="wqcSEURdLVe-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="wqcSEURdLVe-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="W1nqjNXF8t7-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="hJJOo4gRjQA-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="hJJOo4gRjQA-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="hJJOo4gRjQA-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="vVPyD60zs2c-Xr12mI7VPn3-val"
+                title="Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner"
+                value="[ Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="gs8HWsMAFFl-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="gs8HWsMAFFl-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="gs8HWsMAFFl-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="qDrIfDpZQzJ-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="PE5XG7ZZgdc-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Nursing Professional Yes"
+                value="[ Existence of national standard on mechanism on social accountability Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="PE5XG7ZZgdc-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Nursing Professional Partial"
+                value="[ Existence of national standard on mechanism on social accountability Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="PE5XG7ZZgdc-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Nursing Professional No"
+                value="[ Existence of national standard on mechanism on social accountability Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="oBOgUPGLDM8-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability Nursing Professional"
+                value="[ Comment of existence of national standard on mechanism on social accountability Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="wY9lL47ojb6-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Nursing Professional Yes"
+                value="[ Effective implementation of national standards on social accountability Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="wY9lL47ojb6-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Nursing Professional Partial"
+                value="[ Effective implementation of national standards on social accountability Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="wY9lL47ojb6-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Nursing Professional No"
+                value="[ Effective implementation of national standards on social accountability Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="K9YrD3rxhIm-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability Nursing Professional"
+                value="[ Comment of effective implementation of national standards on social accountability Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Dn2P7GXFCTr-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Nursing Professional Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="Dn2P7GXFCTr-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Nursing Professional Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="Dn2P7GXFCTr-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Nursing Professional No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="s6Rrf01L045-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Nursing Professional"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="EGGz5kkdVNl-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Nursing Professional Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="EGGz5kkdVNl-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Nursing Professional Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="EGGz5kkdVNl-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Nursing Professional No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="KI35YVBqwOH-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Nursing Professional"
+                value="[ Comment of existence of national standard on interprofessional education in accreditation standards Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="GNErbB4poQO-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="GNErbB4poQO-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="GNErbB4poQO-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Iz9uNISIBW5-Xr12mI7VPn3-val"
+                title="Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional"
+                value="[ Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="Km3h0ydFI2j-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="Km3h0ydFI2j-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="Km3h0ydFI2j-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="BABcY9z1yhJ-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qZ9h4jv9cgO-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Midwifery Professional Yes"
+                value="[ Existence of national standard on mechanism on social accountability Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="qZ9h4jv9cgO-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Midwifery Professional Partial"
+                value="[ Existence of national standard on mechanism on social accountability Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="qZ9h4jv9cgO-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Midwifery Professional No"
+                value="[ Existence of national standard on mechanism on social accountability Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="kf5mAEgzRro-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability Midwifery Professional"
+                value="[ Comment of existence of national standard on mechanism on social accountability Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OBs444qCCU9-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Midwifery Professional Yes"
+                value="[ Effective implementation of national standards on social accountability Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="OBs444qCCU9-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Midwifery Professional Partial"
+                value="[ Effective implementation of national standards on social accountability Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="OBs444qCCU9-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Midwifery Professional No"
+                value="[ Effective implementation of national standards on social accountability Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Px7yHDZGBQS-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability Midwifery Professional"
+                value="[ Comment of effective implementation of national standards on social accountability Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="pnySnJ6om1A-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Midwifery Professional Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="pnySnJ6om1A-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Midwifery Professional Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="pnySnJ6om1A-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Midwifery Professional No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Jo5JCqQn6a4-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Midwifery Professional"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="l1U9oBgd2Pg-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Midwifery Professional Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="l1U9oBgd2Pg-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Midwifery Professional Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="l1U9oBgd2Pg-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Midwifery Professional No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="HfUw03ynsgX-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Midwifery Professional"
+                value="[Comment of existence of national standard on interprofessional education in accreditation standards Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="bq7cDa5kIgG-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="bq7cDa5kIgG-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="bq7cDa5kIgG-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="FbLuOUxYtvW-Xr12mI7VPn3-val"
+                title="Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional"
+                value="[Comment of existence of cooperation between education and training institutions and health professional regulators to agree on the standards Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td style="text-align: center;">
+              <input
+                id="fLT65oEdyRn-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist Yes ]"
+              />Yes
+              <input
+                id="fLT65oEdyRn-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist Partial ]"
+              />Partial
+              <input
+                id="fLT65oEdyRn-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="sIxOvk6qfU2-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="TdnUj1l3Z4i-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Dentist Yes"
+                value="[ Existence of national standard on mechanism on social accountability Dentist Yes ]"
+              />Yes
+              <input
+                id="TdnUj1l3Z4i-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Dentist Partial"
+                value="[ Existence of national standard on mechanism on social accountability Dentist Partial ]"
+              />Partial
+              <input
+                id="TdnUj1l3Z4i-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Dentist No"
+                value="[ Existence of national standard on mechanism on social accountability Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="dNdiNzgxEAO-Xr12mI7VPn3-val"
+                title="Comment of Existence of national standard on mechanism on social accountability Dentist"
+                value="[ Comment of Existence of national standard on mechanism on social accountability Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="mHNrhvqWd3X-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Dentist Yes"
+                value="[ Effective implementation of national standards on social accountability Dentist Yes ]"
+              />Yes
+              <input
+                id="mHNrhvqWd3X-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Dentist Partial"
+                value="[ Effective implementation of national standards on social accountability Dentist Partial ]"
+              />Partial
+              <input
+                id="mHNrhvqWd3X-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Dentist No"
+                value="[ Effective implementation of national standards on social accountability Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="H7lhdWUUWxH-Xr12mI7VPn3-val"
+                title="Comment of Effective implementation of national standards on social accountability Dentist"
+                value="[ Comment of Effective implementation of national standards on social accountability Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="fhe12emlYec-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Dentist Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Dentist Yes ]"
+              />Yes
+              <input
+                id="fhe12emlYec-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Dentist Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Dentist Partial ]"
+              />Partial
+              <input
+                id="fhe12emlYec-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Dentist No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="grFSq6NI6Rv-Xr12mI7VPn3-val"
+                title="Comment of Existence of national standard for considering social determinants of health accreditation for Dentist"
+                value="[ Comment of Existence of national standard for considering social determinants of health accreditation for Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="JLq8DlnnFF9-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Dentist Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Dentist Yes ]"
+              />Yes
+              <input
+                id="JLq8DlnnFF9-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Dentist Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Dentist Partial ]"
+              />Partial
+              <input
+                id="JLq8DlnnFF9-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Dentist No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="d5tEbnmf2Yl-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Dentist"
+                value="[ Comment of existence of national standard on interprofessional education in accreditation standards Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Fu0P8tj6k3M-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist Yes ]"
+              />Yes
+              <input
+                id="Fu0P8tj6k3M-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist Partial ]"
+              />Partial
+              <input
+                id="Fu0P8tj6k3M-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="zJNTztzEUjf-Xr12mI7VPn3-val"
+                title="Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist"
+                value="[ Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Dentist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td style="text-align: center;">
+              <input
+                id="GEDhlVgull2-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist Yes"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist Yes ]"
+              />Yes
+              <input
+                id="GEDhlVgull2-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist Partial"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist Partial ]"
+              />Partial
+              <input
+                id="GEDhlVgull2-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist No"
+                value="[ Existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="klUdBljsnYT-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist"
+                value="[ Comment of existence of national standard on mechanisms for accreditation of education and training institutions and their programmes Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="WsHpge8yVZM-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Pharmacist Yes"
+                value="[ Existence of national standard on mechanism on social accountability Pharmacist Yes ]"
+              />Yes
+              <input
+                id="WsHpge8yVZM-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Pharmacist Partial"
+                value="[ Existence of national standard on mechanism on social accountability Pharmacist Partial ]"
+              />Partial
+              <input
+                id="WsHpge8yVZM-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on mechanism on social accountability Pharmacist No"
+                value="[ Existence of national standard on mechanism on social accountability Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Ye7wRY6LeT4-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on mechanism on social accountability Pharmacist"
+                value="[ Comment of existence of national standard on mechanism on social accountability Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="cemAvj8TkMX-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Pharmacist Yes"
+                value="[ Effective implementation of national standards on social accountability Pharmacist Yes ]"
+              />Yes
+              <input
+                id="cemAvj8TkMX-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Pharmacist Partial"
+                value="[ Effective implementation of national standards on social accountability Pharmacist Partial ]"
+              />Partial
+              <input
+                id="cemAvj8TkMX-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Effective implementation of national standards on social accountability Pharmacist No"
+                value="[ Effective implementation of national standards on social accountability Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="OJ2BPEwWYG9-Xr12mI7VPn3-val"
+                title="Comment of effective implementation of national standards on social accountability Pharmacist"
+                value="[ Comment of effective implementation of national standards on social accountability Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="wTTVz32PAOn-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Pharmacist Yes"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Pharmacist Yes ]"
+              />Yes
+              <input
+                id="wTTVz32PAOn-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Pharmacist Partial"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Pharmacist Partial ]"
+              />Partial
+              <input
+                id="wTTVz32PAOn-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for considering social determinants of health accreditation for Pharmacist No"
+                value="[ Existence of national standard for considering social determinants of health accreditation for Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="el5QnfrCW5R-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for considering social determinants of health accreditation for Pharmacist"
+                value="[ Comment of existence of national standard for considering social determinants of health accreditation for Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="YDkIX98NArQ-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Pharmacist Yes"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Pharmacist Yes ]"
+              />Yes
+              <input
+                id="YDkIX98NArQ-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Pharmacist Partial"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Pharmacist Partial ]"
+              />Partial
+              <input
+                id="YDkIX98NArQ-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard on interprofessional education in accreditation standards Pharmacist No"
+                value="[ Existence of national standard on interprofessional education in accreditation standards Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="w3Lz42yCAiU-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard on interprofessional education in accreditation standards Pharmacist"
+                value="[ Comment of existence of national standard on interprofessional education in accreditation standards Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="v6O0oWTXY34-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist Yes"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist Yes ]"
+              />Yes
+              <input
+                id="v6O0oWTXY34-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist Partial"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist Partial ]"
+              />Partial
+              <input
+                id="v6O0oWTXY34-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist No"
+                value="[ Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="uEt3e82IzsK-Xr12mI7VPn3-val"
+                title="Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist"
+                value="[ Comment of Existence of cooperation between education and training institutions and health professional regulators to agree on the standards Pharmacist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab2">
+    <h2>
+      SECTION 3: Continuing professional development and&nbsp;In-service
+      training
+    </h2>
+
+    <div id="cde">&nbsp;</div>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th style="text-align: center;">Occupation</th>
+            <th style="text-align: center;">
+              Existence of national and/or subnational mechanism<br />
+              on continuing professional development (3-08)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+            <th style="text-align: center;">
+              Existence of in-service training as an element of<br />
+              national education plans for health workers (3-09)
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td style="text-align: center;">
+              <input
+                id="VCZsq4EzHM1-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="VCZsq4EzHM1-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="VCZsq4EzHM1-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="zAN1yQdYbcB-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Medical Doctors"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="m8xYEbXD3Ee-I93t0K7b1oN-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Yes
+              <input
+                id="m8xYEbXD3Ee-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />Partial
+              <input
+                id="m8xYEbXD3Ee-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="undefined"
+                value="[ undefined ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="wTJuvXKZCrz-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Medical Doctorss"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Medical Doctors ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="TYtubJjtDDs-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for General Medical Practitioner Yes"
+                value="[ Existence of national standard for Continuing Professional Development for General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="TYtubJjtDDs-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for General Medical Practitioner Partial"
+                value="[ Existence of national standard for Continuing Professional Development for General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="TYtubJjtDDs-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for General Medical Practitioner No"
+                value="[ Existence of national standard for Continuing Professional Development for General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="Z6c1T3O7q0S-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for General Medical Practitioner"
+                value="[ Comment of existence of national standard for Continuing Professional Development for General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="pWAGDlaDi7y-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="pWAGDlaDi7y-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="pWAGDlaDi7y-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="GrZXd4osOGW-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce General Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kxeieT5f8wy-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner Yes"
+                value="[ Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="kxeieT5f8wy-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner Partial"
+                value="[ Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="kxeieT5f8wy-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner No"
+                value="[ Existence of national standard for Continuing Professional Development for Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="XQajU8YgbXg-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Specialist Medical Practitioner"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H4L8KbENVVk-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner Yes ]"
+              />Yes
+              <input
+                id="H4L8KbENVVk-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner Partial ]"
+              />Partial
+              <input
+                id="H4L8KbENVVk-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="ejraR8DfZPf-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Specialist Medical Practitioner ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="PG2MTqzwOAT-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Nursing Professional Yes"
+                value="[ Existence of national standard for Continuing Professional Development for Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="PG2MTqzwOAT-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Nursing Professional Partial"
+                value="[ Existence of national standard for Continuing Professional Development for Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="PG2MTqzwOAT-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Nursing Professional No"
+                value="[ Existence of national standard for Continuing Professional Development for Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="jQ05qNtE9HB-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Nursing Professional"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KPlsuTaezlc-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Nursing Professional Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Nursing Professional Yes ]"
+              />Yes
+              <input
+                id="KPlsuTaezlc-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Nursing Professional Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Nursing Professional Partial ]"
+              />Partial
+              <input
+                id="KPlsuTaezlc-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Nursing Professional No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Nursing Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="CPexoOTnUQZ-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Nursing Professional"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Nursing Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="VQk5aenfDR4-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Midwifery Professional Yes"
+                value="[ Existence of national standard for Continuing Professional Development for Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="VQk5aenfDR4-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Midwifery Professional Partial"
+                value="[ Existence of national standard for Continuing Professional Development for Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="VQk5aenfDR4-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Midwifery Professional No"
+                value="[ Existence of national standard for Continuing Professional Development for Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="BK0kijGEWMy-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Midwifery Professional"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Pf77Sb5TYCR-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional Yes ]"
+              />Yes
+              <input
+                id="Pf77Sb5TYCR-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional Partial ]"
+              />Partial
+              <input
+                id="Pf77Sb5TYCR-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Midwifery Professional No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="EgaLdA1UaEV-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Midwifery Professional"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Midwifery Professional ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td style="text-align: center;">
+              <input
+                id="pyMHfUIDXRf-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Dentist Yes"
+                value="[ Existence of national standard for Continuing Professional Development for Dentist Yes ]"
+              />Yes
+              <input
+                id="pyMHfUIDXRf-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Dentist Partial"
+                value="[ Existence of national standard for Continuing Professional Development for Dentist Partial ]"
+              />Partial
+              <input
+                id="pyMHfUIDXRf-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Dentist No"
+                value="[ Existence of national standard for Continuing Professional Development for Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="gytTkeQWyoA-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Dentist"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Dentist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="LJNl2upvs8S-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Dentist Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Dentist Yes ]"
+              />Yes
+              <input
+                id="LJNl2upvs8S-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Dentist Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Dentist Partial ]"
+              />Partial
+              <input
+                id="LJNl2upvs8S-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Dentist No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Dentist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="vRh6cPENAgr-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Dentist"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Dentist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td style="text-align: center;">
+              <input
+                id="YVbwt0lb1lA-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Pharmacist Yes"
+                value="[ Existence of national standard for Continuing Professional Development for Pharmacist Yes ]"
+              />Yes
+              <input
+                id="YVbwt0lb1lA-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Pharmacist Partial"
+                value="[ Existence of national standard for Continuing Professional Development for Pharmacist Partial ]"
+              />Partial
+              <input
+                id="YVbwt0lb1lA-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national standard for Continuing Professional Development for Pharmacist No"
+                value="[ Existence of national standard for Continuing Professional Development for Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="kfQaLeZLepq-Xr12mI7VPn3-val"
+                title="Comment of existence of national standard for Continuing Professional Development for Pharmacist"
+                value="[ Comment of existence of national standard for Continuing Professional Development for Pharmacist ]"
+              >
+              </textarea>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="vKV2AVBhstz-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Pharmacist Yes"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Pharmacist Yes ]"
+              />Yes
+              <input
+                id="vKV2AVBhstz-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Pharmacist Partial"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Pharmacist Partial ]"
+              />Partial
+              <input
+                id="vKV2AVBhstz-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of in-service training as an element of national education plans for the health workforce Pharmacist No"
+                value="[ Existence of in-service training as an element of national education plans for the health workforce Pharmacist No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="L8r8I4WDRUp-Xr12mI7VPn3-val"
+                title="Comment of existence of in-service training as an element of national education plans for the health workforce Pharmacist"
+                value="[ Comment of existence of in-service training as an element of national education plans for the health workforce Pharmacist ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab3">
+    <h2>SECTION 4: HWF OTHER RESOURCES</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Upload other resources</td>
+            <td>
+              <input
+                id="GuVpRPGCTK4-Xr12mI7VPn3-val"
+                name="entryfield"
+                title="HWF Module 3 File upload"
+                value="[ HWF Module 3 File upload ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,1236 @@
+<script type="text/javascript">
+  $(document).ready(function() {
+    $(function() {
+      $("#mod2_tabs").tabs();
+    });
+
+    var yespartialno = ["Ybz3qUCWYKC"];
+    var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
+    var comments = ["fXxS36qL9Vt"];
+
+    function updateCommentVisibility($textfield) {
+      const $checkboxes = $textfield
+        .closest("td")
+        .prev()
+        .find("input");
+      if ($checkboxes.is(":checked")) {
+        $textfield.removeAttr("disabled");
+        $textfield.css("background-color", "rgb(255, 255, 255)");
+      } else {
+        $textfield.prop("disabled", true);
+        $textfield.css("background-color", "rgb(204, 204, 204)");
+      }
+    }
+
+    function disableCommentLogic() {
+      $(".comments").toggle(false);
+      comments.forEach(function(comment) {
+        const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
+        updateCommentVisibility($textfield);
+        if ($textfield.val() !== "") {
+          $textfield
+            .closest("table")
+            .find(".comments")
+            .toggle(true);
+        }
+      });
+    }
+
+    yespartialno.forEach(function(dataElement) {
+      categoryIssues.forEach(function(option) {
+        $("#" + dataElement + "-" + option + "-val").on("click", function() {
+          const id = $(this).attr("id");
+          updateCommentVisibility(
+            $(this)
+              .closest("td")
+              .next()
+              .find("textarea")
+          );
+
+          if ($(this).is(":checked")) {
+            categoryIssues.forEach(function(id) {
+              if (id !== option) {
+                const str = "#" + dataElement + "-" + id + "-val";
+                if ($(str).is(":checked")) {
+                  $(str).click();
+                }
+              }
+            });
+          }
+        });
+      });
+    });
+
+    disableCommentLogic();
+    dhis2.util.on("dhis2.de.event.dataValuesLoaded", disableCommentLogic);
+
+    $(".comment-bubble").on("click", function() {
+      const col = $(this).parent()[0].cellIndex + 1;
+      $(this)
+        .closest("table")
+        .find("tr > *:nth-child(" + (col + 1) + ")")
+        .toggle();
+    });
+  });
+</script>
+<style type="text/css">
+  #cde table {
+    border-collapse: collapse;
+  }
+
+  #cde table,
+  #cde th,
+  #cde td {
+    border: 1px solid #c0c0c0;
+  }
+
+  #cde td,
+  #cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .cde-greyfield {
+    background-color: #e0e0e0;
+  }
+
+  .yespartialno {
+    min-width: 170px;
+  }
+
+  .comments textarea {
+    min-width: 264px;
+    min-height: 45px;
+    text-align: left;
+    padding: 4px;
+  }
+</style>
+<h3 style="text-align: center;">
+  <strong>Health Workforce Education Finances</strong>
+</h3>
+
+<h4 style="text-align: right;">
+  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
+    >Access the NHWA HANDBOOK</a
+  ><br />
+  <br />
+  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
+    >Access the NHWA USER GUIDE</a
+  >
+</h4>
+
+<div id="mod2_tabs">
+  <ul>
+    <li><a href="#tab0">Finance</a></li>
+    <li><a href="#tab1">Cost per program</a></li>
+    <li><a href="#tab2">Specialist Costs</a></li>
+    <li><a href="#tab3">Lifelong Learning</a></li>
+    <li><a href="#tab4">Other Resources</a></li>
+  </ul>
+
+  <div id="tab0">
+    <h2>SECTION 1: HWF Education Finances</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="2">SN</th>
+            <th colspan="1" rowspan="2" style="text-align: center;">Item</th>
+            <th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+            <th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Out of Pockets</th>
+            <th style="text-align: center;">Official Development Assistance</th>
+            <th style="text-align: center;">Others</th>
+          </tr>
+        </thead>
+        <body>
+          <tr>
+            <td>1</td>
+            <td>
+              Total expenditure on higher education (including for non-health
+              sectors) (4-01)
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KzzMv68cifG-HQPWV8cT7li-val"
+                name="entryfield"
+                title="Total expenditure on higher education (including for non-health sectors) Government"
+                value="[ Total expenditure on higher education (including for non-health sectors) Government ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KzzMv68cifG-FiRcnmXF1Yg-val"
+                name="entryfield"
+                title="Total expenditure on higher education (including for non-health sectors) Out of Pocket"
+                value="[ Total expenditure on higher education (including for non-health sectors) Out of Pocket ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KzzMv68cifG-QKhM7ublqzd-val"
+                name="entryfield"
+                title="Total expenditure on higher education (including for non-health sectors) Official Development Assistance"
+                value="[ Total expenditure on higher education (including for non-health sectors) Official Development Assistance ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="KzzMv68cifG-txxKPnVUGvV-val"
+                name="entryfield"
+                title="Total expenditure on higher education (including for non-health sectors) Others"
+                value="[ Total expenditure on higher education (including for non-health sectors) Others ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <p>
+                Total expenditure on health workforce pre-service
+                education&nbsp;(4-02)
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Z6Wd8wiIAfz-HQPWV8cT7li-val"
+                name="entryfield"
+                title="Total expenditure on health workforce pre-service education By Ownership Government"
+                value="[ Total expenditure on health workforce pre-service education By Ownership Government ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Z6Wd8wiIAfz-FiRcnmXF1Yg-val"
+                name="entryfield"
+                title="Total expenditure on health workforce pre-service education By Ownership Out of Pocket"
+                value="[ Total expenditure on health workforce pre-service education By Ownership Out of Pocket ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Z6Wd8wiIAfz-QKhM7ublqzd-val"
+                name="entryfield"
+                title="Total expenditure on health workforce pre-service education By Ownership Official Development Assistance"
+                value="[ Total expenditure on health workforce pre-service education By Ownership Official Development Assistance ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Z6Wd8wiIAfz-txxKPnVUGvV-val"
+                name="entryfield"
+                title="Total expenditure on health workforce pre-service education By Ownership Others"
+                value="[ Total expenditure on health workforce pre-service education By Ownership Others ]"
+              />
+            </td>
+          </tr>
+        </body>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <head>
+          <tr>
+            <th><strong>SN</strong></th>
+            <th style="text-align: center;"><strong>Item</strong></th>
+            <th style="text-align: center;">
+              Value
+            </th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+          </tr>
+        </head>
+
+        <body>
+          <tr>
+            <td>1</td>
+            <td>
+              Existence of national health workforce strategies and national
+              institutional financing reforms that identify and <br />commit
+              adequate budgetary resources for transformative
+              education&nbsp;(4-04)
+            </td>
+            <td class="yespartialno" style="text-align: center;">
+              <!--<input id="Ybz3qUCWYKC-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+                id="Ybz3qUCWYKC-I93t0K7b1oN-val"
+                name="entryfield"
+                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes"
+                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes ]"
+              />Yes
+              <input
+                id="Ybz3qUCWYKC-Xgr3PJxcWfJ-val"
+                name="entryfield"
+                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial"
+                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial ]"
+              />Partial
+              <input
+                id="Ybz3qUCWYKC-Y7EAGQA1bfv-val"
+                name="entryfield"
+                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No"
+                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No ]"
+              />No
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <textarea
+                name="entryfield"
+                class="entryfield"
+                id="fXxS36qL9Vt-Xr12mI7VPn3-val"
+                title="Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education"
+                value="[ Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education ]"
+              >
+              </textarea>
+            </td>
+          </tr>
+        </body>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab1">
+    <h2>SECTION 2: HWF Education Costs</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th style="text-align: center;">
+              <br />
+              <meta charset="utf-8" />
+              <p dir="ltr">
+                <b id="docs-internal-guid-f811d416-d0a7-c8c5-503f-b1b38d69ead1"
+                  >HWF education and training programme</b
+                >
+              </p>
+            </th>
+            <th style="text-align: center;">
+              Tuition Fee by Student enrolled (4-03)
+            </th>
+            <th style="text-align: center;">
+              Public Expenditure on HWF education&nbsp;(4-05)
+            </th>
+            <th style="text-align: center;">
+              Private Expenditure on HWF education&nbsp;(4-05)
+            </th>
+            <th style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8b1-66cf-6693-41ae8b129d45"
+                >Recurrent costs of qualified educators (4-07)</b
+              >
+            </th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Medical Doctors</td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Medical Doctors"
+                value="[ Tuition Fee by Student enrolled Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Medical Doctors"
+                value="[ Public Expenditure on HWF education Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Medical Doctors"
+                value="[ Private Expenditure on HWF education Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Medical Doctors"
+                value="[ Recurrent costs of qualified educators Medical Doctors ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled General Medical Practitioner"
+                value="[ Tuition Fee by Student enrolled General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education General Medical Practitioner"
+                value="[ Public Expenditure on HWF education General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education General Medical Practitioner"
+                value="[ Private Expenditure on HWF education General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators General Medical Practitioner"
+                value="[ Recurrent costs of qualified educators General Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Specialist Medical Practitioner"
+                value="[ Tuition Fee by Student enrolled Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Specialist Medical Practitioner"
+                value="[ Public Expenditure on HWF education Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Specialist Medical Practitioner"
+                value="[ Private Expenditure on HWF education Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Specialist Medical Practitioner"
+                value="[ Recurrent costs of qualified educators Specialist Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Nursing Professional</td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Nursing Professional"
+                value="[ Tuition Fee by Student enrolled Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Nursing Professional"
+                value="[ Public Expenditure on HWF education Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Nursing Professional"
+                value="[ Private Expenditure on HWF education Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Nursing Professional"
+                value="[ Recurrent costs of qualified educators Nursing Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Midwifery Professional</td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Midwifery Professional"
+                value="[ Tuition Fee by Student enrolled Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Midwifery Professional"
+                value="[ Public Expenditure on HWF education Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Midwifery Professional"
+                value="[ Private Expenditure on HWF education Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Midwifery Professional"
+                value="[ Recurrent costs of qualified educators Midwifery Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Dentist</td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Dentist"
+                value="[ Tuition Fee by Student enrolled Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Dentist"
+                value="[ Public Expenditure on HWF education Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Dentist"
+                value="[ Private Expenditure on HWF education Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Dentist"
+                value="[ Recurrent costs of qualified educators Dentist ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Pharmacist</td>
+            <td>
+              <input
+                id="EI6IOp5v4dR-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Tuition Fee by Student enrolled Pharmacist"
+                value="[ Tuition Fee by Student enrolled Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FQpontg7YBJ-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Public Expenditure on HWF education Pharmacist"
+                value="[ Public Expenditure on HWF education Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="tsRGEPI6G9W-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Private Expenditure on HWF education Pharmacist"
+                value="[ Private Expenditure on HWF education Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="FM20fzfsNov-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Recurrent costs of qualified educators Pharmacist"
+                value="[ Recurrent costs of qualified educators Pharmacist ]"
+              />
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab2">
+    <h2>SECTION 3: HWF Specialist Costs</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="3">SN</th>
+            <th colspan="1" rowspan="3" style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8b4-4f5f-68ad-f89e6454195c"
+                >Medical specialist<br />
+                education programmes</b
+              >
+            </th>
+            <th rowspan="3" style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8b4-4f5f-68ad-f89e6454195c"
+                >Total Cost per graduate in medical specialist<br />
+                education programmes&nbsp;</b
+              >(4-06)
+            </th>
+            <th colspan="4" rowspan="1" style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8b4-4f5f-68ad-f89e6454195c"
+                >Cost per graduate in medical specialist<br />
+                education programmes&nbsp;</b
+              >(4-06)
+            </th>
+          </tr>
+          <tr>
+            <th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+            <th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">
+              <p>Out of Pockets</p>
+
+              <p>(OoP)</p>
+            </th>
+            <th style="text-align: center;">
+              <p>Official Development</p>
+
+              <p>Assistance (ODA)</p>
+            </th>
+            <th style="text-align: center;">Other</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>General Paediatricians Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-qJgX0mO3ph7-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme General Paediatricians Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme General Paediatricians Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-qJgX0mO3ph7-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme General Paediatricians Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme General Paediatricians Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-qJgX0mO3ph7-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme General Paediatricians Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme General Paediatricians Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-qJgX0mO3ph7-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme General Paediatricians Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme General Paediatricians Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-qJgX0mO3ph7-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme General Paediatricians Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme General Paediatricians Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Obstetricians and Gynaecologists Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-ABubevCpjCV-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-ABubevCpjCV-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-ABubevCpjCV-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-ABubevCpjCV-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-ABubevCpjCV-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme Obstetricians and Gynaecologists Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Psychiatrists Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-wNJfYD50ZVE-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme Psychiatrists Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme Psychiatrists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-wNJfYD50ZVE-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme Psychiatrists Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme Psychiatrists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-wNJfYD50ZVE-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme Psychiatrists Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme Psychiatrists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-wNJfYD50ZVE-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme Psychiatrists Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme Psychiatrists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-wNJfYD50ZVE-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme Psychiatrists Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme Psychiatrists Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Medical group of Specialists Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-ByPnGTyTmYa-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme Medical group of Specialists Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme Medical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-ByPnGTyTmYa-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme Medical group of Specialists Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme Medical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-ByPnGTyTmYa-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-ByPnGTyTmYa-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-ByPnGTyTmYa-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme Medical group of Specialists Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Surgical group of Specialists Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-wJfQhJWdeLX-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-wJfQhJWdeLX-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-wJfQhJWdeLX-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-wJfQhJWdeLX-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-wJfQhJWdeLX-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme Surgical group of Specialists Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>Other Specialists Practitioner</td>
+            <td style="text-align: center;">
+              <input
+                id="ie5rMMLaKoX-EfAbB5kdjLD-val"
+                name="entryfield"
+                title="Total cost per graduate in medical specialist education programme Other Specialists Practitioner"
+                value="[ Total cost per graduate in medical specialist education programme Other Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="VGwyxy87JTn-EfAbB5kdjLD-val"
+                name="entryfield"
+                title="Public cost per graduate in medical specialist education programme Other Specialists Practitioner"
+                value="[ Public cost per graduate in medical specialist education programme Other Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qwZoBgLRrQf-EfAbB5kdjLD-val"
+                name="entryfield"
+                title="Private (OoP) cost per graduate in medical specialist education programme Other Specialists Practitioner"
+                value="[ Private (OoP) cost per graduate in medical specialist education programme Other Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Rx0MR32LJoK-EfAbB5kdjLD-val"
+                name="entryfield"
+                title="Private (ODA) cost per graduate in medical specialist education programme Other Specialists Practitioner"
+                value="[ Private (ODA) cost per graduate in medical specialist education programme Other Specialists Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="uEqspl3rRlH-EfAbB5kdjLD-val"
+                name="entryfield"
+                title="Private (Other) cost per graduate in medical specialist education programme Other Specialists Practitioner"
+                value="[ Private (Other) cost per graduate in medical specialist education programme Other Specialists Practitioner ]"
+              />
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab3">
+    <h2>SECTION 4: LIFELONG LEARNING</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="3">SN</th>
+            <th colspan="1" rowspan="3">
+              HWF education and training programme
+            </th>
+            <th colspan="4" rowspan="1">
+              Total expenditure on in-service training and continuing
+              professional development (4-08)
+            </th>
+          </tr>
+          <tr>
+            <th colspan="1" rowspan="2">Public</th>
+            <th colspan="3" rowspan="1">Private</th>
+          </tr>
+          <tr>
+            <th>Out of Pockets</th>
+            <th>Official Development Assistance</th>
+            <th>Others</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td>
+              <input
+                id="k31vRXPe1UA-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Medical Doctors"
+                value="[ Public expenditure on Continuing Professional Development Medical Doctors ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Medical Doctors"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Medical Doctors ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Medical Doctors"
+                value="[ Others expenditure on Continuing Professional Development Medical Doctors ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td style="text-align: Left;">
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td>
+              <input
+                id="k31vRXPe1UA-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development General Medical Practitioner"
+                value="[ Public expenditure on Continuing Professional Development General Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner"
+                value="[ Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development General Medical Practitioner"
+                value="[ Others expenditure on Continuing Professional Development General Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td style="text-align: Left;">
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td>
+              <input
+                id="k31vRXPe1UA-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Specialist Medical Practitioner"
+                value="[ Public expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Specialist Medical Practitioner"
+                value="[ Others expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td>
+              <input
+                id="k31vRXPe1UA-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Nursing Professional"
+                value="[ Public expenditure on Continuing Professional Development Nursing Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Nursing Professional"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Nursing Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Nursing Professional"
+                value="[ Others expenditure on Continuing Professional Development Nursing Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td>
+              <input
+                id="k31vRXPe1UA-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Midwifery Professional"
+                value="[ Public expenditure on Continuing Professional Development Midwifery Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Midwifery Professional"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Midwifery Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Midwifery Professional"
+                value="[ Others expenditure on Continuing Professional Development Midwifery Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td>
+              <input
+                id="k31vRXPe1UA-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Dentist"
+                value="[ Public expenditure on Continuing Professional Development Dentist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Dentist"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Dentist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Dentist"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Dentist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Dentist"
+                value="[ Others expenditure on Continuing Professional Development Dentist ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td>
+              <input
+                id="k31vRXPe1UA-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Public expenditure on Continuing Professional Development Pharmacist"
+                value="[ Public expenditure on Continuing Professional Development Pharmacist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="go9xficYy4f-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Out of Pockets expenditure on Continuing Professional Development Pharmacist"
+                value="[ Out of Pockets expenditure on Continuing Professional Development Pharmacist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="BMJGeU5QjPU-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Official Development Assistanc expenditure on Continuing Professional Development Pharmacist"
+                value="[ Official Development Assistanc expenditure on Continuing Professional Development Pharmacist ]"
+              />
+            </td>
+            <td>
+              <input
+                id="hUqp2FZFNGA-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Others expenditure on Continuing Professional Development Pharmacist"
+                value="[ Others expenditure on Continuing Professional Development Pharmacist ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab4">
+    <h2>SECTION 5: HWF OTHER RESOURCES</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Upload other resources</td>
+            <td>
+              <input
+                id="mQh8RpY2ccw-Xr12mI7VPn3-val"
+                name="entryfield"
+                title="HWF Module 4 File upload"
+                value="[ HWF Module 4 File upload ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
