@@ -479,7 +479,8 @@
       expanded = false;
     }
   }
-  dhis2.util.on("dhis2.de.event.dataValuesLoaded", function() {
+  
+  $(this).on(dhis2.de.event.dataValuesLoaded, function() {
     values.forEach(function(value) {
       $("#" + value.id + "-Xr12mI7VPn3-val").on("change", function() {
         $("#alert-error").hide();
