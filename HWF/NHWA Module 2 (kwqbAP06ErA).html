@@ -63,7 +63,7 @@
 
     disableCommentLogic();
     $(this).on(dhis2.de.event.dataValuesLoaded, disableCommentLogic);
-    
+
     $(".comment-bubble").on("click", function() {
       const col = $(this).parent()[0].cellIndex + 1;
       $(this)
