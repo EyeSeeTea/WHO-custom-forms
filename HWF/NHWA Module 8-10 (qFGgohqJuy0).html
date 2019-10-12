@@ -20,6 +20,7 @@
       "qNxAIa6jvmm",
       "FZYvE3Jdf8L"
     ];
+    var yesno = [];
     var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
     var comments = [
       "jlJcFRt3mmg",
@@ -52,15 +53,35 @@
       }
     }
 
+    function updateBubble($textfield) {
+      const enable = $textfield.val() !== "";
+      const $bubble = $textfield
+        .closest("td")
+        .prev()
+        .find(".comment-bubble");
+      if (enable) {
+        $bubble.addClass("comment-available");
+      } else {
+        $bubble.removeClass("comment-available");
+      }
+    }
+
     function disableCommentLogic() {
       $(".comments").toggle(false);
       comments.forEach(function(comment) {
         const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
         updateCommentVisibility($textfield);
+
+        updateBubble($textfield);
+        $textfield.on("change keyup paste", function() {
+          updateBubble($(this));
+        });
+
         if ($textfield.val() !== "") {
+          const col = $textfield.parent().index() + 1;
           $textfield
             .closest("table")
-            .find(".comments")
+            .find("tr > *:nth-child(" + col + ")")
             .toggle(true);
         }
       });
@@ -88,6 +109,27 @@
             });
           }
         });
+      });
+    });
+
+    yesno.forEach(function(dataElement) {
+      ["true", "false"].forEach(function(value) {
+        $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+          "click",
+          function() {
+            const $textfield = $(this)
+              .closest("td")
+              .next()
+              .find("textarea");
+            if ($(this).is(":checked")) {
+              $textfield.removeAttr("disabled");
+              $textfield.css("background-color", "rgb(255, 255, 255)");
+            } else {
+              $textfield.prop("disabled", true);
+              $textfield.css("background-color", "rgb(204, 204, 204)");
+            }
+          }
+        );
       });
     });
 
@@ -159,6 +201,14 @@
     display: block;
     text-align: left;
   }
+
+  .comments textarea {
+    text-align: left;
+  }
+
+  .comment-available {
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+  }
 </style>
 <h3 style="text-align: center;">
   <strong>Skill Mix Composition, Governance and Information Systems</strong>
@@ -191,7 +241,7 @@
           <tr>
             <th>SN</th>
             <th style="text-align: center;">Item</th>
-            <th style="text-align: center; width:30px">Existance</th>
+            <th style="text-align: center;">Existance</th>
             <th class="comments" scope="row" style="text-align: center;">
               Comment
             </th>
@@ -307,14 +357,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="jlJcFRt3mmg-Xr12mI7VPn3-val"
                 title="Comment of existence of advanced nursing roles"
                 value="[ Comment of existence of advanced nursing roles ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -403,14 +452,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="xtrKmZJKljq-Xr12mI7VPn3-val"
                 title="Comment of existence of institutional mechanisms to coordinate an intersectoral health workforce agenda"
                 value="[ Comment of existence of institutional mechanisms to coordinate an intersectoral health workforce agenda ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -446,14 +494,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="R6JXOAVTsay-Xr12mI7VPn3-val"
                 title="Comment of existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce"
                 value="[ Comment of existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -489,14 +536,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="risbLwkLwW5-Xr12mI7VPn3-val"
                 title="Comment of existence of mechanisms and models for health workforce planning"
                 value="[ Comment of existence of mechanisms and models for health workforce planning ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -533,14 +579,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="oLpoOT6tO7g-Xr12mI7VPn3-val"
                 title="Comment of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy"
                 value="[ Comment of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -576,14 +621,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="RM1vy8bSPE8-Xr12mI7VPn3-val"
                 title="Comment of Existence of institutional models for assessing and monitoring staffing needs for health service delivery"
                 value="[ Comment of Existence of institutional models for assessing and monitoring staffing needs for health service delivery ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
         </tbody>
@@ -640,14 +684,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="jieOOtItEQg-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS for reporting on International Health Regulations"
                 value="[ Comment of Existence of HRHIS for reporting on International Health Regulations ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -684,14 +727,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="tASpRJWiyvN-Xr12mI7VPn3-val"
                 title="Comment of Existance of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel"
                 value="[ Comment of Existance of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -727,14 +769,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="aAaUMHvUPv1-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS for reporting on Skilled Attendance at Birth requirements"
                 value="[ Comment of Existence of HRHIS for reporting on Skilled Attendance at Birth requirements ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -770,14 +811,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="mwwpy9cyOGy-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS for reporting on outputs from education and training institutions"
                 value="[ Comment of Existence of HRHIS for reporting on outputs from education and training institutions ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -813,14 +853,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="AK5r5VIXYOW-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS to track entrants to the labour market"
                 value="[ Comment of Existence of HRHIS to track entrants to the labour market ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -856,14 +895,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="QuUK6IgR9oZ-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS to track the number of active stock per year"
                 value="[ Comment of Existence of HRHIS to track the number of active stock per year ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -899,14 +937,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="bGA2GtwhrC9-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS to track the number of exits per year"
                 value="[ Comment of Existence of HRHIS to track the number of exits per year ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
           <tr>
@@ -942,14 +979,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="cWUu9JeMtg7-Xr12mI7VPn3-val"
                 title="Comment of Existence of HRHIS to produce geo-coded location of health facilities"
                 value="[ Comment of Existence of HRHIS to produce geo-coded location of health facilities ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
         </tbody>

@@ -23,15 +23,35 @@
       }
     }
 
+    function updateBubble($textfield) {
+      const enable = $textfield.val() !== "";
+      const $bubble = $textfield
+        .closest("td")
+        .prev()
+        .find(".comment-bubble");
+      if (enable) {
+        $bubble.addClass("comment-available");
+      } else {
+        $bubble.removeClass("comment-available");
+      }
+    }
+
     function disableCommentLogic() {
       $(".comments").toggle(false);
       comments.forEach(function(comment) {
         const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
         updateCommentVisibility($textfield);
+
+        updateBubble($textfield);
+        $textfield.on("change keyup paste", function() {
+          updateBubble($(this));
+        });
+
         if ($textfield.val() !== "") {
+          const col = $textfield.parent().index() + 1;
           $textfield
             .closest("table")
-            .find(".comments")
+            .find("tr > *:nth-child(" + col + ")")
             .toggle(true);
         }
       });
@@ -202,6 +222,14 @@
 
   .yesno label {
     display: inline;
+  }
+
+  .comments textarea {
+    text-align: left;
+  }
+
+  .comment-available {
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
   }
 </style>
 <h3 style="text-align: center;">
@@ -933,14 +961,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;" hidden>
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield entryarea"
                 id="cXn60b9eotz-Xr12mI7VPn3-val"
                 tabindex="1"
                 style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
-              >
-              </textarea>
+              />
             </td>
           </tr>
         </tbody>

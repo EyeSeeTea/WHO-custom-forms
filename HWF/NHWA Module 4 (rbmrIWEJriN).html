@@ -5,6 +5,7 @@
     });
 
     var yespartialno = ["Ybz3qUCWYKC"];
+    var yesno = [];
     var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
     var comments = ["fXxS36qL9Vt"];
 
@@ -22,15 +23,35 @@
       }
     }
 
+    function updateBubble($textfield) {
+      const enable = $textfield.val() !== "";
+      const $bubble = $textfield
+        .closest("td")
+        .prev()
+        .find(".comment-bubble");
+      if (enable) {
+        $bubble.addClass("comment-available");
+      } else {
+        $bubble.removeClass("comment-available");
+      }
+    }
+
     function disableCommentLogic() {
       $(".comments").toggle(false);
       comments.forEach(function(comment) {
         const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
         updateCommentVisibility($textfield);
+
+        updateBubble($textfield);
+        $textfield.on("change keyup paste", function() {
+          updateBubble($(this));
+        });
+
         if ($textfield.val() !== "") {
+          const col = $textfield.parent().index() + 1;
           $textfield
             .closest("table")
-            .find(".comments")
+            .find("tr > *:nth-child(" + col + ")")
             .toggle(true);
         }
       });
@@ -58,6 +79,27 @@
             });
           }
         });
+      });
+    });
+
+    yesno.forEach(function(dataElement) {
+      ["true", "false"].forEach(function(value) {
+        $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+          "click",
+          function() {
+            const $textfield = $(this)
+              .closest("td")
+              .next()
+              .find("textarea");
+            if ($(this).is(":checked")) {
+              $textfield.removeAttr("disabled");
+              $textfield.css("background-color", "rgb(255, 255, 255)");
+            } else {
+              $textfield.prop("disabled", true);
+              $textfield.css("background-color", "rgb(204, 204, 204)");
+            }
+          }
+        );
       });
     });
 
@@ -100,10 +142,11 @@
   }
 
   .comments textarea {
-    min-width: 264px;
-    min-height: 45px;
     text-align: left;
-    padding: 4px;
+  }
+
+  .comment-available {
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
   }
 </style>
 <h3 style="text-align: center;">
@@ -285,14 +328,13 @@
               />
             </td>
             <td class="comments" scope="row" style="text-align: center;">
-              <textarea
+              <input
                 name="entryfield"
                 class="entryfield"
                 id="fXxS36qL9Vt-Xr12mI7VPn3-val"
                 title="Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education"
                 value="[ Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education ]"
-              >
-              </textarea>
+              />
             </td>
           </tr>
         </body>

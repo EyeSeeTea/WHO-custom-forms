@@ -5,6 +5,7 @@
     });
 
     var yespartialno = ["EtX7FWQ8HOf"];
+    var yesno = [];
     var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
     var comments = ["aAuKVcYFTB8"];
 
@@ -22,15 +23,35 @@
       }
     }
 
+    function updateBubble($textfield) {
+      const enable = $textfield.val() !== "";
+      const $bubble = $textfield
+        .closest("td")
+        .prev()
+        .find(".comment-bubble");
+      if (enable) {
+        $bubble.addClass("comment-available");
+      } else {
+        $bubble.removeClass("comment-available");
+      }
+    }
+
     function disableCommentLogic() {
       $(".comments").toggle(false);
       comments.forEach(function(comment) {
         const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
         updateCommentVisibility($textfield);
+
+        updateBubble($textfield);
+        $textfield.on("change keyup paste", function() {
+          updateBubble($(this));
+        });
+
         if ($textfield.val() !== "") {
+          const col = $textfield.parent().index() + 1;
           $textfield
             .closest("table")
-            .find(".comments")
+            .find("tr > *:nth-child(" + col + ")")
             .toggle(true);
         }
       });
@@ -58,6 +79,27 @@
             });
           }
         });
+      });
+    });
+
+    yesno.forEach(function(dataElement) {
+      ["true", "false"].forEach(function(value) {
+        $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+          "click",
+          function() {
+            const $textfield = $(this)
+              .closest("td")
+              .next()
+              .find("textarea");
+            if ($(this).is(":checked")) {
+              $textfield.removeAttr("disabled");
+              $textfield.css("background-color", "rgb(255, 255, 255)");
+            } else {
+              $textfield.prop("disabled", true);
+              $textfield.css("background-color", "rgb(204, 204, 204)");
+            }
+          }
+        );
       });
     });
 
@@ -93,6 +135,14 @@
 
   .cde-greyfield {
     background-color: #e0e0e0;
+  }
+
+  .comments textarea {
+    text-align: left;
+  }
+
+  .comment-available {
+    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
   }
 </style>
 <h3 style="text-align: center;">
@@ -1911,15 +1961,14 @@
               scope="row"
               style="text-align: center;"
             >
-              <textarea
+              <input
                 class="entryfield entryarea"
                 id="aAuKVcYFTB8-Xr12mI7VPn3-val"
                 name="entryfield"
                 style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
                 tabindex="1"
                 disabled=""
-              >
-              </textarea>
+              />
             </td>
           </tr>
         </thead>
