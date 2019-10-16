@@ -10,11 +10,12 @@
     var comments = ["aAuKVcYFTB8"];
 
     function updateCommentVisibility($textfield) {
-      const $checkboxes = $textfield
+      const $input = $textfield
         .closest("td")
         .prev()
         .find("input");
-      if ($checkboxes.is(":checked")) {
+
+      if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
         $textfield.removeAttr("disabled");
         $textfield.css("background-color", "rgb(255, 255, 255)");
       } else {

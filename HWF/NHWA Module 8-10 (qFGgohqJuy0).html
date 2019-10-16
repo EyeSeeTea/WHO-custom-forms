@@ -36,15 +36,18 @@
       "AK5r5VIXYOW",
       "QuUK6IgR9oZ",
       "bGA2GtwhrC9",
-      "cWUu9JeMtg7"
+      "cWUu9JeMtg7",
+      "rYm7I91K6Je",
+      "PBUMZvqh0r2"
     ];
 
     function updateCommentVisibility($textfield) {
-      const $checkboxes = $textfield
+      const $input = $textfield
         .closest("td")
         .prev()
         .find("input");
-      if ($checkboxes.is(":checked")) {
+
+      if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
         $textfield.removeAttr("disabled");
         $textfield.css("background-color", "rgb(255, 255, 255)");
       } else {
@@ -241,7 +244,7 @@
           <tr>
             <th>SN</th>
             <th style="text-align: center;">Item</th>
-            <th style="text-align: center;">Existance</th>
+            <th style="text-align: center; min-width: 200px;">Existance</th>
             <th class="comments" scope="row" style="text-align: center;">
               Comment
             </th>
@@ -253,7 +256,7 @@
             <td style="text-align: left;">
               Percentage of HWF at the hospitals (8-01)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="LW954y3FqL8-Xr12mI7VPn3-val"
                 name="entryfield"
@@ -269,7 +272,7 @@
               Percentage of health workforce working in residential long-term
               care facilities (8-02)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="fxBC5D01Iem-Xr12mI7VPn3-val"
                 name="entryfield"
@@ -285,7 +288,7 @@
               Percentage of health workforce working in ambulatory health care
               (8-03)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="EWJZZN7T9IW-Xr12mI7VPn3-val"
                 name="entryfield"
@@ -300,7 +303,7 @@
             <td style="text-align: left;">
               Number of specialist surgical workers (8-04)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="zozZbvSo4Bz-Xr12mI7VPn3-val"
                 name="entryfield"
@@ -315,7 +318,7 @@
             <td style="text-align: left;">
               Number of family medicine practitioners (8-05)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="XEj0ILIlbWO-Xr12mI7VPn3-val"
                 name="entryfield"
@@ -328,9 +331,9 @@
           <tr>
             <th scope="row">6</th>
             <td style="text-align: left;">
-              Existence of advanced nursing roles&nbsp; (8-06)
+              Existence of advanced nursing roles (8-06)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <!--<input id="tKr3k3lbnJJ-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
                 id="tKr3k3lbnJJ-I93t0K7b1oN-val"
                 name="entryfield"
@@ -371,30 +374,58 @@
             <td style="text-align: left;">
               Availability of human resources to implement IHR (8-07)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="EVairjAiRv6-Xr12mI7VPn3-val"
                 name="entryfield"
                 title="Availability of human resources to implement IHR"
                 value="[ Availability of human resources to implement IHR ]"
               />
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                style="cursor: pointer; margin-left: 10px;"
+                title="View comment"
+              />
             </td>
-            <td class="comments"></td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <input
+                name="entryfield"
+                class="entryfield"
+                id="rYm7I91K6Je-Xr12mI7VPn3-val"
+                title="Comment of Availability of human resources to implement IHR"
+                value="[ Comment of Availability of human resources to implement IHR ]"
+              />
+            </td>
           </tr>
           <tr>
             <th scope="row">8</th>
             <td style="text-align: left;">
               Applied epidemiology training programme (8-08)
             </td>
-            <td style="text-align: center;">
+            <td style="text-align: center; min-width: 200px;">
               <input
                 id="u6F6nBWeomT-Xr12mI7VPn3-val"
                 name="entryfield"
                 title="Applied epidemiology training programme"
                 value="[ Applied epidemiology training programme ]"
               />
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                style="cursor: pointer; margin-left: 10px;"
+                title="View comment"
+              />
             </td>
-            <td class="comments"></td>
+            <td class="comments" scope="row" style="text-align: center;">
+              <input
+                name="entryfield"
+                class="entryfield"
+                id="PBUMZvqh0r2-Xr12mI7VPn3-val"
+                title="Comment of Applied epidemiology training programme"
+                value="[ Comment of Applied epidemiology training programme ]"
+              />
+            </td>
           </tr>
         </tbody>
       </table>
