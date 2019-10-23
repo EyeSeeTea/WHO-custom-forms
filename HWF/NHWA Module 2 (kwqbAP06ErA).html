@@ -118,6 +118,40 @@
         .toggle();
     });
   });
+
+  function updateWarningsSourceTypes(row) {
+    const inputFields = Array.from(row.querySelectorAll("input.entryfield"));
+    const checkboxes = Array.from(row.querySelectorAll("input.entrytrueonly"));
+    const checkboxTd = row.querySelector("td:last-child");
+    const inputsHaveValue = inputFields.reduce(
+      (acc, field) => field.value !== "" || acc,
+      false
+    );
+    const checkboxesHaveValue = checkboxes.reduce(
+      (acc, checkbox) => $(`#${checkbox.id}`).prop("checked") || acc,
+      false
+    );
+
+    if (inputsHaveValue && !checkboxesHaveValue) {
+      checkboxTd.style.backgroundColor = "#ed6f5f";
+    } else {
+      checkboxTd.style.backgroundColor = "transparent";
+    }
+  }
+
+  $("table.withSourceType").on("change", "input", function() {
+    var row = $(this).closest("tr")[0];
+    updateWarningsSourceTypes(row);
+  });
+
+  function loadWarningsSourceTypes() {
+    $("table.withSourceType > tbody > tr").each(function(idx, row) {
+      updateWarningsSourceTypes(row);
+    });
+  }
+
+  loadWarningsSourceTypes();
+  $(this).on(dhis2.de.event.dataValuesLoaded, loadWarningsSourceTypes);
 </script>
 <style type="text/css">
   #cde table {
@@ -180,7 +214,7 @@
 
     <div id="cde">
       &nbsp;
-      <table cellpadding="0" cellspacing="0">
+      <table cellpadding="0" cellspacing="0" class="withSourceType">
         <thead>
           <tr>
             <th colspan="1" rowspan="2" scope="row">SN</th>
@@ -2403,15 +2437,9 @@
           <tr>
             <td colspan="1" scope="row">1</td>
             <td colspan="3" scope="row" style="text-align: center;">
-              <p class="western" style="margin-bottom:0in">
-                <span style="line-height:100%">
-                  <font size="2">
-                    <font style="font-size: 10pt"
-                      >Is your master list of accredited education institutions
-                      up to date and available in the public domain?</font
-                    >
-                  </font>
-                </span>
+              <p>
+                Is your master list of accredited education institutions up to
+                date and available in the public domain? (2-01)
               </p>
             </td>
             <td scope="row" style="text-align: center;">
