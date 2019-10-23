@@ -4,6 +4,40 @@
       $("#mod2_tabs").tabs();
     });
 
+    function checkIfAnySourceTypeIsMissing() {
+      var rows = Array.from(
+        document.querySelector("#tab0").querySelector('table').querySelectorAll('tr')
+      ).slice(2);
+    
+      const invalidInputs = rows.some((row) => {
+        const checkboxTd = row.querySelector('td:last-child');
+        return checkboxTd.style.backgroundColor !== ''
+      })
+
+      if (invalidInputs) {
+        $('#completeButton').attr('disabled', true)
+      } else {
+        $('#completeButton').attr('disabled', false)
+      }
+    }
+
+    // Make sourceType checkboxes mandatory if data in entered for the row.
+
+    $('#custom-table-tab0').on('change', 'input', function () {
+      var row = $(this).closest('tr')[0];
+      const inputFields = Array.from(row.querySelectorAll('input.entryfield'));
+      const checkboxes = Array.from(row.querySelectorAll('input.entrytrueonly'));
+      const checkboxTd = row.querySelector('td:last-child');
+      const inputsHaveValue = inputFields.reduce((acc, field) => field.value !== "" || acc, false);
+      const checkboxesHaveValue = checkboxes.reduce((acc, checkbox) => $(`#${checkbox.id}`).prop('checked') || acc, false);
+      if (inputsHaveValue && !checkboxesHaveValue) {
+        checkboxTd.style.backgroundColor = '#ed6f5f';
+      } else {
+        checkboxTd.style.backgroundColor = '';
+      }
+      checkIfAnySourceTypeIsMissing();
+    });
+
     var yespartialno = ["EtX7FWQ8HOf"];
     var yesno = [];
     var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
@@ -173,7 +207,7 @@
 
     <div id="cde">
       &nbsp;
-      <table cellpadding="0" cellspacing="0">
+      <table cellpadding="0" cellspacing="0" id="custom-table-tab0">
         <thead>
           <tr>
             <th colspan="1" rowspan="2" scope="row">SN</th>
@@ -1069,7 +1103,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-woIm3nuS3mM-val"
+                id="W3hjWF2zAkt-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Medical Doctors"
@@ -1078,7 +1112,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-woIm3nuS3mM-val"
+                id="b5Y5ttOan5u-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Medical Doctors"
@@ -1087,7 +1121,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-woIm3nuS3mM-val"
+                id="d9aRkLridyB-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Medical Doctors"
@@ -1096,7 +1130,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-woIm3nuS3mM-val"
+                id="h0MrvKyI3Nk-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Medical Doctors"
@@ -1105,7 +1139,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-woIm3nuS3mM-val"
+                id="bXegTxbu4XB-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Medical Doctors"
@@ -1114,7 +1148,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-woIm3nuS3mM-val"
+                id="GAikjDurEiF-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Medical Doctors"
@@ -1123,7 +1157,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-woIm3nuS3mM-val"
+                id="GrRfteXDhyS-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Medical Doctors"
@@ -1132,7 +1166,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-woIm3nuS3mM-val"
+                id="f9lz93NUbMQ-aBpbcEgtzgw-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Medical Doctors"
@@ -1149,7 +1183,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-Eh8fZEewQLs-val"
+                id="W3hjWF2zAkt-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers General Medical Practitioner"
@@ -1158,7 +1192,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-Eh8fZEewQLs-val"
+                id="b5Y5ttOan5u-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers General Medical Practitioner"
@@ -1167,7 +1201,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-Eh8fZEewQLs-val"
+                id="d9aRkLridyB-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers General Medical Practitioner"
@@ -1176,7 +1210,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-Eh8fZEewQLs-val"
+                id="h0MrvKyI3Nk-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers General Medical Practitioner"
@@ -1185,7 +1219,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-Eh8fZEewQLs-val"
+                id="bXegTxbu4XB-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers General Medical Practitioner"
@@ -1194,7 +1228,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-Eh8fZEewQLs-val"
+                id="GAikjDurEiF-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers General Medical Practitioner"
@@ -1203,7 +1237,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-Eh8fZEewQLs-val"
+                id="GrRfteXDhyS-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers General Medical Practitioner"
@@ -1212,7 +1246,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-Eh8fZEewQLs-val"
+                id="f9lz93NUbMQ-LHbCtHlZr3Y-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers General Medical Practitioner"
@@ -1229,7 +1263,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-Rr4F4xljMoJ-val"
+                id="W3hjWF2zAkt-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1238,7 +1272,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-Rr4F4xljMoJ-val"
+                id="b5Y5ttOan5u-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1247,7 +1281,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-Rr4F4xljMoJ-val"
+                id="d9aRkLridyB-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1256,7 +1290,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-Rr4F4xljMoJ-val"
+                id="h0MrvKyI3Nk-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1265,7 +1299,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-Rr4F4xljMoJ-val"
+                id="bXegTxbu4XB-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1274,7 +1308,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-Rr4F4xljMoJ-val"
+                id="GAikjDurEiF-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1283,7 +1317,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-Rr4F4xljMoJ-val"
+                id="GrRfteXDhyS-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1292,7 +1326,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-Rr4F4xljMoJ-val"
+                id="f9lz93NUbMQ-VtVkbvygJnm-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
@@ -1309,7 +1343,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-p7nN8h3drrz-val"
+                id="W3hjWF2zAkt-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1318,7 +1352,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-p7nN8h3drrz-val"
+                id="b5Y5ttOan5u-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1327,7 +1361,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-p7nN8h3drrz-val"
+                id="d9aRkLridyB-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1336,7 +1370,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-p7nN8h3drrz-val"
+                id="h0MrvKyI3Nk-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1345,7 +1379,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-p7nN8h3drrz-val"
+                id="bXegTxbu4XB-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1354,7 +1388,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-p7nN8h3drrz-val"
+                id="GAikjDurEiF-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1363,7 +1397,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-p7nN8h3drrz-val"
+                id="GrRfteXDhyS-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1372,7 +1406,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-p7nN8h3drrz-val"
+                id="f9lz93NUbMQ-qJgX0mO3ph7-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
@@ -1389,7 +1423,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-nC5KZyWITGC-val"
+                id="W3hjWF2zAkt-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1398,7 +1432,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-nC5KZyWITGC-val"
+                id="b5Y5ttOan5u-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1407,7 +1441,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-nC5KZyWITGC-val"
+                id="d9aRkLridyB-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1416,7 +1450,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-nC5KZyWITGC-val"
+                id="h0MrvKyI3Nk-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1425,7 +1459,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-nC5KZyWITGC-val"
+                id="bXegTxbu4XB-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1434,7 +1468,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-nC5KZyWITGC-val"
+                id="GAikjDurEiF-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1443,7 +1477,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-nC5KZyWITGC-val"
+                id="GrRfteXDhyS-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1452,7 +1486,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-nC5KZyWITGC-val"
+                id="f9lz93NUbMQ-ABubevCpjCV-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
@@ -1469,7 +1503,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-hx9b4UVGIgW-val"
+                id="W3hjWF2zAkt-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1478,7 +1512,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-hx9b4UVGIgW-val"
+                id="b5Y5ttOan5u-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1487,7 +1521,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-hx9b4UVGIgW-val"
+                id="d9aRkLridyB-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1496,7 +1530,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-hx9b4UVGIgW-val"
+                id="h0MrvKyI3Nk-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1505,7 +1539,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-hx9b4UVGIgW-val"
+                id="bXegTxbu4XB-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1514,7 +1548,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-hx9b4UVGIgW-val"
+                id="GAikjDurEiF-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1523,7 +1557,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-hx9b4UVGIgW-val"
+                id="GrRfteXDhyS-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1532,7 +1566,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-hx9b4UVGIgW-val"
+                id="f9lz93NUbMQ-wNJfYD50ZVE-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
@@ -1549,7 +1583,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-U0Q8rlyIf0L-val"
+                id="W3hjWF2zAkt-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1558,7 +1592,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-U0Q8rlyIf0L-val"
+                id="b5Y5ttOan5u-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1567,7 +1601,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-U0Q8rlyIf0L-val"
+                id="d9aRkLridyB-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1576,7 +1610,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-U0Q8rlyIf0L-val"
+                id="h0MrvKyI3Nk-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1585,7 +1619,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-U0Q8rlyIf0L-val"
+                id="bXegTxbu4XB-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1594,7 +1628,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-U0Q8rlyIf0L-val"
+                id="GAikjDurEiF-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1603,7 +1637,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-U0Q8rlyIf0L-val"
+                id="GrRfteXDhyS-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1612,7 +1646,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-U0Q8rlyIf0L-val"
+                id="f9lz93NUbMQ-ByPnGTyTmYa-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
@@ -1629,7 +1663,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-N53ac2J5cmY-val"
+                id="W3hjWF2zAkt-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1638,7 +1672,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-N53ac2J5cmY-val"
+                id="b5Y5ttOan5u-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1647,7 +1681,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-N53ac2J5cmY-val"
+                id="d9aRkLridyB-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1656,7 +1690,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-N53ac2J5cmY-val"
+                id="h0MrvKyI3Nk-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1665,7 +1699,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-N53ac2J5cmY-val"
+                id="bXegTxbu4XB-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1674,7 +1708,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-N53ac2J5cmY-val"
+                id="GAikjDurEiF-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1683,7 +1717,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-N53ac2J5cmY-val"
+                id="GrRfteXDhyS-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1692,7 +1726,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-N53ac2J5cmY-val"
+                id="f9lz93NUbMQ-wJfQhJWdeLX-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
@@ -1709,7 +1743,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-K4qTZe26KoX-val"
+                id="W3hjWF2zAkt-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Other Specialists Practitioner"
@@ -1718,7 +1752,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-K4qTZe26KoX-val"
+                id="b5Y5ttOan5u-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Other Specialists Practitioner"
@@ -1727,7 +1761,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-K4qTZe26KoX-val"
+                id="d9aRkLridyB-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Other Specialists Practitioner"
@@ -1736,7 +1770,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-K4qTZe26KoX-val"
+                id="h0MrvKyI3Nk-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Other Specialists Practitioner"
@@ -1745,7 +1779,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-K4qTZe26KoX-val"
+                id="bXegTxbu4XB-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Other Specialists Practitioner"
@@ -1754,7 +1788,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-K4qTZe26KoX-val"
+                id="GAikjDurEiF-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Other Specialists Practitioner"
@@ -1763,7 +1797,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-K4qTZe26KoX-val"
+                id="GrRfteXDhyS-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Other Specialists Practitioner"
@@ -1772,7 +1806,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-K4qTZe26KoX-val"
+                id="f9lz93NUbMQ-EfAbB5kdjLD-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Other Specialists Practitioner"
@@ -1791,7 +1825,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-gT8LDQDh2wc-val"
+                id="W3hjWF2zAkt-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Nursing Professional"
@@ -1800,7 +1834,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-gT8LDQDh2wc-val"
+                id="b5Y5ttOan5u-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Nursing Professional"
@@ -1809,7 +1843,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-gT8LDQDh2wc-val"
+                id="d9aRkLridyB-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Nursing Professional"
@@ -1818,7 +1852,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-gT8LDQDh2wc-val"
+                id="h0MrvKyI3Nk-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Nursing Professional"
@@ -1827,7 +1861,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-gT8LDQDh2wc-val"
+                id="bXegTxbu4XB-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Nursing Professional"
@@ -1836,7 +1870,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-gT8LDQDh2wc-val"
+                id="GAikjDurEiF-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Nursing Professional"
@@ -1845,7 +1879,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-gT8LDQDh2wc-val"
+                id="GrRfteXDhyS-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Nursing Professional"
@@ -1854,7 +1888,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-gT8LDQDh2wc-val"
+                id="f9lz93NUbMQ-fGOgbIqsxDn-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Nursing Professional"
@@ -1873,7 +1907,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-GrzcLgIHx9h-val"
+                id="W3hjWF2zAkt-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Midwifery Professional"
@@ -1882,7 +1916,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-GrzcLgIHx9h-val"
+                id="b5Y5ttOan5u-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Midwifery Professional"
@@ -1891,7 +1925,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-GrzcLgIHx9h-val"
+                id="d9aRkLridyB-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Midwifery Professional"
@@ -1900,7 +1934,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-GrzcLgIHx9h-val"
+                id="h0MrvKyI3Nk-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Midwifery Professional"
@@ -1909,7 +1943,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-GrzcLgIHx9h-val"
+                id="bXegTxbu4XB-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Midwifery Professional"
@@ -1918,7 +1952,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-GrzcLgIHx9h-val"
+                id="GAikjDurEiF-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Midwifery Professional"
@@ -1927,7 +1961,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-GrzcLgIHx9h-val"
+                id="GrRfteXDhyS-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Midwifery Professional"
@@ -1936,7 +1970,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-GrzcLgIHx9h-val"
+                id="f9lz93NUbMQ-MPzyVWiSFF2-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Midwifery Professional"
@@ -1949,7 +1983,7 @@
             <th colspan="3" scope="row" style="text-align: left;">Dentist</th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-BUVRp4Q2zi7-val"
+                id="W3hjWF2zAkt-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Dentist"
@@ -1958,7 +1992,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-BUVRp4Q2zi7-val"
+                id="b5Y5ttOan5u-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Dentist"
@@ -1967,7 +2001,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-BUVRp4Q2zi7-val"
+                id="d9aRkLridyB-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Dentist"
@@ -1976,7 +2010,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-BUVRp4Q2zi7-val"
+                id="h0MrvKyI3Nk-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Dentist"
@@ -1985,7 +2019,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-BUVRp4Q2zi7-val"
+                id="bXegTxbu4XB-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Dentist"
@@ -1994,7 +2028,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-BUVRp4Q2zi7-val"
+                id="GAikjDurEiF-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Dentist"
@@ -2003,7 +2037,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-BUVRp4Q2zi7-val"
+                id="GrRfteXDhyS-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Dentist"
@@ -2012,7 +2046,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-BUVRp4Q2zi7-val"
+                id="f9lz93NUbMQ-ALBRKpJsddQ-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Dentist"
@@ -2027,7 +2061,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="W3hjWF2zAkt-UbXO8Hq562j-val"
+                id="W3hjWF2zAkt-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Graduates in HWF Education and Training centers Pharmacist"
@@ -2036,7 +2070,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="b5Y5ttOan5u-UbXO8Hq562j-val"
+                id="b5Y5ttOan5u-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male graduates in HWF Education and Training centers Pharmacist"
@@ -2045,7 +2079,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="d9aRkLridyB-UbXO8Hq562j-val"
+                id="d9aRkLridyB-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female graduates in HWF Education and Training centers Pharmacist"
@@ -2054,7 +2088,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="h0MrvKyI3Nk-UbXO8Hq562j-val"
+                id="h0MrvKyI3Nk-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Public graduates in HWF Education and Training centers Pharmacist"
@@ -2063,7 +2097,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="bXegTxbu4XB-UbXO8Hq562j-val"
+                id="bXegTxbu4XB-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Private graduates in HWF Education and Training centers Pharmacist"
@@ -2072,7 +2106,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GAikjDurEiF-UbXO8Hq562j-val"
+                id="GAikjDurEiF-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Drop-outs in HWF Education and Training centers Pharmacist"
@@ -2081,7 +2115,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="GrRfteXDhyS-UbXO8Hq562j-val"
+                id="GrRfteXDhyS-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Male drop-outs in HWF Education and Training centers Pharmacist"
@@ -2090,7 +2124,7 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="f9lz93NUbMQ-UbXO8Hq562j-val"
+                id="f9lz93NUbMQ-iWRW6jXAzvP-val"
                 name="entryfield"
                 style="width:3.5em;"
                 title="Female drop-outs in HWF Education and Training centers Pharmacist"

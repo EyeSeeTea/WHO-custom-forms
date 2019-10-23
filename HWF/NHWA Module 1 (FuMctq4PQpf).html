@@ -1277,7 +1277,53 @@
     ).append(value);
   }
 
+  function checkIfAnySourceTypeIsMissing() {
+      var rows = Array.from(
+        document.querySelector("#tab0").querySelector('table').querySelectorAll('tr')
+      ).slice(2);
+    
+      const invalidInputs = rows.some((row) => {
+        const checkboxTd = row.querySelector('td:last-child');
+        return checkboxTd.style.backgroundColor !== ''
+      })
+
+      if (invalidInputs) {
+        $('#newCompleteButton').attr('disabled', true)
+      } else {
+        $('#newCompleteButton').attr('disabled', false)
+      }
+    }
+
+  function sourceTypeMandatory(row) {
+    const inputFields = Array.from(row.querySelectorAll('input.entryfield'));
+    const checkboxes = Array.from(row.querySelectorAll('input.entrytrueonly'));
+    const checkboxTd = row.querySelector('td:last-child');
+    const inputsHaveValue = inputFields.reduce((acc, field) => field.value !== "" || acc, false);
+    const checkboxesHaveValue = checkboxes.reduce((acc, checkbox) => $(`#${checkbox.id}`).prop('checked') || acc, false);
+    if (inputsHaveValue && !checkboxesHaveValue) {
+      checkboxTd.style.backgroundColor = '#ed6f5f';
+    } else {
+      checkboxTd.style.backgroundColor = '';
+    }
+    checkIfAnySourceTypeIsMissing();
+  }
+
+  function setUpSourceTypeListeners() {
+    // For input fields
+    $('#custom-table-tab0').on('change', 'input', function () {
+      var row = $(this).closest('tr')[0];
+      sourceTypeMandatory(row);
+    });
+
+    // For checkboxes which are inside their own table
+    $('.hwf > table').on('change', 'input', function () {
+      var row = $(this).closest('#custom-table-tab0 > tbody > tr')[0];
+      sourceTypeMandatory(row);
+    });
+  }
+
   $(document).ready(function() {
+    setUpSourceTypeListeners();
     $(function() {
       //alert("Here")
       $("#mod2_tabs").tabs({
@@ -1479,7 +1525,7 @@
 
     <div id="cde">
       &nbsp;
-      <table cellpadding="0" cellspacing="0">
+      <table cellpadding="0" cellspacing="0" id="custom-table-tab0">
         <thead>
           <tr>
             <th colspan="1" rowspan="2" scope="row">SN</th>
