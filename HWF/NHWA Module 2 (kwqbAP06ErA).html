@@ -108,7 +108,10 @@
     $(this).on(dhis2.de.event.dataValuesLoaded, disableCommentLogic);
 
     $(".comment-bubble").on("click", function() {
-      const col = $(this).parent()[0].cellIndex + 1;
+      const col =
+        $(this)
+          .parent()
+          .index() + 1;
       $(this)
         .closest("table")
         .find("tr > *:nth-child(" + (col + 1) + ")")
@@ -142,8 +145,12 @@
     text-align: left;
   }
 
+  .comment-bubble {
+    content: url("../images/comment.png");
+  }
+
   .comment-available {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    content: url("../images/comment_active.png");
   }
 </style>
 <h3 style="text-align: center;">

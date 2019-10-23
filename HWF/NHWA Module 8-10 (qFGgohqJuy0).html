@@ -24,6 +24,8 @@
     var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
     var comments = [
       "jlJcFRt3mmg",
+      "rYm7I91K6Je",
+      "PBUMZvqh0r2",
       "xtrKmZJKljq",
       "R6JXOAVTsay",
       "risbLwkLwW5",
@@ -36,9 +38,7 @@
       "AK5r5VIXYOW",
       "QuUK6IgR9oZ",
       "bGA2GtwhrC9",
-      "cWUu9JeMtg7",
-      "rYm7I91K6Je",
-      "PBUMZvqh0r2"
+      "cWUu9JeMtg7"
     ];
 
     function updateCommentVisibility($textfield) {
@@ -140,7 +140,10 @@
     $(this).on(dhis2.de.event.dataValuesLoaded, disableCommentLogic);
 
     $(".comment-bubble").on("click", function() {
-      const col = $(this).parent()[0].cellIndex + 1;
+      const col =
+        $(this)
+          .parent()
+          .index() + 1;
       $(this)
         .closest("table")
         .find("tr > *:nth-child(" + (col + 1) + ")")
@@ -209,8 +212,12 @@
     text-align: left;
   }
 
+  .comment-bubble {
+    content: url("../images/comment.png");
+  }
+
   .comment-available {
-    filter: grayscale(100%) sepia(100%) hue-rotate(90deg);
+    content: url("../images/comment_active.png");
   }
 </style>
 <h3 style="text-align: center;">
@@ -244,10 +251,7 @@
           <tr>
             <th>SN</th>
             <th style="text-align: center;">Item</th>
-            <th style="text-align: center; min-width: 200px;">Existance</th>
-            <th class="comments" scope="row" style="text-align: center;">
-              Comment
-            </th>
+            <th style="text-align: center; min-width: 200px;">Value</th>
           </tr>
         </thead>
         <tbody>
@@ -264,7 +268,6 @@
                 value="[ Percentage of HWF at the hospitals ]"
               />
             </td>
-            <td class="comments"></td>
           </tr>
           <tr>
             <th scope="row">2</th>
@@ -280,7 +283,6 @@
                 value="[ Percentage of HWF working in residential long-term care facilities ]"
               />
             </td>
-            <td class="comments"></td>
           </tr>
           <tr>
             <th scope="row">3</th>
@@ -296,7 +298,6 @@
                 value="[ Percentage of HWF working in ambulatory health care ]"
               />
             </td>
-            <td class="comments"></td>
           </tr>
           <tr>
             <th scope="row">4</th>
@@ -311,7 +312,6 @@
                 value="[ Number of specialist surgical workers ]"
               />
             </td>
-            <td class="comments"></td>
           </tr>
           <tr>
             <th scope="row">5</th>
@@ -326,15 +326,32 @@
                 value="[ Number of family medicine practioners ]"
               />
             </td>
-            <td class="comments"></td>
           </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
           <tr>
-            <th scope="row">6</th>
+            <th>SN</th>
+            <th style="text-align: center;">Item</th>
+            <th style="text-align: center; min-width: 200px;">Existence</th>
+            <th class="comments" scope="row" style="text-align: center;">
+              Comment
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
             <td style="text-align: left;">
               Existence of advanced nursing roles (8-06)
             </td>
             <td style="text-align: center; min-width: 200px;">
-              <!--<input id="tKr3k3lbnJJ-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="tKr3k3lbnJJ-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of advanced nursing roles Yes"
@@ -370,7 +387,7 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">7</th>
+            <th scope="row">2</th>
             <td style="text-align: left;">
               Availability of human resources to implement IHR (8-07)
             </td>
@@ -399,7 +416,7 @@
             </td>
           </tr>
           <tr>
-            <th scope="row">8</th>
+            <th scope="row">3</th>
             <td style="text-align: left;">
               Applied epidemiology training programme (8-08)
             </td>
@@ -441,7 +458,7 @@
           <tr>
             <th>SN</th>
             <th style="text-align: center;">Item</th>
-            <th style="text-align: center;">Existance</th>
+            <th style="text-align: center;">Existence</th>
             <th class="comments" scope="row" style="text-align: center;">
               Comment
             </th>
@@ -457,7 +474,7 @@
               </p>
             </td>
             <td style="text-align: center;">
-              <!--<input id="ROVoulCcT0j-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="ROVoulCcT0j-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda Yes"
@@ -499,7 +516,7 @@
               and monitoring policies and plans on health workforce&nbsp; (9-02)
             </td>
             <td style="text-align: center;">
-              <!--<input id="yqQBUxeuga4-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="yqQBUxeuga4-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce Yes"
@@ -541,7 +558,7 @@
               planning&nbsp; (9-03)
             </td>
             <td style="text-align: center;">
-              <!--<input id="tdwemEgGckz-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="tdwemEgGckz-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of mechanisms and models for health workforce planning Yes"
@@ -584,7 +601,7 @@
               workforce strategy/plan&nbsp; (9-04)
             </td>
             <td style="text-align: center;">
-              <!--<input id="wDaqByzsz7p-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="wDaqByzsz7p-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy Yes"
@@ -626,7 +643,7 @@
               staffing needs for health service delivery&nbsp; (9-05)
             </td>
             <td style="text-align: center;">
-              <!--<input id="HgQ76w0VONy-Xr12mI7VPn3-val" name="entryfield" title="Existence of institutional models for assessing and monitoring staffing needs for health services delivery" value="[ Existence of institutional models for assessing and monitoring staffing needs for health services delivery ]"/>--><input
+              <input
                 id="HgQ76w0VONy-I93t0K7b1oN-val"
                 name="entryfield"
                 title="undefined"
@@ -675,7 +692,7 @@
           <tr>
             <th>SN</th>
             <th style="text-align: center;">Item</th>
-            <th style="text-align: center;">Existance</th>
+            <th style="text-align: center;">Existence</th>
             <th class="comments" scope="row" style="text-align: center;">
               Comment
             </th>
@@ -689,7 +706,7 @@
               Regulations (10-01)
             </td>
             <td style="text-align: center;">
-              <!--<input id="f87mpByuPub-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="f87mpByuPub-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS for reporting on International Health Regulations Yes"
@@ -732,7 +749,7 @@
               Personnel&nbsp;(10-02)
             </td>
             <td style="text-align: center;">
-              <!--<input id="RHokurJAbjS-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="RHokurJAbjS-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  Yes"
@@ -774,7 +791,7 @@
               requirements&nbsp;(10-03)
             </td>
             <td style="text-align: center;">
-              <!--<input id="w8SWd1reRm8-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="w8SWd1reRm8-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS for reporting on Skilled Attendance at Birth requirements Yes"
@@ -816,7 +833,7 @@
               training institutions&nbsp;(10-04)
             </td>
             <td style="text-align: center;">
-              <!--<input id="IidAimBSgEf-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="IidAimBSgEf-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS for reporting on outputs from education and training institutions Yes"
@@ -858,7 +875,7 @@
               market&nbsp;(10-05)
             </td>
             <td style="text-align: center;">
-              <!--<input id="q8CUMlpFLtJ-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="q8CUMlpFLtJ-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS to track entrants to the labour market Yes"
@@ -900,7 +917,7 @@
               year&nbsp;(10-06)
             </td>
             <td style="text-align: center;">
-              <!--<input id="hR7B1ITcCMe-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="hR7B1ITcCMe-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS to track the number of active stock per year Yes"
@@ -942,7 +959,7 @@
               year&nbsp;(10-07)
             </td>
             <td style="text-align: center;">
-              <!--<input id="qNxAIa6jvmm-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="qNxAIa6jvmm-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS to track the number of exits per year Yes"
@@ -984,7 +1001,7 @@
               facilities&nbsp;(10-08)
             </td>
             <td style="text-align: center;">
-              <!--<input id="FZYvE3Jdf8L-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+              <input
                 id="FZYvE3Jdf8L-I93t0K7b1oN-val"
                 name="entryfield"
                 title="Existence of HRHIS to produce geo-coded location of health facilities Yes"
