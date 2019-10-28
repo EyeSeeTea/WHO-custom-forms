@@ -1,6 +1,7 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
 
+import { getDataElementTranslation } from "../utils";
 import {
     Section,
     SectionDataElement,
@@ -67,12 +68,7 @@ function FieldsRow(attributes: {
             </td>
         );
     });
-    const dataElementTranslation = dataElement.translations.find(
-        t => t.locale === userLocale && t.property === "FORM_NAME"
-    );
-    const dataElementTitle = dataElementTranslation
-        ? dataElementTranslation.value
-        : dataElement.formName;
+    const dataElementTitle = getDataElementTranslation(dataElement, userLocale, "FORM_NAME");
     return (
         <tr>
             <td class={`column-big ${background} center-text`}>
@@ -92,12 +88,7 @@ function CheckBoxGroup(attributes: {
 }): string {
     const { checkboxes, categoryOptionCombo, section, userLocale } = attributes;
     const rows = checkboxes.map(de => {
-        const dataElementTranslation = de.translations.find(
-            t => t.locale === userLocale && t.property === "FORM_NAME"
-        );
-        const dataElementTitle = dataElementTranslation
-            ? dataElementTranslation.value
-            : de.formName;
+        const dataElementTitle = getDataElementTranslation(de, userLocale, "FORM_NAME");
         return (
             <div class="elements-row">
                 <EntryField

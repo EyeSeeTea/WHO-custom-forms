@@ -12,7 +12,7 @@ interface CustomFormAttributes {
 }
 
 export function CustomForm(attributes: CustomFormAttributes): string {
-    const sections = attributes.sections;
+    const { sections, userLocale } = attributes;
     if (_.isEmpty(attributes.sections)) {
         throw new Error("Missing sections");
     }
@@ -20,10 +20,11 @@ export function CustomForm(attributes: CustomFormAttributes): string {
     const categoryOptionCombos = Form.getCategoryOptionCombos(globalDataElements);
     return (
         <div>
-            <Tabs sections={sections} userLocale={attributes.userLocale} />
+            <Tabs sections={sections} userLocale={userLocale} />
             <GlobalTextFields
                 dataElements={globalDataElements}
                 categoryOptionCombos={categoryOptionCombos}
+                userLocale={userLocale}
             />
             <DhisSubmitButton />
         </div>

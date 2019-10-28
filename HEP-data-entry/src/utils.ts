@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { promisify } from "util";
 import { Response } from "node-fetch";
+import { SectionDataElement } from "./models/Form";
 
 const readFile = promisify(fs.readFile);
 
@@ -55,4 +56,15 @@ export function getUid(key: string) {
     );
 
     return result.uid;
+}
+
+export function getDataElementTranslation(
+    dataElement: SectionDataElement,
+    userLocale: string,
+    property: string
+) {
+    const translation = dataElement.translations.find(
+        t => t.locale === userLocale && t.property === property
+    );
+    return translation ? translation.value : dataElement.formName;
 }
