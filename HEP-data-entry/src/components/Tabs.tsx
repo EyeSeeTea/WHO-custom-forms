@@ -16,7 +16,7 @@ export function Tabs(attributes: TabsAttributes): string {
         const title = titleTranslation ? titleTranslation.value : s.displayName;
         return {
             title: title,
-            contents: <Table section={s} />,
+            contents: <Table section={s} userLocale={userLocale} />,
         };
     });
     return (

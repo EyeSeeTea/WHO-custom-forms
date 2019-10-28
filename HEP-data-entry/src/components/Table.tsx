@@ -12,6 +12,7 @@ import { EntryField } from "./EntryField";
 
 interface TableAttributes {
     section: Section;
+    userLocale: string;
 }
 
 function Header(attributes: { categoryOptionCombos: CategoryOptionCombo[] }) {
@@ -35,8 +36,16 @@ function FieldsRow(attributes: {
     categoryOptionCombos: CategoryOptionCombo[];
     fieldsToRemove: FieldsToRemove[];
     index: number;
+    userLocale: string;
 }) {
-    const { section, dataElement, categoryOptionCombos, fieldsToRemove, index } = attributes;
+    const {
+        section,
+        dataElement,
+        categoryOptionCombos,
+        fieldsToRemove,
+        index,
+        userLocale,
+    } = attributes;
     const background = index % 2 === 0 ? "even-row" : "odd-row";
     const helpMessages = Form.getHelpMessagesForDataElement(dataElement);
     const fieldTds = categoryOptionCombos.map(coc => {
@@ -58,11 +67,16 @@ function FieldsRow(attributes: {
             </td>
         );
     });
-
+    const dataElementTranslation = dataElement.translations.find(
+        t => t.locale === userLocale && t.property === "FORM_NAME"
+    );
+    const dataElementTitle = dataElementTranslation
+        ? dataElementTranslation.value
+        : dataElement.formName;
     return (
         <tr>
             <td class={`column-big ${background} center-text`}>
-                {dataElement.formName}
+                {dataElementTitle}
                 <i class="fas fa-info-circle help-icon" title={`${helpMessages.main}`}></i>
             </td>
             {...fieldTds}
@@ -99,7 +113,7 @@ function CheckBoxGroup(attributes: {
 }
 
 export function Table(attributes: TableAttributes): string {
-    const { section } = attributes;
+    const { section, userLocale } = attributes;
     const {
         formFields: { fields, checkboxes },
         fieldsToRemove,
@@ -115,6 +129,7 @@ export function Table(attributes: TableAttributes): string {
                     categoryOptionCombos={categoryOptionCombos}
                     fieldsToRemove={fieldsToRemove}
                     index={i}
+                    userLocale={userLocale}
                 />
             ))}
             <tr>
