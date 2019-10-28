@@ -13,16 +13,23 @@ export interface Section {
     id: string;
     description: string;
     displayName: string;
+    translations: Translation[];
     dataElements: SectionDataElement[];
     formFields: OrderedSection;
-    greyedFields: GreyedFields[];
+    greyedFields: GreyedField[];
     fieldsToRemove: FieldsToRemove[];
 }
 
-interface GreyedFields {
+interface GreyedField {
     id: string;
     dataElement: Ref;
     categoryOptionCombo: Ref;
+}
+
+interface Translation {
+    property: string;
+    locale: string;
+    value: string;
 }
 
 export interface FieldsToRemove {
@@ -35,6 +42,7 @@ export interface SectionDataElement {
     code: string;
     description?: string;
     formName: string;
+    translations: Translation[];
     categoryCombo: { id: string; categoryOptionCombos: CategoryOptionCombo[] };
     valueType: string;
 }
@@ -77,9 +85,9 @@ export class Form {
         }));
     }
 
-    public static getFormHtml(dataSet: DataSet): string {
+    public static getFormHtml(dataSet: DataSet, userLocale: string): string {
         const sections = this.getOrderedSections(dataSet.sections);
-        const formHtml = CustomForm({ sections });
+        const formHtml = CustomForm({ sections, userLocale });
         return formHtml;
     }
 

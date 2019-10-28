@@ -4,7 +4,8 @@ import * as _ from "lodash";
 import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
 import { DataEntryForm } from "./models/Form";
 import { AssembledFormHTML } from "./components/AssembledFormHTML";
-import { getUid, prettyJSON } from "./utils";
+import { getUid, prettyJSON, safeParseJSON } from "./utils";
+import fetch from "node-fetch";
 
 function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
@@ -26,9 +27,18 @@ function getParser(): ArgumentParser {
     return parser;
 }
 
+async function getUserLocale(baseUrl: string) {
+    const userSettings = await fetch(`${baseUrl}/api/userSettings.json`, {
+        method: "GET",
+    }).then(safeParseJSON);
+    console.log(userSettings);
+    return userSettings["keyUiLocale"];
+}
+
 async function getDataSetPayload(
     d2Metadata: Dhis2Metadata,
-    dataSetId: string
+    dataSetId: string,
+    userLocale: string
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
         "dataSets:fields": `:owner,
@@ -36,8 +46,9 @@ async function getDataSetPayload(
                 id,
                 description,
                 displayName,
+                translations,
                 greyedFields[id,dataElement,categoryOptionCombo],
-                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
+                dataElements[id,description,code,formName,translations,categoryCombo[id,categoryOptionCombos[id,name]],
                 valueType]
             ]`,
         "dataSets:filter": `id:eq:${dataSetId}`,
@@ -48,7 +59,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const customFormHtml = await AssembledFormHTML({ dataSet });
+    const customFormHtml = await AssembledFormHTML({ dataSet, userLocale });
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -74,7 +85,8 @@ async function main(): Promise<void> {
     const args = getParser().parseArgs();
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const dataSetId = args.dataset_id;
-    const payload = await getDataSetPayload(d2Metadata, dataSetId);
+    const userLocale = await getUserLocale(args.url);
+    const payload = await getDataSetPayload(d2Metadata, dataSetId, userLocale);
 
     const response = await d2Metadata.post(payload, {});
 

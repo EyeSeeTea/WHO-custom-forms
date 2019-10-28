@@ -8,6 +8,7 @@ import { Section, Form } from "../models/Form";
 
 interface CustomFormAttributes {
     sections: Section[];
+    userLocale: string;
 }
 
 export function CustomForm(attributes: CustomFormAttributes): string {
@@ -19,7 +20,7 @@ export function CustomForm(attributes: CustomFormAttributes): string {
     const categoryOptionCombos = Form.getCategoryOptionCombos(globalDataElements);
     return (
         <div>
-            <Tabs sections={sections} />
+            <Tabs sections={sections} userLocale={attributes.userLocale} />
             <GlobalTextFields
                 dataElements={globalDataElements}
                 categoryOptionCombos={categoryOptionCombos}

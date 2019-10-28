@@ -4,13 +4,18 @@ import { Table } from "./Table";
 
 export interface TabsAttributes {
     sections: Section[];
+    userLocale: string;
 }
 
 export function Tabs(attributes: TabsAttributes): string {
-    const { sections } = attributes;
+    const { sections, userLocale } = attributes;
     const items = sections.map(s => {
+        const titleTranslation = s.translations.find(
+            t => t.locale === userLocale && t.property === "NAME"
+        );
+        const title = titleTranslation ? titleTranslation.value : s.displayName;
         return {
-            title: s.displayName,
+            title: title,
             contents: <Table section={s} />,
         };
     });

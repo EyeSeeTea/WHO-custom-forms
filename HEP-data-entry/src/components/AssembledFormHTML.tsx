@@ -6,10 +6,11 @@ import { DataSet } from "../Dhis2Metadata";
 
 interface AssembledFormHTMLAttributes {
     dataSet: DataSet;
+    userLocale: string;
 }
 
 export async function AssembledFormHTML(attributes: AssembledFormHTMLAttributes): Promise<string> {
-    const formHtml = Form.getFormHtml(attributes.dataSet);
+    const formHtml = Form.getFormHtml(attributes.dataSet, attributes.userLocale);
     const style = await getResource("custom-form.css");
     const javascript = await getResource("custom-form.js");
     return (
