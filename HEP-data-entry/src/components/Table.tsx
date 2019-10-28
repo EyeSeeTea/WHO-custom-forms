@@ -88,19 +88,28 @@ function CheckBoxGroup(attributes: {
     checkboxes: SectionDataElement[];
     section: Section;
     categoryOptionCombo: CategoryOptionCombo;
+    userLocale: string;
 }): string {
-    const { checkboxes, categoryOptionCombo, section } = attributes;
-    const rows = checkboxes.map(de => (
-        <div class="elements-row">
-            <EntryField
-                sectionId={section.id}
-                dataElement={de}
-                categoryOptionCombo={categoryOptionCombo}
-                type="checkbox"
-            />
-            <div>{de.formName}</div>
-        </div>
-    ));
+    const { checkboxes, categoryOptionCombo, section, userLocale } = attributes;
+    const rows = checkboxes.map(de => {
+        const dataElementTranslation = de.translations.find(
+            t => t.locale === userLocale && t.property === "FORM_NAME"
+        );
+        const dataElementTitle = dataElementTranslation
+            ? dataElementTranslation.value
+            : de.formName;
+        return (
+            <div class="elements-row">
+                <EntryField
+                    sectionId={section.id}
+                    dataElement={de}
+                    categoryOptionCombo={categoryOptionCombo}
+                    type="checkbox"
+                />
+                <div>{dataElementTitle}</div>
+            </div>
+        );
+    });
     const background = Form.getCategoryOptionComboColor(categoryOptionCombo);
     return (
         <td class="field-group checkbox-group">
@@ -139,6 +148,7 @@ export function Table(attributes: TableAttributes): string {
                         checkboxes={checkboxes}
                         section={section}
                         categoryOptionCombo={coc}
+                        userLocale={userLocale}
                     />
                 ))}
             </tr>
