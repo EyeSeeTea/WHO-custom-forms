@@ -62,7 +62,7 @@ function FieldsRow(attributes: {
     return (
         <tr>
             <td class={`column-big ${background} center-text`}>
-                {dataElement.formName}
+                <span id={`${dataElement.id}-dataElement`}>{dataElement.formName}</span>
                 <i class="fas fa-info-circle help-icon" title={`${helpMessages.main}`}></i>
             </td>
             {...fieldTds}
@@ -84,7 +84,9 @@ function CheckBoxGroup(attributes: {
                 categoryOptionCombo={categoryOptionCombo}
                 type="checkbox"
             />
-            <div>{de.formName}</div>
+            <div>
+                <span id={`${de.id}-dataElement`}>{de.formName}</span>
+            </div>
         </div>
     ));
     const background = Form.getCategoryOptionComboColor(categoryOptionCombo);
