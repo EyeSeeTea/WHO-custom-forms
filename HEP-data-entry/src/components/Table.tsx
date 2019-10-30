@@ -63,7 +63,11 @@ function FieldsRow(attributes: {
         <tr>
             <td class={`column-big ${background} center-text`}>
                 <span id={`${dataElement.id}-dataElement`}>{dataElement.formName}</span>
-                <i class="fas fa-info-circle help-icon" title={`${helpMessages.main}`}></i>
+                <i
+                    id={`${dataElement.id}-dataElement-description`}
+                    class="fas fa-info-circle help-icon"
+                    title={`${helpMessages.main}`}
+                ></i>
             </td>
             {...fieldTds}
         </tr>

@@ -59,7 +59,17 @@ function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, use
             t => t.locale === userLocale && t.property === "FORM_NAME"
         );
         if (translation) {
-            $(`#${de.id}-dataElement`).html(translation.value);
+            $(`span[id="${de.id}-dataElement"]`).html(translation.value);
+        }
+
+        const descriptionTranslation = de.translations.find(
+            t => t.locale === userLocale && t.property === "DESCRIPTION"
+        );
+        if (descriptionTranslation) {
+            const parsedDescription = JSON.parse(descriptionTranslation.value);
+            $(`i[id="${de.id}-dataElement-description"]`).prop("title", parsedDescription.main);
+            $(`i[id="${de.id}-HBV-field-description"]`).prop("title", parsedDescription.HBV);
+            $(`i[id="${de.id}-HCV-field-description"]`).prop("title", parsedDescription.HCV);
         }
     });
 }

@@ -27,6 +27,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
             {helpMessages ? (
                 <i
                     class="fas fa-info-circle help-icon"
+                    id={`${dataElement.id}-${categoryOptionCombo.name}-field-description`}
                     title={`${helpMessages[categoryOptionCombo.name]}`}
                 ></i>
             ) : null}
