@@ -1,13 +1,14 @@
 async function applyChangesToForm() {
+    const programToApplyChanges = $("#custom-form-script").attr("data-program-id");
     const {
         dataElementTranslations,
         sectionTranslations,
         userLocale,
-    } = await getLocaleAndTranslations();
+    } = await getLocaleAndTranslations(programToApplyChanges);
     replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale);
 }
 
-async function getLocaleAndTranslations() {
+async function getLocaleAndTranslations(programId) {
     const userLocale = await fetch("http://localhost:8080/api/userSettings.json", {
         method: "GET",
     }).then(async response => {
@@ -16,7 +17,7 @@ async function getLocaleAndTranslations() {
         return parsed.keyUiLocale;
     });
     const { dataElementTranslations, sectionTranslations } = await fetch(
-        "http://localhost:8080/api/programs.json?fields=programStages[programStageDataElements[dataElement[dataElementGroups[id,code,shortName,translations,dataElements[id,translations]]]]]&filter=id:eq:cTzRXZGNvqz",
+        `http://localhost:8080/api/programs.json?fields=programStages[programStageDataElements[dataElement[dataElementGroups[id,code,shortName,translations,dataElements[id,translations]]]]]&filter=id:eq:${programId}`,
         { method: "GET" }
     ).then(async response => {
         const body = await response.text();
