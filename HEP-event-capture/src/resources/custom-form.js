@@ -59,6 +59,17 @@ function getDataElementGroups(programStageDataElements) {
 }
 
 function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale) {
+    const tableLabels = {
+        fr: {
+            dataElement: "Élément de données",
+            value: "Valeur",
+        },
+        es: {
+            dataElement: "Elemento de datos",
+            value: "Valor",
+        },
+    };
+
     sectionTranslations.forEach(s => {
         const translation = s.translations.find(
             t => t.locale === userLocale && t.property === "SHORT_NAME"
@@ -67,6 +78,11 @@ function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, use
             $(`#${s.id}-section-title`).html(translation.value);
         }
     });
+
+    if (tableLabels[userLocale]) {
+        $(".data-element-label").html(tableLabels[userLocale].dataElement);
+        $(".value-label").html(tableLabels[userLocale].value);
+    }
 
     dataElementTranslations.forEach(de => {
         const translation = de.translations.find(

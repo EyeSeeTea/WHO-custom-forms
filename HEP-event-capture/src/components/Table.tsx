@@ -58,8 +58,8 @@ export function Table(attributes: { dataElements: DataElement[]; programStageId:
         <table class="dhis2-list-table-striped small-vertical-spacing table-width">
             <thead>
                 <tr>
-                    <th class="ng-binding">Data element</th>
-                    <th class="ng-binding">Value</th>
+                    <th class="ng-binding data-element-label">Data element</th>
+                    <th class="ng-binding value-label">Value</th>
                 </tr>
             </thead>
             <tbody>
