@@ -7,6 +7,7 @@ export interface FormData {
 }
 
 export interface FormSection {
+    id: string;
     title: string;
     dataElements: DataElement[];
     programStageId: string;
@@ -54,6 +55,7 @@ export class Form {
             const order = orderAttribute && orderAttribute.value;
 
             return {
+                id: deg.id,
                 title: deg.shortName,
                 programStageId: programStage.id,
                 order,

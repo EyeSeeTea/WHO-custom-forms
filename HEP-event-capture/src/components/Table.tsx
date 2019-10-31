@@ -8,7 +8,7 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
     const { dataElement, programStageId } = attributes;
 
     //Popup not working -
-    const PopupTitle = <a>{dataElement.formName}</a>;
+    const PopupTitle = <span id={`${dataElement.id}-dataElement`}>{dataElement.formName}</span>;
     const SpanElement = createElement(
         "span",
         {
@@ -28,10 +28,7 @@ function Row(attributes: { dataElement: DataElement; programStageId: string }) {
     const optionListElement = !!dataElement.optionSet;
     return (
         <tr class="ng-scope">
-            <td style="padding:6px;">
-                {SpanElement}
-                <span class="not-for-screen ng-binding">Name of the respondent</span>
-            </td>
+            <td style="padding:6px;">{SpanElement}</td>
             <td>
                 <div
                     class="hideInPrint ng-scope"
