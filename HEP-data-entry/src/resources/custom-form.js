@@ -53,8 +53,8 @@ function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, use
             HCV: `${text} para toda la cascada HCV`,
         },
         fr: {
-            HBV: `${text} pour toute la cascade HBV`,
-            HCV: `${text} pour toute la cascade HCV`,
+            HBV: `${text} pour toute la cascade VHB`,
+            HCV: `${text} pour toute la cascade VHC`,
         },
     });
     sectionTranslations.forEach(s => {
