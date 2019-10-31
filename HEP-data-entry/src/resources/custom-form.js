@@ -1,24 +1,21 @@
-const GLOBAL_FIELDS_TEMPLATE_SPANISH_HBV = text => `${text} para toda la cascada HBV`;
-const GLOBAL_FIELDS_TEMPLATE_SPANISH_HCV = text => `${text} para toda la cascada HCV`;
-
 async function applyChangesToForm() {
-    const {
-        dataElementTranslations,
-        sectionTranslations,
-        userLocale,
-    } = await getLocaleAndTranslations();
-    replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale);
     const datasetToApplyChanges = $("#custom-form-script").attr("data-dataset-id");
     const currentDataset = $("#selectedDataSetId").val();
     $("#completenessDiv").wrap("<div id='completenessWrapper'></div>");
     if (datasetToApplyChanges === currentDataset) {
+        const {
+            dataElementTranslations,
+            sectionTranslations,
+            userLocale,
+        } = await getLocaleAndTranslations(currentDataset);
+        replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale);
         $("#completenessWrapper").hide();
     } else {
         $("#completenessWrapper").show();
     }
 }
 
-async function getLocaleAndTranslations() {
+async function getLocaleAndTranslations(dataSetId) {
     const userLocale = await fetch("http://localhost:8080/api/userSettings.json", {
         method: "GET",
     }).then(async response => {
@@ -26,8 +23,9 @@ async function getLocaleAndTranslations() {
         const parsed = JSON.parse(body);
         return parsed.keyUiLocale;
     });
+
     const { dataElementTranslations, sectionTranslations } = await fetch(
-        "http://localhost:8080/api/dataSets.json?fields=sections[id,translations,dataElements[id,name,formName,translations]]&filter=id:eq:jfawDJZ5fOX",
+        `http://localhost:8080/api/dataSets.json?fields=sections[id,translations,dataElements[id,name,formName,translations]]&filter=id:eq:${dataSetId}`,
         { method: "GET" }
     ).then(async response => {
         const body = await response.text();
@@ -49,6 +47,16 @@ async function getLocaleAndTranslations() {
 }
 
 function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale) {
+    const globalFieldsStaticTranslations = text => ({
+        es: {
+            HBV: `${text} para toda la cascada HBV`,
+            HCV: `${text} para toda la cascada HCV`,
+        },
+        fr: {
+            HBV: `${text} pour toute la cascade HBV`,
+            HCV: `${text} pour toute la cascade HCV`,
+        },
+    });
     sectionTranslations.forEach(s => {
         const translation = s.translations.find(
             t => t.locale === userLocale && t.property === "NAME"
@@ -61,17 +69,14 @@ function replaceLocalizedTexts(dataElementTranslations, sectionTranslations, use
         const translation = de.translations.find(
             t => t.locale === userLocale && t.property === "FORM_NAME"
         );
-        if (de.name === "HEP_CASCADE_Additional_Information") {
+        if (de.name === "HEP_CASCADE_Additional_Information" && translation) {
             $(`span[id="${de.id}-global-dataElements-0"]`).html(
-                GLOBAL_FIELDS_TEMPLATE_SPANISH_HBV(translation.value)
+                globalFieldsStaticTranslations(translation.value)[userLocale].HBV
             );
             $(`span[id="${de.id}-global-dataElements-1"]`).html(
-                GLOBAL_FIELDS_TEMPLATE_SPANISH_HCV(translation.value)
+                globalFieldsStaticTranslations(translation.value)[userLocale].HCV
             );
         } else {
-            const translation = de.translations.find(
-                t => t.locale === userLocale && t.property === "FORM_NAME"
-            );
             if (translation) {
                 $(`span[id="${de.id}-dataElement"]`).html(translation.value);
             }
