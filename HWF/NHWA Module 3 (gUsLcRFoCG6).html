@@ -172,9 +172,13 @@
         updateCommentVisibility($textfield);
 
         updateBubble($textfield);
-        $textfield.on("change keyup paste", function() {
+        $textfield.on("change keyup paste", _.debounce(function () {
           updateBubble($(this));
-        });
+
+          // Store comments as comment too
+          var commentSaver = new CommentSaver(comment, "Xr12mI7VPn3", $(this).val());
+          commentSaver.save();
+        }, 500));
 
         if ($textfield.val() !== "") {
           const col = $textfield.parent().index() + 1;
