@@ -44,13 +44,20 @@
         updateCommentVisibility($textfield);
 
         updateBubble($textfield);
-        $textfield.on("change keyup paste", _.debounce(function () {
-          updateBubble($(this));
+        $textfield.on(
+          "change keyup paste",
+          _.debounce(function() {
+            updateBubble($(this));
 
-          // Store comments as comment too
-          var commentSaver = new CommentSaver(comment, "Xr12mI7VPn3", $(this).val());
-          commentSaver.save();
-        }, 500));
+            // Store comments as comment too
+            var commentSaver = new CommentSaver(
+              comment,
+              "Xr12mI7VPn3",
+              $(this).val()
+            );
+            commentSaver.save();
+          }, 500)
+        );
 
         if ($textfield.val() !== "") {
           const col = $textfield.parent().index() + 1;
@@ -401,7 +408,7 @@
             </th>
             <td style="text-align: center;">
               <input
-                id="CvaGFNVhuQl-HQPWV8cT7li-val"
+                id="CvaGFNVhuQl-Pva8axKgU16-val"
                 name="entryfield"
                 title="Total expenditure on compensation of employees Government"
                 value="[ Total expenditure on compensation of employees Government ]"
@@ -409,26 +416,26 @@
             </td>
             <td style="text-align: center;">
               <input
-                id="CvaGFNVhuQl-FiRcnmXF1Yg-val"
+                id="CvaGFNVhuQl-tOubXDEXuXK-val"
                 name="entryfield"
-                title="Total expenditure on compensation of employees Out of Pocket"
-                value="[ Total expenditure on compensation of employees Out of Pocket ]"
+                title="Total expenditure on compensation of employees Voluntary"
+                value="[ Total expenditure on compensation of employees Voluntary ]"
               />
             </td>
             <td style="text-align: center;">
               <input
-                id="CvaGFNVhuQl-QKhM7ublqzd-val"
+                id="CvaGFNVhuQl-BEmreemK803-val"
                 name="entryfield"
-                title="Total expenditure on compensation of employees Official Development Assistance"
-                value="[ Total expenditure on compensation of employees Official Development Assistance ]"
+                title="Total expenditure on compensation of employees Household"
+                value="[ Total expenditure on compensation of employees Household ]"
               />
             </td>
             <td style="text-align: center;">
               <input
-                id="CvaGFNVhuQl-txxKPnVUGvV-val"
+                id="CvaGFNVhuQl-qPPju3xBhV9-val"
                 name="entryfield"
-                title="Total expenditure on compensation of employees Others"
-                value="[ Total expenditure on compensation of employees Others ]"
+                title="Total expenditure on compensation of employees Other compensation"
+                value="[ Total expenditure on compensation of employees Other compensation ]"
               />
             </td>
           </tr>

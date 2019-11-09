@@ -44,13 +44,20 @@
         updateCommentVisibility($textfield);
 
         updateBubble($textfield);
-        $textfield.on("change keyup paste", _.debounce(function () {
-          updateBubble($(this));
+        $textfield.on(
+          "change keyup paste",
+          _.debounce(function() {
+            updateBubble($(this));
 
-          // Store comments as comment too
-          var commentSaver = new CommentSaver(comment, "Xr12mI7VPn3", $(this).val());
-          commentSaver.save();
-        }, 500));
+            // Store comments as comment too
+            var commentSaver = new CommentSaver(
+              comment,
+              "Xr12mI7VPn3",
+              $(this).val()
+            );
+            commentSaver.save();
+          }, 500)
+        );
 
         if ($textfield.val() !== "") {
           const col = $textfield.parent().index() + 1;
@@ -127,6 +134,10 @@
     const inputFields = Array.from(row.querySelectorAll("input.entryfield"));
     const checkboxes = Array.from(row.querySelectorAll("input.entrytrueonly"));
     const checkboxTd = row.querySelector("td:last-child");
+    const inputsAreTotals = inputFields.reduce(
+      (acc, field) => field.disabled === true || acc,
+      false
+    );
     const inputsHaveValue = inputFields.reduce(
       (acc, field) => field.value !== "" || acc,
       false
@@ -136,7 +147,7 @@
       false
     );
 
-    if (inputsHaveValue && !checkboxesHaveValue) {
+    if (inputsHaveValue && !checkboxesHaveValue && !inputsAreTotals) {
       checkboxTd.style.backgroundColor = "#fcbeb6";
     } else {
       checkboxTd.style.backgroundColor = "transparent";
@@ -144,7 +155,7 @@
   }
 
   $("table.withSourceType").on("change", "input", function() {
-    var row = $(this).closest("tr")[0];
+    var row = $(this).closest("table.withSourceType > tbody > tr")[0];
     updateWarningsSourceTypes(row);
   });
 

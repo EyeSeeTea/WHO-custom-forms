@@ -1369,6 +1369,44 @@
   function complete() {
     registerCompleteDataSet();
   }
+
+  function updateWarningsSourceTypes(row) {
+    const inputFields = Array.from(row.querySelectorAll("input.entryfield"));
+    const checkboxes = Array.from(row.querySelectorAll("input.entrytrueonly"));
+    const checkboxTd = row.querySelector("td:last-child");
+    const inputsAreTotals = inputFields.reduce(
+      (acc, field) => field.disabled === true || acc,
+      false
+    );
+    const inputsHaveValue = inputFields.reduce(
+      (acc, field) => field.value !== "" || acc,
+      false
+    );
+    const checkboxesHaveValue = checkboxes.reduce(
+      (acc, checkbox) => $(`#${checkbox.id}`).prop("checked") || acc,
+      false
+    );
+
+    if (inputsHaveValue && !checkboxesHaveValue && !inputsAreTotals) {
+      checkboxTd.style.backgroundColor = "#fcbeb6";
+    } else {
+      checkboxTd.style.backgroundColor = "transparent";
+    }
+  }
+
+  $("table.withSourceType").on("change", "input", function() {
+    var row = $(this).closest("table.withSourceType > tbody > tr")[0];
+    updateWarningsSourceTypes(row);
+  });
+
+  function loadWarningsSourceTypes() {
+    $("table.withSourceType > tbody > tr").each(function(idx, row) {
+      updateWarningsSourceTypes(row);
+    });
+  }
+
+  loadWarningsSourceTypes();
+  $(this).on(dhis2.de.event.dataValuesLoaded, loadWarningsSourceTypes);
 </script>
 <style type="text/css">
   #completeButton {
@@ -1479,7 +1517,7 @@
 
     <div id="cde">
       &nbsp;
-      <table cellpadding="0" cellspacing="0">
+      <table cellpadding="0" cellspacing="0" class="withSourceType">
         <thead>
           <tr>
             <th colspan="1" rowspan="2" scope="row">SN</th>
