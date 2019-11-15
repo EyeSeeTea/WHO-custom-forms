@@ -486,7 +486,7 @@
               $(document).ready(function() {
                 const isDevelopment = false;
                 const baseUrl = isDevelopment
-                  ? "https://taris.sferadev.com:9004"
+                  ? "http://taris.sferadev.com:9004"
                   : "..";
 
                 // Build "totals that do not match" table
@@ -1572,7 +1572,18 @@
                                   period: period.split("-")[0],
                                   orgUnit: period.split("-")[1],
                                   value: calculatedValues[period],
-                                  originalValue: providedValues[period]
+                                  originalValue: providedValues[period],
+                                  sum: total.children
+                                    .map(e => {
+                                      const dataValue = _.find(dataValues[e], {
+                                        dataElement: e.split("-")[0],
+                                        categoryOptionCombo: e.split("-")[1],
+                                        period: period.split("-")[0],
+                                        orgUnit: period.split("-")[1]
+                                      });
+                                      return dataValue ? dataValue.value : 0;
+                                    })
+                                    .join(" + ")
                                 };
                               } else {
                                 return null;
@@ -1594,7 +1605,7 @@
                           metadata[element.categoryOptionCombo],
                           element.period,
                           metadata[element.orgUnit],
-                          element.value,
+                          `${element.sum} = ${element.value}`,
                           element.originalValue ? element.originalValue : "-"
                         ]);
                       });
@@ -1608,7 +1619,10 @@
 
           <body>
             <div class="gridDiv">
-              <h3>Module 1 totals with missing sum or sum that does not match the auto-calculated</h3>
+              <h3>
+                Module 1 totals with missing sum or sum that does not match the
+                auto-calculated
+              </h3>
               <table class="listTable gridTable" id="module1TotalsTable">
                 <thead>
                   <tr>
