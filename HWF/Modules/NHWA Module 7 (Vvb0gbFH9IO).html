@@ -115,17 +115,6 @@
         });
       });
 
-      $(".comment-bubble").on("click", function() {
-        const col =
-          $(this)
-            .parent()
-            .index() + 1;
-        $(this)
-          .closest("table")
-          .find("tr > *:nth-child(" + (col + 1) + ")")
-          .toggle();
-      });
-
       percentages.forEach(function(percentage) {
         $("#" + percentage + "-Xr12mI7VPn3-val").on(
           "change keyup paste",
@@ -144,6 +133,17 @@
 
     init();
     $(this).on(dhis2.de.event.dataValuesLoaded, init);
+
+    $(".comment-bubble").on("click", function() {
+      const col =
+        $(this)
+          .parent()
+          .index() + 1;
+      $(this)
+        .closest("table")
+        .find("tr > *:nth-child(" + (col + 1) + ")")
+        .toggle();
+    });
   });
 </script>
 <style type="text/css">
