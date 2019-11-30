@@ -26,6 +26,7 @@
     "NI5EQM6hHmc",
     "OX7yvkLP2Uj"
   ];
+  var percentages = [];
 
   $(document).ready(function() {
     $(function() {
@@ -60,7 +61,7 @@
       }
     }
 
-    function disableCommentLogic() {
+    function init() {
       $(".comments").toggle(false);
       comments.forEach(function(comment) {
         const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
@@ -90,67 +91,82 @@
             .toggle(true);
         }
       });
-    }
 
-    yespartialno.forEach(function(dataElement) {
-      categoryIssues.forEach(function(option) {
-        $("#" + dataElement + "-" + option + "-val").on("click", function() {
-          const id = $(this).attr("id");
-          updateCommentVisibility(
-            $(this)
-              .closest("td")
-              .next()
-              .find("textarea")
-          );
+      yespartialno.forEach(function(dataElement) {
+        categoryIssues.forEach(function(option) {
+          $("#" + dataElement + "-" + option + "-val").on("click", function() {
+            const id = $(this).attr("id");
+            updateCommentVisibility(
+              $(this)
+                .closest("td")
+                .next()
+                .find("textarea")
+            );
 
-          if ($(this).is(":checked")) {
-            categoryIssues.forEach(function(id) {
-              if (id !== option) {
-                const str = "#" + dataElement + "-" + id + "-val";
-                if ($(str).is(":checked")) {
-                  $(str).click();
+            if ($(this).is(":checked")) {
+              categoryIssues.forEach(function(id) {
+                if (id !== option) {
+                  const str = "#" + dataElement + "-" + id + "-val";
+                  if ($(str).is(":checked")) {
+                    $(str).click();
+                  }
                 }
-              }
-            });
-          }
+              });
+            }
+          });
         });
       });
-    });
 
-    yesno.forEach(function(dataElement) {
-      ["true", "false"].forEach(function(value) {
-        $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
-          "click",
-          function() {
-            const $textfield = $(this)
-              .closest("td")
-              .next()
-              .find("textarea");
-            if ($(this).is(":checked")) {
-              $textfield.removeAttr("disabled");
-              $textfield.css("background-color", "rgb(255, 255, 255)");
-            } else {
-              $textfield.prop("disabled", true);
-              $textfield.css("background-color", "rgb(204, 204, 204)");
+      yesno.forEach(function(dataElement) {
+        ["true", "false"].forEach(function(value) {
+          $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+            "click",
+            function() {
+              const $textfield = $(this)
+                .closest("td")
+                .next()
+                .find("textarea");
+              if ($(this).is(":checked")) {
+                $textfield.removeAttr("disabled");
+                $textfield.css("background-color", "rgb(255, 255, 255)");
+              } else {
+                $textfield.prop("disabled", true);
+                $textfield.css("background-color", "rgb(204, 204, 204)");
+              }
             }
-          }
+          );
+        });
+      });
+
+      $(".comment-bubble").on("click", function() {
+        const col =
+          $(this)
+            .parent()
+            .index() + 1;
+        $(this)
+          .closest("table")
+          .find("tr > *:nth-child(" + (col + 1) + ")")
+          .toggle();
+      });
+
+      percentages.forEach(function(percentage) {
+        $("#" + percentage + "-Xr12mI7VPn3-val").on(
+          "change keyup paste",
+          _.debounce(function() {
+            const value = parseFloat($(this).val());
+            if (value > 100 || value < 0) {
+              alert("Value " + value + "is not a valid percentage");
+              $(this)
+                .val("")
+                .trigger("change");
+            }
+          }, 500)
         );
       });
-    });
+    }
 
-    disableCommentLogic();
-    $(this).on(dhis2.de.event.dataValuesLoaded, disableCommentLogic);
-
-    $(".comment-bubble").on("click", function() {
-      const col =
-        $(this)
-          .parent()
-          .index() + 1;
-      $(this)
-        .closest("table")
-        .find("tr > *:nth-child(" + (col + 1) + ")")
-        .toggle();
-    });
+    init();
+    $(this).on(dhis2.de.event.dataValuesLoaded, init);
   });
 </script>
 <style type="text/css">
