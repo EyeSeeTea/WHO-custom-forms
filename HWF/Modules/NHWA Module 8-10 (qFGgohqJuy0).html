@@ -153,7 +153,7 @@
           _.debounce(function() {
             const value = parseFloat($(this).val());
             if (value > 100 || value < 0) {
-              alert("Value " + value + "is not a valid percentage");
+              alert("Value " + value + " is not a valid percentage");
               $(this)
                 .val("")
                 .trigger("change");
