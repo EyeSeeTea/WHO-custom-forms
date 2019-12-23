@@ -1471,9 +1471,13 @@
                                   `Status: ${response.status}\n` +
                                     `Overview: ${response.description}\n` +
                                     `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                                    `\n${response.conflicts.map(
-                                      e => "CONFLICT: " + e.value + "\n"
-                                    )}`
+                                    `\n${
+                                      response.conflicts
+                                        ? response.conflicts.map(
+                                            e => "CONFLICT: " + e.value + "\n"
+                                          )
+                                        : ""
+                                    }`
                                 );
                                 location.reload();
                               }
@@ -1565,26 +1569,25 @@
                                 )
                                 .value();
                               const calculatedValues = _(total.children)
-                                .map(e => dataValues[e])
+                                .map(e =>
+                                  !!dataValues[e] ? dataValues[e] : []
+                                )
                                 .flatten()
-                                .compact()
                                 .groupBy(
                                   element =>
                                     `${element.period}-${element.orgUnit}-val`
                                 )
                                 .mapValues(values =>
-                                  _.sumBy(values, e => parseFloat(e.value))
+                                  _.sumBy(values, e => parseFloat(e.value || 0))
                                 )
                                 .value();
 
                               const result = _(_.keys(providedValues))
                                 .union(_.keys(calculatedValues))
                                 .map(period => {
-                                  const providedValue = providedValues[period];
                                   if (
                                     calculatedValues[period] !==
-                                      providedValues[period] &&
-                                    !isNaN(calculatedValues[period])
+                                    providedValues[period]
                                   ) {
                                     return {
                                       dataElement: total.id.split("-")[0],
@@ -1593,7 +1596,9 @@
                                       )[1],
                                       period: period.split("-")[0],
                                       orgUnit: period.split("-")[1],
-                                      value: calculatedValues[period],
+                                      value: !isNaN(calculatedValues[period])
+                                        ? calculatedValues[period]
+                                        : 0,
                                       originalValue: providedValues[period],
                                       sum: total.children
                                         .map(e => {
@@ -1608,7 +1613,7 @@
                                               orgUnit: period.split("-")[1]
                                             }
                                           );
-                                          return dataValue
+                                          return dataValue && dataValue.value
                                             ? dataValue.value
                                             : 0;
                                         })
