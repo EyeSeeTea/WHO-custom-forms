@@ -1585,10 +1585,19 @@
                               const result = _(_.keys(providedValues))
                                 .union(_.keys(calculatedValues))
                                 .map(period => {
-                                  if (
-                                    calculatedValues[period] !==
-                                    providedValues[period]
-                                  ) {
+                                  const calculatedValue =
+                                    !isNaN(calculatedValues[period]) &&
+                                    calculatedValues[period] !== 0
+                                      ? calculatedValues[period]
+                                      : undefined;
+
+                                  const providedValue =
+                                    !isNaN(providedValues[period]) &&
+                                    providedValues[period] !== 0
+                                      ? providedValues[period]
+                                      : undefined;
+
+                                  if (calculatedValue !== providedValue) {
                                     return {
                                       dataElement: total.id.split("-")[0],
                                       categoryOptionCombo: total.id.split(
@@ -1596,10 +1605,8 @@
                                       )[1],
                                       period: period.split("-")[0],
                                       orgUnit: period.split("-")[1],
-                                      value: !isNaN(calculatedValues[period])
-                                        ? calculatedValues[period]
-                                        : 0,
-                                      originalValue: providedValues[period],
+                                      value: calculatedValue || 0,
+                                      originalValue: providedValue,
                                       sum: total.children
                                         .map(e => {
                                           const dataValue = _.find(
