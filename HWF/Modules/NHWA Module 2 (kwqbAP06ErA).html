@@ -5,6 +5,25 @@
   var comments = ["aAuKVcYFTB8"];
   var percentages = [];
 
+  function get_resource_link(element_id, tokens) {
+    $.ajax({
+      url: "../api/documents",
+      type: "get",
+      data: {
+        fields: 'id',
+        filter: 'name:token:'+tokens
+      },
+      success: function(response) {
+        id = response['documents'][0]['id'];
+        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
+      },
+      error: function(xhr) {
+        console.log("Error in the request");
+        console.log(xhr);
+      }
+    });
+  }
+
   $(document).ready(function() {
     $(function() {
       $("#mod2_tabs").tabs();
@@ -144,6 +163,13 @@
         .find("tr > *:nth-child(" + (col + 1) + ")")
         .toggle();
     });
+
+    $(function() {
+      console.log('Updating file resources links')
+      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+      get_resource_link('userguide_link', 'NHWA, User, guide');
+      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+    })
   });
 
   function updateWarningsSourceTypes(row) {
@@ -219,9 +245,10 @@
 </style>
 <h3 style="text-align: center;"><strong>Health Workforce Education and Training</strong></h3>
 
-<h4 style="text-align: right;"><a href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a><br />
-<br />
-<a href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="handbook_link" href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
+
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="userguide_link" href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+
 
 <div id="mod2_tabs">
 <ul>

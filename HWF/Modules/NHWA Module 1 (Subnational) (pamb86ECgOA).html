@@ -273,6 +273,25 @@
         });
     }
 
+    function get_resource_link(element_id, tokens) {
+      $.ajax({
+        url: "../api/documents",
+        type: "get",
+        data: {
+          fields: 'id',
+          filter: 'name:token:'+tokens
+        },
+        success: function(response) {
+          id = response['documents'][0]['id'];
+          document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
+        },
+        error: function(xhr) {
+          console.log("Error in the request");
+          console.log(xhr);
+        }
+      });
+    }
+
     $(document).ready(function(){
         $(function() {
             $( "#mod2_tabs" ).tabs();
@@ -284,6 +303,12 @@
 			$('input[type=text]').on('input', function(e){ onNumericInputChange(e.target.id); });
 			$('input[type=checkbox]').on('change', function(e){ onCheckboxInputChange(e.target.id); });
         });
+        $(function() {
+          console.log('Updating file resources links')
+          get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+          get_resource_link('userguide_link', 'NHWA, User, guide');
+          get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+        })
     });
       var expanded = false;
 
@@ -369,11 +394,11 @@
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" rel="stylesheet" />
 <h3 style="text-align: center;"><strong>Active Health Workforce Demographic Details</strong></h3>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/noTAnc1EMob/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="handbook_link" href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="userguide_link" href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/KC4DKufIIVw/data" target="_blank">Access the NHWA OCCUPATION MAPPING</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="occupation_link" href="../api/documents/KC4DKufIIVw/data" target="_blank">Access the NHWA OCCUPATION MAPPING</a></h4>
 
 <div id="mod2_tabs">
 <ul>
