@@ -1,0 +1,536 @@
+<!-- javascript translate function --><script type="text/javascript">
+!function(t){t.fn.translate=function(n){var s=this;console.log("inside trans");var r={css:"trn",lang:"en"};0!==(r=t.extend(r,n||{})).css.lastIndexOf(".",0)&&(r.css="."+r.css);var a=r.t;return this.lang=function(t){return t&&(r.lang=t,this.translate(r)),r.lang},this.get=function(t){var n=t;try{n=a[t][r.lang]}catch(n){return t}return n||t},this.g=this.get,this.find(r.css).each(function(n){var r=t(this),a=r.attr("data-trn-key");console.log("trn_key "+a),a||(a=r.html(),console.log("trn_key "+a),r.attr("data-trn-key",a)),r.html(s.get(a)),console.log("$this.html "+r.html())}),this}}(jQuery);
+</script><script type="text/javascript">
+//Shared variables
+var global = {
+relativeURL: "/hmis/",
+currentUILanguage: "en"
+}
+//All translation including mark-up
+var dict = {
+
+"Instructions": {
+  en: "<strong>Instructions - Please read before entering the data</strong>", 
+  es: "Instrucciones - Por favor, lea detenidamente antes de introducir ningún dato.", 
+  fr: "Instructions - S'il vous plaît, lisez attentivement avant d'entrer des données",
+  pt: "Instruções - Por favor, leia atentamente antes de inserir qualquer dado"
+},
+
+"RedText": { 
+  en: "<span style='color:#ff0000;'>Red text*</span> shows fields that are required", 
+  es: "<span style='color:#ff0000;'>El texto en rojo*</span> indica los campos que son obligatorios", 
+  fr: "<span style='color:#ff0000;'>Texte rouge*</span> indiquez les champs obligatoires",
+  pt: "<span style='color:#ff0000;'>O texto em vermelho*</span> indica os campos que são obrigatórios"
+},
+
+"GreyShaded": { 
+  en: "<span style='background-color:#d3d3d3;'>Grey shaded boxes</span>&nbsp;show&nbsp;fields that are automatically calculated. Required fields must be completed for calculations to be correct", 
+  es: "<span style='background-color:#d3d3d3;'>El sombreado gris</span>&nbsp;indica&nbsp;los campos que el sistema calcula automaticamente. Para que estos calculos sean correctos es indispensable haber rellenado los campos anteriores obligatorios.", 
+  fr: "<span style='background-color:#d3d3d3;'>L'ombrage gris</span> indiquent les champs qui sont calculés automatiquement. Les champs obligatoires doivent être complétés pour que les calculs soient corrects.",
+  pt: "<span style='background-color:#d3d3d3;'>O sombreamento cinza</span>&nbsp;indica&nbsp;os campos que o sistema calcula e preenche automaticamente. Para que esses cálculos estejam corretos, é essencial que os campos obrigatórios anteriores sejam preenchidos."
+},
+
+"Automatical": { 
+  en: "Check the required data is entered and calculations are correct before you submit the data ", 
+  es: "Por favor, compruebe que los datos introducidos y los calculatos automáticos sean correctos antes de enviar el formulario.", 
+  fr: "Vérifiez que les données requises sont entrées et que les calculs sont corrects avant de soumettre le formulaire.",
+  pt: "Por favor, verifique se os dados inseridos e os cálculos automáticos estão corretos antes de enviar o formulário."
+},
+
+
+"TestDetails": { 
+  en: "<strong>Test details</strong>", 
+  es: "<strong>Información sobre la prueba</strong>", 
+  fr: "<strong>Informations sur le test</strong>",
+  pt: "<strong>Informações sobre o teste</strong>"
+},
+
+"TypeTest": { 
+  en: "<span style='color:#ff0000;'>Type of test* </span>", 
+  es: "<span style='color:#ff0000;'>Tipo de ensayo* </span>", 
+  fr: "<span style='color:#ff0000;'>Type de test* </span>",
+  pt: "<span style='color:#ff0000;'>Tipo de teste* </span>"
+},
+
+"InsecticideClass": { 
+  en: "Insecticide class tested", 
+  es: "Clase de insecticida testado", 
+  fr: "Classe d'insecticide testée",
+  pt: "Clase de insecticida testado"
+},
+
+"InsecticideTested": { 
+  en: "<span style='color:#ff0000;'>Insecticide and concentration tested* </span>", 
+  es: "<span style='color:#ff0000;'>Insecticida y concentración testados* </span>", 
+  fr: "<span style='color:#ff0000;'>Insecticide et concentration testés* </span>",
+  pt: "<span style='color:#ff0000;'>Inseticida e concentração testados* </span>"
+},
+
+
+"InsecticideTested5": { 
+  en: "<span style='color:#ff0000;'>Insecticide and concentration tested* (5x)</span>", 
+  es: "<span style='color:#ff0000;'>Insecticida y concentración testados* (5x)</span>", 
+  fr: "<span style='color:#ff0000;'>Insecticide et concentration testés* (5x)</span>",
+  pt: "<span style='color:#ff0000;'>Inseticida e concentração testados* (5x)</span>"
+},
+
+"OtherInsecticide": { 
+  en: "Other insecticide/concentration – Add only if not in the above dropdown list", 
+  es: "Otro insecticida/concentración - Añadir solo si el insecticida utilizado no aparece en el menú anterior.", 
+  fr: "Autre insecticide / concentration  - Ajoutez seulement si l'insecticide utilisé n'apparaît pas dans le menu déroulant.",
+  pt: "Outro inseticida / concentração - Adicione somente se o inseticida usado não aparecer no menu anterior."
+},
+"OtherInsecticide5": { 
+  en: "Other insecticide/concentration 5x – Add only if not in the above dropdown list", 
+  es: "Otro insecticida/concentración 5x- Añadir solo si el insecticida utilizado no aparece en el menú anterior.", 
+  fr: "Autre insecticide / concentration 5x - Ajoutez seulement si l'insecticide utilisé n'apparaît pas dans le menu déroulant.",
+  pt: "Otro insecticida/concentración - Añadir solo si el insecticida utilizado no aparece en el menú anterior."
+},
+
+"InsecticideTested10": { 
+  en: "<span style='color:#ff0000;'>Insecticide and concentration tested* (10x)</span>", 
+  es: "<span style='color:#ff0000;'>Insecticida y concentración testados* (10x)</span>", 
+  fr: "<span style='color:#ff0000;'>Insecticide et concentration testés* (10x)</span>",
+  pt: "<span style='color:#ff0000;'>Inseticida e concentração testados* </span>"
+},
+
+"OtherInsecticide10": { 
+  en: "Other insecticide/concentration 10x – Add only if not in the above dropdown list", 
+  es: "Otro insecticida/concentración 10x- Añadir solo si el insecticida utilizado no aparece en el menú anterior.", 
+  fr: "Autre insecticide / concentration 10x - Ajoutez seulement si l'insecticide utilisé n'apparaît pas dans le menu déroulant.",
+  pt: "Otro insecticida/concentración - Añadir solo si el insecticida utilizado no aparece en el menú anterior."
+},
+
+"SynergistTested": { 
+  en: "<span style='color:#ff0000;'>Synergist et concentration tested*: </span>", 
+  es: "<span style='color:#ff0000;'>Sinergista y concentración testado* </span>", 
+  fr: "<span style='color:#ff0000;'>Synergiste et concentration testé* </span>",
+  pt: "<span style='color:#ff0000;'>Sinergista e concentração testado* </span>"
+},
+
+"OtherSynergist": { 
+  en: "<span style='color:#ff0000;'>Other synergist/concentration – Add only if not in the above dropdown list </span>", 
+  es: "<span style='color:#ff0000;'>Otro sinergist /concentración - Añadir solo si el sinergista utilizado no aparece en el menú anterior.</span>", 
+  fr: "<span style='color:#ff0000;'>Autre synergiste / concentration - Ajoutez seulement si le synergiste utilisé n'apparaît pas dans le menu déroulant. </span>",
+  pt: "<span style='color:#ff0000;'>Outro sinergista / concentração - Adicione somente se o sinergista usado não aparecer no menu anterior.</span>" 
+},
+
+
+"Time": { 
+  en: "<span style='color:#ff0000;'>Time at which mortality observed*</span>", 
+  es: "<span style='color:#ff0000;'>Tiempo transcurrido hasta la observación de la mortalidad*</span>", 
+  fr: "<span style='color:#ff0000;'>Temps d'observation pour la mortalité*</span>",
+  pt: "<span style='color:#ff0000;'>Tempo decorrido até a observação da mortalidade*</span>" 
+},
+
+"VectorSpecies": { 
+  en: "<strong>Vector species<strong>", 
+  es: "<strong>Especies vectoras<strong>", 
+  fr: "<strong>Espèces vectorielles<strong>",
+  pt: "<strong>Especies vectoras<strong>"
+},
+
+"SpeciesTested": { 
+  en: "<span style='color:#ff0000;'>Species tested*</span>", 
+  es: "<span style='color:#ff0000;'>Especie testada*</span>", 
+  fr: "<span style='color:#ff0000;'>Espèce testée*</span>",
+  pt: "<span style='color:#ff0000;'>Especie testada*</span>"
+},
+
+"OtherSpecies": { 
+  en: "Other species tested – Add only if not in the above dropdown list", 
+  es: "Otra especie testada - Añadir solo si la especie testada no aparece en el menú anterior", 
+  fr: "Autre espèce testée - Ajouter seulement si l'espèce testée n'apparaît pas dans le menu déroulant",
+  pt: "Outra espécie testada - Adicione somente se as espécies testadas não aparecerem no menu anterior"
+},
+
+"YearCollectStart": { 
+  en: "<span style='color:#ff0000;'>Year when mosquitoes collection started* (e.g. 2012)</span>", 
+  es: "<span style='color:#ff0000;'>Año de inicio de la captura de los mosquitos usados en el test* (e.j. 2012)</span>", 
+  fr: "<span style='color:#ff0000;'>Année marquant le début de la collecte des moustiques utilisés pour le test * (par exemple  2012)</span>",
+  pt: "<span style='color:#ff0000;'>Ano do inicio da captura dos mosquitos usados no teste* (e.j. 2012)</span>"
+},
+
+"MonthCollectStart": { 
+  en: "Month when mosquitoes collection started", 
+  es: "Mes de inicio de la captura de los mosquitos usados en el test", 
+  fr: "Mois marquant le début de la collecte des moustiques utilisés pour le test",
+  pt: "Mes do inicio de captura dos mosquitos usados no teste"
+},
+
+"YearCollectEnd": { 
+  en: "Year when mosquitoes collection ended (year start, e.g. 2012)", 
+  es: "Año de find de la captura de los mosquitos usados en el test* (e.j. 2012)", 
+  fr: "Année marquant la fin de la collecte des moustiques utilisés pour le test (par exemple  2012)",
+  pt: "Ano do fin da captura dos mosquitos usados no teste*(e.j. 2012)"
+},
+
+"MonthCollectEnd": { 
+  en: "Month when mosquitoes collection ended", 
+  es: "Mes de fin de la captura de los mosquitos usados en el test", 
+  fr: "Mois marquant la fin de la collecte des moustiques utilisés pour le test",
+  pt: "Mes do fin da captura dos mosquitos usados no teste"
+},
+
+"ResistanceConfirmed": { 
+  en: "<span style='color:#ff0000;'>Has resistance been confirmed at this site in this species in the last 12 months (ie. <90% mortality in discriminating concentration bioassay)?</span>", 
+  es: "<span style='color:#ff0000;'>¿Se ha confirmado la resistencia en esta especie y lugar en los últimos 12 meses (es decir, <90% de mortalidad en bioensayo de concentración discriminante)?</span>", 
+  fr: "<span style='color:#ff0000;'>La résistance a-t-elle été confirmée sur cette espèce au site au cours des 12 derniers mois (c.-à-d. Mortalité <90% dans un essai biologique de concentration différenciant)?</span>",
+  pt: "<span style='color:#ff0000;'>A resistência foi confirmada nesta espécie neste local nos últimos 12 meses (isto é, mortalidade <90% no bioensaio de concentração discriminante)?</span>"
+},
+
+"StageTested": { 
+  en: "Stage and origin of mosquitos tested", 
+  es: "Fase y origen de los mosquitos testados", 
+  fr: "Stade et origine des moustiques testés",
+  pt: "Estágio e origem dos mosquitos testados"
+},
+
+
+"SpeciesControls": { 
+  en: "Species used in controls", 
+  es: "Especie utilizadas como control", 
+  fr: "Espèce utilisée comme témoin",
+  pt: "Espécie usada como controle"
+},
+
+"OtherSpeciesControls": { 
+  en: "Other control species test – Add only if not in the above dropdown list", 
+  es: "Otra especie utilizada como control - Añadir solo si la especie testada no aparece en el menú anterior", 
+  fr: "Autre espèce utilisée comme contrôle - Ajoutez seulement si l'espèce testée n'apparaît pas dans le menu déroulant",
+  pt: "Outra espécie usada como controle - Adicione somente se as espécies testadas não aparecerem no menu anterior"
+},
+
+"TestResults": { 
+  en: "<strong>Test results (discriminating concentration bioassays)</strong>", 
+  es: "<strong>Resultados del test (concentración discriminante)</strong>", 
+  fr: "<strong>Résultats des tests (concentration discriminante)</strong>",
+  pt: "<strong>Resultados do teste (concentração discriminante)</strong>"
+},
+
+"TotalNumber": { 
+  en: "Total number of mosquitoes tested (n)", 
+  es: "Número total de mosquitos testados (n)", 
+  fr: "Nombre total de moustiques testés (n)",
+  pt: "Número total de mosquitos testados (n)"
+},
+
+"TotalDead": { 
+  en: "Total number of mosquitoes dead (n)", 
+  es: "Número total de mosquitos muertos (n)", 
+  fr: "Nombre total de moustiques morts (n)",
+  pt: "Número total de mosquitos mortos (n)"
+},
+
+
+"AverageMortality": { 
+  en: "Average mortality (%)", 
+  es: "Mortalidad promedio (%)", 
+  fr: "Mortalité moyenne (%)",
+  pt: "Mortalidade média (%)"
+},
+
+"MortalityAdjusted": { 
+  en: "<span style='color:#ff0000;'>Average mortality adjusted for control* (%)</strong>", 
+  es: "<span style='color:#ff0000;'>Mortalidad promedio ajustada por la mortalidad de los mosquitos control* (%)</strong>", 
+  fr: "<span style='color:#ff0000;'>Mortalité moyenne ajustée pour la mortalité des moustiques contrôles* (%)</strong>",
+  pt: "<span style='color:#ff0000;'>Mortalidade média ajustada para mortalidade de mosquitos de controle* (%)</strong>"
+},
+
+"ExposedSynergistInsecticide": { 
+  en: "Exposed to insecticide only ", 
+  es: "Expuestos al insecticide y al sinergista", 
+  fr: "Exposé au synergiste et à l'insecticide",
+  pt: "Exposto ao inseticida e ao sinergista"
+
+},
+
+"ExposedSynergist": { 
+  en: "Exposed to synergist only", 
+  es: "Expuestos al synergista solamente", 
+  fr: "Exposé uniquement au synergiste",
+  pt: "Expostos apenas ao sinergista"
+},
+
+"Control": { 
+  en: "Control (neither insecticide nor synergist)", 
+  es: "Controles (sin insecticida ni sinergista)", 
+  fr: "Contrôles (sans insecticide ni synergiste)",
+  pt: "Controles (sem inseticida ou sinergista)"
+},
+
+
+"Exposed": { 
+  en: "Exposed (insecticide)", 
+  es: "Expuestos (insecticida)", 
+  fr: "Exposé (insecticide)",
+  pt: "Expostos (insecticida)"
+},
+
+"ExposedInsecticide": { 
+  en: "Exposed to synergist+insecticide", 
+  es: "Expuestos al insecticide y al sinergista", 
+  fr: "Exposé au synergiste et à l'insecticide",
+  pt: "Expostos ao inseticida e ao sinergista" 
+},
+
+"TestOutcome": { 
+  en: "<strong>Test outcome</strong>", 
+  es: "<strong>Resultado del test</strong>", 
+  fr: "<strong>Résultat du test</strong>",
+  pt: "<strong>Resultado do teste</strong>"
+},
+
+"ResistanceStatus": { 
+  en: "<span style='color:#ff0000;'>Resistance status*</span>", 
+  es: "<span style='color:#ff0000;'>Estado de la resistencia*</span>", 
+  fr: "<span style='color:#ff0000;'>Statut de résistance*</span>",
+  pt: "<span style='color:#ff0000;'>Estado da resistência*</span>"
+},
+
+"ResistanceFrequency": { 
+  en: "<span style='color:#ff0000;'>Resistance frequency* (%)</span>", 
+  es: "<span style='color:#ff0000;'>Frecuencia de la resistencia* (%)</span>", 
+  fr: "<span style='color:#ff0000;'>Fréquence de la résistance* (%)</span>",
+  pt: "<span style='color:#ff0000;'>Frequência da resistência* (%)</span>"
+},
+
+"ResistanceIntensity": { 
+  en: "<span style='color:#ff0000;'>Resistance intensity*</span>", 
+  es: "<span style='color:#ff0000;'>Intensidad de la resistencia*</span>", 
+  fr: "<span style='color:#ff0000;'>Intensité de la résistance*</span>",
+  pt: "<span style='color:#ff0000;'>Frequência da resistência* (%)</span>"
+},
+
+"SynergistInvolvement": { 
+  en: "<span style='color:#ff0000;'>Synergist involvement*</span>", 
+  es: "<span style='color:#ff0000;'>Nivel de implicación del insectida*</span>", 
+  fr: "<span style='color:#ff0000;'>Niveaux d'implication du synergiste*</span>",
+  pt: "<span style='color:#ff0000;'>Nível de envolvimento do inseticida*</span>"
+},
+
+
+"AllelicFreq": { 
+  en: "Allelic frequency", 
+  es: "Frecuencia alélica", 
+  fr: "Fréquence allélique",
+  pt: "Freqüência alélica"
+},
+
+"MechanismStatus": { 
+  en: "<span style='color:#ff0000;'>Mechanism status*:</span>", 
+  es: "<span style='color:#ff0000;'>Estado del mecanismo*:</span>", 
+  fr: "<span style='color:#ff0000;'>Statut du mécanisme*:</span>",
+  pt: "<span style='color:#ff0000;'>Estado do mecanismo*:</span>"
+},
+
+"OtherInformation": { 
+  en: "<strong>Other information</strong>", 
+  es: "<strong>Otra información</strong>", 
+  fr: "<strong>Autre(s) information(s)</strong>",
+  pt: "<strong>Outra informação</strong>"
+},
+
+"Institute": { 
+  en: "<span style='color:#ff0000;'>Institute that collected data*</span>", 
+  es: "<span style='color:#ff0000;'>Institución proveedora de los datos*</span>", 
+  fr: "<span style='color:#ff0000;'>Institution fournissant les données*</span>",
+  pt: "<span style='color:#ff0000;'>Instituição que fornece os dados*</span>"
+},
+
+"DataPublished": { 
+  en: "<span style='color:#ff0000;'>Have these data been published in a scintific journal?*</span>", 
+  es: "<span style='color:#ff0000;'>Se han publicado estos datos en una revista científica?*</span>", 
+  fr: "<span style='color:#ff0000;'>Ces données ont-elles été publiées dans un jornal scientifique?*</span>",
+  pt: "<span style='color:#ff0000;'>Estes dados foram publicados num jornal cientifico?*</span>"
+},
+
+"PublicationCitation": { 
+  en: "Publication citation (authors, year, title, journal, issue, pages) ", 
+  es: "Cita de la publicación (autor, año, título, revista, volumen, paginas)", 
+  fr: "Référence de la publication (auteur, année, titre, journal scientifique, volume, pages)",
+  pt: "Citação da publicação (autor, ano, título, revista, volume, páginas)"
+},
+
+"PubMed": { 
+  en: "Link to abstract in PubMed", 
+  es: "Link a la publicación", 
+  fr: "Lien vers la publication dans PubMed",
+  pt: "Link para a publicação"
+  }
+} 
+
+
+//Get user UI locale
+function getUserSetting() {
+var requestURL = "../api/userSettings";
+
+$.getJSON( requestURL, function(json) {
+global.currentUILanguage = json.keyUiLocale;
+translator.lang(global.currentUILanguage);
+})
+.done(function() {
+console.log( "Get UILanguage success achieved" + global.currentUILanguage);
+})
+.fail(function() {
+console.log( "Get UILanguage error" );
+})
+.always(function() {
+console.log( "Get UILanguage complete " + global.currentUILanguage );
+  });
+}
+
+var translator = $('body').translate({lang: global.UILanguage, t: dict}); //use English
+getUserSetting();
+
+
+</script>
+<p class="trn">Instructions</p>
+
+<ul>
+	<li class="trn">RedText</li>
+	<li class="trn">GreyShaded</li>
+	<li class="trn">Automatical</li>
+</ul>
+
+<p class="trn">VectorSpecies</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+	<tbody>
+		<tr>
+			<td class="trn">SpeciesTested</td>
+			<td><input id="P7VZnpYMjf6-gXKPOItwUlb-val" name="entryfield" title="ENTO-IR- Species tested" value="[ ENTO-IR- Species tested ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">OtherSpecies</td>
+			<td><input id="P7VZnpYMjf6-v7YkIQwsbjV-val" name="entryfield" title="ENTO-IR- Other vector species tested" value="[ ENTO-IR- Other vector species tested ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">YearCollectStart</td>
+			<td><input id="P7VZnpYMjf6-EvSWXtVdh6h-val" name="entryfield" title="ENTO-IR- Year mosquito collectio - start" value="[ ENTO-IR- Year mosquito collectio - start ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">MonthCollectStart</td>
+			<td><input id="P7VZnpYMjf6-aNTjTSnE4n3-val" name="entryfield" title="ENTO-IR- Month collection started" value="[ ENTO-IR- Month collection started ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">YearCollectEnd</td>
+			<td><input id="P7VZnpYMjf6-sxLgkqTWM1c-val" name="entryfield" title="ENTO-IR- Year mosquito collection - end" value="[ ENTO-IR- Year mosquito collection - end ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">MonthCollectEnd</td>
+			<td><input id="P7VZnpYMjf6-nJGsnuqueOI-val" name="entryfield" title="ENTO-IR- Month collection ended" value="[ ENTO-IR- Month collection ended ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">StageTested</td>
+			<td><input id="P7VZnpYMjf6-gqhSHmY7Etl-val" name="entryfield" title="ENTO-IR- Stage and origin of tested mosquitoes" value="[ ENTO-IR- Stage and origin of tested mosquitoes ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">SpeciesControls</td>
+			<td><input id="P7VZnpYMjf6-yGY1TUqZsNf-val" name="entryfield" title="ENTO-IR- Species used in controls" value="[ ENTO-IR- Species used in controls ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">OtherSpeciesControls</td>
+			<td><input id="P7VZnpYMjf6-G3GQUnbk6Y2-val" name="entryfield" title="ENTO-IR- Other vector species used as controls" value="[ ENTO-IR- Other vector species used as controls ]" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="trn">TestDetails</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+	<tbody>
+		<tr>
+			<td class="trn">TypeTest</td>
+			<td><input id="P7VZnpYMjf6-NGU9TjLZcBg-val" name="entryfield" title="ENTO-IR- Test type" value="[ ENTO-IR- Test type ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">InsecticideTested</td>
+			<td><input id="P7VZnpYMjf6-UGyOyJJ7z2h-val" name="entryfield" title="ENTO-IR- Insecticide tested 1x" value="[ ENTO-IR- Insecticide tested 1x ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">InsecticideClass</td>
+			<td><input id="P7VZnpYMjf6-QfSGzIjOI2W-val" name="entryfield" title="ENTO-IR- Insecticide class" value="[ ENTO-IR- Insecticide class ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">OtherInsecticide</td>
+			<td><input id="P7VZnpYMjf6-wqz15GNO7jI-val" name="entryfield" title="ENTO-IR- Other insecticide tested" value="[ ENTO-IR- Other insecticide tested ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">Time</td>
+			<td><input id="P7VZnpYMjf6-v86CHHosXCi-val" name="entryfield" title="ENTO-IR- Time at which mortality observed" value="[ ENTO-IR- Time at which mortality observed ]" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="trn">TestResults</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+	<tbody>
+		<tr>
+			<td>&nbsp;</td>
+			<td class="trn">Exposed</td>
+			<td class="trn">Control</td>
+		</tr>
+		<tr>
+			<td class="trn">TotalNumber</td>
+			<td><input id="P7VZnpYMjf6-FhshaqyCFQw-val" name="entryfield" title="ENTO-IR- Mosquitoes in discriminating concentration replicates" value="[ ENTO-IR- Mosquitoes in discriminating concentration replicates ]" /></td>
+			<td><input id="P7VZnpYMjf6-L42iFDUW1h7-val" name="entryfield" title="ENTO-IR-Mosquitoes control" value="[ ENTO-IR-Mosquitoes control ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">TotalDead</td>
+			<td><input id="P7VZnpYMjf6-RosQioM91PZ-val" name="entryfield" title="ENTO-IR- Dead mosquitoes in discriminating concentration replicates" value="[ ENTO-IR- Dead mosquitoes in discriminating concentration replicates ]" /></td>
+			<td><input id="P7VZnpYMjf6-PWLnxHgObeX-val" name="entryfield" title="ENTO-IR- Dead control mosquitoes" value="[ ENTO-IR- Dead control mosquitoes ]" /></td>
+		</tr>
+		<tr>
+			<td style="background-color:#e0e2e4;"><span class="trn">AverageMortality</span></td>
+			<td style="background-color:#e0e2e4;"><input id="P7VZnpYMjf6-d2yWBe9n1wr-val" name="entryfield" title="ENTO-IR- Mortality in 1x discriminating concentration replicates" value="[ ENTO-IR- Mortality in 1x discriminating concentration replicates ]" /></td>
+			<td><input id="P7VZnpYMjf6-i4KoaSwzufn-val" name="entryfield" title="ENTO-IR- Mortality in control replicates" value="[ ENTO-IR- Mortality in control replicates ]" /></td>
+		</tr>
+		<tr>
+			<td style="background-color:#e0e2e4;"><span class="trn">MortalityAdjusted</span></td>
+			<td style="background-color:#e0e2e4;"><input id="P7VZnpYMjf6-Gwa8bf0Xh6Z-val" name="entryfield" title="ENTO-IR- Adjusted mortality in  discriminating concentration replicates" value="[ ENTO-IR- Adjusted mortality in  discriminating concentration replicates ]" /></td>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="background-color:#e0e2e4;"><span class="trn">ResistanceFrequency</span></td>
+			<td style="background-color:#e0e2e4;"><input id="P7VZnpYMjf6-tI2fyJnrOCm-val" name="entryfield" title="ENTO-IR- Resistance frequency" value="[ ENTO-IR- Resistance frequency ]" /></td>
+			<td>&nbsp;</td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="trn">TestOutcome</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+	<tbody>
+		<tr>
+			<td><span class="trn">ResistanceStatus</span></td>
+			<td><input id="P7VZnpYMjf6-FvbJ0tU5elQ-val" name="entryfield" title="ENTO-IR- Resistance status" value="[ ENTO-IR- Resistance status ]" /></td>
+		</tr>
+	</tbody>
+</table>
+
+<p class="trn">OtherInformation</p>
+
+<table border="1" cellpadding="1" cellspacing="1" style="width:500px;">
+	<tbody>
+		<tr>
+			<td class="trn">Institute</td>
+			<td><input id="P7VZnpYMjf6-l7iRc4fVcRO-val" name="entryfield" title="ENTO-IR- Institute that collected data" value="[ ENTO-IR- Institute that collected data ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">DataPublished</td>
+			<td><input id="P7VZnpYMjf6-z5o0lM2Cbus-val" name="entryfield" title="ENTO-IR- Data published in a journal" value="[ ENTO-IR- Data published in a journal ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">PublicationCitation</td>
+			<td><input id="P7VZnpYMjf6-SPA9WRC0s7V-val" name="entryfield" title="ENTO-IR- Journal reference" value="[ ENTO-IR- Journal reference ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">PubMed</td>
+			<td><input id="P7VZnpYMjf6-WJYxfzHrmQj-val" name="entryfield" title="ENTO-IR- Link to manuscript" value="[ ENTO-IR- Link to manuscript ]" /></td>
+		</tr>
+	</tbody>
+</table>
+
