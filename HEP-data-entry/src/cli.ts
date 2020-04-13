@@ -53,7 +53,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const customFormHtml = await AssembledFormHTML({ dataSet });
+    const customFormHtml = await AssembledFormHTML(dataSet);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
