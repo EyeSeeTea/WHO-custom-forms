@@ -2,8 +2,8 @@ import { ArgumentParser } from "argparse";
 import * as _ from "lodash";
 
 import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
-import { DataEntryForm } from "./models/Form";
-import { AssembledFormHTML } from "./components/AssembledFormHTML";
+import { DataEntryForm } from "./modules/hepatitis/models/Form";
+import { AssembledFormHTML } from "./modules/hepatitis/components/AssembledFormHTML";
 import { getUid, prettyJSON } from "./utils";
 
 function getParser(): ArgumentParser {
@@ -75,6 +75,8 @@ async function main(): Promise<void> {
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const dataSetId = args.dataset_id;
     const payload = await getDataSetPayload(d2Metadata, dataSetId);
+
+    console.log(payload);
 
     const response = await d2Metadata.post(payload, {});
 

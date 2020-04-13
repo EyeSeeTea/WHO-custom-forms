@@ -21,7 +21,7 @@
         "prepublishOnly": "npm run build",
         "prebuild": "npm run clean",
         "_prebuild": "npm run clean && npm run format && npm run lint && echo Using TypeScript && tsc --version",
-        "build": "tsc --pretty && cp -a src/resources lib/",
+        "build": "tsc --pretty && cp -a src/modules/hepatitis/resources lib/modules/hepatitis/",
         "test": "jest",
         "coverage": "jest --coverage",
         "watch": "npm run build -- --watch",

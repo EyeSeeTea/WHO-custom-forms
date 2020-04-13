@@ -2,7 +2,7 @@ import { createElement } from "typed-html";
 import { getResource } from "../utils";
 
 import { Form } from "../models/Form";
-import { DataSet } from "../Dhis2Metadata";
+import { DataSet } from "../../../Dhis2Metadata";
 
 interface AssembledFormHTMLAttributes {
     dataSet: DataSet;

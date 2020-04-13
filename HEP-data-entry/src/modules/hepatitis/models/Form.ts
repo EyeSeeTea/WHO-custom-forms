@@ -1,4 +1,4 @@
-import { DataSet, Ref } from "../Dhis2Metadata";
+import { DataSet, Ref } from "../../../Dhis2Metadata";
 import { CustomForm } from "../components/CustomForm";
 import * as _ from "lodash";
 
