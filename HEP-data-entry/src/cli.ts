@@ -23,6 +23,11 @@ function getParser(): ArgumentParser {
         help: "DATASET_ID",
     });
 
+    parser.addArgument(["-m", "--module"], {
+        required: true,
+        help: "module: hepatitis, snakebite",
+    });
+
     return parser;
 }
 
