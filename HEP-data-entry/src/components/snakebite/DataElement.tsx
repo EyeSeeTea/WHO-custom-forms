@@ -1,5 +1,6 @@
 import { createElement } from "typed-html";
 import { SectionDataElement } from "../../models/d2Models";
+import { EntryField } from "../common/EntryField";
 
 interface DataElementAttributes {
     dataElement: SectionDataElement;
@@ -44,11 +45,11 @@ export function DataElement(attributes: DataElementAttributes): string {
                         {dataElement.categoryCombo.categoryOptionCombos.map(catCombo => {
                             return (
                                 <td style="text-align: center;">
-                                    <input
-                                        id={`${dataElement.id}-${catCombo.id}-val`}
-                                        name="entryfield"
-                                        title={`${dataElement.code} ${catCombo.name}`}
-                                        value={`[ ${dataElement.code} ${catCombo.name} ]`}
+                                    <EntryField
+                                        dataElementId={dataElement.id}
+                                        dataElementCode={dataElement.code}
+                                        catComboId={catCombo.id}
+                                        catComboName={catCombo.name}
                                     />
                                 </td>
                             );
