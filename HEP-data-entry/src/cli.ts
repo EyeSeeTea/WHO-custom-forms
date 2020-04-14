@@ -5,6 +5,9 @@ import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
 import { DataEntryForm } from "./modules/hepatitis/models/Form";
 import { AssembledFormHTML } from "./modules/hepatitis/components/AssembledFormHTML";
 import { getUid, prettyJSON } from "./utils";
+import { SnakeBiteCustomForm } from "./modules/snakebite/components/SnakeBiteCustomForm";
+
+type Module = "hepatitis" | "snakebite";
 
 function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
@@ -33,7 +36,8 @@ function getParser(): ArgumentParser {
 
 async function getDataSetPayload(
     d2Metadata: Dhis2Metadata,
-    dataSetId: string
+    dataSetId: string,
+    module: Module
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
         "dataSets:fields": `:owner,
@@ -53,7 +57,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const customFormHtml = await AssembledFormHTML(dataSet);
+    const customFormHtml = await createCustomForm(dataSet, module);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -75,24 +79,37 @@ async function getDataSetPayload(
     };
 }
 
+async function createCustomForm(dataSet: DataSet, module: Module) {
+    if (module === "hepatitis") {
+        return await AssembledFormHTML(dataSet);
+    } else if (module === "snakebite") {
+        return await SnakeBiteCustomForm(dataSet);
+    } else {
+        throw new Error(`Does not exist a custom form for module ${module}`);
+    }
+}
+
 async function main(): Promise<void> {
     const args = getParser().parseArgs();
     const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
     const dataSetId = args.dataset_id;
-    const payload = await getDataSetPayload(d2Metadata, dataSetId);
 
-    console.log(payload);
+    try {
+        const payload = await getDataSetPayload(d2Metadata, dataSetId, args.module);
 
-    const response = await d2Metadata.post(payload, {});
+        const response = await d2Metadata.post(payload, {});
 
-    if (response.status !== "OK") {
-        console.error("Error posting metadata");
-        console.error(prettyJSON(response));
-        process.exit(1);
-    } else {
-        console.log(prettyJSON(response));
-        console.log("Done");
-        process.exit(0);
+        if (response.status !== "OK") {
+            console.error("Error posting metadata");
+            console.error(prettyJSON(response));
+            process.exit(1);
+        } else {
+            console.log(prettyJSON(response));
+            console.log("Done");
+            process.exit(0);
+        }
+    } catch (error) {
+        console.log(error.message);
     }
 }
 
