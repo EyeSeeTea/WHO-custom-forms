@@ -1,8 +1,8 @@
 import fetch from "node-fetch";
 import * as qs from "qs";
 
-import { safeParseJSON } from "./utils";
-import { Section, DataEntryForm } from "./modules/hepatitis/models/Form";
+import { safeParseJSON } from "../utils";
+import { Section, DataEntryForm } from "./d2Models";
 
 export interface Ref {
     id: string;

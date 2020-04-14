@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
-import { DataSet } from "../../../Dhis2Metadata";
 import { Sections } from "./Sections";
+import { DataSet } from "../../models/Dhis2Metadata";
 
 export function SnakeBiteCustomForm(dataSet: DataSet): string {
     const javascript = `<script> 

@@ -1,8 +1,8 @@
 import { createElement } from "typed-html";
-import { getResource } from "../utils";
+import { getResource } from "./utils";
 
-import { Form } from "../models/Form";
-import { DataSet } from "../../../Dhis2Metadata";
+import { Form } from "./models/Form";
+import { DataSet } from "../../models/Dhis2Metadata";
 
 export async function AssembledFormHTML(dataSet: DataSet): Promise<string> {
     const formHtml = Form.getFormHtml(dataSet);

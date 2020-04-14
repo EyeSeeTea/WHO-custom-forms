@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
-import { Section } from "../models/Form";
 import { Table } from "./Table";
+import { Section } from "../../models/d2Models";
 
 export interface TabsAttributes {
     sections: Section[];

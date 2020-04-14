@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
-import { Section } from "../../hepatitis/models/Form";
 import { DataElement } from "./DataElement";
+import { Section } from "../../models/d2Models";
 
 interface SectionsAttributes {
     sections: Section[];

@@ -1,11 +1,11 @@
 import { ArgumentParser } from "argparse";
 import * as _ from "lodash";
 
-import { Dhis2Metadata, DataSet, MetadataPayload } from "./Dhis2Metadata";
-import { DataEntryForm } from "./modules/hepatitis/models/Form";
-import { AssembledFormHTML } from "./modules/hepatitis/components/AssembledFormHTML";
+import { AssembledFormHTML } from "./components/hepatitis/AssembledFormHTML";
 import { getUid, prettyJSON } from "./utils";
-import { SnakeBiteCustomForm } from "./modules/snakebite/components/SnakeBiteCustomForm";
+import { SnakeBiteCustomForm } from "./components/snakebite/SnakeBiteCustomForm";
+import { DataEntryForm } from "./models/d2Models";
+import { Dhis2Metadata, MetadataPayload, DataSet } from "./models/Dhis2Metadata";
 
 type Module = "hepatitis" | "snakebite";
 

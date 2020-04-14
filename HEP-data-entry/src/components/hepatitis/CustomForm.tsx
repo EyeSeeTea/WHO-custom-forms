@@ -4,7 +4,8 @@ import * as _ from "lodash";
 import { Tabs } from "./Tabs";
 import { GlobalTextFields } from "./GlobalTextFields";
 import { DhisSubmitButton } from "./DhisSubmitButton";
-import { Section, Form } from "../models/Form";
+import { Form } from "./models/Form";
+import { Section } from "../../models/d2Models";
 
 interface CustomFormAttributes {
     sections: Section[];
