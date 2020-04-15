@@ -46,5 +46,11 @@ export interface OrderedSection {
 export interface CategoryOptionCombo {
     id: string;
     name: string;
+    categoryOptions: CategoryOption[]
+}
+
+export interface CategoryOption {
+    id: string;
+    code: string
 }
 

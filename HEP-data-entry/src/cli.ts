@@ -46,7 +46,7 @@ async function getDataSetPayload(
                 description,
                 displayName,
                 greyedFields[id,dataElement,categoryOptionCombo],
-                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name]],
+                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name,categoryOptions[id,code]]],
                 valueType]
             ]`,
         "dataSets:filter": `id:eq:${dataSetId}`,
@@ -57,6 +57,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
+    debugger;
     const customFormHtml = await createCustomForm(dataSet, module);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
