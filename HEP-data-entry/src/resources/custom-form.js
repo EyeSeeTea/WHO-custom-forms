@@ -16,7 +16,7 @@ async function applyChangesToForm() {
 }
 
 async function getLocaleAndTranslations(dataSetId) {
-    const userLocale = await fetch("http://localhost:8080/api/userSettings.json", {
+    const userLocale = await fetch("/api/userSettings.json", {
         method: "GET",
     }).then(async response => {
         const body = await response.text();
@@ -25,7 +25,7 @@ async function getLocaleAndTranslations(dataSetId) {
     });
 
     const { dataElementTranslations, sectionTranslations } = await fetch(
-        `http://localhost:8080/api/dataSets.json?fields=sections[id,translations,dataElements[id,name,formName,translations]]&filter=id:eq:${dataSetId}`,
+        `/api/dataSets.json?fields=sections[id,translations,dataElements[id,name,formName,translations]]&filter=id:eq:${dataSetId}`,
         { method: "GET" }
     ).then(async response => {
         const body = await response.text();
