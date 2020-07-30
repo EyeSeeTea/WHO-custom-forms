@@ -422,7 +422,7 @@ dhis2.report.periods = [
           isDevelopment,
 		  false
         );
-		
+
 		// Build "Generic elements that are not public" table
         const genericNotPublicTable = $("#generic_not_public").DataTable({
           order: [[5, "asc"]],
@@ -442,9 +442,9 @@ dhis2.report.periods = [
 
         // Build "Generic users marked as to be deleted" table
         const usersToBeDeletedTable = $("#to_be_deleted").DataTable({
-          order: [[5, "asc"]],
+          order: [[2, "asc"]],
           rowGroup: {
-            dataSrc: 5
+            dataSrc: 2
           }
         });
 
