@@ -427,6 +427,24 @@ dhis2.report.periods = [
           isDevelopment,
 		  false
         );
+
+
+        // Build "Generic users marked as to be deleted" table
+        const usersToBeDeletedTable = $("#to_be_deleted").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+
+        updateTable(
+          usersToBeDeletedTable,
+          baseUrl + "/api/metadata.json?filter=name:ilike:_TOBEDELETED&fields=id,name,created,userCredentials[username,lastLogin],email",
+          false,
+          isDevelopment,
+		  false
+        );
       });
     </script>
   </head>
