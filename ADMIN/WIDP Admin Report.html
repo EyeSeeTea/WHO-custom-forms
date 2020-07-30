@@ -289,23 +289,34 @@ dhis2.report.periods = [
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-
-                method([
-                  element.metadataType,
-                  element.id,
-                  element.name ? element.name : "-",
-                  element.publicAccess ? element.publicAccess : "-",
-                  element.user ? element.user.name : "-",
-                  element.lastUpdatedBy ? element.lastUpdatedBy.name : "-",
-                  element.userGroupAccesses.length > 0
-                    ? `<ul>
-                                    ${element.userGroupAccesses
-                                      .map(function(access) {
-                                        return `<li>${access.displayName} (${access.access})</li>`;
-                                      })
-                                      .join("")}</ul>`
-                    : "NONE"
-                ]);
+                if (element.metadataType == "users") {
+                  method([
+                     element.metadataType,
+                     element.id,
+                     element.name ? element.name : "-",
+                     element.created ? element.created : "-",
+                     element.userCredentials.username ? element.userCredentials.username : "-",
+                     element.email ? element.email : "-",
+                     element.userCredentials.lastLogin ? element.userCredentials.lastLogin : "-",
+                  ]);
+				} else {
+                  method([
+                    element.metadataType,
+                    element.id,
+                    element.name ? element.name : "-",
+                    element.publicAccess ? element.publicAccess : "-",
+                    element.user ? element.user.name : "-",
+                    element.lastUpdatedBy ? element.lastUpdatedBy.name : "-",
+                    element.userGroupAccesses.length > 0
+                      ? `<ul>
+                                      ${element.userGroupAccesses
+                                        .map(function(access) {
+                                          return `<li>${access.displayName} (${access.access})</li>`;
+                                        })
+                                        .join("")}</ul>`
+                      : "NONE"
+                  ]);
+                }
               });
             table.draw();
           }
