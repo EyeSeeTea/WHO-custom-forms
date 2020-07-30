@@ -289,7 +289,7 @@ dhis2.report.periods = [
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-                if (element.metadataType == "users") {
+                if (element.metadataType == "users" && element.userCredentials) {
                   method([
                      element.metadataType,
                      element.id,
