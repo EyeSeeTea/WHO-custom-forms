@@ -433,7 +433,7 @@ dhis2.report.periods = [
 
         updateTable(
           genericNotPublicTable,
-          baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+          baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
           false,
           isDevelopment,
 		  false
