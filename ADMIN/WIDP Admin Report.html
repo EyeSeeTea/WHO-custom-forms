@@ -451,7 +451,7 @@ dhis2.report.periods = [
 
         updateTable(
           usersToBeDeletedTable,
-          baseUrl + "/api/metadata.json?filter=name:ilike:_TOBEDELETED&fields=id,name,created,userCredentials[username,lastLogin],email",
+          baseUrl + "/api/metadata.json?filter=name:ilike:TOBEDELETED&fields=id,name,created,userCredentials[username,lastLogin],email",
           false,
           isDevelopment,
 		  false
