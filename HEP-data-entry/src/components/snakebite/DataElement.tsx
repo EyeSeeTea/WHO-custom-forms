@@ -2,6 +2,7 @@ import { createElement } from "typed-html";
 import { SectionDataElement } from "../../models/d2Models";
 import { EntryField } from "../common/EntryField";
 import _ = require("lodash");
+import { customFormData } from "./customFormData";
 
 interface DataElementAttributes {
     dataElement: SectionDataElement;
@@ -34,20 +35,41 @@ export function DataElement(attributes: DataElementAttributes): string {
         ["order"]
     );
 
+    const dataElementData = customFormData.dataElements[dataElement.id];
+
     return (
         <div>
-            <h4>{dataElement.formName}:</h4>
+            <h4>
+                {dataElement.formName}
+                {dataElementData && dataElementData.info ? (
+                    <i
+                        class="fa fa-info-circle"
+                        style="font-size:16px;color:#276696;"
+                        title={`${dataElementData.info}`}
+                    >
+                        :
+                    </i>
+                ) : (
+                    ":"
+                )}
+            </h4>
 
             <table {...tableAttributes} class="sectionTable" style="border-collapse:collapse;">
                 <thead>
                     <tr>
-                        <th scope="row" style="text-align: center;">
-                            Total
+                        <th scope="row" style="text-align: center;padding: 2px;">
+                            {dataElementData && dataElementData.totalName
+                                ? dataElementData.totalName
+                                : "Total"}
                         </th>
                         {categoryOptionCombos.map(catCombo => {
+                            const catComboData = customFormData.optionCombos[catCombo.id];
+
                             return (
-                                <th scope="col" style="text-align: center;">
-                                    {catCombo.name}
+                                <th scope="col" style="text-align: center;padding: 2px;">
+                                    {catComboData && catComboData.name
+                                        ? catComboData.name
+                                        : catCombo.name}
                                 </th>
                             );
                         })}
@@ -55,7 +77,7 @@ export function DataElement(attributes: DataElementAttributes): string {
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row">
+                        <th scope="row" style="text-align: center;">
                             <input
                                 {...{ dataelementid: dataElement.id }}
                                 id={`total${dataElement.id}`}
@@ -63,10 +85,16 @@ export function DataElement(attributes: DataElementAttributes): string {
                                 readonly="readonly"
                                 title={`${dataElement.code}`}
                                 value={`[ ${dataElement.code} ]`}
+                                style="width:80%;"
                             />
                         </th>
 
                         {categoryOptionCombos.map(catCombo => {
+                            const catComboData = customFormData.optionCombos[catCombo.id];
+
+                            const helpMessage =
+                                catComboData && catComboData.info ? catComboData.info : undefined;
+
                             return (
                                 <td style="text-align: center;">
                                     <EntryField
@@ -74,6 +102,7 @@ export function DataElement(attributes: DataElementAttributes): string {
                                         dataElementCode={dataElement.code}
                                         catComboId={catCombo.id}
                                         catComboName={catCombo.name}
+                                        helpMessage={helpMessage}
                                     />
                                 </td>
                             );
