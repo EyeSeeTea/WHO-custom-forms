@@ -7,6 +7,7 @@ interface DataElementData {
 interface OptionComboData {
     name?: string;
     info?: string;
+    order?: number;
 }
 
 interface CustomFormData {
@@ -38,12 +39,13 @@ export const customFormData: CustomFormData = {
         "hLjVtUZKE6P": { totalName: "Total number of vials \n of WHO-recommended products" },
     },
     optionCombos: {
-        "Z2hvpF7mhh7": { name: "Total involving males" },
-        "V2LdgcGgFQt": { name: "Total involving females" },
-        "jNbFhhnUsQv": { name: "Total where sex not recorded" },
+        "Z2hvpF7mhh7": { name: "Total involving males", order: 1 },
+        "V2LdgcGgFQt": { name: "Total involving females", order: 2 },
+        "jNbFhhnUsQv": { name: "Total where sex not recorded", order: 3 },
         "w4msAvzEdxS": { name: "Unknown population landscape" },
-        "rJdblRiSIO5": { info: '"Clinical diagnosis": the number of cases where the attribution of "snakebite envenoming" is based on clinical examination and a determination that signs and symptoms are consistent with this diagnosis.' },
-        "R4MoCmzHuJd": { info: '"Laboratory diagnosis": the number of cases where the  laboratory test results were used to help determine a diagnosis of snakebite envenoming' },
-        "a14nFkqYZ9i": { info: '"Unknown diagnosis": cases where snakebite envenoming is listed as the diagnosis without any additional information.' }
+        "rJdblRiSIO5": { order: 1, info: '"Clinical diagnosis": the number of cases where the attribution of "snakebite envenoming" is based on clinical examination and a determination that signs and symptoms are consistent with this diagnosis.' },
+        "R4MoCmzHuJd": { order: 2, info: '"Laboratory diagnosis": the number of cases where the  laboratory test results were used to help determine a diagnosis of snakebite envenoming' },
+        "a14nFkqYZ9i": { order: 3, info: '"Unknown diagnosis": cases where snakebite envenoming is listed as the diagnosis without any additional information.' },
+        "vtFBssX7BTG": { order: 7 }
     }
 }

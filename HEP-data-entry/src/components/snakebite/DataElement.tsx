@@ -20,16 +20,14 @@ export function DataElement(attributes: DataElementAttributes): string {
 
     const categoryOptionCombos = _.sortBy(
         dataElement.categoryCombo.categoryOptionCombos.map(catOpCombo => {
-            const CatOptionCode = catOpCombo.categoryOptions
-                ? catOpCombo.categoryOptions[0].code.split("_").reverse()[0]
-                : "";
+            const catComboData = customFormData.optionCombos[catOpCombo.id];
 
-            const order = parseInt(CatOptionCode);
+            const order = catComboData ? catComboData.order : 0;
 
             return {
                 id: catOpCombo.id,
                 name: catOpCombo.name,
-                order: Number.isNaN(order) ? 0 : order,
+                order: order,
             };
         }),
         ["order"]
