@@ -46,6 +46,12 @@ export const customFormData: CustomFormData = {
         "rJdblRiSIO5": { order: 1, info: '"Clinical diagnosis": the number of cases where the attribution of "snakebite envenoming" is based on clinical examination and a determination that signs and symptoms are consistent with this diagnosis.' },
         "R4MoCmzHuJd": { order: 2, info: '"Laboratory diagnosis": the number of cases where the  laboratory test results were used to help determine a diagnosis of snakebite envenoming' },
         "a14nFkqYZ9i": { order: 3, info: '"Unknown diagnosis": cases where snakebite envenoming is listed as the diagnosis without any additional information.' },
-        "vtFBssX7BTG": { order: 7 }
+        "ZcIRFBDNEgJ": { order: 1 },
+        "btZqlaByU1i": { order: 2 },
+        "sWWzGtOIAc2": { order: 3 },
+        "MBcxsuUpEKw": { order: 4 },
+        "wqHO3LA1eKH": { order: 5 },
+        "vtFBssX7BTG": { order: 6 },
+
     }
 }
