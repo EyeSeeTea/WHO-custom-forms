@@ -29,11 +29,14 @@ export const customFormData: CustomFormData = {
         "hgqaYbNBBji": { totalName: "Total reported disabilities" },
         "fMyJYssme2o": { totalName: "Total reported disabilities" },
         "GEQEMndn6Ns": { totalName: "Total reported disabilities" },
-        "HMr5QpcSo4C": { totalName: "Number of WHO-recommended antivenom products" },
+        "HMr5QpcSo4C": {
+            totalName: "Number of WHO-recommended antivenom products",
+            info: "This field refers to the number of different antivenom products recommended by WHO in the reporting area, not the number of vials. WHO defines antivenom products as either monovalent (used to neutralise the venom of one specific snake species) or as polyvalent (more than one species)."
+        },
         "Z4csnaklzkN": { totalName: "Number of other antivenom products" },
         "bBEjzhEN4y9": {
-            totalName: "Total procured vials (all products)",
-            info: "We are asking for the number of WHO-recommended products available in the reporting area - e.g.: not the number of vials, the number of different products. WHO defines these as either monovalent (for one species) or as polyvalent (more than one species)"
+            totalName: "Total number of vials procured, considering all type of products",
+            info: "This is the number of vials of each product type - whether WHO-recommended or not."
         },
         "YxWD6KP10e2": { totalName: "Total number of vials of other products" },
         "hLjVtUZKE6P": { totalName: "Total number of vials \n of WHO-recommended products" },
