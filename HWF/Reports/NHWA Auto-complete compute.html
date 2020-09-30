@@ -1432,10 +1432,7 @@
                 ];
                 const module1TotalsTable = $("#module1TotalsTable").DataTable({
                   dom: "Bfrtip",
-                  order: [
-                    [3, "asc"],
-                    [2, "asc"]
-                  ],
+                  order: [[3, "asc"], [2, "asc"]],
                   rowGroup: {
                     dataSrc: [3, 2]
                   },
@@ -1471,13 +1468,9 @@
                                   `Status: ${response.status}\n` +
                                     `Overview: ${response.description}\n` +
                                     `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                                    `\n${
-                                      response.conflicts
-                                        ? response.conflicts.map(
-                                            e => "CONFLICT: " + e.value + "\n"
-                                          )
-                                        : ""
-                                    }`
+                                    `\n${response.conflicts.map(
+                                      e => "CONFLICT: " + e.value + "\n"
+                                    )}`
                                 );
                                 location.reload();
                               }
@@ -1497,164 +1490,126 @@
                   dataType: "json",
                   url:
                     baseUrl +
-                    "/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits",
+                    "/api/dataValueSets.json?orgUnit=H8RixfF8ugH&dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&children=true",
                   xhrFields: {
                     withCredentials: true
                   },
                   crossDomain: isDevelopment,
                   success: function(data) {
-                    const orgUnits = data.organisationUnits
-                      .map(({ id }) => id)
-                      .join(",");
+                    const promises = _(data.dataValues)
+                      .map(e => [
+                        e.dataElement,
+                        e.categoryOptionCombo,
+                        e.orgUnit
+                      ])
+                      .flatten()
+                      .uniq()
+                      .chunk(250)
+                      .map(e =>
+                        $.get(
+                          baseUrl +
+                            "/api/metadata.json?fields=id,name&filter=id:in:[" +
+                            e.join(",") +
+                            "]"
+                        )
+                      )
+                      .value();
 
-                    $.ajax({
-                      type: "GET",
-                      dataType: "json",
-                      url:
-                        baseUrl +
-                        "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
-                        orgUnits,
-                      xhrFields: {
-                        withCredentials: true
-                      },
-                      crossDomain: isDevelopment,
-                      success: function(data) {
-                        const promises = _(data.dataValues)
-                          .map(e => [
-                            e.dataElement,
-                            e.categoryOptionCombo,
-                            e.orgUnit
-                          ])
-                          .flatten()
-                          .uniq()
-                          .chunk(250)
-                          .map(e =>
-                            $.get(
-                              baseUrl +
-                                "/api/metadata.json?fields=id,name&filter=id:in:[" +
-                                e.join(",") +
-                                "]"
-                            )
-                          )
-                          .value();
+                    Promise.all(promises).then(values => {
+                      const metadata = _(values)
+                        .map(e =>
+                          _(e)
+                            .filter(_.isArray)
+                            .value()
+                        )
+                        .flattenDeep()
+                        .keyBy("id")
+                        .mapValues("name")
+                        .value();
 
-                        Promise.all(promises).then(values => {
-                          const metadata = _(values)
-                            .map(e =>
-                              _(e)
-                                .filter(_.isArray)
-                                .value()
-                            )
-                            .flattenDeep()
-                            .keyBy("id")
-                            .mapValues("name")
-                            .value();
+                      const dataValues = _(data.dataValues)
+                        .groupBy(
+                          element =>
+                            `${element.dataElement}-${element.categoryOptionCombo}-val`
+                        )
+                        .value();
 
-                          const dataValues = _(data.dataValues)
+                      const result = _(calculatedNumericCells)
+                        .map(total => {
+                          const providedValues = _(dataValues[total.id])
                             .groupBy(
                               element =>
-                                `${element.dataElement}-${element.categoryOptionCombo}-val`
+                                `${element.period}-${element.orgUnit}-val`
+                            )
+                            .mapValues(values =>
+                              _.sumBy(values, e => parseFloat(e.value))
+                            )
+                            .value();
+                          const calculatedValues = _(total.children)
+                            .map(e => dataValues[e])
+                            .flatten()
+                            .groupBy(
+                              element =>
+                                `${element.period}-${element.orgUnit}-val`
+                            )
+                            .mapValues(values =>
+                              _.sumBy(values, e => parseFloat(e.value))
                             )
                             .value();
 
-                          const result = _(calculatedNumericCells)
-                            .map(total => {
-                              const providedValues = _(dataValues[total.id])
-                                .groupBy(
-                                  element =>
-                                    `${element.period}-${element.orgUnit}-val`
-                                )
-                                .mapValues(values =>
-                                  _.sumBy(values, e => parseFloat(e.value))
-                                )
-                                .value();
-                              const calculatedValues = _(total.children)
-                                .map(e =>
-                                  !!dataValues[e] ? dataValues[e] : []
-                                )
-                                .flatten()
-                                .groupBy(
-                                  element =>
-                                    `${element.period}-${element.orgUnit}-val`
-                                )
-                                .mapValues(values =>
-                                  _.sumBy(values, e => parseFloat(e.value || 0))
-                                )
-                                .value();
-
-                              const result = _(_.keys(providedValues))
-                                .union(_.keys(calculatedValues))
-                                .map(period => {
-                                  const calculatedValue =
-                                    !isNaN(calculatedValues[period]) &&
-                                    calculatedValues[period] !== 0
-                                      ? calculatedValues[period]
-                                      : undefined;
-
-                                  const providedValue =
-                                    !isNaN(providedValues[period]) &&
-                                    providedValues[period] !== 0
-                                      ? providedValues[period]
-                                      : undefined;
-
-                                  if (calculatedValue !== providedValue) {
-                                    return {
-                                      dataElement: total.id.split("-")[0],
-                                      categoryOptionCombo: total.id.split(
-                                        "-"
-                                      )[1],
-                                      period: period.split("-")[0],
-                                      orgUnit: period.split("-")[1],
-                                      value: calculatedValue || 0,
-                                      originalValue: providedValue,
-                                      sum: total.children
-                                        .map(e => {
-                                          const dataValue = _.find(
-                                            dataValues[e],
-                                            {
-                                              dataElement: e.split("-")[0],
-                                              categoryOptionCombo: e.split(
-                                                "-"
-                                              )[1],
-                                              period: period.split("-")[0],
-                                              orgUnit: period.split("-")[1]
-                                            }
-                                          );
-                                          return dataValue && dataValue.value
-                                            ? dataValue.value
-                                            : 0;
-                                        })
-                                        .join(" + ")
-                                    };
-                                  } else {
-                                    return null;
-                                  }
-                                })
-                                .compact()
-                                .value();
-                              return result;
+                          const result = _(_.keys(providedValues))
+                            .union(_.keys(calculatedValues))
+                            .map(period => {
+                              const providedValue = providedValues[period];
+                              if (
+                                calculatedValues[period] !==
+                                  providedValues[period] &&
+                                !isNaN(calculatedValues[period])
+                              ) {
+                                return {
+                                  dataElement: total.id.split("-")[0],
+                                  categoryOptionCombo: total.id.split("-")[1],
+                                  period: period.split("-")[0],
+                                  orgUnit: period.split("-")[1],
+                                  value: calculatedValues[period],
+                                  originalValue: providedValues[period],
+                                  sum: total.children
+                                    .map(e => {
+                                      const dataValue = _.find(dataValues[e], {
+                                        dataElement: e.split("-")[0],
+                                        categoryOptionCombo: e.split("-")[1],
+                                        period: period.split("-")[0],
+                                        orgUnit: period.split("-")[1]
+                                      });
+                                      return dataValue ? dataValue.value : 0;
+                                    })
+                                    .join(" + ")
+                                };
+                              } else {
+                                return null;
+                              }
                             })
-                            .flatten()
                             .compact()
                             .value();
+                          return result;
+                        })
+                        .flatten()
+                        .compact()
+                        .value();
 
-                          correctDataValues = result;
+                      correctDataValues = result;
 
-                          result.forEach(function(element) {
-                            module1TotalsTable.row.add([
-                              metadata[element.dataElement],
-                              metadata[element.categoryOptionCombo],
-                              element.period,
-                              metadata[element.orgUnit],
-                              `${element.sum} = ${element.value}`,
-                              element.originalValue
-                                ? element.originalValue
-                                : "-"
-                            ]);
-                          });
-                          module1TotalsTable.draw();
-                        });
-                      }
+                      result.forEach(function(element) {
+                        module1TotalsTable.row.add([
+                          metadata[element.dataElement],
+                          metadata[element.categoryOptionCombo],
+                          element.period,
+                          metadata[element.orgUnit],
+                          `${element.sum} = ${element.value}`,
+                          element.originalValue ? element.originalValue : "-"
+                        ]);
+                      });
+                      module1TotalsTable.draw();
                     });
                   }
                 });
