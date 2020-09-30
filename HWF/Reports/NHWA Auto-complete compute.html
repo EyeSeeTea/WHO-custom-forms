@@ -1525,11 +1525,13 @@
                               crossDomain: isDevelopment,
                               success: function(response) {
                                 console.log(response);
+                                const conflicts = response.conflicts || [];
+
                                 alert(
                                   `Status: ${response.status}\n` +
                                     `Overview: ${response.description}\n` +
                                     `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                                    `\n${response.conflicts.map(
+                                    `\n${conflicts.map(
                                       e => "CONFLICT: " + e.value + "\n"
                                     )}`
                                 );
