@@ -1614,6 +1614,7 @@
                           const calculatedValues = _(total.children)
                             .map(e => dataValues[e])
                             .flatten()
+                            .compact()
                             .groupBy(
                               element =>
                                 `${element.period}-${element.orgUnit}-val`
