@@ -1,0 +1,64 @@
+#completeButton {
+    display: none;
+}
+
+#newCompleteButton {
+    display: inline-block !important;
+}
+
+#cde table {
+    border-collapse: collapse;
+}
+
+button[disabled],
+html input[disabled] {
+    color: graytext !important;
+}
+
+#cde table,
+#cde th,
+#cde td {
+    border: 1px solid #c0c0c0;
+}
+
+#cde td,
+#cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.cde-greyfield {
+    background-color: #e0e0e0;
+}
+
+.multiselect {
+    width: 500px;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+    font-weight: bold;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.hwf {
+    display: none;
+    border: 1px #dadada solid;
+}
+
+#label {
+    display: block;
+    text-align: left;
+}

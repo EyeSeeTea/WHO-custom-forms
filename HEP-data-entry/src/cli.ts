@@ -6,8 +6,9 @@ import { getUid, prettyJSON } from "./utils";
 import { SnakeBiteCustomForm } from "./components/snakebite/SnakeBiteCustomForm";
 import { DataEntryForm } from "./models/d2Models";
 import { Dhis2Metadata, MetadataPayload, DataSet } from "./models/Dhis2Metadata";
+import SubnationalSingleCustomForm from "./components/module1_subnational_single/CustomForm";
 
-type Module = "hepatitis" | "snakebite";
+type Module = "hepatitis" | "snakebite" | "module1_subnational_single_entry";
 
 function getParser(): ArgumentParser {
     const parser = new ArgumentParser({
@@ -28,7 +29,7 @@ function getParser(): ArgumentParser {
 
     parser.addArgument(["-m", "--module"], {
         required: true,
-        help: "module: hepatitis, snakebite",
+        help: "module: hepatitis, snakebite, module1_subnational_single_entry",
     });
 
     return parser;
@@ -85,6 +86,8 @@ async function createCustomForm(dataSet: DataSet, module: Module) {
         return await AssembledFormHTML(dataSet);
     } else if (module === "snakebite") {
         return await SnakeBiteCustomForm(dataSet);
+    } else if (module === "module1_subnational_single_entry") {
+        return await SubnationalSingleCustomForm(dataSet);
     } else {
         throw new Error(`Does not exist a custom form for module ${module}`);
     }
