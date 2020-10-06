@@ -1,4 +1,5 @@
 <script type="text/javascript">
+	var attTotalByActivityLevel = "data-total-by-activity-level";
 	var yespartialno = [];
 	var categoryIssues = [];
 	var yesno = [];
@@ -899,92 +900,6 @@
 		}
 	];
 
-	var calculatedFirstNumericSubCells = [
-		//Working Details
-
-		//1.1 - General Medical Practitioners
-		{
-			id: "Yxkvq7nmosQ-Xr12mI7VPn3-val",
-			childrenCols: [
-				"dFWlhArOcXj-drJDZnHzeBH-val",
-				"dFWlhArOcXj-VPShWMVpQkb-val",
-				"dFWlhArOcXj-xcotqxKxwlL-val"
-			]
-		},
-		//1.2 - Specialist Medical Practitioners
-		{
-			id: "Ta8ifRxwOmP-Xr12mI7VPn3-val",
-			childrenCols: [
-				"rjQiZlCjHp6-drJDZnHzeBH-val",
-				"rjQiZlCjHp6-VPShWMVpQkb-val",
-				"rjQiZlCjHp6-xcotqxKxwlL-val"
-			]
-		},
-		//1.3 - Medical doctors not further defined
-		{
-			id: "jj5ZtVGdcwd-Xr12mI7VPn3-val",
-			childrenCols: [
-				"J1gsCnLV1C6-drJDZnHzeBH-val",
-				"J1gsCnLV1C6-VPShWMVpQkb-val",
-				"J1gsCnLV1C6-xcotqxKxwlL-val"
-			]
-		},
-		//2.1 - Nursing Professionals
-		{
-			id: "LrG8CqG0mhV-Xr12mI7VPn3-val",
-			childrenCols: [
-				"M1ZpUXbo7Ql-drJDZnHzeBH-val",
-				"M1ZpUXbo7Ql-VPShWMVpQkb-val",
-				"M1ZpUXbo7Ql-xcotqxKxwlL-val"
-			]
-		},
-		//2.2 - Nursing Associate Professionals
-		{
-			id: "eEQkLvHHoSU-Xr12mI7VPn3-val",
-			childrenCols: [
-				"m7MTceflWz3-drJDZnHzeBH-val",
-				"m7MTceflWz3-VPShWMVpQkb-val",
-				"m7MTceflWz3-xcotqxKxwlL-val"
-			]
-		},
-		//2.3 - Nurses not further defined
-		{
-			id: "CpUti69L5aW-Xr12mI7VPn3-val",
-			childrenCols: [
-				"Osqz2NJoO0h-drJDZnHzeBH-val",
-				"Osqz2NJoO0h-VPShWMVpQkb-val",
-				"Osqz2NJoO0h-xcotqxKxwlL-val"
-			]
-		},
-		//3.1 - Midwifery Professionals
-		{
-			id: "nBLlavpOdkF-Xr12mI7VPn3-val",
-			childrenCols: [
-				"Ml6HBooImtM-drJDZnHzeBH-val",
-				"Ml6HBooImtM-VPShWMVpQkb-val",
-				"Ml6HBooImtM-xcotqxKxwlL-val"
-			]
-		},
-		//3.2 - Midwifery Associate Professionals
-		{
-			id: "uHCDEltKEA6-Xr12mI7VPn3-val",
-			childrenCols: [
-				"wQ1FfvMZU9a-drJDZnHzeBH-val",
-				"wQ1FfvMZU9a-VPShWMVpQkb-val",
-				"wQ1FfvMZU9a-xcotqxKxwlL-val"
-			]
-		},
-		//3.3 - Midwives not further defined
-		{
-			id: "LPTrylkVM4Q-Xr12mI7VPn3-val",
-			childrenCols: [
-				"uTwQaiIEDk6-drJDZnHzeBH-val",
-				"uTwQaiIEDk6-VPShWMVpQkb-val",
-				"uTwQaiIEDk6-xcotqxKxwlL-val"
-			]
-		}
-	]
-
 	var calculatedCheckboxCells = [
 		//Working Details
 		//1 - Medical Doctors
@@ -1311,7 +1226,8 @@
 		$("#" + inputId).trigger("change");
 	}
 
-	function calculateFirstNumericSubCell(inputId) {
+	function calculateTotalByActivityLevel(inputId) {
+
 		const cellIsEmpty = (id) => {
 			const currentValue = $("#" + id).val();
 
@@ -1321,11 +1237,11 @@
 		const cellIsNotEmpty = (id) => !cellIsEmpty(id);
 
 		if (cellIsEmpty(inputId)) {
-			const currentCell = calculatedFirstNumericSubCells.find((cell) => cell.id == inputId);
+			const deByActivityLevel = $("#" + inputId).attr(attTotalByActivityLevel);
 
-			const practisingId = currentCell.childrenCols[0];
-			const professionallyActiveId = currentCell.childrenCols[1];
-			const licensedToPracticeId = currentCell.childrenCols[2];
+			const practisingId = `${deByActivityLevel}-drJDZnHzeBH-val`;
+			const professionallyActiveId = `${deByActivityLevel}-VPShWMVpQkb-val`;
+			const licensedToPracticeId = `${deByActivityLevel}-xcotqxKxwlL-val`;
 
 			const valueIdToAssign = cellIsNotEmpty(practisingId) ? practisingId :
 				cellIsNotEmpty(professionallyActiveId) ? professionallyActiveId :
@@ -1352,6 +1268,16 @@
 
 			}
 		}
+	}
+
+	function clearComment(inputId) {
+		const dataElement = inputId.split("-")[0];
+		const categoryOption = inputId.split("-")[1];
+
+		setTimeout(() => {
+			var commentSaver = new CommentSaver(dataElement, categoryOption, "");
+			commentSaver.save();
+		}, 100);
 	}
 
 	function calculateCheckboxCell(inputId) {
@@ -1383,15 +1309,17 @@
 		});
 	}
 
-	function onNumericInputLostFocus(changedInputId) {
-		calculatedFirstNumericSubCells.forEach((firstColumn) => {
-			firstColumn.childrenCols.forEach((childId) => {
-				if (changedInputId == childId) {
-					calculateFirstNumericSubCell(firstColumn.id);
-					return;
-				}
-			});
+	var calculatingTotalsByActivityLevel = false;
+
+	function calculateTotalsByActivityLevel() {
+
+		calculatingTotalsByActivityLevel = true;
+
+		$(`[${attTotalByActivityLevel}]`).each(function () {
+			calculateTotalByActivityLevel($(this).attr('id'));
 		});
+
+		calculatingTotalsByActivityLevel = false;
 	}
 
 	function onCheckboxInputChange(changedInputId) {
@@ -1469,8 +1397,10 @@
 				onCheckboxInputChange(e.target.id);
 			});
 
-			$("input[type=text]").on("focusout", function (e) {
-				onNumericInputLostFocus(e.target.id);
+			$(`[${attTotalByActivityLevel}]`).on("change", function (e) {
+				if (!calculatingTotalsByActivityLevel) {
+					clearComment(e.target.id);
+				}
 			});
 		});
 
@@ -1675,6 +1605,12 @@
 	<div id="tab0">
 		<h2>SECTION 1: HWF WORKING DETAILS</h2>
 
+		<button type="button" id="calculateTotalsByActivityLevel" name="calculateTotalsByActivityLevel"
+			onclick="calculateTotalsByActivityLevel()">
+			Calculate Totals By Activity Level
+		</button>
+
+
 		<div id="cde">&nbsp;
 			<table cellpadding="0" cellspacing="0" class="withSourceType">
 				<thead>
@@ -1787,7 +1723,9 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="Yxkvq7nmosQ-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_General Medical Practitioners Stock Total"
-								value="[ NHWA_General Medical Practitioners Stock Total ]" /></th>
+								value="[ NHWA_General Medical Practitioners Stock Total ]"
+								data-total-by-activity-level="dFWlhArOcXj" />
+						</th>
 						<th rowspan="1" scope="row"><input id="dFWlhArOcXj-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_General Medical Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_General Medical Practitioners Stock By Activity Level Practising ]" />
@@ -1876,7 +1814,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="Ta8ifRxwOmP-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Specialist Medical Practitioners Stock Total"
-								value="[ NHWA_Specialist Medical Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Specialist Medical Practitioners Stock Total ]"
+								data-total-by-activity-level="rjQiZlCjHp6" /></th>
 						<th rowspan="1" scope="row"><input id="rjQiZlCjHp6-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Specialist Medical Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Specialist Medical Practitioners Stock By Activity Level Practising ]" />
@@ -1965,7 +1904,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="mzBQp5cOihy-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_General Paediatricians Practitioners Stock Total"
-								value="[ NHWA_General Paediatricians Practitioners Stock Total ]" /></th>
+								value="[ NHWA_General Paediatricians Practitioners Stock Total ]"
+								data-total-by-activity-level="WzTFiecwTNZ" /></th>
 						<th rowspan="1" scope="row"><input id="WzTFiecwTNZ-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_General Paediatricians Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_General Paediatricians Practitioners Stock By Activity Level Practising ]" />
@@ -2054,7 +1994,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="cyNh11xykuJ-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Obstetricians and Gynaecologists Practitioners Stock Total"
-								value="[ NHWA_Obstetricians and Gynaecologists Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Obstetricians and Gynaecologists Practitioners Stock Total ]"
+								data-total-by-activity-level="ByXuVj0h8L4" /></th>
 						<th rowspan="1" scope="row"><input id="ByXuVj0h8L4-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Obstetricians and Gynaecologists Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Obstetricians and Gynaecologists Practitioners Stock By Activity Level Practising ]" />
@@ -2143,7 +2084,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="QxPGLy2DUhG-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Psychiatrists Practitioners Stock Total"
-								value="[ NHWA_Psychiatrists Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Psychiatrists Practitioners Stock Total ]"
+								data-total-by-activity-level="JQkVqnP5kCq" /></th>
 						<th rowspan="1" scope="row"><input id="JQkVqnP5kCq-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Psychiatrists Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Psychiatrists Practitioners Stock By Activity Level Practising ]" /></th>
@@ -2232,7 +2174,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="nNmvfTuUhng-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Medical group of Specialists Practitioners Stock Total"
-								value="[ NHWA_Medical group of Specialists Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Medical group of Specialists Practitioners Stock Total ]"
+								data-total-by-activity-level="OYoY16njQBO" /></th>
 						<th rowspan="1" scope="row"><input id="OYoY16njQBO-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Medical group of Specialists Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Medical group of Specialists Practitioners Stock By Activity Level Practising ]" />
@@ -2322,7 +2265,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="VDeI2btrNih-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Surgical group of Specialists Practitioners Stock Total"
-								value="[ NHWA_Surgical group of Specialists Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Surgical group of Specialists Practitioners Stock Total ]"
+								data-total-by-activity-level="tyyxKXZbYjI" /></th>
 						<th rowspan="1" scope="row"><input id="tyyxKXZbYjI-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Surgical group of Specialists Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Surgical group of Specialists Practitioners Stock By Activity Level Practising ]" />
@@ -2411,7 +2355,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="pWXXIlhZ8PI-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Other Specialists Practitioners Stock Total"
-								value="[ NHWA_Other Specialists Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Other Specialists Practitioners Stock Total ]"
+								data-total-by-activity-level="rvsb7MLMUbV" /></th>
 						<th rowspan="1" scope="row"><input id="rvsb7MLMUbV-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Other Specialists Practitioners Stock By Activity Level Practising"
 								value="[ NHWA_Other Specialists Practitioners Stock By Activity Level Practising ]" />
@@ -2500,7 +2445,8 @@
 						</th>
 						<th rowspan="1" scope="row"><input id="jj5ZtVGdcwd-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Medical doctors not further defined Stock Total"
-								value="[ NHWA_Medical doctors not further defined Stock Total ]" /></th>
+								value="[ NHWA_Medical doctors not further defined Stock Total ]"
+								data-total-by-activity-level="J1gsCnLV1C6" /></th>
 						<th rowspan="1" scope="row"><input id="J1gsCnLV1C6-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Medical doctors not further defined Stock By Activity Level Practising"
 								value="[ NHWA_Medical doctors not further defined Stock By Activity Level Practising ]" />
@@ -2676,7 +2622,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="LrG8CqG0mhV-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Nursing Professionals Stock Total"
-								value="[ NHWA_Nursing Professionals Stock Total ]" /></th>
+								value="[ NHWA_Nursing Professionals Stock Total ]"
+								data-total-by-activity-level="M1ZpUXbo7Ql" /></th>
 						<th scope="row" style="text-align: left;"><input id="M1ZpUXbo7Ql-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Nursing Professionals Stock By Activity Level Practising"
 								value="[ NHWA_Nursing Professionals Stock By Activity Level Practising ]" /></th>
@@ -2768,7 +2715,8 @@
 						<th scope="row" style="text-align: left;"><input id="qKf4eMvqKqq-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Nursing Professionals Stock with additional midwifery training Total"
-								value="[ NHWA_Nursing Professionals Stock with additional midwifery training Total ]" />
+								value="[ NHWA_Nursing Professionals Stock with additional midwifery training Total ]"
+								data-total-by-activity-level="PhGYsKg6Z64" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="PhGYsKg6Z64-drJDZnHzeBH-val"
 								name="entryfield"
@@ -2862,7 +2810,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="eEQkLvHHoSU-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Nursing Associate Professionals Stock Total"
-								value="[ NHWA_Nursing Associate Professionals Stock Total ]" /></th>
+								value="[ NHWA_Nursing Associate Professionals Stock Total ]"
+								data-total-by-activity-level="m7MTceflWz3" /></th>
 						<th scope="row" style="text-align: left;"><input id="m7MTceflWz3-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Nursing Associate Professionals Stock By Activity Level Practising"
@@ -2956,7 +2905,8 @@
 						<th scope="row" style="text-align: left;"><input id="KwIlxiiBBjV-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Nursing Associate Professionals Stock with additional midwifery training Total "
-								value="[ NHWA_Nursing Associate Professionals Stock with additional midwifery training Total  ]" />
+								value="[ NHWA_Nursing Associate Professionals Stock with additional midwifery training Total  ]"
+								data-total-by-activity-level="c4JWYSERnO2" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="c4JWYSERnO2-drJDZnHzeBH-val"
 								name="entryfield"
@@ -3049,7 +2999,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="CpUti69L5aW-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Nurses not further defined Stock Total"
-								value="[ NHWA_Nurses not further defined Stock Total ]" /></th>
+								value="[ NHWA_Nurses not further defined Stock Total ]"
+								data-total-by-activity-level="Osqz2NJoO0h" /></th>
 						<th scope="row" style="text-align: left;"><input id="Osqz2NJoO0h-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Nurses not further defined Stock By Activity Level Practising"
@@ -3228,7 +3179,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="nBLlavpOdkF-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Midwifery Professionals Stock Total"
-								value="[ NHWA_Midwifery Professionals Stock Total ]" /></th>
+								value="[ NHWA_Midwifery Professionals Stock Total ]"
+								data-total-by-activity-level="Ml6HBooImtM" /></th>
 						<th scope="row" style="text-align: left;"><input id="Ml6HBooImtM-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Midwifery Professionals Stock By Activity Level Practising"
@@ -3319,7 +3271,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="uHCDEltKEA6-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Midwifery Associate Professionals Stock Total"
-								value="[ NHWA_Midwifery Associate Professionals Stock Total ]" /></th>
+								value="[ NHWA_Midwifery Associate Professionals Stock Total ]"
+								data-total-by-activity-level="wQ1FfvMZU9a" /></th>
 						<th scope="row" style="text-align: left;"><input id="wQ1FfvMZU9a-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Midwifery Associate Professionals Stock By Activity Level Practising"
@@ -3411,7 +3364,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="LPTrylkVM4Q-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Midwives not further defined Stock Total"
-								value="[ NHWA_Midwives not further defined Stock Total ]" /></th>
+								value="[ NHWA_Midwives not further defined Stock Total ]"
+								data-total-by-activity-level="uTwQaiIEDk6" /></th>
 						<th scope="row" style="text-align: left;"><input id="uTwQaiIEDk6-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Midwives not further defined Stock By Activity Level Practising"
@@ -3500,7 +3454,7 @@
 						<th colspan="5" scope="row" style="text-align: left;">Dentists</th>
 						<th scope="row" style="text-align: left;"><input id="tqciYTsRsV1-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Dentists Stock Total"
-								value="[ NHWA_Dentists Stock Total ]" /></th>
+								value="[ NHWA_Dentists Stock Total ]" data-total-by-activity-level="aBKbsKeMhM6" /></th>
 						<th scope="row" style="text-align: left;"><input id="aBKbsKeMhM6-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Dentists Stock By Activity Level Practising"
 								value="[ NHWA_Dentists Stock By Activity Level Practising ]" /></th>
@@ -3584,7 +3538,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Dental Assistants and Therapists</th>
 						<th scope="row" style="text-align: left;"><input id="VIMlhSMF1Yl-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Dental Assistants and Therapists Stock Total"
-								value="[ NHWA_Dental Assistants and Therapists Stock Total ]" /></th>
+								value="[ NHWA_Dental Assistants and Therapists Stock Total ]"
+								data-total-by-activity-level="mM3VtbRdurN" /></th>
 						<th scope="row" style="text-align: left;"><input id="mM3VtbRdurN-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Dental Assistants and Therapists Stock By Activity Level Practising"
@@ -3674,7 +3629,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Dental Prosthetic Technicians</th>
 						<th scope="row" style="text-align: left;"><input id="w9b8i3HljgB-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Dental Prosthetic Technicians Stock Total"
-								value="[ NHWA_Dental Prosthetic Technicians Stock Total ]" /></th>
+								value="[ NHWA_Dental Prosthetic Technicians Stock Total ]"
+								data-total-by-activity-level="DgWsmHVv1JM" /></th>
 						<th scope="row" style="text-align: left;"><input id="DgWsmHVv1JM-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Dental Prosthetic Technicians Stock By Activity Level Practising"
@@ -3764,7 +3720,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Pharmacists</th>
 						<th scope="row" style="text-align: left;"><input id="iDHwJraJp3Y-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Pharmacists Stock Total"
-								value="[ NHWA_Pharmacists Stock Total ]" /></th>
+								value="[ NHWA_Pharmacists Stock Total ]" data-total-by-activity-level="mx3f7jzRUn6" />
+						</th>
 						<th scope="row" style="text-align: left;"><input id="mx3f7jzRUn6-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Pharmacists Stock By Activity Level Practising"
 								value="[ NHWA_Pharmacists Stock By Activity Level Practising ]" /></th>
@@ -3848,7 +3805,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Pharmaceutical Technicians</th>
 						<th scope="row" style="text-align: left;"><input id="SOU2X25z1dq-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Pharmaceutical Technicians and Assistants Stock Total"
-								value="[ NHWA_Pharmaceutical Technicians and Assistants Stock Total ]" /></th>
+								value="[ NHWA_Pharmaceutical Technicians and Assistants Stock Total ]"
+								data-total-by-activity-level="xTOiNS0zd6y" /></th>
 						<th scope="row" style="text-align: left;"><input id="xTOiNS0zd6y-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Pharmaceutical Technicians and Assistants Stock By Activity Level Practising"
@@ -3938,7 +3896,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Paramedical Practitioners</th>
 						<th scope="row" style="text-align: left;"><input id="Yz371d8I7vi-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Paramedical Practitioners Stock Total"
-								value="[ NHWA_Paramedical Practitioners Stock Total ]" /></th>
+								value="[ NHWA_Paramedical Practitioners Stock Total ]"
+								data-total-by-activity-level="m4Yz9Nz5Eir" /></th>
 						<th scope="row" style="text-align: left;"><input id="m4Yz9Nz5Eir-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Paramedical Practitioners Stock By Activity Level Practising"
@@ -4028,7 +3987,8 @@
 							scientists</th>
 						<th scope="row" style="text-align: left;"><input id="RNCFRfcGsEq-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Medical and Pathology Laboratory Technicians Stock Total"
-								value="[ NHWA_Medical and Pathology Laboratory Technicians Stock Total ]" /></th>
+								value="[ NHWA_Medical and Pathology Laboratory Technicians Stock Total ]"
+								data-total-by-activity-level="zWqYNMlrEgt" /></th>
 						<th scope="row" style="text-align: left;"><input id="zWqYNMlrEgt-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Medical and Pathology Laboratory Technicians  Stock By Activity Level Practising"
@@ -4120,7 +4080,8 @@
 						<th scope="row" style="text-align: left;"><input id="NC58vY6UBEk-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Medical Imaging and Therapeutic Equipment Technicians Stock Total"
-								value="[ NHWA_Medical Imaging and Therapeutic Equipment Technicians Stock Total ]" />
+								value="[ NHWA_Medical Imaging and Therapeutic Equipment Technicians Stock Total ]"
+								data-total-by-activity-level="zpak4f1pJTR" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="zpak4f1pJTR-drJDZnHzeBH-val"
 								name="entryfield"
@@ -4212,7 +4173,8 @@
 							Technicians</th>
 						<th scope="row" style="text-align: left;"><input id="Fm2HakleZ27-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Medical and Pathology Laboratory scientists Stock Total"
-								value="[ NHWA_Medical and Pathology Laboratory scientists Stock Total ]" /></th>
+								value="[ NHWA_Medical and Pathology Laboratory scientists Stock Total ]"
+								data-total-by-activity-level="AZCkBzUZgTr" /></th>
 						<th scope="row" style="text-align: left;"><input id="AZCkBzUZgTr-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Medical and Pathology Laboratory scientists Stock By Activity Level Practising"
@@ -4304,7 +4266,8 @@
 						<th scope="row" style="text-align: left;"><input id="W1OgOlx2UPS-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Environmental and Occupational Health and Hygiene Professionals Stock Total"
-								value="[ NHWA_Environmental and Occupational Health and Hygiene Professionals Stock Total ]" />
+								value="[ NHWA_Environmental and Occupational Health and Hygiene Professionals Stock Total ]"
+								data-total-by-activity-level="ZaQ394eW9pZ" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="ZaQ394eW9pZ-drJDZnHzeBH-val"
 								name="entryfield"
@@ -4397,7 +4360,8 @@
 						<th scope="row" style="text-align: left;"><input id="nkvvH6QuQ8t-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Environmental and Occupational Health Inspectors and Associates Stock Total"
-								value="[ NHWA_Environmental and Occupational Health Inspectors and Associates Stock Total ]" />
+								value="[ NHWA_Environmental and Occupational Health Inspectors and Associates Stock Total ]"
+								data-total-by-activity-level="KnNekvrEI5f" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="KnNekvrEI5f-drJDZnHzeBH-val"
 								name="entryfield"
@@ -4490,7 +4454,8 @@
 						<th scope="row" style="text-align: left;"><input id="g9WyLxpr1E2-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Traditional and Complementary Medicine Professionals Stock Total"
-								value="[ NHWA_Traditional and Complementary Medicine Professionals Stock Total ]" />
+								value="[ NHWA_Traditional and Complementary Medicine Professionals Stock Total ]"
+								data-total-by-activity-level="xY8dqpdkFDy" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="xY8dqpdkFDy-drJDZnHzeBH-val"
 								name="entryfield"
@@ -4583,7 +4548,8 @@
 						<th scope="row" style="text-align: left;"><input id="dTCOMljlITC-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Traditional and Complementary Medicine Associate Professionals Stock Total"
-								value="[ NHWA_Traditional and Complementary Medicine Associate Professionals Stock Total ]" />
+								value="[ NHWA_Traditional and Complementary Medicine Associate Professionals Stock Total ]"
+								data-total-by-activity-level="ldpEanGgRnU" />
 						</th>
 						<th scope="row" style="text-align: left;"><input id="ldpEanGgRnU-drJDZnHzeBH-val"
 								name="entryfield"
@@ -4674,7 +4640,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Community Health Workers</th>
 						<th scope="row" style="text-align: left;"><input id="maFtwxdHWuZ-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Community Health Workers Stock Total"
-								value="[ NHWA_Community Health Workers Stock Total ]" /></th>
+								value="[ NHWA_Community Health Workers Stock Total ]"
+								data-total-by-activity-level="Lir6kztSRZ7" /></th>
 						<th scope="row" style="text-align: left;"><input id="Lir6kztSRZ7-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Community Health Workers Stock By Activity Level Practising"
@@ -4764,7 +4731,8 @@
 							service</th>
 						<th scope="row" style="text-align: left;"><input id="TxYXq9qqMJt-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Personal care workers Stock Total"
-								value="[ NHWA_Personal care workers Stock Total ]" /></th>
+								value="[ NHWA_Personal care workers Stock Total ]"
+								data-total-by-activity-level="OAaXg7NvGcx" /></th>
 						<th scope="row" style="text-align: left;"><input id="OAaXg7NvGcx-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Personal care workers Stock By Activity Level Practising"
 								value="[ NHWA_Personal care workers Stock By Activity Level Practising ]" /></th>
@@ -4854,7 +4822,8 @@
 						</th>
 						<th scope="row"><input id="UN1GGvFlETF-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Health Care Assistants Stock Total"
-								value="[ NHWA_Health Care Assistants Stock Total ]" /></th>
+								value="[ NHWA_Health Care Assistants Stock Total ]"
+								data-total-by-activity-level="JQL0onXq6ge" /></th>
 						<th scope="row"><input id="JQL0onXq6ge-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Health Care Assistants Stock By Activity Level Practising"
 								value="[ NHWA_Health Care Assistants Stock By Activity Level Practising ]" /></th>
@@ -4942,7 +4911,8 @@
 						</th>
 						<th scope="row"><input id="m5NFJ1IxYaq-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Home-based Personal Care Workers Stock Total"
-								value="[ NHWA_Home-based Personal Care Workers Stock Total ]" /></th>
+								value="[ NHWA_Home-based Personal Care Workers Stock Total ]"
+								data-total-by-activity-level="pOUpImrRlyS" /></th>
 						<th scope="row"><input id="pOUpImrRlyS-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Home-based Personal Care Workers Stock By Activity Level Practising"
 								value="[ NHWA_Home-based Personal Care Workers Stock By Activity Level Practising ]" />
@@ -5032,7 +5002,8 @@
 						</th>
 						<th scope="row"><input id="It06Qq2EzsF-Xr12mI7VPn3-val" name="entryfield"
 								title="NHWA_Personal care workers in health services n.e.c Stock Total"
-								value="[ NHWA_Personal care workers in health services n.e.c Stock Total ]" /></th>
+								value="[ NHWA_Personal care workers in health services n.e.c Stock Total ]"
+								data-total-by-activity-level="MNblETb62a7" /></th>
 						<th scope="row"><input id="MNblETb62a7-drJDZnHzeBH-val" name="entryfield"
 								title="NHWA_Personal care workers in health services n.e.c Stock By Activity Level Practising"
 								value="[ NHWA_Personal care workers in health services n.e.c Stock By Activity Level Practising ]" />
@@ -5119,7 +5090,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Physiotherapists</th>
 						<th scope="row" style="text-align: left;"><input id="cg1DEEIeZ9N-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Physiotherapists Stock Total"
-								value="[ NHWA_Physiotherapists Stock Total ]" /></th>
+								value="[ NHWA_Physiotherapists Stock Total ]"
+								data-total-by-activity-level="weJ3sYiNE8D" /></th>
 						<th scope="row" style="text-align: left;"><input id="weJ3sYiNE8D-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Physiotherapists Stock By Activity Level Practising"
 								value="[ NHWA_Physiotherapists Stock By Activity Level Practising ]" /></th>
@@ -5206,7 +5178,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="zs2x5LAeI3t-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Physiotherapy Technicians and Assistants Stock Total"
-								value="[ NHWA_Physiotherapy Technicians and Assistants Stock Total ]" /></th>
+								value="[ NHWA_Physiotherapy Technicians and Assistants Stock Total ]"
+								data-total-by-activity-level="rBKkHNAdzhB" /></th>
 						<th scope="row" style="text-align: left;"><input id="rBKkHNAdzhB-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Physiotherapy Technicians and Assistants Stock By Activity Level Practising"
@@ -5296,7 +5269,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Dieticians</th>
 						<th scope="row" style="text-align: left;"><input id="fqPqYs1WW22-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Dieticians Stock Total"
-								value="[ NHWA_Dieticians Stock Total ]" /></th>
+								value="[ NHWA_Dieticians Stock Total ]" data-total-by-activity-level="tejOvb3YNOT" />
+						</th>
 						<th scope="row" style="text-align: left;"><input id="tejOvb3YNOT-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Dieticians  Stock By Activity Level Practising"
 								value="[ NHWA_Dieticians  Stock By Activity Level Practising ]" /></th>
@@ -5380,7 +5354,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Nutritionists</th>
 						<th scope="row" style="text-align: left;"><input id="GKnY5V4PkhM-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Nutritionists Stock Total"
-								value="[ NHWA_Nutritionists Stock Total ]" /></th>
+								value="[ NHWA_Nutritionists Stock Total ]" data-total-by-activity-level="T10hGZHcK7q" />
+						</th>
 						<th scope="row" style="text-align: left;"><input id="T10hGZHcK7q-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Nutritionists Stock By Activity Level Practising"
 								value="[ NHWA_Nutritionists Stock By Activity Level Practising ]" /></th>
@@ -5466,7 +5441,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Audiologists and Speech Therapists</th>
 						<th scope="row" style="text-align: left;"><input id="sbIyFRN4j0N-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Audiologists and Speech Therapists Stock Total"
-								value="[ NHWA_Audiologists and Speech Therapists Stock Total ]" /></th>
+								value="[ NHWA_Audiologists and Speech Therapists Stock Total ]"
+								data-total-by-activity-level="LaQe20TdHvH" /></th>
 						<th scope="row" style="text-align: left;"><input id="LaQe20TdHvH-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Audiologists and Speech Therapists Stock By Activity Level Practising"
@@ -5556,7 +5532,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Optometrists and Ophthalmic Opticians</th>
 						<th scope="row" style="text-align: left;"><input id="vDp3u0DJlrK-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Optometrists and Ophthalmic Opticians Stock Total"
-								value="[ NHWA_Optometrists and Ophthalmic Opticians Stock Total ]" /></th>
+								value="[ NHWA_Optometrists and Ophthalmic Opticians Stock Total ]"
+								data-total-by-activity-level="Y0Al3lbaiSd" /></th>
 						<th scope="row" style="text-align: left;"><input id="Y0Al3lbaiSd-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Optometrists and Ophthalmic Opticians Stock By Activity Level Practising"
@@ -5646,7 +5623,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Dispensing Opticians</th>
 						<th scope="row" style="text-align: left;"><input id="Tu64Vt7gv8M-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Dispensing Opticians Stock Total"
-								value="[ NHWA_Dispensing Opticians Stock Total ]" /></th>
+								value="[ NHWA_Dispensing Opticians Stock Total ]"
+								data-total-by-activity-level="GJUbT5P29ol" /></th>
 						<th scope="row" style="text-align: left;"><input id="GJUbT5P29ol-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Dispensing Opticians Stock By Activity Level Practising"
 								value="[ NHWA_Dispensing Opticians Stock By Activity Level Practising ]" /></th>
@@ -5734,7 +5712,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Medical Prosthetic Technicians</th>
 						<th scope="row" style="text-align: left;"><input id="yKNKfokBA9x-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Medical Prosthetic Technicians Stock Total"
-								value="[ NHWA_Medical Prosthetic Technicians Stock Total ]" /></th>
+								value="[ NHWA_Medical Prosthetic Technicians Stock Total ]"
+								data-total-by-activity-level="TTQ6WgBHZUZ" /></th>
 						<th scope="row" style="text-align: left;"><input id="TTQ6WgBHZUZ-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Medical Prosthetic Technicians Stock By Activity Level Practising"
@@ -5825,7 +5804,8 @@
 						<th scope="row" style="text-align: left;"><input id="dYKAIYSnLue-Xr12mI7VPn3-val"
 								name="entryfield"
 								title="NHWA_Medical Records and Health Information Technicians Stock Total"
-								value="[ NHWA_Medical Records and Health Information Technicians Stock Total ]" /></th>
+								value="[ NHWA_Medical Records and Health Information Technicians Stock Total ]"
+								data-total-by-activity-level="qiy19S7ih95" /></th>
 						<th scope="row" style="text-align: left;"><input id="qiy19S7ih95-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Medical Records and Health Information Technicians Stock By Activity Level Practising"
@@ -5915,7 +5895,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Medical Assistants</th>
 						<th scope="row" style="text-align: left;"><input id="dvNINMJZS3V-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Medical Assistants Stock Total"
-								value="[ NHWA_Medical Assistants Stock Total ]" /></th>
+								value="[ NHWA_Medical Assistants Stock Total ]"
+								data-total-by-activity-level="h7OW3TrJ61e" /></th>
 						<th scope="row" style="text-align: left;"><input id="h7OW3TrJ61e-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Medical Assistants Stock By Activity Level Practising"
 								value="[ NHWA_Medical Assistants Stock By Activity Level Practising ]" /></th>
@@ -6002,7 +5983,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Ambulance Workers</th>
 						<th scope="row" style="text-align: left;"><input id="qr8RGsOOdXn-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Ambulance Workers Stock Total"
-								value="[ NHWA_Ambulance Workers Stock Total ]" /></th>
+								value="[ NHWA_Ambulance Workers Stock Total ]"
+								data-total-by-activity-level="gWxbpG09atk" /></th>
 						<th scope="row" style="text-align: left;"><input id="gWxbpG09atk-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Ambulance Workers Stock By Activity Level Practising"
 								value="[ NHWA_Ambulance Workers Stock By Activity Level Practising ]" /></th>
@@ -6089,7 +6071,8 @@
 						</th>
 						<th scope="row" style="text-align: left;"><input id="uzy03WEvMkk-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Social work and counselling professionals Stock Total"
-								value="[ NHWA_Social work and counselling professionals Stock Total ]" /></th>
+								value="[ NHWA_Social work and counselling professionals Stock Total ]"
+								data-total-by-activity-level="vTu1WOspiNq" /></th>
 						<th scope="row" style="text-align: left;"><input id="vTu1WOspiNq-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Social work and counselling professionals Stock By Activity Level Practising"
@@ -6179,7 +6162,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Social work associate professionals</th>
 						<th scope="row" style="text-align: left;"><input id="qg3FIv25BEt-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Social work associate professionals Stock Total"
-								value="[ NHWA_Social work associate professionals Stock Total ]" /></th>
+								value="[ NHWA_Social work associate professionals Stock Total ]"
+								data-total-by-activity-level="XMzAw0vw5Ep" /></th>
 						<th scope="row" style="text-align: left;"><input id="XMzAw0vw5Ep-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Social work associate professionals Stock By Activity Level Practising"
@@ -6269,7 +6253,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Biomedical engineer</th>
 						<th scope="row" style="text-align: left;"><input id="ec8BXAwrBTh-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Biomedical engineer Stock Total"
-								value="[ NHWA_Biomedical engineer Stock Total ]" /></th>
+								value="[ NHWA_Biomedical engineer Stock Total ]"
+								data-total-by-activity-level="bmaxDrrFSqz" /></th>
 						<th scope="row" style="text-align: left;"><input id="bmaxDrrFSqz-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Biomedical engineer Stock By Activity Level Practising"
 								value="[ NHWA_Biomedical engineer Stock By Activity Level Practising ]" /></th>
@@ -6357,7 +6342,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Psychologists</th>
 						<th scope="row" style="text-align: left;"><input id="jY9ia5NLA77-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Psychologists Stock Total"
-								value="[ NHWA_Psychologists Stock Total ]" /></th>
+								value="[ NHWA_Psychologists Stock Total ]" data-total-by-activity-level="rhcIHVJ1RxM" />
+						</th>
 						<th scope="row" style="text-align: left;"><input id="rhcIHVJ1RxM-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Psychologists Stock By Activity Level Practising"
 								value="[ NHWA_Psychologists Stock By Activity Level Practising ]" /></th>
@@ -6441,7 +6427,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Medical secretaries</th>
 						<th scope="row" style="text-align: left;"><input id="I5C27Tsoc8I-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Medical secretaries stock Total"
-								value="[ NHWA_Medical secretaries stock Total ]" /></th>
+								value="[ NHWA_Medical secretaries stock Total ]"
+								data-total-by-activity-level="VmhSidKIxMp" /></th>
 						<th scope="row" style="text-align: left;"><input id="VmhSidKIxMp-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Medical secretaries stock By Activity Level Practising"
 								value="[ NHWA_Medical secretaries stock By Activity Level Practising ]" /></th>
@@ -6527,7 +6514,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Managerial staff</th>
 						<th scope="row" style="text-align: left;"><input id="oFXCMBtu71f-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Managerial staff Stock Total"
-								value="[ NHWA_Managerial staff Stock Total ]" /></th>
+								value="[ NHWA_Managerial staff Stock Total ]"
+								data-total-by-activity-level="BbvMZojIbKI" /></th>
 						<th scope="row" style="text-align: left;"><input id="BbvMZojIbKI-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Managerial staff Stock By Activity Level Practising"
 								value="[ NHWA_Managerial staff Stock By Activity Level Practising ]" /></th>
@@ -6613,7 +6601,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Administrative staff</th>
 						<th scope="row" style="text-align: left;"><input id="lT2PXXEtNc0-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Administrative staff Stock Total"
-								value="[ NHWA_Administrative staff Stock Total ]" /></th>
+								value="[ NHWA_Administrative staff Stock Total ]"
+								data-total-by-activity-level="XB5JA2zOjnB" /></th>
 						<th scope="row" style="text-align: left;"><input id="XB5JA2zOjnB-drJDZnHzeBH-val"
 								name="entryfield" title="NHWA_Administrative staff Stock By Activity Level Practising"
 								value="[ NHWA_Administrative staff Stock By Activity Level Practising ]" /></th>
@@ -6701,7 +6690,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Health information systems personnel</th>
 						<th scope="row" style="text-align: left;"><input id="u4evyxHktVP-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Health information systems personnel Stock Total"
-								value="[ NHWA_Health information systems personnel Stock Total ]" /></th>
+								value="[ NHWA_Health information systems personnel Stock Total ]"
+								data-total-by-activity-level="vnwzR6DohHp" /></th>
 						<th scope="row" style="text-align: left;"><input id="vnwzR6DohHp-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Health information systems personnel Stock By Activity Level Practising"
@@ -6791,7 +6781,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Engineering and maintenance staff</th>
 						<th scope="row" style="text-align: left;"><input id="DCAJyToy1TA-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Engineering and maintenance staff Stock Total"
-								value="[ NHWA_Engineering and maintenance staff Stock Total ]" /></th>
+								value="[ NHWA_Engineering and maintenance staff Stock Total ]"
+								data-total-by-activity-level="SPcq2CZFyzT" /></th>
 						<th scope="row" style="text-align: left;"><input id="SPcq2CZFyzT-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Engineering and maintenance staff Stock By Activity Level Practising"
@@ -6881,7 +6872,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Other non-medical professional staff</th>
 						<th scope="row" style="text-align: left;"><input id="bUGq4WaBHUD-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Other non-medical professional staff Stock Total"
-								value="[ NHWA_Other non-medical professional staff Stock Total ]" /></th>
+								value="[ NHWA_Other non-medical professional staff Stock Total ]"
+								data-total-by-activity-level="DeDi7rft4BB" /></th>
 						<th scope="row" style="text-align: left;"><input id="DeDi7rft4BB-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Other non-medical professional staff Stock By Activity Level Practising"
@@ -6971,7 +6963,8 @@
 						<th colspan="5" scope="row" style="text-align: left;">Other non-medical support staff</th>
 						<th scope="row" style="text-align: left;"><input id="v8Xnaigda7O-Xr12mI7VPn3-val"
 								name="entryfield" title="NHWA_Other non-medical support staff Stock Total"
-								value="[ NHWA_Other non-medical support staff Stock Total ]" /></th>
+								value="[ NHWA_Other non-medical support staff Stock Total ]"
+								data-total-by-activity-level="LX2QltISk5s" /></th>
 						<th scope="row" style="text-align: left;"><input id="LX2QltISk5s-drJDZnHzeBH-val"
 								name="entryfield"
 								title="NHWA_Other non-medical support staff Stock By Activity Level Practising"
