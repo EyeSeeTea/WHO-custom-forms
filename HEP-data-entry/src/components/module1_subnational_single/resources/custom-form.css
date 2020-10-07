@@ -82,3 +82,13 @@ input[type="text"] {
 .multiselect {
     width: 250px;
 }
+
+#custom-form-loader {
+    color: #1c425c;
+    font-size: 14px;
+    border: 1px solid #9aaab5;
+    margin: 20px;
+    text-align: center;
+    display: none;
+    border-radius: 3px;
+}

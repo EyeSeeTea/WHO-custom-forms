@@ -1,7 +1,6 @@
 import { createElement } from "typed-html";
 import { DataSet } from "../../models/Dhis2Metadata";
 import { dataElementGroups } from "./dataElementGroups";
-//import { dataElements } from "./dataElements";
 import { getResource } from "./utils";
 
 export default async function CustomForm(dataSet: DataSet): Promise<string> {
@@ -56,8 +55,8 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                 <th>Source Type</th>
 
                                 {dataElementGroups.map((group, index) => {
-                                    const onClick = `showCheckboxes('checkboxes${index}')`;
-                                    const containerId = `checkboxes${index}`;
+                                    const containerId = `{{orgUnitId}}-checkboxes${index}`;
+                                    const onClick = `showCheckboxes('${containerId}')`;
                                     const className = group.readOnly ? "read-only" : "";
 
                                     return (
@@ -127,7 +126,13 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                 <div id="tab0">
                     <h2>SECTION 1: HWF WORKING DETAILS</h2>
 
-                    <div id="content"></div>
+                    <div id="content">
+                        <div id="custom-form-loader">
+                            <img id="loader" src="../images/ajax-loader-circle.gif" />
+
+                            <p>Please wait while the system is loading the custom form...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -408,6 +408,7 @@ function calculateCheckboxCell(inputId) {
     });
 
     $("#" + inputId).prop("checked", isChecked);
+    $("#" + inputId).trigger("change");
 }
 
 function onNumericInputChange(id) {
@@ -477,38 +478,87 @@ function showCheckboxes(element) {
     }
 }
 
+function loadValues() {
+    const dataSetId = "Humg4HbkmJg";
+    var periodId = $("#selectedPeriodId").val();
+
+    var params = {
+        periodId: periodId,
+        dataSetId: dataSetId,
+        organisationUnitId: dhis2.de.getCurrentOrganisationUnit(),
+        multiOrganisationUnit: true,
+    };
+
+    $.ajax({
+        url: "getDataValues.action",
+        data: params,
+        dataType: "json",
+        success: json => {
+            $.safeEach(json.dataValues, function(i, value) {
+                var fieldId = "#" + value.id + "-val";
+                if ($(fieldId).length > 0) {
+                    var entryField = $(fieldId);
+                    if ("true" == value.val && entryField.attr("type") == "checkbox") {
+                        $(fieldId).prop("checked", true);
+                    } else {
+                        $(fieldId).val(value.val);
+                    }
+                }
+            });
+
+            $("input[type=text]").on("change", function(e) {
+                onNumericInputChange(e.target.id);
+            });
+            $("input[type=checkbox]").on("change", function(e) {
+                onCheckboxInputChange(e.target.id);
+            });
+
+            calculateCheckboxCells();
+            calculateNumericCells();
+        },
+        error: function(xhr) {
+            console.log("Error in the request");
+            console.log(xhr);
+        },
+    });
+}
+
 function renderCustomForm() {
-    const orgUnits = [
-        {
-            orgUnitId: "WCjXFSd1uoW",
-            orgUnitName: "Anjouan",
+    $("#custom-form-loader").show();
+
+    const module1SubnationalId = "Humg4HbkmJg";
+    const fields = `fields=id,shortName`;
+    const filter = `filter=dataSets.id:eq:${module1SubnationalId}&filter=path:like:${dhis2.de.currentOrganisationUnitId}`;
+
+    $.ajax({
+        url: `../api/organisationUnits?${fields}&${filter}`,
+        type: "get",
+        success: function(response) {
+            const orgUnits = response.organisationUnits.map(ou => ({
+                orgUnitId: ou.id,
+                orgUnitName: ou.shortName,
+            }));
+
+            const orgUnitTables = orgUnits.map(orgUnit => {
+                var template = document.getElementById("template").innerHTML;
+                return Mustache.render(template, orgUnit);
+            });
+
+            document.getElementById("content").innerHTML = orgUnitTables.join();
+
+            $(".read-only input").each(function() {
+                $(this).attr("disabled", "disabled");
+            });
+
+            $("#custom-form-loader").hide();
+
+            loadValues();
         },
-        {
-            orgUnitId: "FowPAaRrKlw",
-            orgUnitName: "Grande Comore",
+        error: function(xhr) {
+            console.log("Error in the request");
+            console.log(xhr);
         },
-    ];
-
-    const orgUnitTables = orgUnits.map(orgUnit => {
-        var template = document.getElementById("template").innerHTML;
-        return Mustache.render(template, orgUnit);
     });
-
-    document.getElementById("content").innerHTML = orgUnitTables.join();
-
-    $("input[type=text]").on("input", function(e) {
-        onNumericInputChange(e.target.id);
-    });
-    $("input[type=checkbox]").on("change", function(e) {
-        onCheckboxInputChange(e.target.id);
-    });
-
-    $(".read-only input").each(function() {
-        $(this).attr("disabled", "disabled");
-    });
-
-    calculateNumericCells();
-    calculateCheckboxCells();
 }
 
 $(document).ready(function() {
