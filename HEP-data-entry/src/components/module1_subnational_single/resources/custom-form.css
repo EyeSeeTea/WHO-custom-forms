@@ -26,14 +26,11 @@ html input[disabled] {
     height: 30px;
     padding: 10px;
     margin: 10px;
+    min-width: 150px;
 }
 
 .cde-greyfield {
     background-color: #e0e0e0;
-}
-
-.multiselect {
-    width: 500px;
 }
 
 .selectBox {
@@ -56,9 +53,32 @@ html input[disabled] {
 .hwf {
     display: none;
     border: 1px #dadada solid;
+    padding: 8px;
 }
 
 #label {
     display: block;
     text-align: left;
+}
+
+.check {
+    display: block;
+}
+
+input[type="text"] {
+    text-align: center;
+    width: 80%;
+}
+
+.td-input {
+    text-align: center;
+}
+
+.numeric-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.multiselect {
+    width: 250px;
 }
