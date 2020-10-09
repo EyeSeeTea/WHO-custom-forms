@@ -164,8 +164,9 @@
       <div class="row">
         <div class="col-sm-12">
           <h3>
-            Comments made on NHWA for {{ dhis2.report.organisationUnit.name }}
-            on {{ dhis2.report.date.substr(0, 4) }}
+            Comments made on NHWA for
+            {{ dhis2.report.organisationUnit.name }} on
+            {{ dhis2.report.date.substr(0, 4) }}
           </h3>
         </div>
       </div>
@@ -177,9 +178,9 @@
             ng-change="update(selectedDataSet)"
           >
             <option value="">Select Dataset</option>
-            <option ng-repeat="dataSet in dataSets" value="{{ dataSet.id }}"
-              >{{ dataSet.name }}</option
-            >
+            <option ng-repeat="dataSet in dataSets" value="{{ dataSet.id }}">{{
+              dataSet.name
+            }}</option>
           </select>
         </div>
       </div>
