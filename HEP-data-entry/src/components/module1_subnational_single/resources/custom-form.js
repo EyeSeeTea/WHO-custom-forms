@@ -1,3 +1,5 @@
+const module1SubnationalId = "Humg4HbkmJg";
+
 var calculatedNumericCells = [
     //Working Details
 
@@ -479,12 +481,11 @@ function showCheckboxes(element) {
 }
 
 function loadValues() {
-    const dataSetId = "Humg4HbkmJg";
     var periodId = $("#selectedPeriodId").val();
 
     var params = {
         periodId: periodId,
-        dataSetId: dataSetId,
+        dataSetId: module1SubnationalId,
         organisationUnitId: dhis2.de.getCurrentOrganisationUnit(),
         multiOrganisationUnit: true,
     };
@@ -526,7 +527,6 @@ function loadValues() {
 function renderCustomForm() {
     $("#custom-form-loader").show();
 
-    const module1SubnationalId = "Humg4HbkmJg";
     const fields = `fields=id,shortName`;
     const filter = `filter=dataSets.id:eq:${module1SubnationalId}&filter=path:like:${dhis2.de.currentOrganisationUnitId}`;
 
