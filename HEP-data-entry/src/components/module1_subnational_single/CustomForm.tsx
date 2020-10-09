@@ -1,6 +1,7 @@
 import { createElement } from "typed-html";
 import { DataSet } from "../../models/Dhis2Metadata";
 import { dataElementGroups } from "./dataElementGroups";
+import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";
 
 export default async function CustomForm(dataSet: DataSet): Promise<string> {
@@ -56,35 +57,14 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
 
                                 {dataElementGroups.map((group, index) => {
                                     const containerId = `{{orgUnitId}}-checkboxes${index}`;
-                                    const onClick = `showCheckboxes('${containerId}')`;
                                     const className = group.readOnly ? "read-only" : "";
 
                                     return (
                                         <td class={className}>
-                                            <div class="multiselect">
-                                                <div class="selectBox" onclick={onClick}>
-                                                    <select>
-                                                        <option>Select an option</option>
-                                                    </select>
-                                                    <div class="overSelect">&nbsp;</div>
-                                                </div>
-
-                                                <div class="hwf" id={containerId}>
-                                                    {group.inputCheckboxes.map(check => {
-                                                        const checkId = `{{orgUnitId}}-${check.id}`;
-
-                                                        return (
-                                                            <label class="check">
-                                                                <input
-                                                                    id={checkId}
-                                                                    type="checkbox"
-                                                                />
-                                                                {check.displayName}
-                                                            </label>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </div>
+                                            <TrueOnlyEntries
+                                                containerId={containerId}
+                                                inputCheckboxes={group.inputCheckboxes}
+                                            />
                                         </td>
                                     );
                                 })}
