@@ -1,4 +1,4 @@
-const module1SubnationalId = "Humg4HbkmJg";
+var module1SubnationalId = "Humg4HbkmJg";
 
 var calculatedNumericCells = [
     //Working Details
@@ -351,18 +351,6 @@ var calculatedCheckboxCells = [
     },
 ];
 
-function calculateNumericCells() {
-    calculatedNumericCells.forEach(function(calculatedNumericCell) {
-        calculateNumericCell(calculatedNumericCell.id);
-    });
-}
-
-function calculateCheckboxCells() {
-    calculatedCheckboxCells.forEach(function(calculatedCheckboxCell) {
-        calculateCheckboxCell(calculatedCheckboxCell.id);
-    });
-}
-
 function calculateNumericCell(inputId) {
     const items = inputId.split("-");
     items.shift();
@@ -413,7 +401,7 @@ function calculateCheckboxCell(inputId) {
     $("#" + inputId).trigger("change");
 }
 
-function onNumericInputChange(id) {
+function onInputChange(id) {
     const organisationUnitId = id.split("-")[0];
     const dataElementId = id.split("-")[1];
     const optionComboId = id.split("-")[2];
@@ -508,14 +496,14 @@ function loadValues() {
             });
 
             $("input[type=text]").on("change", function(e) {
-                onNumericInputChange(e.target.id);
+                onInputChange(e.target.id);
+            });
+            $("textarea").on("change", function(e) {
+                onInputChange(e.target.id);
             });
             $("input[type=checkbox]").on("change", function(e) {
                 onCheckboxInputChange(e.target.id);
             });
-
-            calculateCheckboxCells();
-            calculateNumericCells();
         },
         error: function(xhr) {
             console.log("Error in the request");

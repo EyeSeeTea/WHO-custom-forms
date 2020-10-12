@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import { DataSet } from "../../models/Dhis2Metadata";
-import { dataElementGroups } from "./dataElementGroups";
+import { dataElementGroups, simpleDataElements } from "./dataElementGroups";
 import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";
 
@@ -27,6 +27,10 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                 {dataElementGroups.map(group => {
                                     return <th>{group.order}</th>;
                                 })}
+
+                                {simpleDataElements.map(() => {
+                                    return <th></th>;
+                                })}
                             </tr>
                             <tr>
                                 <th>Occupation</th>
@@ -35,6 +39,10 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                     return (
                                         <th class="numeric-de">{group.inputNumeric.displayName}</th>
                                     );
+                                })}
+
+                                {simpleDataElements.map(de => {
+                                    return <th class="simple-de">{de.displayName}</th>;
                                 })}
                             </tr>
                             <tr>
@@ -50,6 +58,18 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                             <input id={id} type="text" />
                                         </td>
                                     );
+                                })}
+
+                                {simpleDataElements.map(de => {
+                                    const id = `{{orgUnitId}}-${de.id}`;
+                                    const tdContent =
+                                        de.type === "text-area" ? (
+                                            <textarea id={id} />
+                                        ) : (
+                                            <input id={id} type="text" />
+                                        );
+
+                                    return <td class="td-input">{tdContent}</td>;
                                 })}
                             </tr>
                             <tr>
@@ -67,6 +87,10 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                             />
                                         </td>
                                     );
+                                })}
+
+                                {simpleDataElements.map(() => {
+                                    return <td></td>;
                                 })}
                             </tr>
                         </tbody>

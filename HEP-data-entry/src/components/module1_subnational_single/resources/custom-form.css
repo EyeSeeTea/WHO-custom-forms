@@ -70,11 +70,20 @@ input[type="text"] {
     width: 80%;
 }
 
+textarea {
+    width: 80%;
+}
+
 .td-input {
     text-align: center;
 }
 
 .numeric-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.simple-de {
     text-align: center;
     white-space: pre;
 }
