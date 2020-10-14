@@ -12,9 +12,9 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
 
     const nameToken = "{{orgUnitName}}";
 
-    return (
+    const html = (
         <div>
-            <style>${style}</style>
+            <style>{style}</style>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
             <script id="template" type="x-tmpl-mustache">
                 <div id="cde">
@@ -97,7 +97,7 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                     </table>
                 </div>
             </script>
-            <script>${javascript}</script>
+            <script>{javascript}</script>
             <h3 style="text-align: center;">
                 <strong>Active Health Workforce Demographic Details</strong>
             </h3>
@@ -141,4 +141,10 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
             </div>
         </div>
     );
+
+    const fixedHtmlForDhis = html
+        .replace(/type="text">/g, 'type="text"/>')
+        .replace(/type="checkbox">/g, 'type="checkbox"/>');
+
+    return fixedHtmlForDhis;
 }

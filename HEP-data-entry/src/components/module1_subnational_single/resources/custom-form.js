@@ -363,7 +363,7 @@ function calculateNumericCell(inputId) {
     });
 
     calculateNumericCell.children.forEach(childId => {
-        const ouChildId = `${organisationUnitId}-${childId}`;
+        const ouChildId = organisationUnitId + "-" + childId;
 
         var value = $("#" + ouChildId).val();
 
@@ -389,7 +389,7 @@ function calculateCheckboxCell(inputId) {
     });
 
     calculateCheckboxCell.children.forEach(childId => {
-        const ouChildId = `${organisationUnitId}-${childId}`;
+        const ouChildId = organisationUnitId + "-" + childId;
         var childIsChecked = $("#" + ouChildId).is(":checked");
 
         if (childIsChecked == true) {
@@ -410,8 +410,8 @@ function onInputChange(id) {
 
     calculatedNumericCells.forEach(calculatedNumericCell => {
         calculatedNumericCell.children.forEach(function(childId) {
-            if (id === `${organisationUnitId}-${childId}`) {
-                calculateNumericCell(`${organisationUnitId}-${calculatedNumericCell.id}`);
+            if (id === organisationUnitId + "-" + childId) {
+                calculateNumericCell(organisationUnitId + "-" + calculatedNumericCell.id);
                 return;
             }
         });
@@ -429,8 +429,8 @@ function onCheckboxInputChange(id) {
 
     calculatedCheckboxCells.forEach(calculatedCheckboxCell => {
         calculatedCheckboxCell.children.forEach(function(childId) {
-            if (id === `${organisationUnitId}-${childId}`) {
-                calculateCheckboxCell(`${organisationUnitId}-${calculatedCheckboxCell.id}`);
+            if (id === organisationUnitId + "-" + childId) {
+                calculateCheckboxCell(organisationUnitId + "-" + calculatedCheckboxCell.id);
                 return;
             }
         });

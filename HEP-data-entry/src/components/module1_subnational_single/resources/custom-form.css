@@ -12,7 +12,7 @@
 
 button[disabled],
 html input[disabled] {
-    color: graytext !important;
+    color: grey !important;
 }
 
 #cde table,
