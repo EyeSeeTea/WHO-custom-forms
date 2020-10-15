@@ -1,0 +1,174 @@
+<style type="text/css" media="screen">
+    #content {
+        padding: 20px;
+    }
+
+    #data table {
+        border-collapse: collapse;
+    }
+
+    #data table,
+    #data th,
+    #data td {
+        border: 1px solid #c0c0c0;
+        border-spacing: 0px;
+    }
+
+    #data td,
+    #data th {
+        text-align: center;
+        height: 30px;
+        padding: 10px;
+        margin: 10px;
+        min-width: 150px;
+    }
+
+    #custom-form-loader {
+        color: #1c425c;
+        font-size: 14px;
+        border: 1px solid #9aaab5;
+        margin: 20px;
+        text-align: center;
+        display: none;
+        border-radius: 3px;
+    }
+</style>
+<script src="https://unpkg.com/mustache@4.0.1"></script>
+<script id="template" type="x-tmpl-mustache">
+    <h3> Organisation unit name fixes made for {{orgUnitName}} on {{period}}</h3>
+    <div id="data">
+        <table>
+            <thead>
+                <tr>
+                    <th>Organisation unit Id</th>
+                    <th>Organisation unit name</th>
+                    <th>Organisation unit name to fix</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#dataValues}}
+                <tr>
+                    <td>{{orgUnitId}}</td>
+                    <td>{{currentName}}</td>
+                    <td>{{correctName}}</td>
+                    <td> <button onclick="saveValue('{{orgUnitId}}','{{dataElementId}}','{{categoryOptionComboId}}','{{currentName}}');">Dismiss</button></td>
+                </tr>
+                {{/dataValues}}
+            </tbody>
+        </table>
+    </div>
+</script>
+<script type="text/javascript">
+    var module1SubnationalId = "Humg4HbkmJg";
+    var period = dhis2.report.periods[0];
+    var module1SubnationalId = "Humg4HbkmJg";
+
+    function saveValue(orgUnit, dataElement, categoryOptionCombo, value) {
+        document.getElementById("content").innerHTML = "";
+        $("#custom-form-loader").show();
+
+        const bodyData = {
+            dataValues: [
+                {
+                    dataSet: module1SubnationalId,
+                    period,
+                    orgUnit,
+                    dataElement,
+                    categoryOptionCombo,
+                    value
+                }
+            ]
+        };
+
+        $.ajax({
+            url: "../api/dataValueSets",
+            data: JSON.stringify(bodyData),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json",
+            success: response => {
+                console.log({ response });
+
+                loadData();
+            },
+            error: function (xhr) {
+                console.log("Error in the request");
+                console.log(xhr);
+            },
+        });
+    }
+
+    function loadData() {
+        $("#custom-form-loader").show();
+
+        var params = {
+            periodId: dhis2.report.periods[0],
+            dataSetId: module1SubnationalId,
+            organisationUnitId: dhis2.report.organisationUnit.id,
+            multiOrganisationUnit: true,
+        };
+
+        $.ajax({
+            url: "../dhis-web-dataentry/getDataValues.action",
+            data: params,
+            dataType: "json",
+            success: response => {
+                const correctOrgUnitNameDE = "ZUCnSGgjlrw";
+                const dataValues = response.dataValues.filter(dataValue => dataValue.id.includes(correctOrgUnitNameDE))
+                    .map(dataValue => {
+                        const items = dataValue.id.split("-");
+
+                        return {
+                            orgUnitId: items[0],
+                            dataElementId: items[1],
+                            categoryOptionComboId: items[2],
+                            correctName: dataValue.val,
+                            currentName: dhis2.report.organisationUnitChildren.find(ou => ou.id === items[0]).name
+                        }
+                    }).filter(dataValue => dataValue.correctName !== dataValue.currentName)
+                    .sort((a, b) => {
+                        if (a.correctName > b.correctName) {
+                            return 1;
+                        }
+                        if (a.correctName < b.correctName) {
+                            return -1;
+                        }
+                        // a must be equal to b
+                        return 0;
+                    });;
+
+                const data = {
+                    orgUnitName: dhis2.report.organisationUnit.name,
+                    period,
+                    dataValues
+                }
+
+                var template = document.getElementById("template").innerHTML;
+                const htmlFromTemplate = Mustache.render(template, data);
+
+                $("#custom-form-loader").hide();
+                document.getElementById("content").innerHTML = htmlFromTemplate;
+
+            },
+            error: function (xhr) {
+                console.log("Error in the request");
+                console.log(xhr);
+            },
+        });
+
+    }
+
+    jQuery(document).ready(function () {
+        loadData();
+    });
+</script>
+
+<div id="custom-form-loader">
+    <img id="loader" src="../images/ajax-loader-circle.gif" />
+
+    <p>Please wait while the system is loading the report...</p>
+</div>
+<div id="content">
+
+</div>
