@@ -5,6 +5,13 @@ import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";
 
 export default async function CustomForm(dataSet: DataSet): Promise<string> {
+    const deInFormsButNotInDataSet = getMissingDataElementsInDataSet(dataSet);
+
+    if (deInFormsButNotInDataSet.length > 0) {
+        console.log("Missing data elements in data set", deInFormsButNotInDataSet);
+        throw new Error("Missing data elements in data set");
+    }
+
     const style = await getResource("custom-form.css");
     const javascript = await getResource("custom-form.js");
 
@@ -147,4 +154,21 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
         .replace(/type="checkbox">/g, 'type="checkbox"/>');
 
     return fixedHtmlForDhis;
+}
+
+function getMissingDataElementsInDataSet(dataSet: DataSet) {
+    const numericInputs = dataElementGroups.map(de => de.inputNumeric.id.split("-")[0]);
+    const checkboxesInputs = dataElementGroups.flatMap(de =>
+        de.inputCheckboxes.map(de => de.id.split("-")[0])
+    );
+    const textInputs = simpleDataElements.map(de => de.id.split("-")[0]);
+
+    const allDEInForm = [...numericInputs, ...new Set(checkboxesInputs), ...textInputs].sort();
+
+    const allDEDataSet = dataSet.dataSetElements.map(dse => dse.dataElement.id).sort();
+
+    const deInFormsButNotInDataSet = allDEInForm.filter(de => {
+        return !allDEDataSet.includes(de);
+    });
+    return deInFormsButNotInDataSet;
 }

@@ -58,7 +58,6 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    debugger;
     const customFormHtml = await createCustomForm(dataSet, module);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
