@@ -1369,6 +1369,34 @@
 		});
 	}
 
+	function showCalculateTotalsByActivityLevel() {
+		$.ajax({
+			url: "../api/me",
+			type: "get",
+			data: {
+				fields: 'id, userGroups',
+			},
+			success: function (user) {
+				const userGroups = user.userGroups.map(ug => ug.id);
+
+				const nhwaDataManagersId = "xcDZeClzdse";
+				const nhwaGlobalTeamId = "MVWS4lpbPo2";
+
+				if (userGroups.includes(nhwaDataManagersId) ||
+					userGroups.includes(nhwaGlobalTeamId)) {
+					$("#calculateTotalsByActivityLevel").show();
+				} else {
+					$("#calculateTotalsByActivityLevel").hide();
+				}
+			},
+			error: function (xhr) {
+				debugger;
+				console.log("Error in the request");
+				console.log(xhr);
+			}
+		});
+	}
+
 	$(document).ready(function () {
 		$(function () {
 			//alert("Here")
@@ -1403,6 +1431,8 @@
 				}
 			});
 		});
+
+		showCalculateTotalsByActivityLevel();
 
 		$(function () {
 			console.log('Updating file resources links')
@@ -1606,7 +1636,7 @@
 		<h2>SECTION 1: HWF WORKING DETAILS</h2>
 
 		<button type="button" id="calculateTotalsByActivityLevel" name="calculateTotalsByActivityLevel"
-			onclick="calculateTotalsByActivityLevel()">
+			onclick="calculateTotalsByActivityLevel()" style="display: none;">
 			Calculate Totals By Activity Level
 		</button>
 
