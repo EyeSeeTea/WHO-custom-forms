@@ -1207,22 +1207,27 @@
   }
 
   function calculateNumericCell(inputId) {
-    var total = 0;
-
     var calculateNumericCell = calculatedNumericCells.find(function(cell) {
       return cell.id == inputId;
     });
+	  
+    if (calculateNumericCell === undefined) return;
 
-    calculateNumericCell.children.forEach(function(childId) {
+    var total = calculateNumericCell.children.map(function(childId) {
       var value = $("#" + childId).val();
 
-      if (value != "" && !isNaN(value)) {
-        total = total + parseInt(value);
+      if (value !== "" && !isNaN(value)) {
+        return parseInt(value);
       }
-    });
 
-    $("#" + inputId).val(total);
-    $("#" + inputId).trigger("change");
+      return 0;
+    }).reduce((a, b) => a + b, 0);
+ 
+    if (total !== parseInt($("#" + inputId).val())) {
+	console.log("Updating total", { inputId, total, val: parseInt($("#" + inputId).val()) };
+	$("#" + inputId).val(total);
+    	$("#" + inputId).trigger("change");
+    }
   }
 
   function calculateCheckboxCell(inputId) {
