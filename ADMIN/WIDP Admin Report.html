@@ -440,6 +440,23 @@ dhis2.report.periods = [
         );
 
 
+
+		// Build "Public elements that are not generic" table
+        const publicNotGenericTable = $("#public_not_generic").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+        updateTable(
+          publicNotGenericTable,
+          baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+          false,
+          isDevelopment,
+		  false
+        );
+		
         // Build "Generic users marked as to be deleted" table
         const usersToBeDeletedTable = $("#to_be_deleted").DataTable({
           order: [[2, "asc"]],
@@ -506,8 +523,23 @@ dhis2.report.periods = [
         </thead>
       </table>
 	  
-	  <h3>Generic elements that are not public</h3>
+	  <h3>Generic elements that are not public or invalid public permissions</h3>
       <table class="listTable gridTable" id="generic_not_public">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  <h3>Public elements that are not generic</h3>
+      <table class="listTable gridTable" id="public_not_generic">
         <thead>
           <tr>
             <th>Metadata type</th>
