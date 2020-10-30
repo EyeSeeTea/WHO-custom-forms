@@ -263,7 +263,9 @@ dhis2.report.periods = [
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
     <script type="text/javascript">
-      function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes) {
+ 
+      
+function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, filter) {
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -286,10 +288,42 @@ dhis2.report.periods = [
               .values()
               .flatten()
               .forEach(function(element) {
+                
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-                if (element.metadataType == "users" && element.userCredentials) {
+                if (element.metadataType == "users" && element.userCredentials && 
+					 element.userCredentials.userRoles) {
+					 var isAdmin= false;
+					for (var key in element.userGroups){
+					//Check if the user is widp.admin or is in the usergroup widp it team
+						if (element.id == "bI1uY3KuAKV" || element.userGroups[key].id == "UfhhwZK73Lg"){
+							isAdmin=true;
+						}
+					}
+					//ignore admin users
+					if(!isAdmin){
+						for (var key in element.userCredentials.userRoles){ 
+							for (var subkey in element.userCredentials.userRoles[key]["authorities"]){ 
+								// draw users with roles with admin authorities
+								if (filter.includes(element.userCredentials.userRoles[key]["authorities"][subkey])){ 
+									console.log(element.userCredentials.userRoles[key]["authorities"][subkey] )
+									 method([
+										 element.metadataType,
+										 element.id,
+										 element.name ? element.name : "-",
+										 element.lastUpdated ? element.lastUpdated : "-",
+										 element.userCredentials.username ? element.userCredentials.username : "-",
+										 element.userCredentials.userRoles[key].name? element.userCredentials.userRoles[key].name : "-",
+										 element.userCredentials.userRoles[key]["authorities"][subkey] ? element.userCredentials.userRoles[key]["authorities"][subkey] : "-",
+										 
+									  ]);
+								}
+							}
+						}
+					}
+				}
+				else  if (element.metadataType == "users" && element.userCredentials) {
                   method([
                      element.metadataType,
                      element.id,
@@ -332,6 +366,52 @@ dhis2.report.periods = [
           order: [[4, "asc"]],
           rowGroup: {
             dataSrc: 4
+          }
+        });
+
+
+
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url:
+            baseUrl + "/api/userRoles/QTIJQvizrMf.json?fields=authorities",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+		  var filter = data["authorities"];
+            updateTable(
+                usersWithSuperUserAuthorities,
+                baseUrl + "/api/users.json?filter=userCredentials.userRoles.authorities:in:["+filter.join()+"]&fields=id,name,lastUpdated,userGroups,userCredentials[username,userRoles[name,authorities]]&paging=false", 
+				
+                false,
+                isDevelopment,
+                false,
+				filter
+            );
+          }
+        });
+
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url:
+            baseUrl + "/api/userRoles/QTIJQvizrMf.json?fields=authorities",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+			console.log("ajax executed" + baseUrl);
+            updateTable(
+                usersWithSuperUserAuthorities,
+                baseUrl + "/api/users.json?filter=userCredentials.userRoles.authorities:in:["+data["authorities"].join()+"]&fields=id,name,userCredentials[userRoles[name,authorities]]",
+                false,
+                isDevelopment,
+                false
+            );
           }
         });
 
@@ -473,7 +553,18 @@ dhis2.report.periods = [
           isDevelopment,
 		  false
         );
+		
+		
+        // Build "Users with superuser authorities" table
+        const usersWithSuperUserAuthorities = $("#invalid_authorities").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
       });
+	  
+	  
     </script>
   </head>
   <body>
@@ -564,6 +655,21 @@ dhis2.report.periods = [
             <th>Username</th>
             <th>E-mail</th>
             <th>Lastlogin</th>
+          </tr>
+        </thead>
+      </table>
+
+	  <h3>List of users with superuser authorities</h3>
+      <table class="listTable gridTable" id="invalid_authorities">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>LastUpdated</th>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Admin authority</th>
           </tr>
         </thead>
       </table>
