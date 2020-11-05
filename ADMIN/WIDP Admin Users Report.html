@@ -311,7 +311,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 										 element.metadataType,
 										 element.id,
 										 element.name ? element.name : "-",
-										 element.lastUpdated ? element.lastUpdated : "-",
+										 element.userCredentials.lastLogin ? element.userCredentials.lastLogin : "-",
 										 element.userCredentials.username ? element.userCredentials.username : "-",
 										 element.userCredentials.userRoles[key].name? element.userCredentials.userRoles[key].name : "-",
 										 element.userCredentials.userRoles[key]["authorities"][subkey] ? element.userCredentials.userRoles[key]["authorities"][subkey] : "-",
@@ -356,7 +356,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 		  var filter = data["authorities"];
             updateTable(
                 usersWithSuperUserAuthorities,
-                baseUrl + "/api/users.json?filter=userCredentials.userRoles.authorities:in:["+filter.join()+"]&fields=id,name,lastUpdated,userGroups,userCredentials[username,userRoles[name,authorities]]&paging=false", 
+                baseUrl + "/api/users.json?filter=userCredentials.userRoles.authorities:in:["+filter.join()+"]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging=false", 
 				
                 false,
                 isDevelopment,
@@ -417,7 +417,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             <th>Metadata type</th>
             <th>ID</th>
             <th>Name</th>
-            <th>LastUpdated</th>
+            <th>Last login</th>
             <th>Username</th>
             <th>Role</th>
             <th>Admin authority</th>
