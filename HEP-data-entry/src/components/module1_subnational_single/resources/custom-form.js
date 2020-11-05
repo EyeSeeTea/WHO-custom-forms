@@ -472,25 +472,25 @@ function loadValues() {
     var periodId = $("#selectedPeriodId").val();
 
     var params = {
-        periodId: periodId,
-        dataSetId: module1SubnationalId,
-        organisationUnitId: dhis2.de.getCurrentOrganisationUnit(),
-        multiOrganisationUnit: true,
+        period: periodId,
+        dataSet: module1SubnationalId,
+        orgUnit: dhis2.de.getCurrentOrganisationUnit(),
+        children: true,
     };
 
     $.ajax({
-        url: "getDataValues.action",
+        url: "../api/dataValueSets",
         data: params,
         dataType: "json",
         success: json => {
-            $.safeEach(json.dataValues, function(i, value) {
-                var fieldId = "#" + value.id + "-val";
+            $.safeEach(json.dataValues, function(i, dataValue) {
+                var fieldId = `#${dataValue.orgUnit}-${dataValue.dataElement}-${dataValue.categoryOptionCombo}-val`;
                 if ($(fieldId).length > 0) {
                     var entryField = $(fieldId);
-                    if ("true" == value.val && entryField.attr("type") == "checkbox") {
+                    if ("true" == dataValue.value && entryField.attr("type") == "checkbox") {
                         $(fieldId).prop("checked", true);
                     } else {
-                        $(fieldId).val(value.val);
+                        $(fieldId).val(dataValue.value);
                     }
                 }
             });
