@@ -1,70 +1,119 @@
 <style type="text/css" media="screen">
-    #content {
-        padding: 20px;
-    }
-
-    #data table {
-        border-collapse: collapse;
-    }
-
-    #data table,
-    #data th,
-    #data td {
-        border: 1px solid #c0c0c0;
-        border-spacing: 0px;
-    }
-
-    #data td,
-    #data th {
-        text-align: center;
-        height: 30px;
-        padding: 10px;
-        margin: 10px;
-        min-width: 150px;
-    }
-
-    #custom-form-loader {
-        color: #1c425c;
-        font-size: 14px;
-        border: 1px solid #9aaab5;
-        margin: 20px;
-        text-align: center;
+    #loading {
         display: none;
-        border-radius: 3px;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 2000;
+        background: rgba(38, 50, 56, 0.9);
+    }
+
+    #spinner {
+        height: 60px;
+        width: 60px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-animation: rotation 1s infinite linear;
+        -moz-animation: rotation 1s infinite linear;
+        -o-animation: rotation 1s infinite linear;
+        animation: rotation 1s infinite linear;
+        border: 6px solid white;
+        border-radius: 100%;
+        border-top: 6px solid transparent;
+    }
+
+    #spinner:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -6px;
+        top: -6px;
+        height: 100%;
+        width: 100%;
+        border-top: 6px solid transparent;
+        border-left: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-radius: 100%;
+    }
+
+    @-webkit-keyframes rotation {
+        from {
+            -webkit-transform: rotate(0deg);
+        }
+
+        to {
+            -webkit-transform: rotate(359deg);
+        }
+    }
+
+    @-moz-keyframes rotation {
+        from {
+            -moz-transform: rotate(0deg);
+        }
+
+        to {
+            -moz-transform: rotate(359deg);
+        }
+    }
+
+    @-o-keyframes rotation {
+        from {
+            -o-transform: rotate(0deg);
+        }
+
+        to {
+            -o-transform: rotate(359deg);
+        }
+    }
+
+    @keyframes rotation {
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(359deg);
+        }
+    }
+
+    .gridDiv {
+        font-family: sans-serif, arial;
+    }
+
+    table.gridTable {
+        font-size: 11pt;
+    }
+
+    .gridTable th,
+    .gridTable td {
+        padding: 8px 4px 7px 4px;
+        border: 1px solid #e7e7e7;
+    }
+
+    .gridTable th {
+        background-color: #f3f3f3;
+        font-weight: bold;
+    }
+
+    .td-center {
+        text-align: center;
     }
 </style>
-<script src="https://unpkg.com/mustache@4.0.1"></script>
-<script id="template" type="x-tmpl-mustache">
-    <h3> Module 1 (subnational) with fixes for organisation unit name</h3>
-    <div id="data">
-        <table>
-            <thead>
-                <tr>
-                    <th>Organisation unit Id</th>
-                    <th>Organisation unit name</th>
-                    <th>Organisation unit name to fix</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                {{#dataValues}}
-                <tr>
-                    <td>{{orgUnitId}}</td>
-                    <td>{{currentName}}</td>
-                    <td>{{correctName}}</td>
-                    <td> <button onclick="saveValue('{{period}}','{{orgUnitId}}','{{dataElementId}}','{{categoryOptionComboId}}','{{currentName}}');">Dismiss</button></td>
-                </tr>
-                {{/dataValues}}
-            </tbody>
-        </table>
-    </div>
-</script>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 <script type="text/javascript">
     var module1SubnationalId = "Humg4HbkmJg";
+    var orgUnitsToFixTable;
 
     function saveValue(period, orgUnit, dataElement, categoryOptionCombo, value) {
-        document.getElementById("content").innerHTML = "";
-        $("#custom-form-loader").show();
+        $("#loading").show();
 
         const bodyData = {
             dataValues: [
@@ -88,9 +137,10 @@
             success: response => {
                 console.log({ response });
 
-                loadData();
+                location.reload();
             },
             error: function (xhr) {
+                $("#loading").hide();
                 console.log("Error in the request");
                 console.log(xhr);
             },
@@ -98,40 +148,19 @@
     }
 
     function loadData() {
-        $("#custom-form-loader").show();
-
-        debugger;
+        $("#loading").show();
 
         $.ajax({
             url: "../api/sqlViews/buZ8poY0ZzX/data",
             success: response => {
-                const dataValues = response.listGrid.rows
-                    .map(row => {
-                        return {
-                            dataElementId: row[0],
-                            orgUnitId: row[1],
-                            currentName: row[2],
-                            categoryOptionComboId: row[3],
-                            period: row[4],
-                            correctName: row[5],
-                            parent: row[6],
-                        }
-                    });
+                response.listGrid.rows.forEach((row) => orgUnitsToFixTable.row.add(row));
 
-                const data = {
-                    orgUnitName: dhis2.report.organisationUnit.name,
-                    period: "Esto???",
-                    dataValues
-                }
+                orgUnitsToFixTable.draw();
 
-                var template = document.getElementById("template").innerHTML;
-                const htmlFromTemplate = Mustache.render(template, data);
-
-                $("#custom-form-loader").hide();
-                document.getElementById("content").innerHTML = htmlFromTemplate;
-
+                $("#loading").hide();
             },
             error: function (xhr) {
+                $("#loading").hide();
                 console.log("Error in the request");
                 console.log(xhr);
             },
@@ -140,15 +169,62 @@
     }
 
     jQuery(document).ready(function () {
+        $("#loading").show();
+
+        orgUnitsToFixTable = $("#orgUnitsToFixTable").DataTable({
+            dom: "Bfrtip",
+            columnDefs: [
+                {
+                    "targets": -1,
+                    className: "td-center",
+                    "data": null,
+                    "defaultContent": "<button>Dismiss</button>"
+                },
+            ],
+            order: [
+                [0, "asc"],
+                [1, "asc"]
+            ],
+            rowGroup: {
+                dataSrc: [0, 1]
+            }
+        });
+
+
+        $('#orgUnitsToFixTable tbody').on('click', 'button', function () {
+            var data = orgUnitsToFixTable.row($(this).parents('tr')).data();
+
+            const period = data[1];
+            const value = data[2];
+            const dataElement = data[4];
+            const categoryOptionCombo = data[5];
+            const orgUnit = data[6];
+
+            saveValue(period, orgUnit, dataElement, categoryOptionCombo, value)
+        });
+
         loadData();
     });
 </script>
 
-<div id="custom-form-loader">
-    <img id="loader" src="../images/ajax-loader-circle.gif" />
+<div>
 
-    <p>Please wait while the system is loading the report...</p>
-</div>
-<div id="content">
+    <h3>
+        Module 1 (subnational) with fixes for organisation unit name
+    </h3>
+    <table class="listTable gridTable" id="orgUnitsToFixTable">
+        <thead>
+            <tr>
+                <th>Organisation unit Parent</th>
+                <th>Period</th>
+                <th>Organisation unit</th>
+                <th>Name to fix</th>
+                <th>Dismiss</th>
+            </tr>
+        </thead>
+    </table>
 
+    <div id="loading">
+        <div id="spinner"></div>
+    </div>
 </div>
