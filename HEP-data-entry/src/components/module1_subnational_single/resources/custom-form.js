@@ -513,6 +513,7 @@ function loadValues() {
 }
 
 function renderCustomForm() {
+    $("#content").empty();
     $("#custom-form-loader").show();
 
     const fields = `fields=id,shortName`;

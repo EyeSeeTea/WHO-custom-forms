@@ -24,7 +24,7 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
             <style>{style}</style>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
             <script id="template" type="x-tmpl-mustache">
-                <div id="cde">
+                <div class="cde">
                     <h3> {nameToken}</h3>
                     <table>
                         <tbody>
@@ -137,12 +137,11 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                 <div id="tab0">
                     <h2>SECTION 1: HWF WORKING DETAILS</h2>
 
-                    <div id="content">
-                        <div id="custom-form-loader">
-                            <img id="loader" src="../images/ajax-loader-circle.gif" />
+                    <div id="content"></div>
+                    <div id="custom-form-loader">
+                        <img id="loader" src="../images/ajax-loader-circle.gif" />
 
-                            <p>Please wait while the system is loading the custom form...</p>
-                        </div>
+                        <p>Please wait while the system is loading the custom form...</p>
                     </div>
                 </div>
             </div>

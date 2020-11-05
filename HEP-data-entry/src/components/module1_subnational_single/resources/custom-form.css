@@ -6,7 +6,7 @@
     display: inline-block !important;
 }
 
-#cde table {
+.cde table {
     border-collapse: collapse;
 }
 
@@ -15,14 +15,14 @@ html input[disabled] {
     color: grey !important;
 }
 
-#cde table,
-#cde th,
-#cde td {
+.cde table,
+.cde th,
+.cde td {
     border: 1px solid #c0c0c0;
 }
 
-#cde td,
-#cde th {
+.cde td,
+.cde th {
     height: 30px;
     padding: 10px;
     margin: 10px;
