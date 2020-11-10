@@ -1,0 +1,103 @@
+#completeButton {
+    display: none;
+}
+
+#newCompleteButton {
+    display: inline-block !important;
+}
+
+.cde table {
+    border-collapse: collapse;
+}
+
+button[disabled],
+html input[disabled] {
+    color: grey !important;
+}
+
+.cde table,
+.cde th,
+.cde td {
+    border: 1px solid #c0c0c0;
+}
+
+.cde td,
+.cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+    min-width: 150px;
+}
+
+.cde-greyfield {
+    background-color: #e0e0e0;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+    font-weight: bold;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.hwf {
+    display: none;
+    border: 1px #dadada solid;
+    padding: 8px;
+}
+
+#label {
+    display: block;
+    text-align: left;
+}
+
+.check {
+    display: block;
+}
+
+input[type="text"] {
+    text-align: center;
+    width: 80%;
+}
+
+textarea {
+    width: 80%;
+}
+
+.td-input {
+    text-align: center;
+}
+
+.numeric-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.simple-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.multiselect {
+    width: 250px;
+}
+
+#custom-form-loader {
+    color: #1c425c;
+    font-size: 14px;
+    border: 1px solid #9aaab5;
+    margin: 20px;
+    text-align: center;
+    display: none;
+    border-radius: 3px;
+}
