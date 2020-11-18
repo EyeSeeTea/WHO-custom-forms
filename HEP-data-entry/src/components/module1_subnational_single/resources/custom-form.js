@@ -513,26 +513,27 @@ function loadValues() {
 }
 
 function renderCustomForm() {
-    $("#content").empty();
+    $(".cde table tbody").empty();
     $("#custom-form-loader").show();
 
-    const filter = `var=dataSet:${module1SubnationalId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
+    const filter = `paging=false&var=dataSet:${module1SubnationalId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
 
     $.ajax({
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const orgUnits = response.listGrid.rows.map(row => ({
+            const orgUnits = response.listGrid.rows.map((row, index) => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
+                showHeaders: index === 0,
             }));
 
-            const orgUnitTables = orgUnits.map(orgUnit => {
+            const rows = orgUnits.map(orgUnit => {
                 var template = document.getElementById("template").innerHTML;
                 return Mustache.render(template, orgUnit);
             });
 
-            document.getElementById("content").innerHTML = orgUnitTables.join();
+            $(".cde table tbody").html(rows.join(""));
 
             $(".read-only input").each(function() {
                 $(this).attr("disabled", "disabled");

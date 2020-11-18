@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import { DataSet } from "../../models/Dhis2Metadata";
-import { dataElementGroups, simpleDataElements } from "./dataElementGroups";
+import { commentDE, correctOrgUnitNameDE, dataElementGroups } from "./dataElementGroups";
 import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";
 
@@ -17,92 +17,55 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
 
     console.log(dataSet.id);
 
-    const nameToken = "{{orgUnitName}}";
-
     const html = (
         <div>
             <style>{style}</style>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
             <script id="template" type="x-tmpl-mustache">
-                <div class="cde">
-                    <h3> {nameToken}</h3>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>SN</th>
+                <tr>
+                    <th>Total</th>
+                    <th class="simple-de">{"{{orgUnitName}}"}</th>
 
-                                {dataElementGroups.map(group => {
-                                    return <th>{group.order}</th>;
-                                })}
+                    <td class="td-input">
+                        <input id={`{{orgUnitId}}-${correctOrgUnitNameDE.id}`} type="text" />
+                    </td>
 
-                                {simpleDataElements.map(() => {
-                                    return <th></th>;
-                                })}
-                            </tr>
-                            <tr>
-                                <th>Occupation</th>
+                    {dataElementGroups.map(group => {
+                        const id = `{{orgUnitId}}-${group.inputNumeric.id}`;
+                        const className = group.readOnly ? "td-input read-only" : "td-input";
 
-                                {dataElementGroups.map(group => {
-                                    return (
-                                        <th class="numeric-de">{group.inputNumeric.displayName}</th>
-                                    );
-                                })}
+                        return (
+                            <td class={className}>
+                                <input id={id} type="text" />
+                            </td>
+                        );
+                    })}
 
-                                {simpleDataElements.map(de => {
-                                    return <th class="simple-de">{de.displayName}</th>;
-                                })}
-                            </tr>
-                            <tr>
-                                <th>Total</th>
-                                {dataElementGroups.map(group => {
-                                    const id = `{{orgUnitId}}-${group.inputNumeric.id}`;
-                                    const className = group.readOnly
-                                        ? "td-input read-only"
-                                        : "td-input";
+                    <td class="td-input">
+                        <textarea id={`{{orgUnitId}}-${commentDE.id}`} />
+                    </td>
+                </tr>
+                <tr>
+                    <th>Source Type</th>
+                    <th></th>
+                    <th></th>
 
-                                    return (
-                                        <td class={className}>
-                                            <input id={id} type="text" />
-                                        </td>
-                                    );
-                                })}
+                    {dataElementGroups.map((group, index) => {
+                        const containerId = `{{orgUnitId}}-checkboxes${index}`;
+                        const className = group.readOnly ? "read-only" : "";
 
-                                {simpleDataElements.map(de => {
-                                    const id = `{{orgUnitId}}-${de.id}`;
-                                    const tdContent =
-                                        de.type === "text-area" ? (
-                                            <textarea id={id} />
-                                        ) : (
-                                            <input id={id} type="text" />
-                                        );
+                        return (
+                            <td class={className}>
+                                <TrueOnlyEntries
+                                    containerId={containerId}
+                                    inputCheckboxes={group.inputCheckboxes}
+                                />
+                            </td>
+                        );
+                    })}
 
-                                    return <td class="td-input">{tdContent}</td>;
-                                })}
-                            </tr>
-                            <tr>
-                                <th>Source Type</th>
-
-                                {dataElementGroups.map((group, index) => {
-                                    const containerId = `{{orgUnitId}}-checkboxes${index}`;
-                                    const className = group.readOnly ? "read-only" : "";
-
-                                    return (
-                                        <td class={className}>
-                                            <TrueOnlyEntries
-                                                containerId={containerId}
-                                                inputCheckboxes={group.inputCheckboxes}
-                                            />
-                                        </td>
-                                    );
-                                })}
-
-                                {simpleDataElements.map(() => {
-                                    return <td></td>;
-                                })}
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    <td></td>
+                </tr>
             </script>
             <script>{javascript}</script>
             <h3 style="text-align: center;">
@@ -137,7 +100,41 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                 <div id="tab0">
                     <h2>SECTION 1: HWF WORKING DETAILS</h2>
 
-                    <div id="content"></div>
+                    <div class="cde">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+
+                                    <th></th>
+                                    <th></th>
+
+                                    {dataElementGroups.map(group => {
+                                        return <th>{group.order}</th>;
+                                    })}
+                                    <th></th>
+                                </tr>
+                                <tr>
+                                    <th>Occupation</th>
+
+                                    <th class="simple-de">Subnational level name</th>
+
+                                    <th class="simple-de">{correctOrgUnitNameDE.displayName}</th>
+
+                                    {dataElementGroups.map(group => {
+                                        return (
+                                            <th class="numeric-de">
+                                                {group.inputNumeric.displayName}
+                                            </th>
+                                        );
+                                    })}
+
+                                    <th class="simple-de">{commentDE.displayName}</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                     <div id="custom-form-loader">
                         <img id="loader" src="../images/ajax-loader-circle.gif" />
 
@@ -160,7 +157,7 @@ function getMissingDataElementsInDataSet(dataSet: DataSet) {
     const checkboxesInputs = dataElementGroups.flatMap(de =>
         de.inputCheckboxes.map(de => de.id.split("-")[0])
     );
-    const textInputs = simpleDataElements.map(de => de.id.split("-")[0]);
+    const textInputs = [correctOrgUnitNameDE.id.split("-")[0], commentDE.id.split("-")[0]];
 
     const allDEInForm = [...numericInputs, ...new Set(checkboxesInputs), ...textInputs].sort();
 
