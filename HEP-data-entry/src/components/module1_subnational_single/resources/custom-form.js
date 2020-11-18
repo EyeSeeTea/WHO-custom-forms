@@ -516,16 +516,15 @@ function renderCustomForm() {
     $("#content").empty();
     $("#custom-form-loader").show();
 
-    const fields = `fields=id,shortName`;
-    const filter = `filter=dataSets.id:eq:${module1SubnationalId}&filter=path:like:${dhis2.de.currentOrganisationUnitId}`;
+    const filter = `var=dataSet:${module1SubnationalId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
 
     $.ajax({
-        url: `../api/organisationUnits?${fields}&${filter}`,
+        url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const orgUnits = response.organisationUnits.map(ou => ({
-                orgUnitId: ou.id,
-                orgUnitName: ou.shortName,
+            const orgUnits = response.listGrid.rows.map(row => ({
+                orgUnitId: row[0],
+                orgUnitName: row[1],
             }));
 
             const orgUnitTables = orgUnits.map(orgUnit => {
