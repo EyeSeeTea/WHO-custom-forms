@@ -129,3 +129,41 @@ tr:nth-child(4n + 1),
 tr:nth-child(4n + 2) {
     background: white;
 }
+
+#Pagination {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.pagination-next-orgUnitsTable:hover,
+.pagination-pre-orgUnitsTable:hover {
+    background: black;
+    color: white;
+    text-decoration: none;
+}
+
+.pagination-next-orgUnitsTable,
+.pagination-pre-orgUnitsTable {
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #333;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-decoration: none;
+}
+.no-pag {
+    cursor: default;
+    color: #666 !important;
+    border: 1px solid transparent;
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+}
+
+.no-pag:hover {
+    background: transparent;
+}

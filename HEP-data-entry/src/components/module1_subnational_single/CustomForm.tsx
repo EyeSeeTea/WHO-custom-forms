@@ -13,7 +13,8 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
     }
 
     const style = await getResource("custom-form.css");
-    const javascript = await getResource("custom-form.js");
+    const customFormJs = await getResource("custom-form.js");
+    const sheetseeJs = await getResource("sheetsee.js");
 
     console.log(dataSet.id);
 
@@ -21,53 +22,91 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
         <div>
             <style>{style}</style>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
-            <script id="template" type="x-tmpl-mustache">
-                <tr>
-                    <th>Total</th>
-                    <th class="simple-de">{"{{orgUnitName}}"}</th>
+            <script id="orgUnitsTable_template" type="x-tmpl-mustache">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>SN</th>
 
-                    <td class="td-input">
-                        <input id={`{{orgUnitId}}-${correctOrgUnitNameDE.id}`} type="text" />
-                    </td>
+                            <th></th>
+                            <th></th>
 
-                    {dataElementGroups.map(group => {
-                        const id = `{{orgUnitId}}-${group.inputNumeric.id}`;
-                        const className = group.readOnly ? "td-input read-only" : "td-input";
+                            {dataElementGroups.map(group => {
+                                return <th>{group.order}</th>;
+                            })}
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <th>Occupation</th>
 
-                        return (
-                            <td class={className}>
-                                <input id={id} type="text" />
-                            </td>
-                        );
-                    })}
+                            <th class="simple-de">Subnational level name</th>
 
-                    <td class="td-input">
-                        <textarea id={`{{orgUnitId}}-${commentDE.id}`} />
-                    </td>
-                </tr>
-                <tr>
-                    <th>Source Type</th>
-                    <th></th>
-                    <th></th>
+                            <th class="simple-de">{correctOrgUnitNameDE.displayName}</th>
 
-                    {dataElementGroups.map((group, index) => {
-                        const containerId = `{{orgUnitId}}-checkboxes${index}`;
-                        const className = group.readOnly ? "read-only" : "";
+                            {dataElementGroups.map(group => {
+                                return <th class="numeric-de">{group.inputNumeric.displayName}</th>;
+                            })}
 
-                        return (
-                            <td class={className}>
-                                <TrueOnlyEntries
-                                    containerId={containerId}
-                                    inputCheckboxes={group.inputCheckboxes}
+                            <th class="simple-de">{commentDE.displayName}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {"{{#rows}}"}
+                        <tr>
+                            <th>Total</th>
+                            <th class="simple-de">{"{{orgUnitName}}"}</th>
+
+                            <td class="td-input">
+                                <input
+                                    id={`{{orgUnitId}}-${correctOrgUnitNameDE.id}`}
+                                    type="text"
                                 />
                             </td>
-                        );
-                    })}
 
-                    <td></td>
-                </tr>
+                            {dataElementGroups.map(group => {
+                                const id = `{{orgUnitId}}-${group.inputNumeric.id}`;
+                                const className = group.readOnly
+                                    ? "td-input read-only"
+                                    : "td-input";
+
+                                return (
+                                    <td class={className}>
+                                        <input id={id} type="text" />
+                                    </td>
+                                );
+                            })}
+
+                            <td class="td-input">
+                                <textarea id={`{{orgUnitId}}-${commentDE.id}`} />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Source Type</th>
+                            <th></th>
+                            <th></th>
+
+                            {dataElementGroups.map((group, index) => {
+                                const containerId = `{{orgUnitId}}-checkboxes${index}`;
+                                const className = group.readOnly ? "read-only" : "";
+
+                                return (
+                                    <td class={className}>
+                                        <TrueOnlyEntries
+                                            containerId={containerId}
+                                            inputCheckboxes={group.inputCheckboxes}
+                                        />
+                                    </td>
+                                );
+                            })}
+
+                            <td></td>
+                        </tr>
+                        {"{{/rows}}"}
+                    </tbody>
+                </table>
             </script>
-            <script>{javascript}</script>
+            <script>{sheetseeJs}</script>
+            <script>{customFormJs}</script>
             <h3 style="text-align: center;">
                 <strong>Active Health Workforce Demographic Details</strong>
             </h3>
@@ -100,41 +139,7 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                 <div id="tab0">
                     <h2>SECTION 1: HWF WORKING DETAILS</h2>
 
-                    <div class="cde">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>SN</th>
-
-                                    <th></th>
-                                    <th></th>
-
-                                    {dataElementGroups.map(group => {
-                                        return <th>{group.order}</th>;
-                                    })}
-                                    <th></th>
-                                </tr>
-                                <tr>
-                                    <th>Occupation</th>
-
-                                    <th class="simple-de">Subnational level name</th>
-
-                                    <th class="simple-de">{correctOrgUnitNameDE.displayName}</th>
-
-                                    {dataElementGroups.map(group => {
-                                        return (
-                                            <th class="numeric-de">
-                                                {group.inputNumeric.displayName}
-                                            </th>
-                                        );
-                                    })}
-
-                                    <th class="simple-de">{commentDE.displayName}</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
+                    <div id="orgUnitsTable" class="cde"></div>
                     <div id="custom-form-loader">
                         <img id="loader" src="../images/ajax-loader-circle.gif" />
 

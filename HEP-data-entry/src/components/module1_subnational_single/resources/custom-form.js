@@ -469,6 +469,22 @@ function showCheckboxes(element) {
 }
 
 function loadValues() {
+    $(".read-only input").each(function() {
+        $(this).attr("disabled", "disabled");
+    });
+
+    document.querySelector(".pagination-next-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadValues();
+    });
+
+    document.querySelector(".pagination-pre-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadValues();
+    });
+
     var periodId = $("#selectedPeriodId").val();
 
     var params = {
@@ -522,22 +538,19 @@ function renderCustomForm() {
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const orgUnits = response.listGrid.rows.map((row, index) => ({
+            const orgUnits = response.listGrid.rows.map(row => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
-                showHeaders: index === 0,
             }));
 
-            const rows = orgUnits.map(orgUnit => {
-                var template = document.getElementById("template").innerHTML;
-                return Mustache.render(template, orgUnit);
-            });
+            var tableOptions = {
+                data: orgUnits,
+                pagination: 10,
+                tableDiv: "#orgUnitsTable",
+                templateID: "orgUnitsTable_template",
+            };
 
-            $(".cde table tbody").html(rows.join(""));
-
-            $(".read-only input").each(function() {
-                $(this).attr("disabled", "disabled");
-            });
+            makeTable(tableOptions);
 
             $("#custom-form-loader").hide();
 
