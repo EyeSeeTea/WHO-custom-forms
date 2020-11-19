@@ -3556,16 +3556,15 @@ export const dataElementGroups: DataElementGroup[] = [
     }
 ]
 
+export const correctOrgUnitNameDE = {
+    id: 'ZUCnSGgjlrw-Xr12mI7VPn3-val',
+    displayName: 'Correct organisation unit name',
+    type: "text"
+};
 
-export const simpleDataElements: CustomDataElement[] = [
-    {
-        id: 'ZUCnSGgjlrw-Xr12mI7VPn3-val',
-        displayName: 'Correct organisation unit name',
-        type: "text"
-    },
-    {
-        id: 'kiwzlhjDZG9-Xr12mI7VPn3-val',
-        displayName: 'If you have data on occupations and their source title, that are not listed above please provide below',
-        type: "text-area"
-    }
-]
+export const commentDE = {
+    id: 'kiwzlhjDZG9-Xr12mI7VPn3-val',
+    displayName: 'If you have data on occupations and their source title, that are not listed above please provide below',
+    type: "text-area"
+};
+

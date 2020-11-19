@@ -469,6 +469,22 @@ function showCheckboxes(element) {
 }
 
 function loadValues() {
+    $(".read-only input").each(function() {
+        $(this).attr("disabled", "disabled");
+    });
+
+    document.querySelector(".pagination-next-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadValues();
+    });
+
+    document.querySelector(".pagination-pre-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadValues();
+    });
+
     var periodId = $("#selectedPeriodId").val();
 
     var params = {
@@ -513,31 +529,28 @@ function loadValues() {
 }
 
 function renderCustomForm() {
-    $("#content").empty();
+    $(".cde table tbody").empty();
     $("#custom-form-loader").show();
 
-    const fields = `fields=id,shortName`;
-    const filter = `filter=dataSets.id:eq:${module1SubnationalId}&filter=path:like:${dhis2.de.currentOrganisationUnitId}`;
+    const filter = `paging=false&var=dataSet:${module1SubnationalId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
 
     $.ajax({
-        url: `../api/organisationUnits?${fields}&${filter}`,
+        url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const orgUnits = response.organisationUnits.map(ou => ({
-                orgUnitId: ou.id,
-                orgUnitName: ou.shortName,
+            const orgUnits = response.listGrid.rows.map(row => ({
+                orgUnitId: row[0],
+                orgUnitName: row[1],
             }));
 
-            const orgUnitTables = orgUnits.map(orgUnit => {
-                var template = document.getElementById("template").innerHTML;
-                return Mustache.render(template, orgUnit);
-            });
+            var tableOptions = {
+                data: orgUnits,
+                pagination: 10,
+                tableDiv: "#orgUnitsTable",
+                templateID: "orgUnitsTable_template",
+            };
 
-            document.getElementById("content").innerHTML = orgUnitTables.join();
-
-            $(".read-only input").each(function() {
-                $(this).attr("disabled", "disabled");
-            });
+            makeTable(tableOptions);
 
             $("#custom-form-loader").hide();
 
