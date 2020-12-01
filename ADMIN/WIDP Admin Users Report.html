@@ -375,6 +375,13 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           }
         });
 
+        updateTable(
+          usersToBeDeletedTable,
+          baseUrl + "/api/metadata.json?filter=name:ilike:TOBEDELETED&fields=id,name,created,userCredentials[username,lastLogin],email",
+          false,
+          isDevelopment,
+		  false
+        );
 		
         // Build "Generic users marked as to be deleted" table
         const usersWithSuperUserAuthorities = $("#invalid_authorities").DataTable({
