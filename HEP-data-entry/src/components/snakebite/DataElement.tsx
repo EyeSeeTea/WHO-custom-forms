@@ -86,7 +86,6 @@ export function DataElement(attributes: DataElementAttributes): string {
                                 value={`[ ${dataElement.code} ]`}
                                 class={"entryfield"}
                                 type={"text"}
-                                style="width:80%;"
                             />
                         </th>
 
