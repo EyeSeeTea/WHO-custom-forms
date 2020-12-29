@@ -1,12 +1,16 @@
 import { createElement } from "typed-html";
 import { DataElement } from "./DataElement";
 import { Section } from "../../models/d2Models";
+import { CustomFormData } from "./CustomFormData";
 
 interface SectionsAttributes {
+    customFormData: CustomFormData;
     sections: Section[];
 }
 
 export function Sections(attributes: SectionsAttributes): string {
+    const { customFormData } = attributes;
+
     return (
         <div>
             <h3>&nbsp;</h3>
@@ -23,7 +27,12 @@ export function Sections(attributes: SectionsAttributes): string {
 
                         {section.dataElements &&
                             section.dataElements.map(dataElement => {
-                                return <DataElement dataElement={dataElement} />;
+                                return (
+                                    <DataElement
+                                        dataElement={dataElement}
+                                        customFormData={customFormData}
+                                    />
+                                );
                             })}
 
                         <p>&nbsp;</p>

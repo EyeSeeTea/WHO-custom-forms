@@ -2,14 +2,15 @@ import { createElement } from "typed-html";
 import { SectionDataElement } from "../../models/d2Models";
 import { EntryField } from "../common/EntryField";
 import _ = require("lodash");
-import { customFormData } from "./customFormData";
+import { CustomFormData } from "./CustomFormData";
 
 interface DataElementAttributes {
+    customFormData: CustomFormData;
     dataElement: SectionDataElement;
 }
 
 export function DataElement(attributes: DataElementAttributes): string {
-    const { dataElement } = attributes;
+    const { dataElement, customFormData } = attributes;
 
     const tableAttributes = {
         border: "1",

@@ -7,6 +7,8 @@ import { SnakeBiteCustomForm } from "./components/snakebite/SnakeBiteCustomForm"
 import { DataEntryForm } from "./models/d2Models";
 import { Dhis2Metadata, MetadataPayload, DataSet } from "./models/Dhis2Metadata";
 import SubnationalSingleCustomForm from "./components/module1_subnational_single/CustomForm";
+import { DataStoreClient } from "./data/DataStoreClient";
+import { CustomFormData } from "./components/snakebite/CustomFormData";
 
 type Module = "hepatitis" | "snakebite" | "module1_subnational_single_entry";
 
@@ -38,7 +40,8 @@ function getParser(): ArgumentParser {
 async function getDataSetPayload(
     d2Metadata: Dhis2Metadata,
     dataSetId: string,
-    module: Module
+    module: Module,
+    url: string
 ): Promise<MetadataPayload> {
     const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
         "dataSets:fields": `:owner,
@@ -58,7 +61,7 @@ async function getDataSetPayload(
         throw new Error(`Cannot find dataset with id ${dataSetId}`);
     }
 
-    const customFormHtml = await createCustomForm(dataSet, module);
+    const customFormHtml = await createCustomForm(dataSet, module, url);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -80,11 +83,18 @@ async function getDataSetPayload(
     };
 }
 
-async function createCustomForm(dataSet: DataSet, module: Module) {
+async function createCustomForm(dataSet: DataSet, module: Module, url: string) {
     if (module === "hepatitis") {
         return await AssembledFormHTML(dataSet);
     } else if (module === "snakebite") {
-        return await SnakeBiteCustomForm(dataSet);
+        const dataStoreClient = new DataStoreClient(url, "snake-bite");
+        const customFormData = await dataStoreClient.get<CustomFormData>("customFormData");
+
+        if (!customFormData) {
+            throw new Error(`Does not exist a required snake-bite namespace with a customFormData key in the data store`);
+        }
+
+        return await SnakeBiteCustomForm(dataSet, customFormData);
     } else if (module === "module1_subnational_single_entry") {
         return await SubnationalSingleCustomForm(dataSet);
     } else {
@@ -98,7 +108,7 @@ async function main(): Promise<void> {
     const dataSetId = args.dataset_id;
 
     try {
-        const payload = await getDataSetPayload(d2Metadata, dataSetId, args.module);
+        const payload = await getDataSetPayload(d2Metadata, dataSetId, args.module, args.url);
 
         const response = await d2Metadata.post(payload, {});
 

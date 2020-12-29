@@ -1,8 +1,9 @@
 import { createElement } from "typed-html";
 import { Sections } from "./Sections";
 import { DataSet } from "../../models/Dhis2Metadata";
+import { CustomFormData } from "./CustomFormData";
 
-export function SnakeBiteCustomForm(dataSet: DataSet): string {
+export function SnakeBiteCustomForm(dataSet: DataSet, customFormData: CustomFormData): string {
     const javascript = `<script> 
                             $(function () {
                                 $("#tabs").tabs();
@@ -19,7 +20,7 @@ export function SnakeBiteCustomForm(dataSet: DataSet): string {
             {javascript}
 
             <div id="tabs">
-                <Sections sections={dataSet.sections} />
+                <Sections sections={dataSet.sections} customFormData={customFormData} />
             </div>
         </div>
     );
