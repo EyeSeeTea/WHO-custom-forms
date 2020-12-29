@@ -1,15 +1,15 @@
 import { createElement } from "typed-html";
 import { DataElement } from "./DataElement";
 import { Section } from "../../models/d2Models";
-import { CustomFormData } from "./CustomFormData";
+import { CustomMetadata } from "./CustomMetadata";
 
 interface SectionsAttributes {
-    customFormData: CustomFormData;
+    customMetadata: CustomMetadata;
     sections: Section[];
 }
 
 export function Sections(attributes: SectionsAttributes): string {
-    const { customFormData } = attributes;
+    const { customMetadata } = attributes;
 
     return (
         <div>
@@ -30,7 +30,7 @@ export function Sections(attributes: SectionsAttributes): string {
                                 return (
                                     <DataElement
                                         dataElement={dataElement}
-                                        customFormData={customFormData}
+                                        customMetadata={customMetadata}
                                     />
                                 );
                             })}

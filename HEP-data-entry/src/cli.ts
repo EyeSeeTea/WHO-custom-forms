@@ -8,7 +8,7 @@ import { DataEntryForm } from "./models/d2Models";
 import { Dhis2Metadata, MetadataPayload, DataSet } from "./models/Dhis2Metadata";
 import SubnationalSingleCustomForm from "./components/module1_subnational_single/CustomForm";
 import { DataStoreClient } from "./data/DataStoreClient";
-import { CustomFormData } from "./components/snakebite/CustomFormData";
+import { CustomMetadata } from "./components/snakebite/CustomMetadata";
 
 type Module = "hepatitis" | "snakebite" | "module1_subnational_single_entry";
 
@@ -87,14 +87,16 @@ async function createCustomForm(dataSet: DataSet, module: Module, url: string) {
     if (module === "hepatitis") {
         return await AssembledFormHTML(dataSet);
     } else if (module === "snakebite") {
-        const dataStoreClient = new DataStoreClient(url, "snake-bite");
-        const customFormData = await dataStoreClient.get<CustomFormData>("customFormData");
+        const namespace = "snake-bite";
+        const key = "customMetadata";
+        const dataStoreClient = new DataStoreClient(url, namespace);
+        const customMetadata = await dataStoreClient.get<CustomMetadata>(key);
 
-        if (!customFormData) {
-            throw new Error(`Does not exist a required snake-bite namespace with a customFormData key in the data store`);
+        if (!customMetadata) {
+            throw new Error(`Does not exist a required ${namespace} namespace with a ${key} key in the data store`);
         }
 
-        return await SnakeBiteCustomForm(dataSet, customFormData);
+        return await SnakeBiteCustomForm(dataSet, customMetadata);
     } else if (module === "module1_subnational_single_entry") {
         return await SubnationalSingleCustomForm(dataSet);
     } else {

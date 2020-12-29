@@ -2,15 +2,15 @@ import { createElement } from "typed-html";
 import { SectionDataElement } from "../../models/d2Models";
 import { EntryField } from "../common/EntryField";
 import _ = require("lodash");
-import { CustomFormData } from "./CustomFormData";
+import { CustomMetadata } from "./CustomMetadata";
 
 interface DataElementAttributes {
-    customFormData: CustomFormData;
+    customMetadata: CustomMetadata;
     dataElement: SectionDataElement;
 }
 
 export function DataElement(attributes: DataElementAttributes): string {
-    const { dataElement, customFormData } = attributes;
+    const { dataElement, customMetadata } = attributes;
 
     const tableAttributes = {
         border: "1",
@@ -21,7 +21,7 @@ export function DataElement(attributes: DataElementAttributes): string {
 
     const categoryOptionCombos = _.sortBy(
         dataElement.categoryCombo.categoryOptionCombos.map(catOpCombo => {
-            const catComboData = customFormData.optionCombos[catOpCombo.id];
+            const catComboData = customMetadata.optionCombos[catOpCombo.id];
 
             const order = catComboData ? catComboData.order : 0;
 
@@ -34,7 +34,7 @@ export function DataElement(attributes: DataElementAttributes): string {
         ["order"]
     );
 
-    const dataElementData = customFormData.dataElements[dataElement.id];
+    const dataElementData = customMetadata.dataElements[dataElement.id];
 
     return (
         <div>
@@ -62,7 +62,7 @@ export function DataElement(attributes: DataElementAttributes): string {
                                 : "Total"}
                         </th>
                         {categoryOptionCombos.map(catCombo => {
-                            const catComboData = customFormData.optionCombos[catCombo.id];
+                            const catComboData = customMetadata.optionCombos[catCombo.id];
 
                             return (
                                 <th scope="col" style="text-align: center;padding: 2px;">
@@ -76,7 +76,7 @@ export function DataElement(attributes: DataElementAttributes): string {
                 </thead>
                 <tbody>
                     <tr>
-                        <th scope="row" style="text-align: center;">
+                        <th scope="row" style="text-align: center;padding: 12px;">
                             <input
                                 {...{ dataelementid: dataElement.id }}
                                 id={`total${dataElement.id}`}
@@ -84,18 +84,20 @@ export function DataElement(attributes: DataElementAttributes): string {
                                 readonly="readonly"
                                 title={`${dataElement.code}`}
                                 value={`[ ${dataElement.code} ]`}
+                                class={"entryfield"}
+                                type={"text"}
                                 style="width:80%;"
                             />
                         </th>
 
                         {categoryOptionCombos.map(catCombo => {
-                            const catComboData = customFormData.optionCombos[catCombo.id];
+                            const catComboData = customMetadata.optionCombos[catCombo.id];
 
                             const helpMessage =
                                 catComboData && catComboData.info ? catComboData.info : undefined;
 
                             return (
-                                <td style="text-align: center;">
+                                <td style="text-align: center;padding: 12px;">
                                     <EntryField
                                         dataElementId={dataElement.id}
                                         dataElementCode={dataElement.code}

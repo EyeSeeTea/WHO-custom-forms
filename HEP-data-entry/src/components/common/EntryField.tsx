@@ -17,7 +17,8 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                 id={`${dataElementId}-${catComboId}-val`}
                 name="entryfield"
                 title={`${dataElementCode} ${catComboName}`}
-                value={`[ ${dataElementCode} ${catComboName} ]`}
+                class={"entryfield"}
+                type={"text"}
             />
             {helpMessage && (
                 <i

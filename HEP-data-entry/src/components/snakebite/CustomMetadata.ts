@@ -10,7 +10,7 @@ interface OptionComboData {
     order?: number;
 }
 
-export interface CustomFormData {
+export interface CustomMetadata {
     dataElements: Record<string, DataElementData>;
     optionCombos: Record<string, OptionComboData>;
 }
