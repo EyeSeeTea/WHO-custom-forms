@@ -1,0 +1,169 @@
+/* #completeButton {
+    display: none;
+}
+
+#newCompleteButton {
+    display: inline-block !important;
+}
+
+.cde table {
+    border-collapse: collapse;
+}
+
+button[disabled],
+html input[disabled] {
+    color: grey !important;
+}
+
+.cde table,
+.cde th,
+.cde td {
+    border: 1px solid #c0c0c0;
+}
+
+.cde td,
+.cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+    min-width: 150px;
+}
+
+.cde-greyfield {
+    background-color: #e0e0e0;
+}
+
+.selectBox {
+    position: relative;
+}
+
+.selectBox select {
+    width: 100%;
+    font-weight: bold;
+}
+
+.overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.hwf {
+    display: none;
+    border: 1px #dadada solid;
+    padding: 8px;
+}
+
+#label {
+    display: block;
+    text-align: left;
+}
+
+.check {
+    display: block;
+}
+
+input[type="text"] {
+    text-align: center;
+    width: 80%;
+}
+
+textarea {
+    width: 80%;
+}
+
+.td-input {
+    text-align: center;
+}
+
+.numeric-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.simple-de {
+    text-align: center;
+    white-space: pre;
+}
+
+.multiselect {
+    width: 250px;
+}
+
+#custom-form-loader {
+    color: #1c425c;
+    font-size: 14px;
+    margin: 20px;
+    text-align: center;
+    display: none;
+    border-radius: 3px;
+}
+
+.cde table thead tr:nth-child(1) th {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 48px;
+    background: #f5f5f5;
+    z-index: 50;
+}
+
+.cde table thead tr:nth-child(2) th {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 99px;
+    background: #f5f5f5;
+    z-index: 50;
+}
+
+#leftBar {
+    z-index: 100;
+}
+
+tr {
+    background: #f5f5f5;
+}
+
+tr:nth-child(4n + 1),
+tr:nth-child(4n + 2) {
+    background: white;
+}
+
+#Pagination {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.pagination-next-orgUnitsTable:hover,
+.pagination-pre-orgUnitsTable:hover {
+    background: black;
+    color: white;
+    text-decoration: none;
+}
+
+.pagination-next-orgUnitsTable,
+.pagination-pre-orgUnitsTable {
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #333;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-decoration: none;
+}
+.no-pag {
+    cursor: default;
+    color: #666 !important;
+    border: 1px solid transparent;
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+}
+
+.no-pag:hover {
+    background: transparent;
+} */

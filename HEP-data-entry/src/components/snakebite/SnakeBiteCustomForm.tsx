@@ -2,19 +2,23 @@ import { createElement } from "typed-html";
 import { Sections } from "./Sections";
 import { DataSet } from "../../models/Dhis2Metadata";
 import { CustomMetadata } from "./CustomMetadata";
+import { getResource } from "./utils";
 
-export function SnakeBiteCustomForm(dataSet: DataSet, customMetadata: CustomMetadata): string {
-    const javascript = `<script> 
-                            $(function () {
-                                $("#tabs").tabs();
-                            });
-                        </script>`;
+export async function SnakeBiteCustomForm(
+    dataSet: DataSet,
+    customMetadata: CustomMetadata
+): Promise<string> {
+    const style = await getResource("resources/custom-form.css");
+    const customFormJs = await getResource("resources/custom-form.js");
+    const sheetseeJs = await getResource("../common/resources/sheetsee.js");
 
     const showSubnational = true;
 
     return (
         <div>
-            {javascript}
+            <style>${style}</style>
+            <script>${customFormJs}</script>
+            <script>${sheetseeJs}</script>
             <h2>
                 SNAKE BITE ENVENOMING
                 <br />
