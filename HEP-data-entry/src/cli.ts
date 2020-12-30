@@ -43,25 +43,9 @@ async function getDataSetPayload(
     module: Module,
     url: string
 ): Promise<MetadataPayload> {
-    const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[] }>({
-        "dataSets:fields": `:owner,
-            sections[
-                id,
-                description,
-                displayName,
-                greyedFields[id,dataElement,categoryOptionCombo],
-                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name,categoryOptions[id,code]]],
-                valueType]
-            ]`,
-        "dataSets:filter": `id:eq:${dataSetId}`,
-    });
-    const dataSet = _.first(dataSets || []);
+    const dataSet = await getDataSet(d2Metadata, dataSetId);
 
-    if (!dataSet) {
-        throw new Error(`Cannot find dataset with id ${dataSetId}`);
-    }
-
-    const customFormHtml = await createCustomForm(dataSet, module, url);
+    const customFormHtml = await createCustomForm(dataSet, module, url, d2Metadata);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -83,7 +67,28 @@ async function getDataSetPayload(
     };
 }
 
-async function createCustomForm(dataSet: DataSet, module: Module, url: string) {
+async function getDataSet(d2Metadata: Dhis2Metadata, dataSetId: string) {
+    const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[]; }>({
+        "dataSets:fields": `:owner,
+            sections[
+                id,
+                description,
+                displayName,
+                greyedFields[id,dataElement,categoryOptionCombo],
+                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name,categoryOptions[id,code]]],
+                valueType]
+            ]`,
+        "dataSets:filter": `id:eq:${dataSetId}`,
+    });
+    const dataSet = _.first(dataSets || []);
+
+    if (!dataSet) {
+        throw new Error(`Cannot find dataset with id ${dataSetId}`);
+    }
+    return dataSet;
+}
+
+async function createCustomForm(dataSet: DataSet, module: Module, url: string, d2Metadata: Dhis2Metadata,) {
     if (module === "hepatitis") {
         return await AssembledFormHTML(dataSet);
     } else if (module === "snakebite") {
@@ -96,7 +101,13 @@ async function createCustomForm(dataSet: DataSet, module: Module, url: string) {
             throw new Error(`Does not exist a required ${namespace} namespace with a ${key} key in the data store`);
         }
 
-        return await SnakeBiteCustomForm(dataSet, customMetadata);
+        if (!customMetadata.subnationalDataSet) {
+            throw new Error(`Does not exist a required prop subnationalDataSet in ${namespace} namespace and ${key} key in the data store`);
+        }
+
+        const subnationalDataSet = await getDataSet(d2Metadata, customMetadata.subnationalDataSet);
+
+        return await SnakeBiteCustomForm(dataSet, subnationalDataSet, customMetadata);
     } else if (module === "module1_subnational_single_entry") {
         return await SubnationalSingleCustomForm(dataSet);
     } else {

@@ -11,6 +11,7 @@ interface OptionComboData {
 }
 
 export interface CustomMetadata {
+    subnationalDataSet: string,
     dataElements: Record<string, DataElementData>;
     optionCombos: Record<string, OptionComboData>;
 }

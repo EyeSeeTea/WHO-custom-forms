@@ -3,9 +3,11 @@ import { Sections } from "./Sections";
 import { DataSet } from "../../models/Dhis2Metadata";
 import { CustomMetadata } from "./CustomMetadata";
 import { getResource } from "./utils";
+import { SubnationalSections } from "./SubnationalSections";
 
 export async function SnakeBiteCustomForm(
     dataSet: DataSet,
+    subnationalDataSet: DataSet,
     customMetadata: CustomMetadata
 ): Promise<string> {
     const style = await getResource("resources/custom-form.css");
@@ -39,7 +41,12 @@ export async function SnakeBiteCustomForm(
                     <div id="tab0">
                         <Sections sections={dataSet.sections} customMetadata={customMetadata} />
                     </div>
-                    <div id="tab1">{"Subnational"}</div>
+                    <div id="tab1">
+                        <SubnationalSections
+                            sections={subnationalDataSet.sections}
+                            customMetadata={customMetadata}
+                        />
+                    </div>
                 </div>
             ) : (
                 <div id="tabs">
