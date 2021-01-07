@@ -1,5 +1,7 @@
 import { createElement } from "typed-html";
 import { Section } from "../../models/d2Models";
+import { CatOptionCombosDataCells } from "./CatOptionCombosDataCells";
+import { CatOptionCombosHeaderCells } from "./CatOptionCombosHeaderCells";
 import { CustomMetadata } from "./CustomMetadata";
 
 interface SubnationalSectionsAttributes {
@@ -8,41 +10,79 @@ interface SubnationalSectionsAttributes {
 }
 
 export function SubnationalSections(attributes: SubnationalSectionsAttributes): string {
-    console.log(attributes.sections.length);
+    const { sections, customMetadata } = attributes;
+
+    const tableAttributes = {
+        border: "1",
+        bordercolor: "#ccc",
+    };
+
     const html = (
         <div>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
             <script id="orgUnitsTable_template" type="x-tmpl-mustache">
-                <table>
+                <table {...tableAttributes} class="sectionTable">
                     <thead>
                         <tr>
-                            <th>Org unit</th>
-                            {/* <th>Numero de casos de Plasmodium Vivax Notificados</th>
-                            <th>Numero de Casos de Plasmodium Falciparum Notificados</th>
-                            <th>Numero de Casos de Plasmodium Mixto Notificados</th>
-                            <th>Cantidad GG por semana</th>
-                            <th>Cantidad PDR por semana</th> */}
+                            <th rowspan="2">Org unit</th>
+                            {sections &&
+                                sections
+                                    .map(section => {
+                                        return section.dataElements
+                                            .map(dataElement => {
+                                                const colspan =
+                                                    dataElement.categoryCombo.categoryOptionCombos
+                                                        .length + 1;
+                                                return (
+                                                    <th colspan={colspan}>
+                                                        {section.displayName +
+                                                            "-" +
+                                                            dataElement.formName}
+                                                    </th>
+                                                );
+                                            })
+                                            .join("");
+                                    })
+                                    .join("")}
+                        </tr>
+                        <tr>
+                            {sections &&
+                                sections
+                                    .map(section => {
+                                        return section.dataElements
+                                            .map(dataElement => {
+                                                return (
+                                                    <CatOptionCombosHeaderCells
+                                                        customMetadata={customMetadata}
+                                                        dataElement={dataElement}
+                                                    />
+                                                );
+                                            })
+                                            .join("");
+                                    })
+                                    .join("")}
                         </tr>
                     </thead>
                     <tbody>
                         {"{{#rows}}"}
                         <tr>
                             <th>{"{{orgUnitName}}"}</th>
-                            {/* <td class="td-input">
-                                <input id="{{orgUnitId}}-w1dQHOxKY2e-HllvX50cXC0-val" type="text" />
-                            </td>
-                            <td class="td-input">
-                                <input id="{{orgUnitId}}-QKSlyo1lYdg-HllvX50cXC0-val" type="text" />
-                            </td>
-                            <td class="td-input">
-                                <input id="{{orgUnitId}}-LQTwMcUwPHb-HllvX50cXC0-val" type="text" />
-                            </td>
-                            <td class="td-input">
-                                <input id="{{orgUnitId}}-q5mkCLKcAtA-HllvX50cXC0-val" type="text" />
-                            </td>
-                            <td class="td-input">
-                                <input id="{{orgUnitId}}-BoPocyc4ErP-HllvX50cXC0-val" type="text" />
-                            </td> */}
+                            {sections &&
+                                sections
+                                    .map(section => {
+                                        return section.dataElements
+                                            .map(dataElement => {
+                                                return (
+                                                    <CatOptionCombosDataCells
+                                                        customMetadata={customMetadata}
+                                                        dataElement={dataElement}
+                                                        orgUnitId={"{{orgUnitId}}"}
+                                                    />
+                                                );
+                                            })
+                                            .join("");
+                                    })
+                                    .join("")}
                         </tr>
                         {"{{/rows}}"}
                     </tbody>
