@@ -1,3 +1,61 @@
+function onInputChange(id) {
+    //const organisationUnitId = id.split("-")[0];
+    const dataElementId = id.split("-")[1];
+    const optionComboId = id.split("-")[2];
+
+    saveVal(dataElementId, optionComboId, id);
+}
+
+function loadSubnationalValues() {
+    document.querySelector(".pagination-next-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadSubnationalValues();
+    });
+
+    document.querySelector(".pagination-pre-orgUnitsTable").addEventListener("click", function(e) {
+        if (e.target.classList.contains("no-pag")) return;
+
+        loadSubnationalValues();
+    });
+
+    var periodId = $("#selectedPeriodId").val();
+
+    var params = {
+        period: periodId,
+        dataSet: $("#custom-form-script").attr("data-subnational-dataset-id"),
+        orgUnit: dhis2.de.getCurrentOrganisationUnit(),
+        children: true,
+    };
+
+    $.ajax({
+        url: "../api/dataValueSets",
+        data: params,
+        dataType: "json",
+        success: json => {
+            $.safeEach(json.dataValues, function(i, dataValue) {
+                var fieldId = `#${dataValue.orgUnit}-${dataValue.dataElement}-${dataValue.categoryOptionCombo}-val`;
+                if ($(fieldId).length > 0) {
+                    var entryField = $(fieldId);
+                    if ("true" == dataValue.value && entryField.attr("type") == "checkbox") {
+                        $(fieldId).prop("checked", true);
+                    } else {
+                        $(fieldId).val(dataValue.value);
+                    }
+                }
+            });
+
+            $("#subnational input[type=text]").on("change", function(e) {
+                onInputChange(e.target.id);
+            });
+        },
+        error: function(xhr) {
+            console.log("Error in the request");
+            console.log(xhr);
+        },
+    });
+}
+
 function renderSubnationalTab() {
     $("#subnational .cde table tbody").empty();
     $("#custom-form-loader").show();
@@ -28,7 +86,7 @@ function renderSubnationalTab() {
 
                 $("#custom-form-loader").hide();
 
-                //loadValues();
+                loadSubnationalValues();
             } else {
                 $("#tabs-list").hide();
             }
