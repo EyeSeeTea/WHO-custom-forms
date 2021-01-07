@@ -1,3 +1,24 @@
+.cde table {
+    border-collapse: collapse;
+}
+
+.cde table th {
+    text-align: center;
+    padding: 2px;
+    white-space: nowrap;
+}
+
+/* .subnational-head-th {
+    text-align: center;
+    padding: 2px;
+} */
+
+#subnational .cde table th {
+    text-align: center;
+    padding: 2px;
+    white-space: nowrap;
+}
+
 /* #subnational #custom-form-loader {
     color: #1c425c;
     font-size: 14px;

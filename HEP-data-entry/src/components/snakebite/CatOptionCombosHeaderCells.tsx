@@ -17,7 +17,7 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
     const categoryOptionCombos = sortCategoryOptionCombos(dataElement, customMetadata);
 
     return [
-        <th scope="row" style="text-align: center;padding: 2px;white-space: nowrap;">
+        <th>
             {customMetadataDE && customMetadataDE.totalName ? customMetadataDE.totalName : "Total"}
         </th>,
         ...categoryOptionCombos.map(catCombo => {

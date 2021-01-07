@@ -12,9 +12,5 @@ export function CatOptionComboHeaderCell(attributes: EntryFieldAttributes): stri
 
     const catComboData = customMetadata.optionCombos[catOptionComboId];
 
-    return (
-        <th scope="col" style="text-align: center;padding: 2px;white-space: nowrap;">
-            {catComboData && catComboData.name ? catComboData.name : catOptionComboName}
-        </th>
-    );
+    return <th>{catComboData && catComboData.name ? catComboData.name : catOptionComboName}</th>;
 }
