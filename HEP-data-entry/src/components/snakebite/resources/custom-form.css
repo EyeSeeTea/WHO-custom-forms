@@ -7,11 +7,9 @@
     padding: 2px;
     white-space: nowrap;
 }
-
-/* .subnational-head-th {
-    text-align: center;
-    padding: 2px;
-} */
+.cde table td {
+    padding: 12px;
+}
 
 #subnational .cde table th {
     text-align: center;

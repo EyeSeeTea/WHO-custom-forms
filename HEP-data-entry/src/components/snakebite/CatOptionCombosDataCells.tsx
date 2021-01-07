@@ -15,29 +15,30 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
 
     const categoryOptionCombos = sortCategoryOptionCombos(dataElement, customMetadata);
 
-    //  const dataelementidAtt = orgUnitId ? `${orgUnitId}-${dataElement.id}` : dataElement.id;
+    const dataElementAtt = { dataelementid: dataElement.id };
+    const orgUnitDataElementAtt = orgUnitId
+        ? { subnationaltotalid: `${orgUnitId}-${dataElement.id}` }
+        : undefined;
 
     return [
-        <th scope="row" style="text-align: center;padding: 12px;">
+        <td>
             <input
-                {...{ dataelementid: dataElement.id }}
+                {...(orgUnitDataElementAtt ? orgUnitDataElementAtt : dataElementAtt)}
                 id={`total${dataElement.id}`}
-                name="total"
+                name={orgUnitDataElementAtt ? "subnationalTotal" : "total"}
                 readonly="readonly"
                 title={`${dataElement.code}`}
                 class={"entryfield"}
                 type={"text"}
-                style="width:80%;"
-                disabled
             />
-        </th>,
+        </td>,
         ...categoryOptionCombos.map(catCombo => {
             const catComboData = customMetadata.optionCombos[catCombo.id];
 
             const helpMessage = catComboData && catComboData.info ? catComboData.info : undefined;
 
             return (
-                <td style="text-align: center;padding: 12px;">
+                <td>
                     <EntryField
                         orgUnitId={orgUnitId}
                         dataElementId={dataElement.id}

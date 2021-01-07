@@ -1,9 +1,22 @@
-function onInputChange(id) {
-    //const organisationUnitId = id.split("-")[0];
+function updateSubnationalDataElementTotals(orgUnitDataElementId) {
+    $('input[name="subnationalTotal"]').each(function() {
+        var totalId = $(this).attr("subnationaltotalid");
+
+        if (!orgUnitDataElementId || orgUnitDataElementId == totalId) {
+            var total = dhis2.de.getDataElementTotalValue(totalId);
+
+            $(this).val(total);
+        }
+    });
+}
+
+function onSubnationalInputChange(id) {
+    const organisationUnitId = id.split("-")[0];
     const dataElementId = id.split("-")[1];
     const optionComboId = id.split("-")[2];
 
     saveVal(dataElementId, optionComboId, id);
+    updateSubnationalDataElementTotals(`${organisationUnitId}-${dataElementId}`);
 }
 
 function loadSubnationalValues() {
@@ -46,8 +59,10 @@ function loadSubnationalValues() {
             });
 
             $("#subnational input[type=text]").on("change", function(e) {
-                onInputChange(e.target.id);
+                onSubnationalInputChange(e.target.id);
             });
+
+            updateSubnationalDataElementTotals();
         },
         error: function(xhr) {
             console.log("Error in the request");
