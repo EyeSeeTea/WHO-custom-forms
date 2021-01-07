@@ -7,7 +7,7 @@ interface EntryFieldAttributes {
     catOptionComboName: string;
 }
 
-export function CatOptionComboHeader(attributes: EntryFieldAttributes): string {
+export function CatOptionComboHeaderCell(attributes: EntryFieldAttributes): string {
     const { customMetadata, catOptionComboId, catOptionComboName } = attributes;
 
     const catComboData = customMetadata.optionCombos[catOptionComboId];

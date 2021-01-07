@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import { SectionDataElement } from "../../models/d2Models";
-import { CatOptionComboHeader } from "./CatOptionComboHeader";
+import { CatOptionComboHeaderCell } from "./CatOptionComboHeaderCell";
 import { CustomMetadata } from "./CustomMetadata";
 import { sortCategoryOptionCombos } from "./utils";
 
@@ -9,7 +9,7 @@ interface EntryFieldAttributes {
     dataElement: SectionDataElement;
 }
 
-export function CatOptionCombosHeaders(attributes: EntryFieldAttributes): string {
+export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): string {
     const { customMetadata, dataElement } = attributes;
 
     const customMetadataDE = customMetadata.dataElements[dataElement.id];
@@ -22,7 +22,7 @@ export function CatOptionCombosHeaders(attributes: EntryFieldAttributes): string
         </th>,
         ...categoryOptionCombos.map(catCombo => {
             return (
-                <CatOptionComboHeader
+                <CatOptionComboHeaderCell
                     customMetadata={customMetadata}
                     catOptionComboId={catCombo.id}
                     catOptionComboName={catCombo.name}

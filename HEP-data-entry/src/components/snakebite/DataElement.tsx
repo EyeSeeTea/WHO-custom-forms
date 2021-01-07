@@ -3,7 +3,7 @@ import { SectionDataElement } from "../../models/d2Models";
 import { EntryField } from "../common/EntryField";
 import _ = require("lodash");
 import { CustomMetadata } from "./CustomMetadata";
-import { CatOptionCombosHeaders } from "./CatOptionCombosHeaders";
+import { CatOptionCombosHeaderCells } from "./CatOptionCombosHeaderCells";
 
 interface DataElementAttributes {
     customMetadata: CustomMetadata;
@@ -57,7 +57,7 @@ export function DataElement(attributes: DataElementAttributes): string {
             <table {...tableAttributes} class="sectionTable" style="border-collapse:collapse;">
                 <thead>
                     <tr>
-                        <CatOptionCombosHeaders
+                        <CatOptionCombosHeaderCells
                             customMetadata={customMetadata}
                             dataElement={dataElement}
                         />
