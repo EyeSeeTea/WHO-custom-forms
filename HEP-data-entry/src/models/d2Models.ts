@@ -54,3 +54,8 @@ export interface CategoryOption {
     code: string
 }
 
+export interface NameRef {
+    id: string;
+    name: string;
+}
+

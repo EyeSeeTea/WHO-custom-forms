@@ -3,6 +3,7 @@ import { SectionDataElement } from "../../models/d2Models";
 import { EntryField } from "../common/EntryField";
 import _ = require("lodash");
 import { CustomMetadata } from "./CustomMetadata";
+import { CatOptionCombosHeaders } from "./CatOptionCombosHeaders";
 
 interface DataElementAttributes {
     customMetadata: CustomMetadata;
@@ -56,22 +57,10 @@ export function DataElement(attributes: DataElementAttributes): string {
             <table {...tableAttributes} class="sectionTable" style="border-collapse:collapse;">
                 <thead>
                     <tr>
-                        <th scope="row" style="text-align: center;padding: 2px;">
-                            {dataElementData && dataElementData.totalName
-                                ? dataElementData.totalName
-                                : "Total"}
-                        </th>
-                        {categoryOptionCombos.map(catCombo => {
-                            const catComboData = customMetadata.optionCombos[catCombo.id];
-
-                            return (
-                                <th scope="col" style="text-align: center;padding: 2px;">
-                                    {catComboData && catComboData.name
-                                        ? catComboData.name
-                                        : catCombo.name}
-                                </th>
-                            );
-                        })}
+                        <CatOptionCombosHeaders
+                            customMetadata={customMetadata}
+                            dataElement={dataElement}
+                        />
                     </tr>
                 </thead>
                 <tbody>
