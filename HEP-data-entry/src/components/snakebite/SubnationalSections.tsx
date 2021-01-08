@@ -21,7 +21,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
         <div>
             <script src="https://unpkg.com/mustache@4.0.1"></script>
             <script id="orgUnitsTable_template" type="x-tmpl-mustache">
-                <table {...tableAttributes} class="sectionTable">
+                <table {...tableAttributes} class="sectionTablesss">
                     <thead>
                         <tr>
                             <th rowspan="2">Org unit</th>
@@ -36,7 +36,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                                 return (
                                                     <th colspan={colspan}>
                                                         {section.displayName +
-                                                            "-" +
+                                                            " - " +
                                                             dataElement.formName}
                                                     </th>
                                                 );

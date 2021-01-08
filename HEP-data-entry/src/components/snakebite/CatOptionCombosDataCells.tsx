@@ -33,10 +33,6 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
             />
         </td>,
         ...categoryOptionCombos.map(catCombo => {
-            const catComboData = customMetadata.optionCombos[catCombo.id];
-
-            const helpMessage = catComboData && catComboData.info ? catComboData.info : undefined;
-
             return (
                 <td>
                     <EntryField
@@ -45,7 +41,6 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
                         dataElementCode={dataElement.code}
                         catComboId={catCombo.id}
                         catComboName={catCombo.name}
-                        helpMessage={helpMessage}
                     />
                 </td>
             );

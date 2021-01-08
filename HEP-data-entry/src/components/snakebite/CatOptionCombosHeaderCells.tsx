@@ -21,11 +21,15 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
             {customMetadataDE && customMetadataDE.totalName ? customMetadataDE.totalName : "Total"}
         </th>,
         ...categoryOptionCombos.map(catCombo => {
+            const catComboData = customMetadata.optionCombos[catCombo.id];
+
+            const helpMessage = catComboData && catComboData.info ? catComboData.info : undefined;
             return (
                 <CatOptionComboHeaderCell
                     customMetadata={customMetadata}
                     catOptionComboId={catCombo.id}
                     catOptionComboName={catCombo.name}
+                    helpMessage={helpMessage}
                 />
             );
         }),
