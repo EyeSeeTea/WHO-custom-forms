@@ -416,17 +416,25 @@
         }
 
         function loadValues() {
-            document.querySelector(".pagination-next-orgUnitsTable").addEventListener("click", function (e) {
-                if (e.target.classList.contains("no-pag")) return;
+            const $nextPageButton = document.querySelector(".pagination-next-orgUnitsTable");
 
-                loadValues();
-            });
+            if ($nextPageButton) {
+                $nextPageButton.addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
 
-            document.querySelector(".pagination-pre-orgUnitsTable").addEventListener("click", function (e) {
-                if (e.target.classList.contains("no-pag")) return;
+                    loadValues();
+                });
+            }
 
-                loadValues();
-            });
+            const $previousPageButton = document.querySelector(".pagination-pre-orgUnitsTable");
+
+            if ($previousPageButton) {
+                $previousPageButton.addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+
+                    loadValues();
+                });
+            }
 
             var periodId = $("#selectedPeriodId").val();
 
