@@ -479,7 +479,6 @@
 
             const filter = `paging=false&var=dataSet:${subnationalDataSetId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
 
-            debugger;
             $.ajax({
                 url: `../api/sqlViews/K1h8Dw6hOEp/data?${filter}`,
                 type: "get",
@@ -488,8 +487,6 @@
                         orgUnitId: row[0],
                         orgUnitName: row[1],
                     }));
-
-                    debugger;
 
                     var tableOptions = {
                         data: orgUnits,
