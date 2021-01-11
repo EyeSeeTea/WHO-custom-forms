@@ -33,11 +33,25 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                                 const colspan =
                                                     dataElement.categoryCombo.categoryOptionCombos
                                                         .length + 1;
+
+                                                const dataElementCustomMetadata =
+                                                    customMetadata.dataElements[dataElement.id];
                                                 return (
                                                     <th colspan={colspan}>
                                                         {section.displayName +
                                                             " - " +
                                                             dataElement.formName}
+
+                                                        {dataElementCustomMetadata &&
+                                                        dataElementCustomMetadata.info ? (
+                                                            <i
+                                                                class="fa fa-info-circle"
+                                                                style="font-size:16px;color:#276696;"
+                                                                title={`${dataElementCustomMetadata.info}`}
+                                                            ></i>
+                                                        ) : (
+                                                            ""
+                                                        )}
                                                     </th>
                                                 );
                                             })
