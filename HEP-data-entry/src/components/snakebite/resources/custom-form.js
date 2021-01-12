@@ -20,17 +20,25 @@ function onSubnationalInputChange(id) {
 }
 
 function loadSubnationalValues() {
-    document.querySelector(".pagination-next-orgUnitsTable").addEventListener("click", function(e) {
-        if (e.target.classList.contains("no-pag")) return;
+    const $nextPageButton = document.querySelector(".pagination-next-orgUnitsTable");
 
-        loadSubnationalValues();
-    });
+    if ($nextPageButton) {
+        $nextPageButton.addEventListener("click", function(e) {
+            if (e.target.classList.contains("no-pag")) return;
 
-    document.querySelector(".pagination-pre-orgUnitsTable").addEventListener("click", function(e) {
-        if (e.target.classList.contains("no-pag")) return;
+            loadSubnationalValues();
+        });
+    }
 
-        loadSubnationalValues();
-    });
+    const $previousPageButton = document.querySelector(".pagination-pre-orgUnitsTable");
+
+    if ($previousPageButton) {
+        $previousPageButton.addEventListener("click", function(e) {
+            if (e.target.classList.contains("no-pag")) return;
+
+            loadSubnationalValues();
+        });
+    }
 
     var periodId = $("#selectedPeriodId").val();
 
