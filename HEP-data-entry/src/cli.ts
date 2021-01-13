@@ -1,14 +1,14 @@
 import { ArgumentParser } from "argparse";
 import * as _ from "lodash";
 
-import { AssembledFormHTML } from "./components/hepatitis/AssembledFormHTML";
 import { getUid, prettyJSON } from "./utils";
-import { SnakeBiteCustomForm } from "./components/snakebite/SnakeBiteCustomForm";
-import { DataEntryForm } from "./models/d2Models";
-import { Dhis2Metadata, MetadataPayload, DataSet } from "./models/Dhis2Metadata";
-import SubnationalSingleCustomForm from "./components/module1_subnational_single/CustomForm";
-import { DataStoreClient } from "./data/DataStoreClient";
-import { CustomMetadata } from "./components/snakebite/CustomMetadata";
+import { DataEntryForm } from "./domain/common/entities";
+import { Dhis2MetadataClient, MetadataPayload } from "./data/common/clients/Dhis2MetadataClient";
+import { DataStoreClient } from "./data/common/clients/DataStoreClient";
+import { D2DataSetRepository } from "./data/common/repositories/D2DataSetRepository";
+import { DataSetRepository } from "./domain/common/repositories";
+import { D2CustomMetadataRepository } from "./data/snakebite/repositories/D2CustomMetadataRepository";
+import { CustomFormFactory, HepatitisCustomFormFactory, Module1SubnationalSingleEntryCustomFormFactory, SnakeBiteCustomFormFactory } from "./factories/CustomFormFactories";
 
 type Module = "hepatitis" | "snakebite" | "module1_subnational_single_entry";
 
@@ -38,14 +38,13 @@ function getParser(): ArgumentParser {
 }
 
 async function getDataSetPayload(
-    d2Metadata: Dhis2Metadata,
+    dataSetRepository: DataSetRepository,
+    customFormFactory: CustomFormFactory,
     dataSetId: string,
-    module: Module,
-    url: string
 ): Promise<MetadataPayload> {
-    const dataSet = await getDataSet(d2Metadata, dataSetId);
+    const dataSet = await dataSetRepository.get(dataSetId);
 
-    const customFormHtml = await createCustomForm(dataSet, module, url, d2Metadata);
+    const customFormHtml = await customFormFactory.createCustomForm(dataSet);
 
     const formId = dataSet.dataEntryForm ? dataSet.dataEntryForm.id : getUid(dataSet.id);
 
@@ -67,49 +66,16 @@ async function getDataSetPayload(
     };
 }
 
-async function getDataSet(d2Metadata: Dhis2Metadata, dataSetId: string) {
-    const { dataSets } = await d2Metadata.get<{ dataSets: DataSet[]; }>({
-        "dataSets:fields": `:owner,
-            sections[
-                id,
-                description,
-                displayName,
-                greyedFields[id,dataElement,categoryOptionCombo],
-                dataElements[id,description,code,formName,categoryCombo[id,categoryOptionCombos[id,name,categoryOptions[id,code]]],
-                valueType]
-            ]`,
-        "dataSets:filter": `id:eq:${dataSetId}`,
-    });
-    const dataSet = _.first(dataSets || []);
-
-    if (!dataSet) {
-        throw new Error(`Cannot find dataset with id ${dataSetId}`);
-    }
-    return dataSet;
-}
-
-async function createCustomForm(dataSet: DataSet, module: Module, url: string, d2Metadata: Dhis2Metadata,) {
+function createFactory(module: Module, dataSetRepository: DataSetRepository, url: string): CustomFormFactory {
     if (module === "hepatitis") {
-        return await AssembledFormHTML(dataSet);
+        return new HepatitisCustomFormFactory();
     } else if (module === "snakebite") {
-        const namespace = "snake-bite";
-        const key = "customMetadata";
-        const dataStoreClient = new DataStoreClient(url, namespace);
-        const customMetadata = await dataStoreClient.get<CustomMetadata>(key);
 
-        if (!customMetadata) {
-            throw new Error(`Does not exist a required ${namespace} namespace with a ${key} key in the data store`);
-        }
+        const customMetadataRepository = new D2CustomMetadataRepository(new DataStoreClient(url, "snake-bite"));
 
-        if (!customMetadata.subnationalDataSet) {
-            throw new Error(`Does not exist a required prop subnationalDataSet in ${namespace} namespace and ${key} key in the data store`);
-        }
-
-        const subnationalDataSet = await getDataSet(d2Metadata, customMetadata.subnationalDataSet);
-
-        return await SnakeBiteCustomForm(dataSet, subnationalDataSet, customMetadata);
+        return new SnakeBiteCustomFormFactory(dataSetRepository, customMetadataRepository);
     } else if (module === "module1_subnational_single_entry") {
-        return await SubnationalSingleCustomForm(dataSet);
+        return new Module1SubnationalSingleEntryCustomFormFactory();
     } else {
         throw new Error(`Does not exist a custom form for module ${module}`);
     }
@@ -117,13 +83,15 @@ async function createCustomForm(dataSet: DataSet, module: Module, url: string, d
 
 async function main(): Promise<void> {
     const args = getParser().parseArgs();
-    const d2Metadata = new Dhis2Metadata(args.url, { debug: true });
+    const dataSetRepository = new D2DataSetRepository(new Dhis2MetadataClient(args.url, { debug: true }));
+
     const dataSetId = args.dataset_id;
 
     try {
-        const payload = await getDataSetPayload(d2Metadata, dataSetId, args.module, args.url);
+        const factory = createFactory(args.module, dataSetRepository, args.url);
+        const payload = await getDataSetPayload(dataSetRepository, factory, dataSetId);
 
-        const response = await d2Metadata.post(payload, {});
+        const response = await dataSetRepository.saveCustomForm(payload, {});
 
         if (response.status !== "OK") {
             console.error("Error posting metadata");

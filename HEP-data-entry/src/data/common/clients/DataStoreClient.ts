@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { safeParseJSON } from "../utils";
+import { safeParseJSON } from "../../../utils";
 
 export class DataStoreClient {
     private baseUrl: string;

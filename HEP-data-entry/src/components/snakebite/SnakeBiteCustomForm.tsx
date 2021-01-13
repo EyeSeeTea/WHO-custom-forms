@@ -1,9 +1,9 @@
 import { createElement } from "typed-html";
 import { Sections } from "./Sections";
-import { DataSet } from "../../models/Dhis2Metadata";
-import { CustomMetadata } from "./CustomMetadata";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { getResource } from "./utils";
 import { SubnationalSections } from "./SubnationalSections";
+import { DataSet } from "../../domain/common/entities";
 
 export async function SnakeBiteCustomForm(
     dataSet: DataSet,

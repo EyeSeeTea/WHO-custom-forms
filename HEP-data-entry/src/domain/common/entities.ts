@@ -1,4 +1,20 @@
-import { Ref } from "./Dhis2Metadata";
+export interface Ref {
+    id: string;
+}
+
+interface DataSetElement {
+    dataElement: Ref;
+    dataSet: Ref;
+    categoryCombo?: Ref;
+}
+
+export interface DataSet {
+    id: string;
+    name: string;
+    dataEntryForm?: Ref;
+    dataSetElements: DataSetElement[];
+    sections: Section[];
+}
 
 export interface DataEntryForm {
     id: string;

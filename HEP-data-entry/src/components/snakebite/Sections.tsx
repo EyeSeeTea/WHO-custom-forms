@@ -1,7 +1,7 @@
 import { createElement } from "typed-html";
 import { DataElement } from "./DataElement";
-import { Section } from "../../models/d2Models";
-import { CustomMetadata } from "./CustomMetadata";
+import { Section } from "../../domain/common/entities";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 
 interface SectionsAttributes {
     customMetadata: CustomMetadata;

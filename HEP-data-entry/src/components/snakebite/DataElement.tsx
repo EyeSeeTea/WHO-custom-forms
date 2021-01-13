@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
-import { SectionDataElement } from "../../models/d2Models";
-import { CustomMetadata } from "./CustomMetadata";
+import { SectionDataElement } from "../../domain/common/entities";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { CatOptionCombosDataCells } from "./CatOptionCombosDataCells";
 import { CatOptionCombosHeaderCells } from "./CatOptionCombosHeaderCells";
 
