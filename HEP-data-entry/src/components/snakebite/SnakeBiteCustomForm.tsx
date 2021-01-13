@@ -4,11 +4,13 @@ import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { getResource } from "./utils";
 import { SubnationalSections } from "./SubnationalSections";
 import { DataSet } from "../../domain/common/entities";
+import { AntivenomEntries } from "../../domain/snakebite/AntivenomEntries";
 
 export async function SnakeBiteCustomForm(
     dataSet: DataSet,
     subnationalDataSet: DataSet,
-    customMetadata: CustomMetadata
+    customMetadata: CustomMetadata,
+    antivenomEntries: AntivenomEntries
 ): Promise<string> {
     const style = await getResource("resources/custom-form.css");
     const javascript = await getResource("resources/custom-form.js");
@@ -41,7 +43,11 @@ export async function SnakeBiteCustomForm(
                 </ul>
 
                 <div id="tab0">
-                    <Sections sections={dataSet.sections} customMetadata={customMetadata} />
+                    <Sections
+                        sections={dataSet.sections}
+                        customMetadata={customMetadata}
+                        antivenomEntries={antivenomEntries}
+                    />
                 </div>
                 <div id="tab1">
                     <SubnationalSections
