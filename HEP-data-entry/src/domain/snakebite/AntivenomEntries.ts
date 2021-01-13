@@ -2,7 +2,8 @@
 export interface AntivenomEntriesDataElementData {
     id: string,
     prop: string
-    disabled?: boolean
+    disabled?: boolean,
+    recommendedProductsSelector?: boolean
 }
 
 export interface AntivenomEntriesGroupData {

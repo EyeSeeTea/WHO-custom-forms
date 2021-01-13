@@ -69,16 +69,36 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                     <tr>
                         {group.dataElements.map(antivenomDE => {
                             const de = getSectionDataElement(antivenomDE.id);
+                            const catComboId = de.categoryCombo.categoryOptionCombos[0].id;
 
                             return (
                                 <td>
+                                    {antivenomDE.recommendedProductsSelector !== undefined ? (
+                                        <input
+                                            id={`${antivenomDE.id}-${catComboId}-sel`}
+                                            hidden
+                                            class={
+                                                antivenomDE.recommendedProductsSelector === true
+                                                    ? "antivenom-products antivenom-recommended-products"
+                                                    : "antivenom-products antivenom-non-recommended-products"
+                                            }
+                                            data-recommended={
+                                                antivenomDE.recommendedProductsSelector
+                                            }
+                                        />
+                                    ) : (
+                                        ""
+                                    )}
                                     <EntryField
                                         dataElementId={antivenomDE.id}
                                         dataElementCode={de.code}
-                                        catComboId={de.categoryCombo.categoryOptionCombos[0].id}
+                                        catComboId={catComboId}
                                         catComboName={de.categoryCombo.categoryOptionCombos[0].name}
                                         type={de.valueType === "BOOLEAN" ? "checkbox" : "text"}
                                         disabled={antivenomDE.disabled}
+                                        hidden={
+                                            antivenomDE.recommendedProductsSelector !== undefined
+                                        }
                                     />
                                 </td>
                             );

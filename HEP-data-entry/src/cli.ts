@@ -10,6 +10,7 @@ import { DataSetRepository } from "./domain/common/repositories";
 import { D2CustomMetadataRepository } from "./data/snakebite/repositories/D2CustomMetadataRepository";
 import { CustomFormFactory, HepatitisCustomFormFactory, Module1SubnationalSingleEntryCustomFormFactory, SnakeBiteCustomFormFactory } from "./factories/CustomFormFactories";
 import { D2AntivenomEntriesRepository } from "./data/snakebite/repositories/D2AntivenomEntriesRepository";
+import { snakeBiteNamespace } from "./data/snakebite/constants";
 
 type Module = "hepatitis" | "snakebite" | "module1_subnational_single_entry";
 
@@ -72,7 +73,7 @@ function createFactory(module: Module, dataSetRepository: DataSetRepository, url
         return new HepatitisCustomFormFactory();
     } else if (module === "snakebite") {
 
-        const dataStoreClient = new DataStoreClient(url, "snake-bite");
+        const dataStoreClient = new DataStoreClient(url, snakeBiteNamespace);
 
         const customMetadataRepository = new D2CustomMetadataRepository(dataStoreClient);
         const antivenomEntriesRepository = new D2AntivenomEntriesRepository(dataStoreClient);

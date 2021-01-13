@@ -121,6 +121,60 @@ function renderSubnationalTab() {
     });
 }
 
+function loadAntivenomProductSelects() {
+    const namespace = $("#custom-form-script").attr("data-datastore-namespace");
+    const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
+
+    $.ajax({
+        url: `../api/dataStore/${namespace}/${key}`,
+        type: "get",
+        success: function(response) {
+            const getSelectItems = recommended => {
+                return response
+                    .filter(product => product.recommended === recommended)
+                    .map(product => ({
+                        id: product.productName,
+                        text: product.productName,
+                    }));
+            };
+
+            const recommendedProducts = getSelectItems(true);
+            const nonRecommendedProducts = getSelectItems(false);
+
+            $(".antivenom-recommended-products").select2({
+                placeholder: "Select a product",
+                allowClear: true,
+                data: recommendedProducts,
+            });
+
+            $(".antivenom-non-recommended-products").select2({
+                placeholder: "Select a product",
+                allowClear: true,
+                data: nonRecommendedProducts,
+            });
+
+            $(".antivenom-products").on("change", e => {
+                //var row = $(this).closest('tr');
+                debugger;
+                const id = e.currentTarget.id.replace("sel", "val");
+                $(`#${id}`).val(e.val);
+                $(`#${id}`).trigger("change");
+            });
+
+            // $(".antivenom-non-recommended-products").on("change", e => {
+            //     const id = e.currentTarget.id;
+            //     const value = e.val;
+            //     console.log({ id });
+            //     console.log({ value });
+            // });
+        },
+        error: function(xhr) {
+            console.log("Error in the request");
+            console.log(xhr);
+        },
+    });
+}
+
 $(document).ready(function() {
     $(function() {
         $("#tabs").tabs({ active: 0 });
@@ -128,5 +182,6 @@ $(document).ready(function() {
 
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
+        loadAntivenomProductSelects();
     });
 });

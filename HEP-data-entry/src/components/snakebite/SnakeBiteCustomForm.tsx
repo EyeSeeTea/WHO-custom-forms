@@ -5,6 +5,7 @@ import { getResource } from "./utils";
 import { SubnationalSections } from "./SubnationalSections";
 import { DataSet } from "../../domain/common/entities";
 import { AntivenomEntries } from "../../domain/snakebite/AntivenomEntries";
+import { antivenomProductsKey, snakeBiteNamespace } from "../../data/snakebite/constants";
 
 export async function SnakeBiteCustomForm(
     dataSet: DataSet,
@@ -23,9 +24,12 @@ export async function SnakeBiteCustomForm(
                 id="custom-form-script"
                 type="text/javascript"
                 data-subnational-dataset-id={`${subnationalDataSet.id}`}
+                data-datastore-namespace={snakeBiteNamespace}
+                data-datastore-antivenomproducts-key={antivenomProductsKey}
             >
                 ${javascript}
             </script>
+
             <script>${sheetseeJs}</script>
             <h2>
                 SNAKE BITE ENVENOMING

@@ -8,6 +8,7 @@ interface EntryFieldAttributes {
     orgUnitId?: string;
     type?: "checkbox" | "radio" | "text";
     disabled?: string | boolean;
+    hidden?: string | boolean;
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
@@ -19,6 +20,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
         catComboName,
         type = "text",
         disabled = false,
+        hidden = false,
     } = attributes;
 
     const id = orgUnitId
@@ -27,6 +29,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
 
     return (
         <input
+            hidden={hidden}
             id={`${id}-val`}
             name="entryfield"
             title={`${dataElementCode} ${catComboName}`}
