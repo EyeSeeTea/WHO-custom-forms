@@ -20,6 +20,18 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
         cellspacing: "0",
     };
 
+    const getSectionDataElement = (id: string) => {
+        const de = dataElements.find(sectionDE => sectionDE.id === id);
+
+        if (de) {
+            return de;
+        } else {
+            throw Error(
+                `The data element '${id}' assigned in antivenom entries does not exist in the section of the data set'`
+            );
+        }
+    };
+
     return (
         <div>
             <h4>
@@ -42,15 +54,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                     <tr>
                         {group.dataElements.map(antivenomDE => {
                             const dataElementData = customMetadata.dataElements[antivenomDE.id];
-                            const de = dataElements.find(
-                                sectionDE => sectionDE.id === antivenomDE.id
-                            );
-
-                            if (!de) {
-                                throw Error(
-                                    `The data element '${antivenomDE.id}' assigned in antivenom entries does not exist in the section of the data set'`
-                                );
-                            }
+                            const de = getSectionDataElement(antivenomDE.id);
 
                             return (
                                 <th>
@@ -76,15 +80,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                 <tbody>
                     <tr>
                         {group.dataElements.map(antivenomDE => {
-                            const de = dataElements.find(
-                                sectionDE => sectionDE.id === antivenomDE.id
-                            );
-
-                            if (!de) {
-                                throw Error(
-                                    `The data element '${antivenomDE.id}' assigned in antivenom entries does not exist in the section of the data set'`
-                                );
-                            }
+                            const de = getSectionDataElement(antivenomDE.id);
 
                             return (
                                 <td>
