@@ -7,6 +7,7 @@ interface EntryFieldAttributes {
     catComboName: string;
     orgUnitId?: string;
     type?: "checkbox" | "radio" | "text";
+    disabled?: string | boolean;
 }
 
 export function EntryField(attributes: EntryFieldAttributes): string {
@@ -17,6 +18,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
         catComboId,
         catComboName,
         type = "text",
+        disabled = false,
     } = attributes;
 
     const id = orgUnitId
@@ -30,6 +32,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
             title={`${dataElementCode} ${catComboName}`}
             class={"entryfield"}
             type={type}
+            disabled={disabled}
         />
     );
 }

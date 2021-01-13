@@ -78,6 +78,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                                         catComboId={de.categoryCombo.categoryOptionCombos[0].id}
                                         catComboName={de.categoryCombo.categoryOptionCombos[0].name}
                                         type={de.valueType === "BOOLEAN" ? "checkbox" : "text"}
+                                        disabled={antivenomDE.disabled}
                                     />
                                 </td>
                             );
