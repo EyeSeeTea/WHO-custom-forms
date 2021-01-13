@@ -48,8 +48,7 @@ export function Sections(attributes: SectionsAttributes): string {
                                 );
                             })}
 
-                        {isAntivenomSection() &&
-                            antivenomEntries.groups &&
+                        {isAntivenomSection() && antivenomEntries.groups ? (
                             antivenomEntries.groups.map(group => {
                                 return (
                                     <AntivenomEntriesGroup
@@ -58,7 +57,10 @@ export function Sections(attributes: SectionsAttributes): string {
                                         dataElements={section.dataElements}
                                     />
                                 );
-                            })}
+                            })
+                        ) : (
+                            <span />
+                        )}
 
                         <p>&nbsp;</p>
                     </div>

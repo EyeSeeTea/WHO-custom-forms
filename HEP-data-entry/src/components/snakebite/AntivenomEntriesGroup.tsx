@@ -3,6 +3,7 @@ import { SectionDataElement } from "../../domain/common/entities";
 import { AntivenomEntriesGroupData } from "../../domain/snakebite/AntivenomEntries";
 import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { EntryField } from "../common/EntryField";
+import { TableTitle } from "./TableTitle";
 
 interface AntivenomEntriesGroupAttributes {
     group: AntivenomEntriesGroupData;
@@ -34,20 +35,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
 
     return (
         <div>
-            <h4>
-                {group.title}
-                {group.info ? (
-                    <i
-                        class="fa fa-info-circle"
-                        style="font-size:16px;color:#276696;"
-                        title={`${group.info}`}
-                    >
-                        :
-                    </i>
-                ) : (
-                    ":"
-                )}
-            </h4>
+            <TableTitle title={group.title} info={group.info} />
 
             <table {...tableAttributes} class="sectionTable">
                 <thead>
