@@ -9,6 +9,11 @@
 }
 .cde table td {
     padding: 12px;
+    text-align: center;
+}
+
+.cde table input {
+    width: 90%;
 }
 
 #subnational .cde table th {

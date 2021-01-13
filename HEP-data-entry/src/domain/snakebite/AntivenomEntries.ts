@@ -1,15 +1,17 @@
 
-export interface AntivenomEntriesDataElement {
+export interface AntivenomEntriesDataElementData {
     id: string,
     prop: string
+    disabled?: boolean
 }
 
-export interface AntivenomEntriesGroup {
-    title?: string;
-    dataElements: AntivenomEntriesDataElement[];
+export interface AntivenomEntriesGroupData {
+    title: string;
+    info?: string;
+    dataElements: AntivenomEntriesDataElementData[];
 }
 
 export interface AntivenomEntries {
     section: number;
-    groups: AntivenomEntriesGroup[];
+    groups: AntivenomEntriesGroupData[];
 }

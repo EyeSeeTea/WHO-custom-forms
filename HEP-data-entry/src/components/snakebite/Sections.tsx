@@ -3,6 +3,7 @@ import { DataElement } from "./DataElement";
 import { Section } from "../../domain/common/entities";
 import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { AntivenomEntries } from "../../domain/snakebite/AntivenomEntries";
+import { AntivenomEntriesGroup } from "./AntivenomEntriesGroup";
 
 interface SectionsAttributes {
     customMetadata: CustomMetadata;
@@ -43,6 +44,18 @@ export function Sections(attributes: SectionsAttributes): string {
                                     <DataElement
                                         dataElement={dataElement}
                                         customMetadata={customMetadata}
+                                    />
+                                );
+                            })}
+
+                        {isAntivenomSection() &&
+                            antivenomEntries.groups &&
+                            antivenomEntries.groups.map(group => {
+                                return (
+                                    <AntivenomEntriesGroup
+                                        group={group}
+                                        customMetadata={customMetadata}
+                                        dataElements={section.dataElements}
                                     />
                                 );
                             })}
