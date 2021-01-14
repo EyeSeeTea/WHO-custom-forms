@@ -70,6 +70,9 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                         {group.dataElements.map(antivenomDE => {
                             const de = getSectionDataElement(antivenomDE.id);
                             const catComboId = de.categoryCombo.categoryOptionCombos[0].id;
+                            const customAttributes = antivenomDE.prop
+                                ? { dataProp: antivenomDE.prop }
+                                : undefined;
 
                             return (
                                 <td>
@@ -90,11 +93,12 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                                         ""
                                     )}
                                     <EntryField
+                                        customAttributes={customAttributes}
                                         dataElementId={antivenomDE.id}
                                         dataElementCode={de.code}
                                         catComboId={catComboId}
                                         catComboName={de.categoryCombo.categoryOptionCombos[0].name}
-                                        type={de.valueType === "BOOLEAN" ? "checkbox" : "text"}
+                                        type={de.valueType === "BOOLEAN" ? "radio" : "text"}
                                         disabled={antivenomDE.disabled}
                                         hidden={
                                             antivenomDE.recommendedProductsSelector !== undefined

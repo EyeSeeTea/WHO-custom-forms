@@ -10,9 +10,10 @@
 .cde table td {
     padding: 12px;
     text-align: center;
+    white-space: nowrap;
 }
 
-.cde table input {
+.cde table input[type="text"] {
     width: 90%;
 }
 
