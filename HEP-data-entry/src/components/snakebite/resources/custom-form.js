@@ -368,7 +368,6 @@ async function selectAntivenomProductNames() {
             .closest("tr")
             .find("td input[id*=-val]")
             .each(function() {
-                debugger;
                 const idParts = $(this)
                     .attr("id")
                     .split("-");
@@ -463,7 +462,9 @@ $(document).ready(function() {
         $(this).css("background-color", "#eeeeee");
     });
 
-    renderSubnationalTab();
-    loadAntivenomProductSelects();
-    selectAntivenomProductNames();
+    dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
+        renderSubnationalTab();
+        loadAntivenomProductSelects();
+        selectAntivenomProductNames();
+    });
 });
