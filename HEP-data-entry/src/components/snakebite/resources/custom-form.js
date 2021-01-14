@@ -155,19 +155,16 @@ function removeAntivenomDataValues($tr) {
         if (type && type === "radio") {
             $(this)
                 .find(`input:nth(0)`)
-                .prop("checked", false)
-                .attr("disabled", true);
+                .prop("checked", false);
 
             $(this)
                 .find(`input:nth(1)`)
-                .prop("checked", false)
-                .attr("disabled", true);
+                .prop("checked", false);
         } else if (type && type === "text") {
             $(this)
                 .find(`input[id*=-val]`)
                 .val("")
-                .trigger("change")
-                .attr("disabled", true);
+                .trigger("change");
         }
     });
 
@@ -216,14 +213,6 @@ function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
             $(this)
                 .find(`input:nth(${index})`)
                 .addClass("checked");
-
-            $(this)
-                .find(`input:nth(0)`)
-                .attr("disabled", false);
-
-            $(this)
-                .find(`input:nth(1)`)
-                .attr("disabled", false);
         };
 
         const prop = this.getAttribute("data-prop");
@@ -239,12 +228,7 @@ function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
             $(this)
                 .find(`input[id*=-val]`)
                 .val(antivenomProduct[prop])
-                .attr("disabled", false)
                 .trigger("change");
-        } else {
-            $(this)
-                .find(`input[id*=-val]`)
-                .attr("disabled", false);
         }
     });
 }
@@ -259,7 +243,7 @@ function assignAntivenomDataValue(dataValue) {
         if (dataValue.value == "true") {
             $("input[id=" + fId + "]:nth(0)").prop("checked", true);
             $("input[id=" + fId + "]:nth(0)").addClass("checked");
-        } else if (value.val == "false") {
+        } else if (dataValue.value == "false") {
             $("input[id=" + fId + "]:nth(1)").prop("checked", true);
             $("input[id=" + fId + "]:nth(1)").addClass("checked");
         } else {
@@ -289,6 +273,12 @@ function renameCategoryOptionCombosInInputIds($tr, categoryOptionComboId) {
     dhis2.de.addEventListeners();
 }
 
+function disableTrInputs($tr, value) {
+    $tr.find(`input[id*=-val]`).each(function() {
+        $(this).prop("disabled", value);
+    });
+}
+
 function onChangeAntivenomProduct() {
     const id = $(this).attr("id");
 
@@ -296,19 +286,20 @@ function onChangeAntivenomProduct() {
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
 
+    const $tr = $(`#${id}`).closest("tr");
+
     if (val === "") {
-        removeAntivenomDataValues($(`#${id}`).closest("tr"));
+        removeAntivenomDataValues($tr);
+        disableTrInputs($tr, true);
     } else if (antivenomProduct) {
         if (!loadingAntivenomProductNames) {
-            removeAntivenomDataValues($(`#${id}`).closest("tr"));
+            removeAntivenomDataValues($tr);
         }
-        renameCategoryOptionCombosInInputIds(
-            $(`#${id}`).closest("tr"),
-            antivenomProduct.categoryOptionComboId
-        );
+        renameCategoryOptionCombosInInputIds($tr, antivenomProduct.categoryOptionComboId);
+        disableTrInputs($tr, false);
 
         if (!loadingAntivenomProductNames) {
-            assignAntivenomDataValuesByProduct($(`#${id}`).closest("tr"), antivenomProduct);
+            assignAntivenomDataValuesByProduct($tr, antivenomProduct);
         }
     } else {
         console.log("An error has ocurred finding selected product in product list");

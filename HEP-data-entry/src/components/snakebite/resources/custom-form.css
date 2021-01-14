@@ -12,9 +12,13 @@
     text-align: center;
     white-space: nowrap;
 }
+input:disabled {
+    background-color: #eeeeee;
+}
 
 .cde table input[type="text"] {
     width: 90%;
+    background-color: #ffffff;
 }
 
 #subnational .cde table th {

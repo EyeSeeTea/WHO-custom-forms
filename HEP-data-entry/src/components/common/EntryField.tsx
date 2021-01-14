@@ -36,7 +36,6 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                         name={`${id}-val`}
                         class="entryselect"
                         id={`${id}-val`}
-                        style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
                         value={"true"}
                         disabled={disabled}
                     />
@@ -48,7 +47,6 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                         name={`${id}-val`}
                         class="entryselect"
                         id={`${id}-val`}
-                        style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
                         value={"false"}
                         disabled={disabled}
                     />
