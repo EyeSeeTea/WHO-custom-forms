@@ -69,16 +69,18 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                     <tr>
                         {group.dataElements.map(antivenomDE => {
                             const de = getSectionDataElement(antivenomDE.id);
-                            const catComboId = de.categoryCombo.categoryOptionCombos[0].id;
                             const customAttributes = antivenomDE.prop
-                                ? { dataProp: antivenomDE.prop }
-                                : undefined;
+                                ? {
+                                      dataProp: antivenomDE.prop,
+                                      dataType: de.valueType === "BOOLEAN" ? "radio" : "text",
+                                  }
+                                : {};
 
                             return (
-                                <td>
+                                <td {...customAttributes} class="antivenom-product-td">
                                     {antivenomDE.recommendedProductsSelector !== undefined ? (
                                         <input
-                                            id={`${antivenomDE.id}-${catComboId}-sel`}
+                                            id={`${antivenomDE.id}-sel`}
                                             hidden
                                             class={
                                                 antivenomDE.recommendedProductsSelector === true
@@ -93,10 +95,9 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                                         ""
                                     )}
                                     <EntryField
-                                        customAttributes={customAttributes}
                                         dataElementId={antivenomDE.id}
                                         dataElementCode={de.code}
-                                        catComboId={catComboId}
+                                        catComboId={""}
                                         catComboName={de.categoryCombo.categoryOptionCombos[0].name}
                                         type={de.valueType === "BOOLEAN" ? "radio" : "text"}
                                         disabled={antivenomDE.disabled}

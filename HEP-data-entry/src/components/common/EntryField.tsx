@@ -16,9 +16,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
     const {
         orgUnitId,
         dataElementId,
-        dataElementCode,
         catComboId,
-        catComboName,
         type = "text",
         disabled = false,
         hidden = false,
@@ -30,20 +28,6 @@ export function EntryField(attributes: EntryFieldAttributes): string {
         : `${dataElementId}-${catComboId}`;
 
     switch (type) {
-        case "text": {
-            return (
-                <input
-                    {...customAttributes}
-                    hidden={hidden}
-                    id={`${id}-val`}
-                    name="entryfield"
-                    title={`${dataElementCode} ${catComboName}`}
-                    class={"entryfield"}
-                    type={type}
-                    disabled={disabled}
-                />
-            );
-        }
         case "radio": {
             return [
                 <label>
@@ -86,7 +70,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                     hidden={hidden}
                     id={`${id}-val`}
                     name="entryfield"
-                    title={`${dataElementCode} ${catComboName}`}
+                    //title={`${dataElementCode} ${catComboName}`}
                     class={"entryfield"}
                     type={type}
                     disabled={disabled}
