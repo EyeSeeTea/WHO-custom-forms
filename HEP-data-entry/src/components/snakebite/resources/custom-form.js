@@ -276,6 +276,7 @@ function renameCategoryOptionCombosInInputIds($tr, categoryOptionComboId) {
 function disableTrInputs($tr, value) {
     $tr.find(`input[id*=-val]`).each(function() {
         $(this).prop("disabled", value);
+        $(this).css("background-color", value === true ? "#eeeeee" : "#ffffff");
     });
 }
 
@@ -455,6 +456,11 @@ function loadAntivenomProductSelects() {
 $(document).ready(function() {
     $(function() {
         $("#tabs").tabs({ active: 0 });
+    });
+
+    //Fix background setting by dhis2
+    $(`input:disabled`).each(function() {
+        $(this).css("background-color", "#eeeeee");
     });
 
     renderSubnationalTab();
