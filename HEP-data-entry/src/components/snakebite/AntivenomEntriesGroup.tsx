@@ -74,7 +74,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                                       dataProp: antivenomDE.prop,
                                       dataType: de.valueType === "BOOLEAN" ? "radio" : "text",
                                   }
-                                : {};
+                                : { dataType: de.valueType === "BOOLEAN" ? "radio" : "text" };
 
                             return (
                                 <td {...customAttributes} class="antivenom-product-td">
