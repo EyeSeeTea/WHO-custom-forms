@@ -54,13 +54,13 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                     />
                     No
                 </label>,
-                <img
-                    class="commentlink"
-                    id={`${id}-comment`}
-                    src="../images/comment.png"
-                    title="View comment"
-                    style="cursor: pointer;"
-                />,
+                // <img
+                //     class="commentlink"
+                //     id={`${id}-comment`}
+                //     src="../images/comment.png"
+                //     title="View comment"
+                //     style="cursor: pointer;"
+                // />,
             ].join("");
         }
         default: {
