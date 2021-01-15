@@ -98,6 +98,7 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
                                               <button
                                                   class="create-antivenom-product"
                                                   data-recommended={antivenomDE.recommendedProductsSelector.toString()}
+                                                  data-dataelement={antivenomDE.id}
                                               >
                                                   Add
                                               </button>
