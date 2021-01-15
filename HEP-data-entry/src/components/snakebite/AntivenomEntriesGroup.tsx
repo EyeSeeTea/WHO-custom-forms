@@ -78,22 +78,31 @@ export function AntivenomEntriesGroup(attributes: AntivenomEntriesGroupAttribute
 
                             return (
                                 <td {...customAttributes} class="antivenom-product-td">
-                                    {antivenomDE.recommendedProductsSelector !== undefined ? (
-                                        <input
-                                            id={`${antivenomDE.id}-sel`}
-                                            hidden
-                                            class={
-                                                antivenomDE.recommendedProductsSelector === true
-                                                    ? "antivenom-products antivenom-recommended-products"
-                                                    : "antivenom-products antivenom-non-recommended-products"
-                                            }
-                                            data-recommended={
-                                                antivenomDE.recommendedProductsSelector
-                                            }
-                                        />
-                                    ) : (
-                                        ""
-                                    )}
+                                    {antivenomDE.recommendedProductsSelector !== undefined
+                                        ? (
+                                              <input
+                                                  id={`${antivenomDE.id}-sel`}
+                                                  hidden
+                                                  class={
+                                                      antivenomDE.recommendedProductsSelector ===
+                                                      true
+                                                          ? "antivenom-products antivenom-recommended-products"
+                                                          : "antivenom-products antivenom-non-recommended-products"
+                                                  }
+                                                  data-recommended={
+                                                      antivenomDE.recommendedProductsSelector
+                                                  }
+                                              />
+                                          ) +
+                                          (
+                                              <button
+                                                  class="create-antivenom-product"
+                                                  data-recommended={antivenomDE.recommendedProductsSelector.toString()}
+                                              >
+                                                  Add
+                                              </button>
+                                          )
+                                        : ""}
                                     <EntryField
                                         dataElementId={antivenomDE.id}
                                         dataElementCode={de.code}

@@ -57,6 +57,63 @@ export async function SnakeBiteCustomForm(
                         customMetadata={customMetadata}
                         antivenomEntries={antivenomEntries}
                     />
+                    <div
+                        id="dialog-form"
+                        class="ui-dialog-content ui-widget-content"
+                        style="width: auto; min-height: 0px; max-height: none; height: auto;"
+                    >
+                        <p id="form-message" style="" />
+                        <form>
+                            <fieldset>
+                                <label for="productName" class="block">
+                                    Product Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="productName"
+                                    id="productName"
+                                    value=""
+                                    class="text ui-widget-content ui-corner-all"
+                                />
+                                <label for="manufacturerName" class="block">
+                                    Manufacturer Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="manufacturerName"
+                                    id="manufacturerName"
+                                    value=""
+                                    class="text ui-widget-content ui-corner-all"
+                                />
+
+                                <div class="radio-container">
+                                    <label for="polyvalent">Polyvalent</label>
+
+                                    <input type="radio" name="polyvalent" value="true">
+                                        Yes
+                                    </input>
+
+                                    <input type="radio" name="polyvalent" value="false">
+                                        No
+                                    </input>
+                                </div>
+
+                                <div class="radio-container">
+                                    <label for="monovalent">Monovalent</label>
+                                    <input type="radio" name="monovalent" value="true">
+                                        Yes
+                                    </input>
+                                    <input type="radio" name="monovalent" value="false">
+                                        No
+                                    </input>
+                                </div>
+                                <div>
+                                    <label for="recomended">Recommended</label>
+                                    <input type="checkbox" name="recommended" disabled />
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
                 <div id="tab1">
                     <SubnationalSections

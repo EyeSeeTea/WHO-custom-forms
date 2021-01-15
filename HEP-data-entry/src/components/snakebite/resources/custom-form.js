@@ -1,6 +1,78 @@
 var antivenomProducts = [];
 var loadingAntivenomProductNames = false;
 
+/**
+ * Data functions
+ */
+
+function getCurrentDataSetDataValues() {
+    return new Promise((resolve, reject) => {
+        var params = {
+            period: $("#selectedPeriodId").val(),
+            dataSet: dhis2.de.currentDataSetId,
+            orgUnit: dhis2.de.getCurrentOrganisationUnit(),
+        };
+
+        $.ajax({
+            url: "../api/dataValueSets",
+            data: params,
+            dataType: "json",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get dataValueSets request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}
+
+function getAntivenomProducts() {
+    return new Promise((resolve, reject) => {
+        const namespace = $("#custom-form-script").attr("data-datastore-namespace");
+        const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
+
+        $.ajax({
+            url: `../api/dataStore/${namespace}/${key}`,
+            type: "get",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get dataValueSets request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}
+
+function getAntivenomEntries() {
+    return new Promise((resolve, reject) => {
+        const namespace = $("#custom-form-script").attr("data-datastore-namespace");
+        const key = $("#custom-form-script").attr("data-datastore-antivenomentries-key");
+
+        $.ajax({
+            url: `../api/dataStore/${namespace}/${key}`,
+            type: "get",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get dataValueSets request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}
+
+/**
+ * Subnational tab
+ */
+
 function updateSubnationalDataElementTotals(orgUnitDataElementId) {
     $('input[name="subnationalTotal"]').each(function() {
         var totalId = $(this).attr("subnationaltotalid");
@@ -124,29 +196,9 @@ function renderSubnationalTab() {
     });
 }
 
-function getCurrentDataSetDataValues() {
-    return new Promise((resolve, reject) => {
-        var params = {
-            period: $("#selectedPeriodId").val(),
-            dataSet: dhis2.de.currentDataSetId,
-            orgUnit: dhis2.de.getCurrentOrganisationUnit(),
-        };
-
-        $.ajax({
-            url: "../api/dataValueSets",
-            data: params,
-            dataType: "json",
-            success: json => {
-                resolve(json);
-            },
-            error: function(xhr) {
-                console.log("Error in the get dataValueSets request");
-                console.log(xhr);
-                reject(xhr);
-            },
-        });
-    });
-}
+/**
+ * Antivenom products
+ */
 
 function removeAntivenomDataValues($tr) {
     $tr.find("td").each(function() {
@@ -307,26 +359,6 @@ function onChangeAntivenomProduct() {
     }
 }
 
-function getAntivenomEntries() {
-    return new Promise((resolve, reject) => {
-        const namespace = $("#custom-form-script").attr("data-datastore-namespace");
-        const key = $("#custom-form-script").attr("data-datastore-antivenomentries-key");
-
-        $.ajax({
-            url: `../api/dataStore/${namespace}/${key}`,
-            type: "get",
-            success: json => {
-                resolve(json);
-            },
-            error: function(xhr) {
-                console.log("Error in the get dataValueSets request");
-                console.log(xhr);
-                reject(xhr);
-            },
-        });
-    });
-}
-
 async function selectAntivenomProductNames() {
     const antivenomEntries = await getAntivenomEntries();
 
@@ -408,48 +440,102 @@ async function selectAntivenomProductNames() {
     loadingAntivenomProductNames = false;
 }
 
-function loadAntivenomProductSelects() {
-    const namespace = $("#custom-form-script").attr("data-datastore-namespace");
-    const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
+function addAntivenomProduct() {
+    const $productName = $("input[name=productName]");
+    const $manufacturerName = $("input[name=manufacturerName]");
+    const $polyvalent = $("input[name=polyvalent]:checked");
+    const $monovalent = $("input[name=monovalent]:checked");
+    const $recommended = $("input[name=recommended]");
+    const $formMessage = $("#form-message");
 
-    $.ajax({
-        url: `../api/dataStore/${namespace}/${key}`,
-        type: "get",
-        success: function(products) {
-            antivenomProducts = products;
+    $productName.change(function() {
+        $productName.removeClass("ui-state-error");
+        $formMessage.text("").removeClass("ui-state-highlight");
+    });
 
-            const getSelectItems = recommended => {
-                return products
-                    .filter(product => product.recommended === recommended)
-                    .map(product => ({
-                        id: product.productName,
-                        text: product.productName,
-                    }));
-            };
+    const product = {
+        productName: $productName.val(),
+        manufacturerName: $manufacturerName.val(),
+        polyvalent: $polyvalent.val() == "true",
+        monovalent: $monovalent.val() == "true",
+        recommended: $recommended.prop("checked"),
+    };
 
-            const recommendedProducts = getSelectItems(true);
-            const nonRecommendedProducts = getSelectItems(false);
+    if (product.productName.trim().length === 0) {
+        $productName.addClass("ui-state-error");
+        $formMessage.text("Product Name is a required field").addClass("ui-state-highlight");
+        return false;
+    } else {
+        //Create the product
+        console.log({ product });
+        return true;
+    }
+}
 
-            $(".antivenom-recommended-products").select2({
-                placeholder: "Select a product",
-                allowClear: true,
-                data: recommendedProducts,
-            });
+async function loadAntivenomProductSelects() {
+    antivenomProducts = await getAntivenomProducts();
 
-            $(".antivenom-non-recommended-products").select2({
-                placeholder: "Select a product",
-                allowClear: true,
-                data: nonRecommendedProducts,
-            });
+    const getSelectItems = recommended => {
+        return antivenomProducts
+            .filter(product => product.recommended === recommended)
+            .map(product => ({
+                id: product.productName,
+                text: product.productName,
+            }));
+    };
 
-            $(".antivenom-recommended-products").on("change", onChangeAntivenomProduct);
-            $(".antivenom-non-recommended-products").on("change", onChangeAntivenomProduct);
+    const recommendedProducts = getSelectItems(true);
+    const nonRecommendedProducts = getSelectItems(false);
+
+    $(".antivenom-recommended-products").select2({
+        placeholder: "Select a product",
+        allowClear: true,
+        data: recommendedProducts,
+    });
+
+    $(".antivenom-non-recommended-products").select2({
+        placeholder: "Select a product",
+        allowClear: true,
+        data: nonRecommendedProducts,
+    });
+
+    $(".antivenom-recommended-products").on("change", onChangeAntivenomProduct);
+    $(".antivenom-non-recommended-products").on("change", onChangeAntivenomProduct);
+
+    selectAntivenomProductNames();
+}
+
+function initializeAddProductDialog() {
+    var dialog;
+
+    dialog = $("#dialog-form").dialog({
+        autoOpen: false,
+        height: 375,
+        width: 350,
+        modal: true,
+        title: "Create Product",
+        buttons: {
+            Create: function() {
+                if (addAntivenomProduct()) {
+                    dialog.dialog("close");
+                }
+            },
+            Cancel: function() {
+                dialog.dialog("close");
+            },
         },
-        error: function(xhr) {
-            console.log("Error in the request");
-            console.log(xhr);
+        close: function() {
+            dialog.find("form")[0].reset();
         },
     });
+
+    $(".create-antivenom-product")
+        .button()
+        .on("click", function() {
+            const recommended = $(this).data("recommended");
+            $("input[name=recommended]").prop("checked", recommended);
+            dialog.dialog("open");
+        });
 }
 
 $(document).ready(function() {
@@ -457,14 +543,15 @@ $(document).ready(function() {
         $("#tabs").tabs({ active: 0 });
     });
 
-    //Fix background setting by dhis2
-    $(`input:disabled`).each(function() {
-        $(this).css("background-color", "#eeeeee");
-    });
+    initializeAddProductDialog();
 
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
         loadAntivenomProductSelects();
-        selectAntivenomProductNames();
+
+        //Fix background setting by dhis2
+        $(`input:disabled`).each(function() {
+            $(this).css("background-color", "#eeeeee");
+        });
     });
 });
