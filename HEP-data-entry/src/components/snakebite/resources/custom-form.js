@@ -49,7 +49,7 @@ function removeDataValues(json) {
     });
 }
 
-function getAntivenomProducts() {
+function getAntivenomProducts(includeDeleted) {
     return new Promise((resolve, reject) => {
         const namespace = $("#custom-form-script").attr("data-datastore-namespace");
         const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
@@ -58,7 +58,7 @@ function getAntivenomProducts() {
             url: `../api/dataStore/${namespace}/${key}`,
             type: "get",
             success: json => {
-                resolve(json);
+                resolve(json.filter(p => includeDeleted || !p.deleted));
             },
             error: function(xhr) {
                 console.log("Error in the get dataValueSets request");
@@ -69,25 +69,58 @@ function getAntivenomProducts() {
     });
 }
 
-function saveAntivenomProducts(json) {
+function saveAntivenomProduct(newProduct) {
     return new Promise((resolve, reject) => {
         const namespace = $("#custom-form-script").attr("data-datastore-namespace");
         const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
 
-        $.ajax({
-            url: `../api/dataStore/${namespace}/${key}`,
-            data: JSON.stringify(json),
-            type: "PUT",
-            dataType: "json",
-            contentType: "application/json",
-            success: response => {
-                resolve(response);
-            },
-            error: function(xhr) {
-                console.log("Error in the request");
-                console.log(xhr);
-                reject(xhr);
-            },
+        getAntivenomProducts(true).then(products => {
+            const newProducts = [...products, newProduct];
+
+            $.ajax({
+                url: `../api/dataStore/${namespace}/${key}`,
+                data: JSON.stringify(newProducts),
+                type: "PUT",
+                dataType: "json",
+                contentType: "application/json",
+                success: response => {
+                    resolve(response);
+                },
+                error: function(xhr) {
+                    console.log("Error in the request");
+                    console.log(xhr);
+                    reject(xhr);
+                },
+            });
+        });
+    });
+}
+
+function removeAntivenomProduct(productName) {
+    return new Promise((resolve, reject) => {
+        const namespace = $("#custom-form-script").attr("data-datastore-namespace");
+        const key = $("#custom-form-script").attr("data-datastore-antivenomproducts-key");
+
+        getAntivenomProducts(true).then(products => {
+            const newProducts = products.map(p =>
+                p.productName === productName ? { ...p, deleted: true } : p
+            );
+
+            $.ajax({
+                url: `../api/dataStore/${namespace}/${key}`,
+                data: JSON.stringify(newProducts),
+                type: "PUT",
+                dataType: "json",
+                contentType: "application/json",
+                success: response => {
+                    resolve(response);
+                },
+                error: function(xhr) {
+                    console.log("Error in the request");
+                    console.log(xhr);
+                    reject(xhr);
+                },
+            });
         });
     });
 }
@@ -293,16 +326,18 @@ async function removeAntivenomDataValues($tr) {
 
     const json = await getCurrentDataSetDataValues();
 
-    const jsontoDelete = {
-        ...json,
-        dataValues: json.dataValues.filter(dv => {
-            const inputId = `${dv.dataElement}-${dv.categoryOptionCombo}-val`;
+    if (json.dataValues) {
+        const jsontoDelete = {
+            ...json,
+            dataValues: json.dataValues.filter(dv => {
+                const inputId = `${dv.dataElement}-${dv.categoryOptionCombo}-val`;
 
-            return idToRemove.includes(inputId);
-        }),
-    };
+                return idToRemove.includes(inputId);
+            }),
+        };
 
-    await removeDataValues(jsontoDelete);
+        await removeDataValues(jsontoDelete);
+    }
 }
 
 function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
@@ -425,67 +460,70 @@ async function selectAntivenomProductNames() {
 
     const dataValuesResponse = await getCurrentDataSetDataValues();
 
-    //TODO: refactor maybe many selectors by recommended type
-    //TODO: show hidden antivenom tables tables
-    const recommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
-        dv => recommendedProductNameDEEntry.id === dv.dataElement
-    );
-    const nonRecommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
-        dv => nonRecommendedProductNameDEEntry.id === dv.dataElement
-    );
-
-    loadingAntivenomProductNames = true;
-
-    const getDataValue = (dataElement, categoryOptionCombo) => {
-        return dataValuesResponse.dataValues.find(
-            dv => dv.dataElement === dataElement && dv.categoryOptionCombo === categoryOptionCombo
+    if (dataValuesResponse.dataValues) {
+        //TODO: refactor maybe many selectors by recommended type
+        //TODO: show hidden antivenom tables tables
+        const recommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
+            dv => recommendedProductNameDEEntry.id === dv.dataElement
         );
-    };
+        const nonRecommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
+            dv => nonRecommendedProductNameDEEntry.id === dv.dataElement
+        );
 
-    if (recommendedProductNameDataValues.length > 0) {
-        const $selector = $(".antivenom-recommended-products")
-            .val(recommendedProductNameDataValues[0].value)
-            .trigger("change");
+        loadingAntivenomProductNames = true;
 
-        $selector
-            .closest("tr")
-            .find("td input[id*=-val]")
-            .each(function() {
-                const idParts = $(this)
-                    .attr("id")
-                    .split("-");
-                const dataElement = idParts[0];
-                const categoryOptionCombo = idParts[1];
+        const getDataValue = (dataElement, categoryOptionCombo) => {
+            return dataValuesResponse.dataValues.find(
+                dv =>
+                    dv.dataElement === dataElement && dv.categoryOptionCombo === categoryOptionCombo
+            );
+        };
 
-                const dataValue = getDataValue(dataElement, categoryOptionCombo);
+        if (recommendedProductNameDataValues.length > 0) {
+            const $selector = $(".antivenom-recommended-products")
+                .val(recommendedProductNameDataValues[0].value)
+                .trigger("change");
 
-                if (dataValue) {
-                    assignAntivenomDataValue(dataValue);
-                }
-            });
-    }
+            $selector
+                .closest("tr")
+                .find("td input[id*=-val]")
+                .each(function() {
+                    const idParts = $(this)
+                        .attr("id")
+                        .split("-");
+                    const dataElement = idParts[0];
+                    const categoryOptionCombo = idParts[1];
 
-    if (nonRecommendedProductNameDataValues.length > 0) {
-        const $selector = $(".antivenom-non-recommended-products")
-            .val(nonRecommendedProductNameDataValues[0].value)
-            .trigger("change");
+                    const dataValue = getDataValue(dataElement, categoryOptionCombo);
 
-        $selector
-            .closest("tr")
-            .find("td input[id*=-val")
-            .each(function() {
-                const idParts = $(this)
-                    .attr("id")
-                    .split("-");
-                const dataElement = idParts[0];
-                const categoryOptionCombo = idParts[1];
+                    if (dataValue) {
+                        assignAntivenomDataValue(dataValue);
+                    }
+                });
+        }
 
-                const dataValue = getDataValue(dataElement, categoryOptionCombo);
+        if (nonRecommendedProductNameDataValues.length > 0) {
+            const $selector = $(".antivenom-non-recommended-products")
+                .val(nonRecommendedProductNameDataValues[0].value)
+                .trigger("change");
 
-                if (dataValue) {
-                    assignAntivenomDataValue(dataValue);
-                }
-            });
+            $selector
+                .closest("tr")
+                .find("td input[id*=-val]")
+                .each(function() {
+                    const idParts = $(this)
+                        .attr("id")
+                        .split("-");
+                    const dataElement = idParts[0];
+                    const categoryOptionCombo = idParts[1];
+
+                    const dataValue = getDataValue(dataElement, categoryOptionCombo);
+
+                    if (dataValue) {
+                        assignAntivenomDataValue(dataValue);
+                    }
+                });
+        }
     }
 
     loadingAntivenomProductNames = false;
@@ -497,6 +535,15 @@ async function loadAntivenomProductSelects() {
     const getSelectItems = recommended => {
         return antivenomProducts
             .filter(product => product.recommended === recommended)
+            .sort(function(a, b) {
+                if (a.productName < b.productName) {
+                    return -1;
+                }
+                if (a.productName > b.productName) {
+                    return 1;
+                }
+                return 0;
+            })
             .map(product => ({
                 id: product.productName,
                 text: product.productName,
@@ -506,20 +553,41 @@ async function loadAntivenomProductSelects() {
     const recommendedProducts = getSelectItems(true);
     const nonRecommendedProducts = getSelectItems(false);
 
-    $(".antivenom-recommended-products").select2({
-        placeholder: "Select a product",
-        allowClear: true,
-        data: recommendedProducts,
-    });
+    function formatState(state) {
+        const $state = $(
+            `<span style="cursor: default;"> ${state.text}</span>` +
+                `<span class="remove-product" data-productname="${state.text}" style="margin-left:24px;font-size:16px;cursor: pointer;"> <i class="fa fa-trash"/i></span>`
+        );
+        return $state;
+    }
 
-    $(".antivenom-non-recommended-products").select2({
+    const params = {
         placeholder: "Select a product",
         allowClear: true,
-        data: nonRecommendedProducts,
-    });
+        dropdownAutoWidth: true,
+        formatResult: formatState,
+    };
+
+    $(".antivenom-recommended-products").select2({ ...params, data: recommendedProducts });
+
+    $(".antivenom-non-recommended-products").select2({ ...params, data: nonRecommendedProducts });
 
     $(".antivenom-recommended-products").on("change", onChangeAntivenomProduct);
     $(".antivenom-non-recommended-products").on("change", onChangeAntivenomProduct);
+
+    $(".antivenom-products").on("select2-open", function(e) {
+        $(".remove-product").on("mouseup", function() {
+            const productName = $(this).data("productname");
+
+            if (
+                confirm(
+                    "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
+                )
+            ) {
+                removeAntivenomProduct(productName).then(loadAntivenomProductSelects);
+            }
+        });
+    });
 
     selectAntivenomProductNames();
 }
@@ -536,7 +604,6 @@ function resetFormMessage() {
 }
 
 async function addAntivenomProduct(categoryOptionComboId) {
-    debugger;
     const $productName = $("input[name=productName]");
     const $manufacturerName = $("input[name=manufacturerName]");
     const $polyvalent = $("input[name=polyvalent]:checked");
@@ -560,10 +627,7 @@ async function addAntivenomProduct(categoryOptionComboId) {
         $formMessage.text("Product Name is a required field").addClass("ui-state-highlight");
         return false;
     } else {
-        const newAntivenomProducts = [...antivenomProducts, product];
-        console.log({ newAntivenomProducts });
-
-        await saveAntivenomProducts(newAntivenomProducts);
+        await saveAntivenomProduct(product);
         return true;
     }
 }
@@ -601,10 +665,9 @@ function initializeAddProductDialog() {
     $(".create-antivenom-product")
         .button()
         .on("click", async function() {
-            debugger;
             const dataElementId = $(this).data("dataelement");
             const dataElement = await getDataElement(dataElementId);
-            antivenomProducts = await getAntivenomProducts();
+            antivenomProducts = await getAntivenomProducts(true);
 
             const freeCategoryOptions = dataElement.categoryCombo.categoryOptionCombos.filter(
                 comboOption =>
