@@ -1,5 +1,6 @@
 var antivenomProducts = [];
 var loadingAntivenomProductNames = false;
+var isAdminUser = false;
 
 /**
  * Data functions
@@ -145,6 +146,26 @@ function getAntivenomEntries() {
     });
 }
 
+function getCustomMetadata() {
+    return new Promise((resolve, reject) => {
+        const namespace = $("#custom-form-script").attr("data-datastore-namespace");
+        const key = $("#custom-form-script").attr("data-datastore-custommetadata-key");
+
+        $.ajax({
+            url: `../api/dataStore/${namespace}/${key}`,
+            type: "get",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get dataValueSets request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}
+
 function getDataElement(dataElementId) {
     return new Promise((resolve, reject) => {
         $.ajax({
@@ -152,6 +173,24 @@ function getDataElement(dataElementId) {
                 "../api/dataElements/" +
                 dataElementId +
                 "?fields=id,name,categoryCombo[id,categoryOptionCombos[id,name]]",
+            type: "get",
+            dataType: "json",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get getDataElement request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}
+
+function getMe() {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: "../api/me?fields=id,name,userGroups",
             type: "get",
             dataType: "json",
             success: json => {
@@ -554,12 +593,14 @@ async function loadAntivenomProductSelects() {
     const nonRecommendedProducts = getSelectItems(false);
 
     function formatState(state) {
-        const $state = $(
-            `<span style="cursor: default;"> ${state.text}</span>` +
-                `<i class="fa fa-trash remove-product" style="margin-left:24px;font-size:16px;cursor: pointer;"/i>`
-        );
-
-        return $state;
+        if (isAdminUser) {
+            return $(
+                `<span style="cursor: default;"> ${state.text}</span>` +
+                    `<i class="fa fa-trash remove-product" style="margin-left:24px;font-size:16px;cursor: pointer;"/i>`
+            );
+        } else {
+            return $(`<span style="cursor: default;"> ${state.text}</span>`);
+        }
     }
 
     const params = {
@@ -708,7 +749,25 @@ function initializeAddProductDialog() {
         });
 }
 
-function initializeByAdminUsers() {}
+async function initializeByAdminUsers() {
+    const customMetadata = await getCustomMetadata();
+    const me = await getMe();
+
+    const isAdmin = (customMetadata, me) => {
+        debugger;
+        return me.userGroups
+            ? me.userGroups.some(group => customMetadata.adminUserGroups.includes(group.id))
+            : true;
+    };
+
+    isAdminUser = isAdmin(customMetadata, me);
+
+    if (isAdminUser) {
+        $('.create-antivenom-product[data-recommended="true"]').show();
+    } else {
+        $('.create-antivenom-product[data-recommended="true"]').hide();
+    }
+}
 
 /**
  * Init function
@@ -723,8 +782,7 @@ $(document).ready(function() {
 
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
-        initializeByAdminUsers();
-        loadAntivenomProductSelects();
+        initializeByAdminUsers().then(() => loadAntivenomProductSelects());
 
         //Fix background setting by dhis2
         $(`input:disabled`).each(function() {

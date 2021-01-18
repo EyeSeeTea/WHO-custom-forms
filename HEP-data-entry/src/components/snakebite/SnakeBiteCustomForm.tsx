@@ -32,7 +32,7 @@ export async function SnakeBiteCustomForm(
                 data-datastore-namespace={snakeBiteNamespace}
                 data-datastore-antivenomproducts-key={antivenomProductsKey}
                 data-datastore-antivenomentries-key={antivenomEntriesKey}
-                data-datastore-customMetadata-key={customMetadataKey}
+                data-datastore-custommetadata-key={customMetadataKey}
             >
                 ${javascript}
             </script>
