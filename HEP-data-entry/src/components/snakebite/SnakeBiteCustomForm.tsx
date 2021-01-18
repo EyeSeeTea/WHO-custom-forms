@@ -8,6 +8,7 @@ import { AntivenomEntries } from "../../domain/snakebite/AntivenomEntries";
 import {
     antivenomEntriesKey,
     antivenomProductsKey,
+    customMetadataKey,
     snakeBiteNamespace,
 } from "../../data/snakebite/constants";
 
@@ -31,6 +32,7 @@ export async function SnakeBiteCustomForm(
                 data-datastore-namespace={snakeBiteNamespace}
                 data-datastore-antivenomproducts-key={antivenomProductsKey}
                 data-datastore-antivenomentries-key={antivenomEntriesKey}
+                data-datastore-customMetadata-key={customMetadataKey}
             >
                 ${javascript}
             </script>

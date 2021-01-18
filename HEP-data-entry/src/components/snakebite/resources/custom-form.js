@@ -556,8 +556,9 @@ async function loadAntivenomProductSelects() {
     function formatState(state) {
         const $state = $(
             `<span style="cursor: default;"> ${state.text}</span>` +
-                `<span class="remove-product" data-productname="${state.text}" style="margin-left:24px;font-size:16px;cursor: pointer;"> <i class="fa fa-trash"/i></span>`
+                `<i class="fa fa-trash remove-product" style="margin-left:24px;font-size:16px;cursor: pointer;"/i>`
         );
+
         return $state;
     }
 
@@ -568,25 +569,43 @@ async function loadAntivenomProductSelects() {
         formatResult: formatState,
     };
 
-    $(".antivenom-recommended-products").select2({ ...params, data: recommendedProducts });
+    $(".antivenom-recommended-products")
+        .select2({ ...params, data: recommendedProducts })
+        .data("select2");
 
-    $(".antivenom-non-recommended-products").select2({ ...params, data: nonRecommendedProducts });
+    $(".antivenom-non-recommended-products")
+        .select2({ ...params, data: nonRecommendedProducts })
+        .data("select2");
 
-    $(".antivenom-recommended-products").on("change", onChangeAntivenomProduct);
-    $(".antivenom-non-recommended-products").on("change", onChangeAntivenomProduct);
+    $(".antivenom-products").on("change", onChangeAntivenomProduct);
 
-    $(".antivenom-products").on("select2-open", function(e) {
-        $(".remove-product").on("mouseup", function() {
-            const productName = $(this).data("productname");
+    $(".antivenom-products").each(function() {
+        const select2 = $(this).data("select2");
 
-            if (
-                confirm(
-                    "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
-                )
-            ) {
-                removeAntivenomProduct(productName).then(loadAntivenomProductSelects);
-            }
-        });
+        select2.onSelect = (function(fn) {
+            return function(data, options) {
+                var target;
+
+                if (options != null) {
+                    target = $(options.target);
+                }
+
+                if (target && target.hasClass("remove-product")) {
+                    debugger;
+                    const productName = data.id;
+
+                    if (
+                        confirm(
+                            "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
+                        )
+                    ) {
+                        removeAntivenomProduct(productName).then(() => location.reload());
+                    }
+                } else {
+                    return fn.apply(this, arguments);
+                }
+            };
+        })(select2.onSelect);
     });
 
     selectAntivenomProductNames();
@@ -689,6 +708,8 @@ function initializeAddProductDialog() {
         });
 }
 
+function initializeByAdminUsers() {}
+
 /**
  * Init function
  */
@@ -702,6 +723,7 @@ $(document).ready(function() {
 
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
+        initializeByAdminUsers();
         loadAntivenomProductSelects();
 
         //Fix background setting by dhis2
