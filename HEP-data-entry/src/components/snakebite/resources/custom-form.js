@@ -21,7 +21,14 @@ function getCurrentDataSetDataValues() {
             data: params,
             dataType: "json",
             success: json => {
-                resolve(json);
+                resolve({
+                    ...json,
+                    dataValues: json.dataValues
+                        ? json.dataValues.sort(function(a, b) {
+                              return new Date(a.created) - new Date(b.created);
+                          })
+                        : json.dataValues,
+                });
             },
             error: function(xhr) {
                 console.log("Error in the get dataValueSets request");
