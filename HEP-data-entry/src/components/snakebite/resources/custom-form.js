@@ -460,13 +460,11 @@ function disableTrInputs($tr, value) {
 }
 
 async function onChangeAntivenomProduct() {
-    const id = $(this).attr("id");
-
     const val = $(this).val();
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
 
-    const $tr = $(`#${id}`).closest("tr");
+    const $tr = $(this).closest("tr");
 
     if (val === "") {
         await removeAntivenomDataValues($tr);
@@ -731,7 +729,6 @@ function initializeAntivenomEntryFields() {
 
     $(".add-entry-fields").off("click");
     $(".add-entry-fields").on("click", function(e) {
-        debugger;
         e.preventDefault();
         const $group = $(this).closest("div[id*=-group]");
 
