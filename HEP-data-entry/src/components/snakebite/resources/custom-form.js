@@ -461,7 +461,7 @@ function disableTrInputs($tr, value) {
 
 async function onChangeAntivenomProduct() {
     debugger;
-    const val = $(this).val();
+    const val = $(this).select2("val");
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
 
@@ -604,7 +604,10 @@ function addAntivenomProductsSelectListeners() {
                         currentValues.push($(this).val());
                     });
 
-                    if (currentValues.includes(productName)) {
+                    if (
+                        productName !== $self.select2("val") &&
+                        currentValues.includes(productName)
+                    ) {
                         alert(
                             `The product ${productName} has already been selected,  please select another`
                         );
