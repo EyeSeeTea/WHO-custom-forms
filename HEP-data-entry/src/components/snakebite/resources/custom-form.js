@@ -460,7 +460,6 @@ function disableTrInputs($tr, value) {
 }
 
 async function onChangeAntivenomProduct() {
-    debugger;
     const val = $(this).select2("val");
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
@@ -515,12 +514,6 @@ async function selectAntivenomProductNames(recommended) {
             );
         };
 
-        if (productNameDataValues.length > 1) {
-            for (var i = 1; i <= productNameDataValues.length - 1; i++) {
-                await addEntryFieldsTableToGroup($(`div[id='${groupId}-group']`));
-            }
-        }
-
         if (productNameDataValues.length > 0) {
             //Disable dhis2 listeners
             $(".entryfield, .entryselect").off("change");
@@ -528,16 +521,16 @@ async function selectAntivenomProductNames(recommended) {
             for (const productNameDataValue of productNameDataValues) {
                 const index = productNameDataValues.indexOf(productNameDataValue);
 
-                // if (index > 0) {
-                //     await addEntryFieldsTableToGroup($(`div[id='${groupId}-group']`));
-                // }
+                if (index > 0) {
+                    await addEntryFieldsTableToGroup($(`div[id='${groupId}-group']`));
+                }
 
                 const selector = recommended
                     ? `input.antivenom-recommended-products:eq(${index})`
                     : `input.antivenom-non-recommended-products:eq(${index})`;
 
                 const $select = $(selector)
-                    .val(productNameDataValue.value)
+                    .select2("val", productNameDataValue.value)
                     .trigger("change");
 
                 $select
