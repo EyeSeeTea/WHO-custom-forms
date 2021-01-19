@@ -1,6 +1,8 @@
 var antivenomProducts = [];
 var loadingAntivenomProductNames = false;
-var isAdminUser = false;
+var isAdminUser = undefined;
+var entryTableGroupsTemplate = [];
+var addProductDialog;
 
 /**
  * Data functions
@@ -632,7 +634,6 @@ async function loadAntivenomProductSelects() {
                 }
 
                 if (target && target.hasClass("remove-product")) {
-                    debugger;
                     const productName = data.id;
 
                     if (
@@ -650,6 +651,92 @@ async function loadAntivenomProductSelects() {
     });
 
     selectAntivenomProductNames();
+}
+
+async function initializeByAdminUser($container) {
+    if (isAdminUser) {
+        $container.find('.create-antivenom-product[data-recommended="true"]').show();
+    } else {
+        $container.find('.create-antivenom-product[data-recommended="true"]').hide();
+    }
+
+    $container.find(`input:disabled`).each(function() {
+        $(this).css("background-color", "#eeeeee");
+    });
+
+    $container
+        .find(".create-antivenom-product")
+        .button()
+        .on("click", async function() {
+            const dataElementId = $(this).data("dataelement");
+            const dataElement = await getDataElement(dataElementId);
+            antivenomProducts = await getAntivenomProducts(true);
+
+            const freeCategoryOptions = dataElement.categoryCombo.categoryOptionCombos.filter(
+                comboOption =>
+                    !antivenomProducts.some(aprod => aprod.categoryOptionComboId === comboOption.id)
+            );
+
+            const recommended = $(this).data("recommended");
+
+            const productType = recommended ? "recommended" : "non recomended";
+
+            if (freeCategoryOptions.length === 0) {
+                alert(
+                    `It is not possible to create a new ${productType} product. The maximum number of ${productType} products has been reached. Please contact your administrator.`
+                );
+            } else {
+                $("input[name=recommended]").prop("checked", recommended);
+                addProductDialog
+                    .data("categoryOptionCombo", freeCategoryOptions[0].id)
+                    .dialog("open");
+            }
+        });
+}
+
+function addEntryFieldsTableToGroup($group) {
+    const template = $group.find(".table-template")[0];
+
+    const entryTemplate = document.importNode(template.content, true);
+
+    const $entryTemplate = $(entryTemplate);
+
+    initializeByAdminUser($entryTemplate);
+
+    $group.find(".add-entry-fields").before($entryTemplate);
+
+    //TODO: optimize to load only antivenom product select in new table
+    loadAntivenomProductSelects();
+
+    //Fix multiple listeners with year changes
+    $(".remove-entry-fields").on("click", function(e) {
+        e.preventDefault();
+
+        const $container = $(this).closest(".antivenom-table-container");
+
+        const $tr = $container.find("table tr");
+
+        removeAntivenomDataValues($tr);
+
+        $container.remove();
+    });
+}
+
+function initializeAntivenomEntryFields() {
+    $(".antivenom-table-container").remove();
+
+    $(`div[id*=-group]`).each(function() {
+        addEntryFieldsTableToGroup($(this));
+    });
+
+    $(".add-entry-fields").off("click");
+    $(".add-entry-fields").on("click", function(e) {
+        debugger;
+        e.preventDefault();
+        const $group = $(this).closest("div[id*=-group]");
+
+        addEntryFieldsTableToGroup($group);
+    });
 }
 
 /**
@@ -693,9 +780,7 @@ async function addAntivenomProduct(categoryOptionComboId) {
 }
 
 function initializeAddProductDialog() {
-    var dialog;
-
-    dialog = $("#dialog-form").dialog({
+    addProductDialog = $("#dialog-form").dialog({
         autoOpen: false,
         height: 375,
         width: 350,
@@ -708,65 +793,36 @@ function initializeAddProductDialog() {
                 addAntivenomProduct(categoryOptionComboId).then(result => {
                     if (result) {
                         loadAntivenomProductSelects();
-                        dialog.dialog("close");
+                        addProductDialog.dialog("close");
                     }
                 });
             },
             Cancel: function() {
-                dialog.dialog("close");
+                addProductDialog.dialog("close");
             },
         },
         close: function() {
-            dialog.find("form")[0].reset();
+            addProductDialog.find("form")[0].reset();
             resetFormMessage();
         },
     });
-
-    $(".create-antivenom-product")
-        .button()
-        .on("click", async function() {
-            const dataElementId = $(this).data("dataelement");
-            const dataElement = await getDataElement(dataElementId);
-            antivenomProducts = await getAntivenomProducts(true);
-
-            const freeCategoryOptions = dataElement.categoryCombo.categoryOptionCombos.filter(
-                comboOption =>
-                    !antivenomProducts.some(aprod => aprod.categoryOptionComboId === comboOption.id)
-            );
-
-            const recommended = $(this).data("recommended");
-
-            const productType = recommended ? "recommended" : "non recomended";
-
-            if (freeCategoryOptions.length === 0) {
-                alert(
-                    `It is not possible to create a new ${productType} product. The maximum number of ${productType} products has been reached. Please contact your administrator.`
-                );
-            } else {
-                $("input[name=recommended]").prop("checked", recommended);
-                dialog.data("categoryOptionCombo", freeCategoryOptions[0].id).dialog("open");
-            }
-        });
 }
 
-async function initializeByAdminUsers() {
+/**
+ * Load user admin
+ */
+
+async function loadIfUserIsAdmin() {
     const customMetadata = await getCustomMetadata();
     const me = await getMe();
 
     const isAdmin = (customMetadata, me) => {
-        debugger;
         return me.userGroups
             ? me.userGroups.some(group => customMetadata.adminUserGroups.includes(group.id))
             : true;
     };
 
     isAdminUser = isAdmin(customMetadata, me);
-
-    if (isAdminUser) {
-        $('.create-antivenom-product[data-recommended="true"]').show();
-    } else {
-        $('.create-antivenom-product[data-recommended="true"]').hide();
-    }
 }
 
 /**
@@ -782,11 +838,7 @@ $(document).ready(function() {
 
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
-        initializeByAdminUsers().then(() => loadAntivenomProductSelects());
 
-        //Fix background setting by dhis2
-        $(`input:disabled`).each(function() {
-            $(this).css("background-color", "#eeeeee");
-        });
+        loadIfUserIsAdmin().then(() => initializeAntivenomEntryFields());
     });
 });

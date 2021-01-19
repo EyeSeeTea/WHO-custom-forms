@@ -7,8 +7,10 @@ export interface AntivenomEntriesDataElementData {
 }
 
 export interface AntivenomEntriesGroupData {
+    id: string,
     title: string;
     info?: string;
+    addEntryButton: string,
     dataElements: AntivenomEntriesDataElementData[];
 }
 

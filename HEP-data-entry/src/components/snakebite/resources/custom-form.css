@@ -22,6 +22,23 @@
     margin-left: 8px;
 }
 
+.add-entry-fields {
+    color: #3162c5 !important;
+}
+
+.remove-entry-fields {
+    color: #3162c5 !important;
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+.antivenom-table-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-content: center;
+}
+
 #dialog-form label.block,
 input.text {
     display: block;
