@@ -460,6 +460,7 @@ function disableTrInputs($tr, value) {
 }
 
 async function onChangeAntivenomProduct() {
+    debugger;
     const val = $(this).val();
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
@@ -484,29 +485,25 @@ async function onChangeAntivenomProduct() {
     }
 }
 
-async function selectAntivenomProductNames() {
+async function selectAntivenomProductNames(recommended) {
     const antivenomEntries = await getAntivenomEntries();
 
-    const recommendedProductNameDEEntry = antivenomEntries.groups
+    const productNameDEEntry = antivenomEntries.groups
         .map(g => g.dataElements)
         .flat()
-        .find(de => de.recommendedProductsSelector === true);
+        .find(de => de.recommendedProductsSelector === recommended);
 
-    const nonRecommendedProductNameDEEntry = antivenomEntries.groups
-        .map(g => g.dataElements)
-        .flat()
-        .find(de => de.recommendedProductsSelector === false);
+    const groupId = antivenomEntries.groups.find(g =>
+        g.dataElements.some(de => de.id === productNameDEEntry.id)
+    ).id;
 
     const dataValuesResponse = await getCurrentDataSetDataValues();
 
     if (dataValuesResponse.dataValues) {
-        //TODO: refactor maybe many selectors by recommended type
-        //TODO: show hidden antivenom tables tables
-        const recommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
-            dv => recommendedProductNameDEEntry.id === dv.dataElement
-        );
-        const nonRecommendedProductNameDataValues = dataValuesResponse.dataValues.filter(
-            dv => nonRecommendedProductNameDEEntry.id === dv.dataElement
+        const productNameDataValues = dataValuesResponse.dataValues.filter(
+            dv =>
+                (productNameDEEntry.id === dv.dataElement && recommended) ||
+                (productNameDEEntry.id === dv.dataElement && !recommended)
         );
 
         loadingAntivenomProductNames = true;
@@ -518,54 +515,106 @@ async function selectAntivenomProductNames() {
             );
         };
 
-        if (recommendedProductNameDataValues.length > 0) {
-            const $selector = $(".antivenom-recommended-products")
-                .val(recommendedProductNameDataValues[0].value)
-                .trigger("change");
-
-            $selector
-                .closest("tr")
-                .find("td input[id*=-val]")
-                .each(function() {
-                    const idParts = $(this)
-                        .attr("id")
-                        .split("-");
-                    const dataElement = idParts[0];
-                    const categoryOptionCombo = idParts[1];
-
-                    const dataValue = getDataValue(dataElement, categoryOptionCombo);
-
-                    if (dataValue) {
-                        assignAntivenomDataValue(dataValue);
-                    }
-                });
+        if (productNameDataValues.length > 1) {
+            for (var i = 1; i <= productNameDataValues.length - 1; i++) {
+                await addEntryFieldsTableToGroup($(`div[id='${groupId}-group']`));
+            }
         }
 
-        if (nonRecommendedProductNameDataValues.length > 0) {
-            const $selector = $(".antivenom-non-recommended-products")
-                .val(nonRecommendedProductNameDataValues[0].value)
-                .trigger("change");
+        if (productNameDataValues.length > 0) {
+            //Disable dhis2 listeners
+            $(".entryfield, .entryselect").off("change");
 
-            $selector
-                .closest("tr")
-                .find("td input[id*=-val]")
-                .each(function() {
-                    const idParts = $(this)
-                        .attr("id")
-                        .split("-");
-                    const dataElement = idParts[0];
-                    const categoryOptionCombo = idParts[1];
+            for (const productNameDataValue of productNameDataValues) {
+                const index = productNameDataValues.indexOf(productNameDataValue);
 
-                    const dataValue = getDataValue(dataElement, categoryOptionCombo);
+                // if (index > 0) {
+                //     await addEntryFieldsTableToGroup($(`div[id='${groupId}-group']`));
+                // }
 
-                    if (dataValue) {
-                        assignAntivenomDataValue(dataValue);
-                    }
-                });
+                const selector = recommended
+                    ? `input.antivenom-recommended-products:eq(${index})`
+                    : `input.antivenom-non-recommended-products:eq(${index})`;
+
+                const $select = $(selector)
+                    .val(productNameDataValue.value)
+                    .trigger("change");
+
+                $select
+                    .closest("tr")
+                    .find("td input[id*=-val]")
+                    .each(function() {
+                        const idParts = $(this)
+                            .attr("id")
+                            .split("-");
+                        const dataElement = idParts[0];
+                        const categoryOptionCombo = idParts[1];
+
+                        const dataValue = getDataValue(dataElement, categoryOptionCombo);
+
+                        if (dataValue) {
+                            assignAntivenomDataValue(dataValue);
+                        }
+                    });
+            }
+
+            //Enable dhis2 listeners
+            dhis2.de.addEventListeners();
         }
     }
 
     loadingAntivenomProductNames = false;
+}
+
+function addAntivenomProductsSelectListeners() {
+    $(".antivenom-products").off("change");
+    $(".antivenom-products").on("change", onChangeAntivenomProduct);
+
+    $(".antivenom-products").each(function() {
+        const select2 = $(this).data("select2");
+
+        const $self = $(this);
+
+        select2.onSelect = (function(fn) {
+            return function(data, options) {
+                var target;
+
+                if (options != null) {
+                    target = $(options.target);
+                }
+
+                const productName = data.id;
+
+                if (target && target.hasClass("remove-product")) {
+                    if (
+                        confirm(
+                            "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
+                        )
+                    ) {
+                        removeAntivenomProduct(productName).then(() => location.reload());
+                    }
+                } else {
+                    const className = $self.hasClass("antivenom-recommended-products")
+                        ? "input.antivenom-recommended-products"
+                        : "input.antivenom-non-recommended-products";
+
+                    var currentValues = [];
+
+                    $(className).each(function() {
+                        currentValues.push($(this).val());
+                    });
+
+                    if (currentValues.includes(productName)) {
+                        alert(
+                            `The product ${productName} has already been selected,  please select another`
+                        );
+                    } else {
+                        return fn.apply(this, arguments);
+                    }
+                }
+            };
+        })(select2.onSelect);
+    });
 }
 
 async function loadAntivenomProductSelects() {
@@ -618,37 +667,7 @@ async function loadAntivenomProductSelects() {
         .select2({ ...params, data: nonRecommendedProducts })
         .data("select2");
 
-    $(".antivenom-products").on("change", onChangeAntivenomProduct);
-
-    $(".antivenom-products").each(function() {
-        const select2 = $(this).data("select2");
-
-        select2.onSelect = (function(fn) {
-            return function(data, options) {
-                var target;
-
-                if (options != null) {
-                    target = $(options.target);
-                }
-
-                if (target && target.hasClass("remove-product")) {
-                    const productName = data.id;
-
-                    if (
-                        confirm(
-                            "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
-                        )
-                    ) {
-                        removeAntivenomProduct(productName).then(() => location.reload());
-                    }
-                } else {
-                    return fn.apply(this, arguments);
-                }
-            };
-        })(select2.onSelect);
-    });
-
-    selectAntivenomProductNames();
+    addAntivenomProductsSelectListeners();
 }
 
 async function initializeByAdminUser($container) {
@@ -692,21 +711,22 @@ async function initializeByAdminUser($container) {
         });
 }
 
-function addEntryFieldsTableToGroup($group) {
+async function addEntryFieldsTableToGroup($group) {
     const template = $group.find(".table-template")[0];
 
     const entryTemplate = document.importNode(template.content, true);
 
     const $entryTemplate = $(entryTemplate);
 
-    initializeByAdminUser($entryTemplate);
+    await initializeByAdminUser($entryTemplate);
 
     $group.find(".add-entry-fields").before($entryTemplate);
 
     //TODO: optimize to load only antivenom product select in new table
-    loadAntivenomProductSelects();
+    await loadAntivenomProductSelects();
 
     //Fix multiple listeners with year changes
+    $(".remove-entry-fields").off("click");
     $(".remove-entry-fields").on("click", function(e) {
         e.preventDefault();
 
@@ -836,6 +856,11 @@ $(document).ready(function() {
     dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
         renderSubnationalTab();
 
-        loadIfUserIsAdmin().then(() => initializeAntivenomEntryFields());
+        loadIfUserIsAdmin().then(async () => {
+            initializeAntivenomEntryFields();
+
+            await selectAntivenomProductNames(false);
+            await selectAntivenomProductNames(true);
+        });
     });
 });
