@@ -21,14 +21,7 @@ function getCurrentDataSetDataValues() {
             data: params,
             dataType: "json",
             success: json => {
-                resolve({
-                    ...json,
-                    dataValues: json.dataValues
-                        ? json.dataValues.sort(function(a, b) {
-                              return new Date(a.created) - new Date(b.created);
-                          })
-                        : json.dataValues,
-                });
+                resolve(json);
             },
             error: function(xhr) {
                 console.log("Error in the get dataValueSets request");
@@ -77,6 +70,30 @@ function getAntivenomProducts(includeDeleted) {
             },
         });
     });
+}
+
+async function getAntivenomProductsGroupByRecommended() {
+    antivenomProducts = await getAntivenomProducts();
+
+    const getSelectItems = recommended => {
+        return antivenomProducts
+            .filter(product => product.recommended === recommended)
+            .sort(function(a, b) {
+                if (a.productName < b.productName) {
+                    return -1;
+                }
+                if (a.productName > b.productName) {
+                    return 1;
+                }
+                return 0;
+            })
+            .map(product => ({
+                id: product.productName,
+                text: product.productName,
+            }));
+    };
+
+    return { recommended: getSelectItems(true), nonRecommended: getSelectItems(false) };
 }
 
 function saveAntivenomProduct(newProduct) {
@@ -493,6 +510,7 @@ async function onChangeAntivenomProduct() {
 
 async function selectAntivenomProductNames(recommended) {
     const antivenomEntries = await getAntivenomEntries();
+    const antivenomProducts = await getAntivenomProducts();
 
     const productNameDEEntry = antivenomEntries.groups
         .map(g => g.dataElements)
@@ -506,11 +524,19 @@ async function selectAntivenomProductNames(recommended) {
     const dataValuesResponse = await getCurrentDataSetDataValues();
 
     if (dataValuesResponse.dataValues) {
-        const productNameDataValues = dataValuesResponse.dataValues.filter(
-            dv =>
-                (productNameDEEntry.id === dv.dataElement && recommended) ||
-                (productNameDEEntry.id === dv.dataElement && !recommended)
-        );
+        const existsAntivenomProductName = productName =>
+            antivenomProducts.some(p => p.productName === productName);
+
+        const productNameDataValues = dataValuesResponse.dataValues
+            .filter(
+                dv =>
+                    ((productNameDEEntry.id === dv.dataElement && recommended) ||
+                        (productNameDEEntry.id === dv.dataElement && !recommended)) &&
+                    existsAntivenomProductName(dv.value)
+            )
+            .sort(function(a, b) {
+                return new Date(a.created) - new Date(b.created);
+            });
 
         loadingAntivenomProductNames = true;
 
@@ -566,11 +592,11 @@ async function selectAntivenomProductNames(recommended) {
     loadingAntivenomProductNames = false;
 }
 
-function addAntivenomProductsSelectListeners() {
-    $(".antivenom-products").off("change");
-    $(".antivenom-products").on("change", onChangeAntivenomProduct);
+function addAntivenomProductsSelectListeners($selects) {
+    $selects.off("change");
+    $selects.on("change", onChangeAntivenomProduct);
 
-    $(".antivenom-products").each(function() {
+    $selects.each(function() {
         const select2 = $(this).data("select2");
 
         const $self = $(this);
@@ -620,57 +646,42 @@ function addAntivenomProductsSelectListeners() {
     });
 }
 
-async function loadAntivenomProductSelects() {
-    antivenomProducts = await getAntivenomProducts();
-
-    const getSelectItems = recommended => {
-        return antivenomProducts
-            .filter(product => product.recommended === recommended)
-            .sort(function(a, b) {
-                if (a.productName < b.productName) {
-                    return -1;
-                }
-                if (a.productName > b.productName) {
-                    return 1;
-                }
-                return 0;
-            })
-            .map(product => ({
-                id: product.productName,
-                text: product.productName,
-            }));
-    };
-
-    const recommendedProducts = getSelectItems(true);
-    const nonRecommendedProducts = getSelectItems(false);
-
-    function formatState(state) {
-        if (isAdminUser) {
-            return $(
-                `<span style="cursor: default;"> ${state.text}</span>` +
-                    `<i class="fa fa-trash remove-product" style="margin-left:24px;font-size:16px;cursor: pointer;"/i>`
-            );
-        } else {
-            return $(`<span style="cursor: default;"> ${state.text}</span>`);
-        }
-    }
-
+function initSelects($selects, data) {
     const params = {
         placeholder: "Select a product",
         allowClear: true,
         dropdownAutoWidth: true,
-        formatResult: formatState,
+        formatResult: function formatState(state) {
+            if (isAdminUser) {
+                return $(
+                    `<span style="cursor: default;"> ${state.text}</span>` +
+                        `<i class="fa fa-trash remove-product" style="margin-left:24px;font-size:16px;cursor: pointer;"/i>`
+                );
+            } else {
+                return $(`<span style="cursor: default;"> ${state.text}</span>`);
+            }
+        },
     };
 
-    $(".antivenom-recommended-products")
-        .select2({ ...params, data: recommendedProducts })
-        .data("select2");
+    $selects.select2({ ...params, data }).data("select2");
 
-    $(".antivenom-non-recommended-products")
-        .select2({ ...params, data: nonRecommendedProducts })
-        .data("select2");
+    addAntivenomProductsSelectListeners($selects);
+}
 
-    addAntivenomProductsSelectListeners();
+async function loadAllAntivenomProductSelects() {
+    const products = await getAntivenomProductsGroupByRecommended();
+
+    initSelects($(".antivenom-recommended-products"), products.recommended);
+    initSelects($(".antivenom-non-recommended-products"), products.nonRecommended);
+}
+
+async function loadAntivenomProductSelects($select) {
+    debugger;
+    const products = await getAntivenomProductsGroupByRecommended();
+
+    const recommended = $select.hasClass("antivenom-recommended-products");
+
+    initSelects($select, recommended ? products.recommended : products.nonRecommended);
 }
 
 async function initializeByAdminUser($container) {
@@ -723,10 +734,9 @@ async function addEntryFieldsTableToGroup($group) {
 
     await initializeByAdminUser($entryTemplate);
 
-    $group.find(".add-entry-fields").before($entryTemplate);
+    await loadAntivenomProductSelects($entryTemplate.find(".antivenom-products"));
 
-    //TODO: optimize to load only antivenom product select in new table
-    await loadAntivenomProductSelects();
+    $group.find(".add-entry-fields").before($entryTemplate);
 
     //Fix multiple listeners with year changes
     $(".remove-entry-fields").off("click");
@@ -812,7 +822,7 @@ function initializeAddProductDialog() {
 
                 addAntivenomProduct(categoryOptionComboId).then(result => {
                     if (result) {
-                        loadAntivenomProductSelects();
+                        loadAllAntivenomProductSelects();
                         addProductDialog.dialog("close");
                     }
                 });
