@@ -124,7 +124,7 @@ function disableTrInputs($tr, value) {
     });
 }
 
-async function onChangeAntivenomProduct() {
+async function onChangeAntivenomProduct(ev) {
     const val = $(this).select2("val");
 
     const antivenomProduct = antivenomProducts.find(product => product.productName === val);
@@ -135,7 +135,7 @@ async function onChangeAntivenomProduct() {
         await removeAntivenomDataValues($tr);
         disableTrInputs($tr, true);
     } else if (antivenomProduct) {
-        if (!loadingAntivenomProductNames) {
+        if (!loadingAntivenomProductNames && ev && ev.removed && ev.removed != val) {
             await removeAntivenomDataValues($tr);
         }
         renameCategoryOptionCombosInInputIds($tr, antivenomProduct.categoryOptionComboId);
