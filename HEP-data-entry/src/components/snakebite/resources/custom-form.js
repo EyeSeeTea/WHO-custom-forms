@@ -1,3 +1,10 @@
+async function initializeAndSelectAntivenomEntryFields() {
+    initializeAntivenomEntryFields();
+
+    await selectAntivenomProductNames(false);
+    await selectAntivenomProductNames(true);
+}
+
 $(document).ready(function() {
     $(function() {
         $("#tabs").tabs({ active: 0 });
@@ -9,10 +16,7 @@ $(document).ready(function() {
         renderSubnationalTab();
 
         loadIfUserIsAdmin().then(async () => {
-            initializeAntivenomEntryFields();
-
-            await selectAntivenomProductNames(false);
-            await selectAntivenomProductNames(true);
+            initializeAndSelectAntivenomEntryFields();
         });
     });
 });

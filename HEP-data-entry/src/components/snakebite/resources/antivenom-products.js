@@ -258,7 +258,9 @@ function addAntivenomProductsSelectListeners($selects) {
                             "Are you sure to delete the product? The related inserted data values will be visible in the analytics but never again from the data entry application."
                         )
                     ) {
-                        removeAntivenomProduct(productName).then(() => location.reload());
+                        removeAntivenomProduct(productName).then(() =>
+                            initializeAndSelectAntivenomEntryFields()
+                        );
                     }
                 } else {
                     const className = $self.hasClass("antivenom-recommended-products")
