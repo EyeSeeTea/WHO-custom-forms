@@ -19,24 +19,34 @@ export async function SnakeBiteCustomForm(
     antivenomEntries: AntivenomEntries
 ): Promise<string> {
     const style = await getResource("resources/custom-form.css");
-    const javascript = await getResource("resources/custom-form.js");
+    const dataJS = await getResource("resources/data.js");
+    const subnationalTabJS = await getResource("resources/subnational-tab.js");
+    const antivenomProductsJS = await getResource("resources/antivenom-products.js");
+    const customFormJS = await getResource("resources/custom-form.js");
     const sheetseeJs = await getResource("../common/resources/sheetsee.js");
 
     return (
         <div>
             <style>${style}</style>
             <script
-                id="custom-form-script"
+                id="data-script"
                 type="text/javascript"
-                data-subnational-dataset-id={`${subnationalDataSet.id}`}
                 data-datastore-namespace={snakeBiteNamespace}
                 data-datastore-antivenomproducts-key={antivenomProductsKey}
                 data-datastore-antivenomentries-key={antivenomEntriesKey}
                 data-datastore-custommetadata-key={customMetadataKey}
             >
-                ${javascript}
+                ${dataJS}
             </script>
-
+            <script
+                id="subnational-tab-script"
+                type="text/javascript"
+                data-subnational-dataset-id={`${subnationalDataSet.id}`}
+            >
+                ${subnationalTabJS}
+            </script>
+            <script>${antivenomProductsJS}</script>
+            <script>${customFormJS}</script>
             <script>${sheetseeJs}</script>
             <h2>
                 SNAKE BITE ENVENOMING
