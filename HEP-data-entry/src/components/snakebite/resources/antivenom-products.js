@@ -8,22 +8,20 @@ async function removeAntivenomDataValues($tr) {
         const type = this.getAttribute("data-type");
 
         if (type && type === "radio") {
+            //Click on ckeched and dhis2 uncheck and remove
             $(this)
-                .find(`input:nth(0)`)
-                .prop("checked", false);
-
-            $(this)
-                .find(`input:nth(1)`)
+                .find("input:checked")
+                .trigger("click") // this remove data value by dhis2
                 .prop("checked", false);
         } else if (type && type === "text") {
             $(this)
                 .find(`input[id*=-val]`)
-                .val("")
+                .val("") // this remove data value by dhis2
                 .trigger("change");
         }
     });
 
-    //Manually delete via api because some data values (Boolean ) are not removed
+    //Manually delete via api because some data values are not removed sometimes
     const idToRemove = [];
 
     valueIdsToRemove = $tr.find("input[id*=-val]").each(function() {
@@ -49,14 +47,18 @@ async function removeAntivenomDataValues($tr) {
 function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
     $tr.find("td").each(function() {
         const markRadioInput = index => {
-            $(this)
-                .find(`input:nth(${index})`)
-                .prop("checked", true)
-                .trigger("click");
-
-            $(this)
-                .find(`input:nth(${index})`)
-                .addClass("checked");
+            if (loadingAntivenomProductNames) {
+                $(this)
+                    .find(`input:nth(${index})`)
+                    .prop("checked", true)
+                    .addClass("checked")
+                    .trigger("click");
+            } else {
+                //Only click  and dhis2 assign checked and class
+                $(this)
+                    .find(`input:nth(${index})`)
+                    .trigger("click");
+            }
         };
 
         const prop = this.getAttribute("data-prop");
