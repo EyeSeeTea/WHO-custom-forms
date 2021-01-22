@@ -263,7 +263,7 @@ dhis2.report.periods = [
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
     <script type="text/javascript">
-      function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes) {
+      function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -307,6 +307,7 @@ dhis2.report.periods = [
                   ]);
               });
             table.draw();
+            nextCall();
           }
         });
       }
@@ -314,6 +315,17 @@ dhis2.report.periods = [
       $(document).ready(function() {
         const isDevelopment = window.location.protocol === "file:";
 		const baseUrl = "..";
+		
+		// BUILD TABLES
+        // Build "Invalid sharing settings" table
+        const invalidSharingSettingsTable = $(
+          "#invalid_sharing_settings"
+        ).DataTable({
+          order: [[4, "asc"]],
+          rowGroup: {
+            dataSrc: 4
+          }
+        });
 
         // Build "Public Objects" table
         const publicObjectsTable = $("#public_objects").DataTable({
@@ -323,6 +335,30 @@ dhis2.report.periods = [
           }
         });
 
+        // Build "Recently edited metadata" table
+        const changedMetadataTable = $("#changed_metadata").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+        // Build "Generic elements that are not public" table
+        const genericNotPublicTable = $("#generic_not_public").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+        // Build "Public elements that are not generic" table
+        const publicNotGenericTable = $("#public_not_generic").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+		// Update tabble from sqlview
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -356,7 +392,8 @@ dhis2.report.periods = [
                     "]",
                   true,
                   isDevelopment,
-				  false
+                  false,
+                  {}
                 );
                 publicObjectsTable
                   .rowGroup()
@@ -365,85 +402,73 @@ dhis2.report.periods = [
               });
           }
         });
+		//UPDATE TABLES FUNCTIONS
+        function updateGenericNotPublicTable(){
+            updateTable(
+              genericNotPublicTable,
+              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              updateInvalidSharingSettingsTable
+            );
+        };
 
-        // Build "Invalid sharing settings" table
-        const invalidSharingSettingsTable = $(
-          "#invalid_sharing_settings"
-        ).DataTable({
-          order: [[4, "asc"]],
-          rowGroup: {
-            dataSrc: 4
-          }
-        });
+        function updateInvalidSharingSettingsTable(){
+            updateTable(
+              invalidSharingSettingsTable,
+              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              false,
+              isDevelopment,
+              true,
+              updateInvalidSharingSettingsUserGroupsTable
+            );
+        }
 
-        updateTable(
-          invalidSharingSettingsTable,
-          baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  true
-        );
-        updateTable(
-          invalidSharingSettingsTable,
-          baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  true
-        );
+        function updateInvalidSharingSettingsUserGroupsTable(){
+				updateTable(
+				  invalidSharingSettingsTable,
+				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+				  false,
+				  isDevelopment,
+				  true,
+				  updateChangedMetadataTable
+				);
 
-        // Build "Recently edited metadata" table
-        const changedMetadataTable = $("#changed_metadata").DataTable({
-          order: [[5, "asc"]],
-          rowGroup: {
-            dataSrc: 5
-          }
-        });
+        }
 
-        let date = new Date();
-        date.setDate(date.getDate() - 14);
-        const queryDate = date.toISOString().split("T")[0];
-        updateTable(
-          changedMetadataTable,
-          baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=lastUpdated:ge:" +
-            queryDate,
-          false,
-          isDevelopment,
-		  false
-        );
+        function updateChangedMetadataTable(){
+            let date = new Date();
+            date.setDate(date.getDate() - 14);
+            const queryDate = date.toISOString().split("T")[0];
+            updateTable(
+              changedMetadataTable,
+              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=lastUpdated:ge:" +
+                queryDate,
+              false,
+              isDevelopment,
+              false,
+              updatePublicNotGenericTable
+            );
+        };
 
-		// Build "Generic elements that are not public" table
-        const genericNotPublicTable = $("#generic_not_public").DataTable({
-          order: [[5, "asc"]],
-          rowGroup: {
-            dataSrc: 5
-          }
-        });
+        function done(){
+        console.log("Done")
+        };
 
-        updateTable(
-          genericNotPublicTable,
-          baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  false
-        );
-
-
-
-		// Build "Public elements that are not generic" table
-        const publicNotGenericTable = $("#public_not_generic").DataTable({
-          order: [[5, "asc"]],
-          rowGroup: {
-            dataSrc: 5
-          }
-        });
-
-        updateTable(
-          publicNotGenericTable,
-          baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  false
-        );
+        function updatePublicNotGenericTable(){
+            updateTable(
+              publicNotGenericTable,
+              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              {done}
+            );
+        };
+        
+		//START UPDATE TABLES
+        updateGenericNotPublicTable();
       });
     </script>
   </head>
