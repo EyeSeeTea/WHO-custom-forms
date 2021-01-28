@@ -1,5 +1,5 @@
 import { createElement } from "typed-html";
-import { CustomMetadata } from "./CustomMetadata";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 
 interface EntryFieldAttributes {
     customMetadata: CustomMetadata;

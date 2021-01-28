@@ -1,8 +1,9 @@
 import { createElement } from "typed-html";
-import { SectionDataElement } from "../../models/d2Models";
-import { CustomMetadata } from "./CustomMetadata";
+import { SectionDataElement } from "../../domain/common/entities";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { CatOptionCombosDataCells } from "./CatOptionCombosDataCells";
 import { CatOptionCombosHeaderCells } from "./CatOptionCombosHeaderCells";
+import { TableTitle } from "./TableTitle";
 
 interface DataElementAttributes {
     customMetadata: CustomMetadata;
@@ -23,20 +24,10 @@ export function DataElement(attributes: DataElementAttributes): string {
 
     return (
         <div>
-            <h4>
-                {dataElement.formName}
-                {dataElementData && dataElementData.info ? (
-                    <i
-                        class="fa fa-info-circle"
-                        style="font-size:16px;color:#276696;"
-                        title={`${dataElementData.info}`}
-                    >
-                        :
-                    </i>
-                ) : (
-                    ":"
-                )}
-            </h4>
+            <TableTitle
+                title={dataElement.formName}
+                info={dataElementData && dataElementData.info ? dataElementData.info : undefined}
+            />
 
             <table {...tableAttributes} class="sectionTable">
                 <thead>

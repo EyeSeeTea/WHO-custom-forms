@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
-import { CategoryOptionCombo, SectionDataElement } from "../../models/d2Models";
+import { CategoryOptionCombo, SectionDataElement } from "../../domain/common/entities";
 
 interface GlobalTextFieldAttributes {
     dataElements: SectionDataElement[];

@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import { HelpTexts } from "./models/Form";
-import { SectionDataElement, CategoryOptionCombo } from "../../models/d2Models";
+import { SectionDataElement, CategoryOptionCombo } from "../../domain/common/entities";
 
 interface EntryFieldAttributes {
     dataElement: SectionDataElement;

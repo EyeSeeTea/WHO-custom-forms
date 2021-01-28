@@ -1,8 +1,8 @@
 import { createElement } from "typed-html";
-import { Section } from "../../models/d2Models";
+import { Section } from "../../domain/common/entities";
 import { CatOptionCombosDataCells } from "./CatOptionCombosDataCells";
 import { CatOptionCombosHeaderCells } from "./CatOptionCombosHeaderCells";
-import { CustomMetadata } from "./CustomMetadata";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 
 interface SubnationalSectionsAttributes {
     customMetadata: CustomMetadata;

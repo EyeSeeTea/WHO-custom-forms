@@ -1,5 +1,5 @@
 import { createElement } from "typed-html";
-import { DataSet } from "../../models/Dhis2Metadata";
+import { DataSet } from "../../domain/common/entities";
 import { commentDE, correctOrgUnitNameDE, dataElementGroups } from "./dataElementGroups";
 import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";

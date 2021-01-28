@@ -1,13 +1,15 @@
 import fetch from "node-fetch";
-import { safeParseJSON } from "../utils";
+import { safeParseJSON } from "../../../utils";
 
 export class DataStoreClient {
     private baseUrl: string;
+    readonly namespace: string
 
     headers = { "Content-Type": "application/json" };
 
-    constructor(baseUrl: string, baseKey: string) {
-        this.baseUrl = baseUrl.replace(/\/*$/, "") + `/api/dataStore/${baseKey}`;
+    constructor(baseUrl: string, namespace: string) {
+        this.namespace = namespace;
+        this.baseUrl = baseUrl.replace(/\/*$/, "") + `/api/dataStore/${namespace}`;
     }
 
     async get<T>(key: string): Promise<T | undefined> {

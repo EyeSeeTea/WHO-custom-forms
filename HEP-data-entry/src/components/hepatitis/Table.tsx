@@ -8,7 +8,7 @@ import {
     CategoryOptionCombo,
     SectionDataElement,
     FieldsToRemove,
-} from "../../models/d2Models";
+} from "../../domain/common/entities";
 
 interface TableAttributes {
     section: Section;

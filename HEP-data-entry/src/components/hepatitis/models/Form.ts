@@ -1,7 +1,6 @@
 import { CustomForm } from "../CustomForm";
 import * as _ from "lodash";
-import { Section, SectionDataElement, CategoryOptionCombo, OrderedSection } from "../../../models/d2Models";
-import { DataSet } from "../../../models/Dhis2Metadata";
+import { Section, SectionDataElement, CategoryOptionCombo, OrderedSection, DataSet } from "../../../domain/common/entities";
 
 
 export interface HelpTexts {

@@ -3,8 +3,8 @@ import * as fs from "fs";
 import _ = require("lodash");
 import * as path from "path";
 import { promisify } from "util";
-import { NameRef, SectionDataElement } from "../../models/d2Models";
-import { CustomMetadata } from "./CustomMetadata";
+import { NameRef, SectionDataElement } from "../../domain/common/entities";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 
 const readFile = promisify(fs.readFile);
 

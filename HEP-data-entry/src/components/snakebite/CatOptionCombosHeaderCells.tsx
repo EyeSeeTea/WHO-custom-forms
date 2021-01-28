@@ -1,7 +1,7 @@
 import { createElement } from "typed-html";
-import { SectionDataElement } from "../../models/d2Models";
+import { SectionDataElement } from "../../domain/common/entities";
 import { CatOptionComboHeaderCell } from "./CatOptionComboHeaderCell";
-import { CustomMetadata } from "./CustomMetadata";
+import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 import { sortCategoryOptionCombos } from "./utils";
 
 interface EntryFieldAttributes {

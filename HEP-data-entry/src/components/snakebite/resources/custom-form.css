@@ -9,6 +9,59 @@
 }
 .cde table td {
     padding: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.cde table input[type="text"] {
+    width: 90%;
+    background-color: #ffffff;
+}
+
+.create-antivenom-product {
+    margin-left: 8px;
+}
+
+.add-entry-fields {
+    color: #3162c5 !important;
+}
+
+.remove-entry-fields {
+    color: #3162c5 !important;
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+.antivenom-table-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-content: center;
+}
+
+#dialog-form label.block,
+input.text {
+    display: block;
+}
+
+#dialog-form fieldset {
+    padding: 0;
+    border: 0;
+    font-size: 1.1em;
+}
+#dialog-form input.text {
+    margin-bottom: 12px;
+    width: 95%;
+    padding: 0.4em;
+}
+
+#dialog-form #form-message {
+    border: 1px solid transparent;
+    padding: 0.3em;
+}
+
+.radio-container {
+    margin-bottom: 12px;
 }
 
 #subnational .cde table th {

@@ -5,7 +5,7 @@ import { Tabs } from "./Tabs";
 import { GlobalTextFields } from "./GlobalTextFields";
 import { DhisSubmitButton } from "./DhisSubmitButton";
 import { Form } from "./models/Form";
-import { Section } from "../../models/d2Models";
+import { Section } from "../../domain/common/entities";
 
 interface CustomFormAttributes {
     sections: Section[];
