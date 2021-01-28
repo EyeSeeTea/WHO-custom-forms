@@ -1,12 +1,16 @@
 import { createElement } from "typed-html";
 import { DataElement } from "./DataElement";
 import { Section } from "../../models/d2Models";
+import { CustomMetadata } from "./CustomMetadata";
 
 interface SectionsAttributes {
+    customMetadata: CustomMetadata;
     sections: Section[];
 }
 
 export function Sections(attributes: SectionsAttributes): string {
+    const { customMetadata } = attributes;
+
     return (
         <div>
             <h3>&nbsp;</h3>
@@ -23,7 +27,12 @@ export function Sections(attributes: SectionsAttributes): string {
 
                         {section.dataElements &&
                             section.dataElements.map(dataElement => {
-                                return <DataElement dataElement={dataElement} />;
+                                return (
+                                    <DataElement
+                                        dataElement={dataElement}
+                                        customMetadata={customMetadata}
+                                    />
+                                );
                             })}
 
                         <p>&nbsp;</p>
