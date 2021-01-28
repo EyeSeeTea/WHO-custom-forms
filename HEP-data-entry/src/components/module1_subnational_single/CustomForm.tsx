@@ -12,9 +12,9 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
         throw new Error("Missing data elements in data set");
     }
 
-    const style = await getResource("custom-form.css");
-    const customFormJs = await getResource("custom-form.js");
-    const sheetseeJs = await getResource("sheetsee.js");
+    const style = await getResource("resources/custom-form.css");
+    const customFormJs = await getResource("resources/custom-form.js");
+    const sheetseeJs = await getResource("../common/resources/sheetsee.js");
 
     console.log(dataSet.id);
 

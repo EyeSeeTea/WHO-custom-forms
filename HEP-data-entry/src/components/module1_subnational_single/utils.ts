@@ -6,5 +6,5 @@ import { promisify } from "util";
 const readFile = promisify(fs.readFile);
 
 export function getResource(filename: string): Promise<string> {
-    return readFile(path.join(__dirname, `resources/${filename}`), "utf8");
+    return readFile(path.join(__dirname, filename), "utf8");
 }
