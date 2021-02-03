@@ -247,6 +247,9 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
       function done(){
           console.log("Done");
       };
+      function start(){
+          console.log("Starting...");
+      };
       //{"programStages":[{"name":"Clinical examination","id":"gESnmSpQq3g","dataEntryForm":{"id":"pyZxv2ORTh4","name":"Clinical examination","format":0},
       //"program":{"name":"Cutaneous leishmaniasis cases - Tracker","id":"uGCVVme3C4e"}}
       function updateEmptyCustomFormsTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
@@ -281,8 +284,8 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                   : table.row.add;
                   method([
                     element.metadataType,
-                    element.program.id ? element.program.id : "-",
-                    element.program.name ? element.program.name : "-",
+                    element.program ? element.program.id : "-",
+                    element.program ? element.program.name : "-",
                     element.id,
                     element.name ? element.name : "-",
                     element.dataEntryForm ? element.dataEntryForm.id : "-",
@@ -385,7 +388,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                   true,
                   isDevelopment,
                   false,
-                  {}
+                  start
                 );
                 publicObjectsTable
                   .rowGroup()
@@ -468,7 +471,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               false,
               isDevelopment,
               false,
-              {done}
+              done
             );
         };
         
