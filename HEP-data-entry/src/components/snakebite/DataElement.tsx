@@ -24,10 +24,16 @@ export function DataElement(attributes: DataElementAttributes): string {
 
     return (
         <div>
-            <TableTitle
-                title={dataElement.formName}
-                info={dataElementData && dataElementData.info ? dataElementData.info : undefined}
-            />
+            {dataElementData.showName === undefined || dataElementData.showName === true ? (
+                <TableTitle
+                    title={dataElement.formName}
+                    info={
+                        dataElementData && dataElementData.info ? dataElementData.info : undefined
+                    }
+                />
+            ) : (
+                ""
+            )}
 
             <table {...tableAttributes} class="sectionTable">
                 <thead>

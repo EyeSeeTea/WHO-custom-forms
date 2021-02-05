@@ -1,7 +1,8 @@
 interface DataElementData {
     name?: string;
-    totalName?: string;
     info?: string;
+    showName?: boolean,
+    totalName?: string;
 }
 
 interface OptionComboData {
