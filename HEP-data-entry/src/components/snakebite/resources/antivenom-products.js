@@ -386,14 +386,15 @@ async function addEntryFieldsTableToGroup($group) {
     $(".remove-entry-fields").off("click");
     $(".remove-entry-fields").on("click", function(e) {
         e.preventDefault();
+        if (confirm("Are you sure? This will delete the reported value for the deleted row")) {
+            const $container = $(this).closest(".antivenom-table-container");
 
-        const $container = $(this).closest(".antivenom-table-container");
+            const $tr = $container.find("table tr");
 
-        const $tr = $container.find("table tr");
+            removeAntivenomDataValues($tr);
 
-        removeAntivenomDataValues($tr);
-
-        $container.remove();
+            $container.remove();
+        }
     });
 }
 
