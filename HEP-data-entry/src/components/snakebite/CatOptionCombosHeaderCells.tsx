@@ -16,10 +16,19 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
 
     const categoryOptionCombos = sortCategoryOptionCombos(dataElement, customMetadata);
 
+    const totalHeader =
+        customMetadataDE.showTotal === undefined || customMetadataDE.showTotal === true ? (
+            <th>
+                {customMetadataDE && customMetadataDE.totalName
+                    ? customMetadataDE.totalName
+                    : "Total"}
+            </th>
+        ) : (
+            ""
+        );
+
     return [
-        <th>
-            {customMetadataDE && customMetadataDE.totalName ? customMetadataDE.totalName : "Total"}
-        </th>,
+        totalHeader,
         ...categoryOptionCombos.map(catCombo => {
             const catComboData = customMetadata.optionCombos[catCombo.id];
 

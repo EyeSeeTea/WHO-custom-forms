@@ -1,6 +1,7 @@
 interface DataElementData {
     name?: string;
     info?: string;
+    showTotal?: boolean,
     showName?: boolean,
     totalName?: string;
 }

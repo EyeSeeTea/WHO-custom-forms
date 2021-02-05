@@ -15,23 +15,32 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
 
     const categoryOptionCombos = sortCategoryOptionCombos(dataElement, customMetadata);
 
+    const customMetadataDE = customMetadata.dataElements[dataElement.id];
+
     const dataElementAtt = { dataelementid: dataElement.id };
     const orgUnitDataElementAtt = orgUnitId
         ? { subnationaltotalid: `${orgUnitId}-${dataElement.id}` }
         : undefined;
 
+    const totalCell =
+        customMetadataDE.showTotal === undefined || customMetadataDE.showTotal === true ? (
+            <td>
+                <input
+                    {...(orgUnitDataElementAtt ? orgUnitDataElementAtt : dataElementAtt)}
+                    id={`total${dataElement.id}`}
+                    name={orgUnitDataElementAtt ? "subnationalTotal" : "total"}
+                    readonly="readonly"
+                    title={`${dataElement.code}`}
+                    class={"entryfield"}
+                    type={"text"}
+                />
+            </td>
+        ) : (
+            ""
+        );
+
     return [
-        <td>
-            <input
-                {...(orgUnitDataElementAtt ? orgUnitDataElementAtt : dataElementAtt)}
-                id={`total${dataElement.id}`}
-                name={orgUnitDataElementAtt ? "subnationalTotal" : "total"}
-                readonly="readonly"
-                title={`${dataElement.code}`}
-                class={"entryfield"}
-                type={"text"}
-            />
-        </td>,
+        totalCell,
         ...categoryOptionCombos.map(catCombo => {
             return (
                 <td>
