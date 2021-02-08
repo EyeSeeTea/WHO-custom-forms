@@ -30,12 +30,15 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                     .map(section => {
                                         return section.dataElements
                                             .map(dataElement => {
-                                                const colspan =
-                                                    dataElement.categoryCombo.categoryOptionCombos
-                                                        .length + 1;
-
                                                 const dataElementCustomMetadata =
                                                     customMetadata.dataElements[dataElement.id];
+
+                                                const colspan =
+                                                    dataElementCustomMetadata.showTotal === false
+                                                        ? dataElement.categoryCombo
+                                                              .categoryOptionCombos.length
+                                                        : dataElement.categoryCombo
+                                                              .categoryOptionCombos.length + 1;
                                                 return (
                                                     <th colspan={colspan}>
                                                         {section.displayName +
