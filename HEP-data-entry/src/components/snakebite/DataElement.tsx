@@ -24,7 +24,9 @@ export function DataElement(attributes: DataElementAttributes): string {
 
     return (
         <div>
-            {dataElementData.showName === undefined || dataElementData.showName === true ? (
+            {dataElementData === undefined ||
+            dataElementData.showName === undefined ||
+            dataElementData.showName === true ? (
                 <TableTitle
                     title={dataElement.formName}
                     info={
