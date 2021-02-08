@@ -83,7 +83,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                     <tbody>
                         {"{{#rows}}"}
                         <tr>
-                            <th>{"{{orgUnitName}}"}</th>
+                            <th>{"{{orgUnitPath}}"}</th>
                             {sections &&
                                 sections
                                     .map(section => {

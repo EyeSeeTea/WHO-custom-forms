@@ -79,6 +79,12 @@ function loadSubnationalValues() {
     });
 }
 
+function isValidUid(value) {
+    const UID_PATTERN = /^[a-zA-Z]{1}[a-zA-Z0-9]{10}$/;
+
+    return UID_PATTERN.test(value);
+}
+
 function renderSubnationalTab() {
     $("#subnational .cde table tbody").empty();
     $("#custom-form-loader").show();
@@ -91,28 +97,59 @@ function renderSubnationalTab() {
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
+            const pageSize = 10;
+
             const orgUnits = response.listGrid.rows.map(row => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
+                orgUnitPath: row[2],
             }));
 
-            if (orgUnits.length > 0) {
-                $("#tabs-list").show();
-                var tableOptions = {
-                    data: orgUnits,
-                    pagination: 10,
-                    tableDiv: "#orgUnitsTable",
-                    templateID: "orgUnitsTable_template",
-                };
+            debugger;
 
-                makeTable(tableOptions);
+            const orgUnitIds = [
+                ...new Set(
+                    orgUnits
+                        .slice(0, pageSize)
+                        .map(ou => ou.orgUnitPath.split("/"))
+                        .flat()
+                        .filter(uid => isValidUid(uid))
+                ),
+            ];
 
-                $("#custom-form-loader").hide();
+            getOrgUnits(orgUnitIds).then(orgUnitNames => {
+                debugger;
 
-                loadSubnationalValues();
-            } else {
-                $("#tabs-list").hide();
-            }
+                const orgUnitsWithPathNames = orgUnits.map(ou => {
+                    const ouPath = ou.orgUnitPath.split("/");
+                    const ouPathNames = ouPath
+                        .map(id => {
+                            const orgUnit = orgUnitNames.organisationUnits.find(ou => ou.id === id);
+                            return orgUnit ? orgUnit.shortName : id;
+                        })
+                        .join("/");
+
+                    return { ...ou, orgUnitPath: ouPathNames };
+                });
+
+                if (orgUnits.length > 0) {
+                    $("#tabs-list").show();
+                    var tableOptions = {
+                        data: orgUnitsWithPathNames,
+                        pagination: pageSize,
+                        tableDiv: "#orgUnitsTable",
+                        templateID: "orgUnitsTable_template",
+                    };
+
+                    makeTable(tableOptions);
+
+                    $("#custom-form-loader").hide();
+
+                    loadSubnationalValues();
+                } else {
+                    $("#tabs-list").hide();
+                }
+            });
         },
         error: function(xhr) {
             console.log("Error in the request");
