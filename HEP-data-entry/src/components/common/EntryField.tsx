@@ -67,11 +67,12 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                     {...customAttributes}
                     hidden={hidden}
                     id={`${id}-val`}
-                    name="entryfield"
+                    name={!orgUnitId ? "entryfield" : ""}
                     //title={`${dataElementCode} ${catComboName}`}
-                    class={"entryfield"}
+                    class={!orgUnitId ? "entryfield" : ""}
                     type={type}
                     disabled={disabled}
+                    style={"text-align: center;"}
                 />
             );
         }
