@@ -34,6 +34,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                                     customMetadata.dataElements[dataElement.id];
 
                                                 const colspan =
+                                                    dataElementCustomMetadata &&
                                                     dataElementCustomMetadata.showTotal === false
                                                         ? dataElement.categoryCombo
                                                               .categoryOptionCombos.length

@@ -1,3 +1,6 @@
+var orgUnits = [];
+var pageSize = 10;
+
 function updateSubnationalDataElementTotals(orgUnitDataElementId) {
     $('input[name="subnationalTotal"]').each(function() {
         var totalId = $(this).attr("subnationaltotalid");
@@ -17,6 +20,40 @@ function onSubnationalInputChange(id) {
 
     saveVal(dataElementId, optionComboId, id);
     updateSubnationalDataElementTotals(`${organisationUnitId}-${dataElementId}`);
+}
+
+function renamePageOrgUnitPaths(currentPage) {
+    if (orgUnits.length === 0) {
+        return Promise.resolve(orgUnits);
+    } else {
+        const orgUnitIds = [
+            ...new Set(
+                orgUnits
+                    .slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+                    .map(ou => ou.orgUnitPath.split("/"))
+                    .flat()
+                    .filter(uid => isValidUid(uid))
+            ),
+        ];
+
+        if (orgUnitIds.length === 0) return Promise.resolve(orgUnits);
+
+        return getOrgUnits(orgUnitIds).then(orgUnitNames => {
+            orgUnits = orgUnits.map(ou => {
+                const ouPath = ou.orgUnitPath.split("/");
+                const ouPathNames = ouPath
+                    .map(id => {
+                        const orgUnit = orgUnitNames.organisationUnits.find(ou => ou.id === id);
+                        return orgUnit ? orgUnit.shortName : id;
+                    })
+                    .join("/");
+
+                return { ...ou, orgUnitPath: ouPathNames };
+            });
+
+            return orgUnits;
+        });
+    }
 }
 
 function loadSubnationalValues() {
@@ -85,6 +122,14 @@ function isValidUid(value) {
     return UID_PATTERN.test(value);
 }
 
+function onLoadingPage(page) {
+    return renamePageOrgUnitPaths(page);
+}
+
+function onLoadedPage() {
+    loadSubnationalValues();
+}
+
 function renderSubnationalTab() {
     $("#subnational .cde table tbody").empty();
     $("#custom-form-loader").show();
@@ -97,59 +142,29 @@ function renderSubnationalTab() {
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const pageSize = 10;
-
-            const orgUnits = response.listGrid.rows.map(row => ({
+            orgUnits = response.listGrid.rows.map(row => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
                 orgUnitPath: row[2],
             }));
 
-            debugger;
+            if (orgUnits.length > 0) {
+                $("#tabs-list").show();
+                var tableOptions = {
+                    data: orgUnits,
+                    pagination: pageSize,
+                    tableDiv: "#orgUnitsTable",
+                    templateID: "orgUnitsTable_template",
+                    onLoadingPage,
+                    onLoadedPage,
+                };
 
-            const orgUnitIds = [
-                ...new Set(
-                    orgUnits
-                        .slice(0, pageSize)
-                        .map(ou => ou.orgUnitPath.split("/"))
-                        .flat()
-                        .filter(uid => isValidUid(uid))
-                ),
-            ];
+                makeTable(tableOptions);
 
-            getOrgUnits(orgUnitIds).then(orgUnitNames => {
-                debugger;
-
-                const orgUnitsWithPathNames = orgUnits.map(ou => {
-                    const ouPath = ou.orgUnitPath.split("/");
-                    const ouPathNames = ouPath
-                        .map(id => {
-                            const orgUnit = orgUnitNames.organisationUnits.find(ou => ou.id === id);
-                            return orgUnit ? orgUnit.shortName : id;
-                        })
-                        .join("/");
-
-                    return { ...ou, orgUnitPath: ouPathNames };
-                });
-
-                if (orgUnits.length > 0) {
-                    $("#tabs-list").show();
-                    var tableOptions = {
-                        data: orgUnitsWithPathNames,
-                        pagination: pageSize,
-                        tableDiv: "#orgUnitsTable",
-                        templateID: "orgUnitsTable_template",
-                    };
-
-                    makeTable(tableOptions);
-
-                    $("#custom-form-loader").hide();
-
-                    loadSubnationalValues();
-                } else {
-                    $("#tabs-list").hide();
-                }
-            });
+                $("#custom-form-loader").hide();
+            } else {
+                $("#tabs-list").hide();
+            }
         },
         error: function(xhr) {
             console.log("Error in the request");
