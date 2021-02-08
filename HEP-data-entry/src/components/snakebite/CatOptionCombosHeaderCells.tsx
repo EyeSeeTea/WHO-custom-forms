@@ -24,7 +24,9 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
         customMetadataDE && customMetadataDE.color ? `color:${customMetadataDE.color};` : "";
 
     const totalHeader =
-        customMetadataDE.showTotal === undefined || customMetadataDE.showTotal === true ? (
+        customMetadataDE === undefined ||
+        customMetadataDE.showTotal === undefined ||
+        customMetadataDE.showTotal === true ? (
             <th style={backgroundColor + color}>
                 {customMetadataDE && customMetadataDE.totalName
                     ? customMetadataDE.totalName

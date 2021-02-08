@@ -23,7 +23,9 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
         : undefined;
 
     const totalCell =
-        customMetadataDE.showTotal === undefined || customMetadataDE.showTotal === true ? (
+        customMetadataDE === undefined ||
+        customMetadataDE.showTotal === undefined ||
+        customMetadataDE.showTotal === true ? (
             <td>
                 <input
                     {...(orgUnitDataElementAtt ? orgUnitDataElementAtt : dataElementAtt)}
