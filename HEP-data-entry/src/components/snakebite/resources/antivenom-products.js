@@ -153,6 +153,8 @@ async function onChangeAntivenomProduct(ev) {
         if (!loadingAntivenomProductNames) {
             assignAntivenomDataValuesByProduct($tr, antivenomProduct);
         }
+
+        convertMonovalentPolyvalentToExclusive($tr);
     } else {
         console.log("An error has ocurred finding selected product in product list");
     }
@@ -376,6 +378,30 @@ async function initializeByAdminUser($container) {
         });
 }
 
+function convertMonovalentPolyvalentToExclusive($tr) {
+    debugger;
+    $tr.find("input[type=radio]").off("mouseup");
+    $tr.find("input[type=radio]").on("mouseup", function(e) {
+        debugger;
+        if (!loadingAntivenomProductNames) {
+            const id = $(this).attr("id");
+            const value = $(this).val();
+            $(this)
+                .closest("tr")
+                .find("input[type=radio]")
+                .each(function() {
+                    debugger;
+                    const opposedValue = value === "true" ? "false" : "true";
+
+                    if ($(this).attr("id") !== id && opposedValue === $(this).val()) {
+                        $(this).prop("checked", true);
+                        $(this).addClass("checked");
+                    }
+                });
+        }
+    });
+}
+
 async function addEntryFieldsTableToGroup($group) {
     const template = $group.find(".table-template")[0];
 
@@ -425,6 +451,24 @@ function initializeAntivenomEntryFields() {
  * Add product form
  */
 
+function convertMonovalentPolyvalentFormToExclusive() {
+    $("#dialog-form input[type=radio]").off("click");
+    $("#dialog-form input[type=radio]").on("click", function(e) {
+        const name = $(this).attr("name");
+        const value = $(this).val();
+        $(this)
+            .closest("form")
+            .find("input[type=radio]")
+            .each(function() {
+                const opposedValue = value === "true" ? "false" : "true";
+
+                if ($(this).attr("name") !== name && opposedValue === $(this).val()) {
+                    $(this).prop("checked", true);
+                }
+            });
+    });
+}
+
 function resetFormMessage() {
     $("input[name=productName]").removeClass("ui-state-error");
     $("#form-message")
@@ -462,6 +506,7 @@ async function addAntivenomProduct(categoryOptionComboId) {
 }
 
 function initializeAddProductDialog() {
+    convertMonovalentPolyvalentFormToExclusive();
     addProductDialog = $("#dialog-form").dialog({
         autoOpen: false,
         height: 375,
