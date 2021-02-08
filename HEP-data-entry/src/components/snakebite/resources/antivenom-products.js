@@ -67,14 +67,21 @@ function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
         if (prop && type && type === "radio") {
             if (antivenomProduct[prop] === true) {
                 markRadioInput(0);
+                $(this)
+                    .find(`input`)
+                    .prop("disabled", true);
             } else if (antivenomProduct[prop] === false) {
                 markRadioInput(1);
+                $(this)
+                    .find(`input`)
+                    .prop("disabled", true);
             }
         } else if (prop && type && type === "text" && antivenomProduct[prop]) {
             $(this)
                 .find(`input[id*=-val]`)
                 .val(antivenomProduct[prop])
-                .trigger("change");
+                .trigger("change")
+                .prop("disabled", true);
         }
     });
 }
