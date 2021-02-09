@@ -14,7 +14,8 @@ import {
 
 export async function SnakeBiteCustomForm(
     dataSet: DataSet,
-    subnationalDataSet: DataSet,
+    subnationalStockDataDataSet: DataSet,
+    subnationalEpidemiologicalDataDataSet: DataSet,
     customMetadata: CustomMetadata,
     antivenomEntries: AntivenomEntries
 ): Promise<string> {
@@ -23,11 +24,20 @@ export async function SnakeBiteCustomForm(
     const subnationalTabJS = await getResource("resources/subnational-tab.js");
     const antivenomProductsJS = await getResource("resources/antivenom-products.js");
     const customFormJS = await getResource("resources/custom-form.js");
-    const sheetseeJs = await getResource("../common/resources/sheetsee.js");
+    const sheetseeJs = await getResource("../common/resources/sheetseeV2.js");
+
+    const stockDataName = customMetadata.subnationalStockDataDataSet.name
+        ? customMetadata.subnationalStockDataDataSet.name
+        : "Subnational";
+    const epidemiologicalDataName = customMetadata.subnationalEpidemiologicalDataDataSet.name
+        ? customMetadata.subnationalEpidemiologicalDataDataSet.name
+        : "Subnational";
 
     return (
         <div>
+            <script src="https://unpkg.com/mustache@4.0.1"></script>
             <style>${style}</style>
+            <script>${sheetseeJs}</script>
             <script
                 id="data-script"
                 type="text/javascript"
@@ -41,13 +51,13 @@ export async function SnakeBiteCustomForm(
             <script
                 id="subnational-tab-script"
                 type="text/javascript"
-                data-subnational-dataset-id={`${subnationalDataSet.id}`}
+                data-subnational-stock-data-dataset-id={`${subnationalStockDataDataSet.id}`}
+                data-subnational-epidemiological-data-dataset-id={`${subnationalStockDataDataSet.id}`}
             >
                 ${subnationalTabJS}
             </script>
             <script>${antivenomProductsJS}</script>
             <script>${customFormJS}</script>
-            <script>${sheetseeJs}</script>
             <h2>
                 SNAKE BITE ENVENOMING
                 <br />
@@ -59,7 +69,10 @@ export async function SnakeBiteCustomForm(
                         <a href="#tab0">National</a>
                     </li>
                     <li>
-                        <a href="#tab1">Subnational</a>
+                        <a href="#tab1">{epidemiologicalDataName}</a>
+                    </li>
+                    <li>
+                        <a href="#tab2">{stockDataName}</a>
                     </li>
                 </ul>
 
@@ -127,9 +140,25 @@ export async function SnakeBiteCustomForm(
                         </form>
                     </div>
                 </div>
-                <div id="tab1">
+                <div
+                    id="tab1"
+                    class="subnational-tab"
+                    data-dataset={subnationalEpidemiologicalDataDataSet.id}
+                >
                     <SubnationalSections
-                        sections={subnationalDataSet.sections}
+                        subnationalDataSetId={subnationalEpidemiologicalDataDataSet.id}
+                        sections={subnationalEpidemiologicalDataDataSet.sections}
+                        customMetadata={customMetadata}
+                    />
+                </div>
+                <div
+                    id="tab2"
+                    class="subnational-tab"
+                    data-dataset={subnationalStockDataDataSet.id}
+                >
+                    <SubnationalSections
+                        subnationalDataSetId={subnationalStockDataDataSet.id}
+                        sections={subnationalStockDataDataSet.sections}
                         customMetadata={customMetadata}
                     />
                 </div>

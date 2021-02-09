@@ -14,8 +14,12 @@ export class D2CustomMetadataRepository implements CustomMetadataRepository {
             throw new Error(`Does not exist a required ${this.dataStoreClient.namespace} namespace with a ${key} key in the data store`);
         }
 
-        if (!customMetadata.subnationalDataSet) {
-            throw new Error(`Does not exist a required prop subnationalDataSet in ${this.dataStoreClient.namespace} namespace and ${key} key in the data store`);
+        if (!customMetadata.subnationalEpidemiologicalDataDataSet) {
+            throw new Error(`Does not exist a required prop subnationalEpidemiologicalDataDataSet in ${this.dataStoreClient.namespace} namespace and ${key} key in the data store`);
+        }
+
+        if (!customMetadata.subnationalStockDataDataSet) {
+            throw new Error(`Does not exist a required prop subnationalStockDataDataSet in ${this.dataStoreClient.namespace} namespace and ${key} key in the data store`);
         }
 
         return customMetadata;

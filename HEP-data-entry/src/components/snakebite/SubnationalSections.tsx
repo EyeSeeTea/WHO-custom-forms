@@ -6,11 +6,12 @@ import { CustomMetadata } from "../../domain/snakebite/CustomMetadata";
 
 interface SubnationalSectionsAttributes {
     customMetadata: CustomMetadata;
+    subnationalDataSetId: string;
     sections: Section[];
 }
 
 export function SubnationalSections(attributes: SubnationalSectionsAttributes): string {
-    const { sections, customMetadata } = attributes;
+    const { sections, subnationalDataSetId, customMetadata } = attributes;
 
     const tableAttributes = {
         border: "1",
@@ -19,8 +20,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
 
     const html = (
         <div>
-            <script src="https://unpkg.com/mustache@4.0.1"></script>
-            <script id="orgUnitsTable_template" type="x-tmpl-mustache">
+            <script id={`${subnationalDataSetId}_template`} type="x-tmpl-mustache">
                 <table {...tableAttributes} class="sectionTablesss">
                     <thead>
                         <tr>
@@ -107,7 +107,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                 </table>
             </script>
             <div id="subnational">
-                <div id="orgUnitsTable" class="cde"></div>
+                <div id={`#${subnationalDataSetId}_table`} class="cde"></div>
                 <div id="custom-form-loader">
                     <img id="loader" src="../images/ajax-loader-circle.gif" />
 
