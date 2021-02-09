@@ -40,11 +40,22 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                                               .categoryOptionCombos.length
                                                         : dataElement.categoryCombo
                                                               .categoryOptionCombos.length + 1;
+
+                                                const showDEName =
+                                                    dataElementCustomMetadata === undefined ||
+                                                    dataElementCustomMetadata.showName ===
+                                                        undefined ||
+                                                    dataElementCustomMetadata.showName === true;
+
+                                                const name = showDEName
+                                                    ? section.displayName +
+                                                      " - " +
+                                                      dataElement.formName
+                                                    : section.displayName;
+
                                                 return (
                                                     <th colspan={colspan}>
-                                                        {section.displayName +
-                                                            " - " +
-                                                            dataElement.formName}
+                                                        {name}
 
                                                         {dataElementCustomMetadata &&
                                                         dataElementCustomMetadata.info ? (
