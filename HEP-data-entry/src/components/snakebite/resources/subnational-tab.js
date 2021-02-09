@@ -46,7 +46,7 @@ function renamePageOrgUnitPaths(currentPage) {
                         const orgUnit = orgUnitNames.organisationUnits.find(ou => ou.id === id);
                         return orgUnit ? orgUnit.shortName : id;
                     })
-                    .join("/");
+                    .join(" / ");
 
                 return { ...ou, orgUnitPath: ouPathNames };
             });

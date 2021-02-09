@@ -6,6 +6,7 @@ interface DataElementData {
     showTotal?: boolean,
     showName?: boolean,
     totalName?: string;
+    defaultCatOptionComboName?: string;
 }
 
 interface OptionComboData {

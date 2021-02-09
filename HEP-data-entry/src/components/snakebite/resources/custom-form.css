@@ -4,7 +4,7 @@
 
 .cde table th {
     text-align: center;
-    padding: 2px;
+    padding: 5px 10px;
     white-space: nowrap;
 }
 .cde table td {
@@ -70,7 +70,7 @@ input.text {
 
 #subnational .cde table th {
     text-align: center;
-    padding: 2px;
+    padding: 5px 10px;
     white-space: nowrap;
 }
 
