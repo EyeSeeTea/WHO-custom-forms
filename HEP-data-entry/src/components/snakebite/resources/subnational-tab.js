@@ -165,7 +165,7 @@ class SubnationalTab {
         this.$tabContainer.find("#custom-form-loader").show();
 
         const filter = `paging=false&var=dataSet:${this.subnationalDataSetId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
-
+        const tabId = this.$tabContainer.attr("id");
         $.ajax({
             url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
             type: "get",
@@ -177,6 +177,9 @@ class SubnationalTab {
                 }));
 
                 if (this.orgUnits.length > 0) {
+                    $(`a[href="#${tabId}"]`)
+                        .closest("li")
+                        .show();
                     //TODO: move this to custom form
                     const tableOptions = {
                         data: this.orgUnits,
