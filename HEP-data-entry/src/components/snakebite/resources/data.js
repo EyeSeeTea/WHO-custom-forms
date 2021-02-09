@@ -222,3 +222,21 @@ function getMe() {
         });
     });
 }
+
+function getOrgUnits(ids) {
+    return new Promise((resolve, reject) => {
+        $.ajax({
+            url: `../api/organisationUnits?fields=id,shortName&filter=id:in:[${ids.join(",")}]`,
+            type: "get",
+            dataType: "json",
+            success: json => {
+                resolve(json);
+            },
+            error: function(xhr) {
+                console.log("Error in the get getDataElement request");
+                console.log(xhr);
+                reject(xhr);
+            },
+        });
+    });
+}

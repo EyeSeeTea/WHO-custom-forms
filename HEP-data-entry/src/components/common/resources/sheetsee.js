@@ -108,7 +108,7 @@ function searchTable(searchTerm) {
 // TABLE MAKING
 
 // Prep the data and pagination for the table
-function prepTable(filteredList) {
+function originalPrepTable(filteredList) {
     var data = filteredList || tblOpts.data;
 
     // If they don't specifiy pagination, draw table with everything
@@ -122,6 +122,39 @@ function prepTable(filteredList) {
     // If there is no data, don't paginate
     if (data.length === 0) addPaginationDOM(true);
     else addPaginationDOM();
+}
+
+function prepTable(filteredList) {
+    //Eyeseetea prepTable wrapper
+
+    if (tblOpts.onLoadingPage) {
+        var dir = tblOpts.pgnMta.dir || 0;
+        var currentPage = tblOpts.pgnMta.crntPage || 1;
+        var loadingPage = currentPage + dir;
+        onLoadingPage(loadingPage).then(data => {
+            tblOpts.data = data;
+
+            var data = filteredList || tblOpts.data;
+
+            // If they don't specifiy pagination, draw table with everything
+            if (!tblOpts.pagination) return updateTable(data);
+
+            // Create Pagination Metadata
+            buildPaginationMeta(data);
+            // Build the table with paginated data
+            updateTable(tblOpts.pgnMta.crntRows);
+
+            if (tblOpts.onLoadedPage) tblOpts.onLoadedPage();
+
+            // Append pagination DOM elements
+            // If there is no data, don't paginate
+            if (data.length === 0) addPaginationDOM(true);
+            else addPaginationDOM();
+        });
+    } else {
+        originalPrepTable(filteredList);
+        if (tblOpts.onLoadedPage) tblOpts.onLoadedPage();
+    }
 }
 
 function updateTable(data) {

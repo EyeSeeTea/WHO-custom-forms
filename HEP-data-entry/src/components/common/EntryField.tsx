@@ -6,7 +6,7 @@ interface EntryFieldAttributes {
     catComboId: string;
     catComboName: string;
     orgUnitId?: string;
-    type?: "radio" | "text";
+    type?: "radio" | "text" | "textArea";
     disabled?: string | boolean;
     hidden?: string | boolean;
     customAttributes?: any;
@@ -61,17 +61,31 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                 // />,
             ].join("");
         }
+        case "textArea": {
+            return (
+                <textarea
+                    {...customAttributes}
+                    hidden={hidden}
+                    id={`${id}-val`}
+                    name={!orgUnitId ? "entryfield" : ""}
+                    //title={`${dataElementCode} ${catComboName}`}
+                    class={!orgUnitId ? "entryfield" : ""}
+                    disabled={disabled}
+                />
+            );
+        }
         default: {
             return (
                 <input
                     {...customAttributes}
                     hidden={hidden}
                     id={`${id}-val`}
-                    name="entryfield"
+                    name={!orgUnitId ? "entryfield" : ""}
                     //title={`${dataElementCode} ${catComboName}`}
-                    class={"entryfield"}
+                    class={!orgUnitId ? "entryfield" : ""}
                     type={type}
                     disabled={disabled}
+                    style={"text-align: center;"}
                 />
             );
         }

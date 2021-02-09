@@ -47,6 +47,7 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
                     customMetadata={customMetadata}
                     catOptionComboId={catCombo.id}
                     catOptionComboName={catCombo.name}
+                    dataElementId={dataElement.id}
                     helpMessage={helpMessage}
                     backgroundColorByDE={backgroundColor}
                     colorByDE={color}

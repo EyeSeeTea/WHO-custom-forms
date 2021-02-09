@@ -52,6 +52,7 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
                         dataElementCode={dataElement.code}
                         catComboId={catCombo.id}
                         catComboName={catCombo.name}
+                        type={dataElement.valueType === "LONG_TEXT" ? "textArea" : "text"}
                     />
                 </td>
             );

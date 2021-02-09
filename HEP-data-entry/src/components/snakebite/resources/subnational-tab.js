@@ -1,3 +1,6 @@
+var orgUnits = [];
+var pageSize = 10;
+
 function updateSubnationalDataElementTotals(orgUnitDataElementId) {
     $('input[name="subnationalTotal"]').each(function() {
         var totalId = $(this).attr("subnationaltotalid");
@@ -17,6 +20,47 @@ function onSubnationalInputChange(id) {
 
     saveVal(dataElementId, optionComboId, id);
     updateSubnationalDataElementTotals(`${organisationUnitId}-${dataElementId}`);
+}
+
+function onSubnationalTextAreaChange(id) {
+    const dataElementId = id.split("-")[1];
+    const optionComboId = id.split("-")[2];
+
+    saveVal(dataElementId, optionComboId, id);
+}
+
+function renamePageOrgUnitPaths(currentPage) {
+    if (orgUnits.length === 0) {
+        return Promise.resolve(orgUnits);
+    } else {
+        const orgUnitIds = [
+            ...new Set(
+                orgUnits
+                    .slice(currentPage * pageSize - pageSize, currentPage * pageSize)
+                    .map(ou => ou.orgUnitPath.split("/"))
+                    .flat()
+                    .filter(uid => isValidUid(uid))
+            ),
+        ];
+
+        if (orgUnitIds.length === 0) return Promise.resolve(orgUnits);
+
+        return getOrgUnits(orgUnitIds).then(orgUnitNames => {
+            orgUnits = orgUnits.map(ou => {
+                const ouPath = ou.orgUnitPath.split("/");
+                const ouPathNames = ouPath
+                    .map(id => {
+                        const orgUnit = orgUnitNames.organisationUnits.find(ou => ou.id === id);
+                        return orgUnit ? orgUnit.shortName : id;
+                    })
+                    .join(" / ");
+
+                return { ...ou, orgUnitPath: ouPathNames };
+            });
+
+            return orgUnits;
+        });
+    }
 }
 
 function loadSubnationalValues() {
@@ -69,6 +113,10 @@ function loadSubnationalValues() {
             $("#subnational input[type=text]").on("change", function(e) {
                 onSubnationalInputChange(e.target.id);
             });
+            $("#subnational textarea").on("change", function(e) {
+                debugger;
+                onSubnationalTextAreaChange(e.target.id);
+            });
 
             updateSubnationalDataElementTotals();
         },
@@ -77,6 +125,20 @@ function loadSubnationalValues() {
             console.log(xhr);
         },
     });
+}
+
+function isValidUid(value) {
+    const UID_PATTERN = /^[a-zA-Z]{1}[a-zA-Z0-9]{10}$/;
+
+    return UID_PATTERN.test(value);
+}
+
+function onLoadingPage(page) {
+    return renamePageOrgUnitPaths(page);
+}
+
+function onLoadedPage() {
+    loadSubnationalValues();
 }
 
 function renderSubnationalTab() {
@@ -91,25 +153,26 @@ function renderSubnationalTab() {
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
         success: function(response) {
-            const orgUnits = response.listGrid.rows.map(row => ({
+            orgUnits = response.listGrid.rows.map(row => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
+                orgUnitPath: row[2],
             }));
 
             if (orgUnits.length > 0) {
                 $("#tabs-list").show();
                 var tableOptions = {
                     data: orgUnits,
-                    pagination: 10,
+                    pagination: pageSize,
                     tableDiv: "#orgUnitsTable",
                     templateID: "orgUnitsTable_template",
+                    onLoadingPage,
+                    onLoadedPage,
                 };
 
                 makeTable(tableOptions);
 
                 $("#custom-form-loader").hide();
-
-                loadSubnationalValues();
             } else {
                 $("#tabs-list").hide();
             }

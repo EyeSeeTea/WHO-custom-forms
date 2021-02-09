@@ -30,12 +30,16 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                                     .map(section => {
                                         return section.dataElements
                                             .map(dataElement => {
-                                                const colspan =
-                                                    dataElement.categoryCombo.categoryOptionCombos
-                                                        .length + 1;
-
                                                 const dataElementCustomMetadata =
                                                     customMetadata.dataElements[dataElement.id];
+
+                                                const colspan =
+                                                    dataElementCustomMetadata &&
+                                                    dataElementCustomMetadata.showTotal === false
+                                                        ? dataElement.categoryCombo
+                                                              .categoryOptionCombos.length
+                                                        : dataElement.categoryCombo
+                                                              .categoryOptionCombos.length + 1;
                                                 return (
                                                     <th colspan={colspan}>
                                                         {section.displayName +
@@ -80,7 +84,7 @@ export function SubnationalSections(attributes: SubnationalSectionsAttributes): 
                     <tbody>
                         {"{{#rows}}"}
                         <tr>
-                            <th>{"{{orgUnitName}}"}</th>
+                            <th>{"{{orgUnitPath}}"}</th>
                             {sections &&
                                 sections
                                     .map(section => {
