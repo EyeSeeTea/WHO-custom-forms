@@ -30,9 +30,10 @@ export class SnakeBiteCustomFormFactory implements CustomFormFactory {
     async createCustomForm(dataSet: DataSet): Promise<string> {
         const customMetadata = await this.customMetadataRepository.get();
 
-        const subnationalDataSet = await this.dataSetRepository.get(customMetadata.subnationalDataSet);
+        const subnationalStockDataDataSet = await this.dataSetRepository.get(customMetadata.subnationalStockDataDataSet.id);
+        const subnationalEpidemiologicalDataDataSet = await this.dataSetRepository.get(customMetadata.subnationalEpidemiologicalDataDataSet.id);
         const antivenomEntries = await this.antivenomEntriesRepository.get()
 
-        return await SnakeBiteCustomForm(dataSet, subnationalDataSet, customMetadata, antivenomEntries)
+        return await SnakeBiteCustomForm(dataSet, subnationalStockDataDataSet, subnationalEpidemiologicalDataDataSet, customMetadata, antivenomEntries)
     }
 }

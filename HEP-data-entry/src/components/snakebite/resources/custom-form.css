@@ -121,15 +121,15 @@ input.text {
     font-size: 14px;
 }
 
-#subnational .pagination-next-orgUnitsTable:hover,
-#subnational .pagination-pre-orgUnitsTable:hover {
+#subnational .pagination-next:hover,
+#subnational .pagination-pre:hover {
     background: black;
     color: white;
     text-decoration: none;
 }
 
-#subnational .pagination-next-orgUnitsTable,
-#subnational .pagination-pre-orgUnitsTable {
+#subnational .pagination-next,
+#subnational .pagination-pre {
     box-sizing: border-box;
     display: inline-block;
     text-align: center;

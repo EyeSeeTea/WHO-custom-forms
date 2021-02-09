@@ -17,8 +17,14 @@ interface OptionComboData {
     order?: number;
 }
 
+interface SubnationalDataSet {
+    id: string,
+    name: string
+}
+
 export interface CustomMetadata {
-    subnationalDataSet: string,
     dataElements: Record<string, DataElementData>;
     optionCombos: Record<string, OptionComboData>;
+    subnationalStockDataDataSet: SubnationalDataSet;
+    subnationalEpidemiologicalDataDataSet: SubnationalDataSet
 }
