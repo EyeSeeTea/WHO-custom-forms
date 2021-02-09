@@ -22,6 +22,13 @@ function onSubnationalInputChange(id) {
     updateSubnationalDataElementTotals(`${organisationUnitId}-${dataElementId}`);
 }
 
+function onSubnationalTextAreaChange(id) {
+    const dataElementId = id.split("-")[1];
+    const optionComboId = id.split("-")[2];
+
+    saveVal(dataElementId, optionComboId, id);
+}
+
 function renamePageOrgUnitPaths(currentPage) {
     if (orgUnits.length === 0) {
         return Promise.resolve(orgUnits);
@@ -105,6 +112,10 @@ function loadSubnationalValues() {
 
             $("#subnational input[type=text]").on("change", function(e) {
                 onSubnationalInputChange(e.target.id);
+            });
+            $("#subnational textarea").on("change", function(e) {
+                debugger;
+                onSubnationalTextAreaChange(e.target.id);
             });
 
             updateSubnationalDataElementTotals();

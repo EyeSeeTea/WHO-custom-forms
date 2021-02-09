@@ -18,6 +18,11 @@
     background-color: #ffffff;
 }
 
+.cde table textarea {
+    min-width: 250px;
+    text-align: left;
+}
+
 .create-antivenom-product {
     margin-left: 8px;
 }

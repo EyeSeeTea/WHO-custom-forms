@@ -379,10 +379,8 @@ async function initializeByAdminUser($container) {
 }
 
 function convertMonovalentPolyvalentToExclusive($tr) {
-    debugger;
     $tr.find("input[type=radio]").off("mouseup");
     $tr.find("input[type=radio]").on("mouseup", function(e) {
-        debugger;
         if (!loadingAntivenomProductNames) {
             const id = $(this).attr("id");
             const value = $(this).val();
@@ -390,7 +388,6 @@ function convertMonovalentPolyvalentToExclusive($tr) {
                 .closest("tr")
                 .find("input[type=radio]")
                 .each(function() {
-                    debugger;
                     const opposedValue = value === "true" ? "false" : "true";
 
                     if ($(this).attr("id") !== id && opposedValue === $(this).val()) {
