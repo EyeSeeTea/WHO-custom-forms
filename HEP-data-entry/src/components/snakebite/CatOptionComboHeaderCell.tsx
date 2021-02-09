@@ -6,22 +6,37 @@ interface EntryFieldAttributes {
     catOptionComboId: string;
     catOptionComboName: string;
     helpMessage?: string;
+    backgroundColorByDE?: string;
+    colorByDE?: string;
 }
 
 export function CatOptionComboHeaderCell(attributes: EntryFieldAttributes): string {
-    const { customMetadata, catOptionComboId, catOptionComboName, helpMessage } = attributes;
+    const {
+        customMetadata,
+        catOptionComboId,
+        catOptionComboName,
+        helpMessage,
+        backgroundColorByDE = "",
+        colorByDE = "",
+    } = attributes;
 
     const catComboData = customMetadata.optionCombos[catOptionComboId];
 
+    const backgroundColor =
+        catComboData && catComboData.backgroundColor
+            ? `background-color:${catComboData.backgroundColor};`
+            : backgroundColorByDE;
+    const color = catComboData && catComboData.color ? `color:${catComboData.color};` : colorByDE;
+
     return (
-        <th>
+        <th style={backgroundColor + color}>
             <span>
                 {catComboData && catComboData.name ? catComboData.name : catOptionComboName}&nbsp;
             </span>
             {helpMessage && (
                 <i
                     class="fa fa-info-circle"
-                    style="font-size:16px;color:#276696;"
+                    style={"font-size:16px;" + backgroundColor + color}
                     id={`${catOptionComboId}-field-description`}
                     title={`${helpMessage}`}
                 ></i>

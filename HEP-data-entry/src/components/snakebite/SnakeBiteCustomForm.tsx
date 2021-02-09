@@ -119,7 +119,7 @@ export async function SnakeBiteCustomForm(
                                         No
                                     </input>
                                 </div>
-                                <div>
+                                <div id="form-recommended-container">
                                     <label for="recomended">Recommended</label>
                                     <input type="checkbox" name="recommended" disabled />
                                 </div>

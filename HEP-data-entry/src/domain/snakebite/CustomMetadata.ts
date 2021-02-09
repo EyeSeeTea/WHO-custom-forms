@@ -1,10 +1,16 @@
 interface DataElementData {
+    backgroundColor?: string;
+    color?: string;
     name?: string;
-    totalName?: string;
     info?: string;
+    showTotal?: boolean,
+    showName?: boolean,
+    totalName?: string;
 }
 
 interface OptionComboData {
+    backgroundColor?: string;
+    color?: string;
     name?: string;
     info?: string;
     order?: number;

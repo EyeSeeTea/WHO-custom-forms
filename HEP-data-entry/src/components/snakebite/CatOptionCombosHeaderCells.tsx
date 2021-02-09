@@ -16,10 +16,28 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
 
     const categoryOptionCombos = sortCategoryOptionCombos(dataElement, customMetadata);
 
+    const backgroundColor =
+        customMetadataDE && customMetadataDE.backgroundColor
+            ? `background-color:${customMetadataDE.backgroundColor};`
+            : "";
+    const color =
+        customMetadataDE && customMetadataDE.color ? `color:${customMetadataDE.color};` : "";
+
+    const totalHeader =
+        customMetadataDE === undefined ||
+        customMetadataDE.showTotal === undefined ||
+        customMetadataDE.showTotal === true ? (
+            <th style={backgroundColor + color}>
+                {customMetadataDE && customMetadataDE.totalName
+                    ? customMetadataDE.totalName
+                    : "Total"}
+            </th>
+        ) : (
+            ""
+        );
+
     return [
-        <th>
-            {customMetadataDE && customMetadataDE.totalName ? customMetadataDE.totalName : "Total"}
-        </th>,
+        totalHeader,
         ...categoryOptionCombos.map(catCombo => {
             const catComboData = customMetadata.optionCombos[catCombo.id];
 
@@ -30,6 +48,8 @@ export function CatOptionCombosHeaderCells(attributes: EntryFieldAttributes): st
                     catOptionComboId={catCombo.id}
                     catOptionComboName={catCombo.name}
                     helpMessage={helpMessage}
+                    backgroundColorByDE={backgroundColor}
+                    colorByDE={color}
                 />
             );
         }),

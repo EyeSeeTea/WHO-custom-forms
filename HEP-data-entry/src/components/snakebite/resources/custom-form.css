@@ -60,6 +60,10 @@ input.text {
     padding: 0.3em;
 }
 
+#form-recommended-container {
+    visibility: hidden;
+}
+
 .radio-container {
     margin-bottom: 12px;
 }
