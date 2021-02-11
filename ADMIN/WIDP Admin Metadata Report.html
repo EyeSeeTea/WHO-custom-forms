@@ -227,8 +227,8 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                     element.id,
                     element.name ? element.name : "-",
                     element.publicAccess ? element.publicAccess : "-",
-                    element.user ? element.user.name : "-",
-                    element.lastUpdatedBy ? element.lastUpdatedBy.name : "-",
+                    element.user ? element.user.displayName : "-",
+                    element.lastUpdatedBy ? element.lastUpdatedBy.displayName : "-",
                     element.userGroupAccesses.length > 0
                       ? `<ul>
                                       ${element.userGroupAccesses
@@ -382,7 +382,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               .forEach(function(ids) {
                 updateTable(
                   publicObjectsTable,
-                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=id:in:[" +
+                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=id:in:[" +
                     ids.join(",") +
                     "]",
                   true,
@@ -402,7 +402,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateGenericNotPublicTable");
             updateTable(
               genericNotPublicTable,
-              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
               false,
               isDevelopment,
               false,
@@ -414,7 +414,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateInvalidSharingSettingsTable");
             updateTable(
               invalidSharingSettingsTable,
-              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
               false,
               isDevelopment,
               true,
@@ -426,7 +426,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateInvalidSharingSettingsUserGroupsTable");
 				updateTable(
 				  invalidSharingSettingsTable,
-				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
 				  false,
 				  isDevelopment,
 				  true,
@@ -442,7 +442,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             const queryDate = date.toISOString().split("T")[0];
             updateTable(
               changedMetadataTable,
-              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=lastUpdated:ge:" +
+              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=lastUpdated:ge:" +
                 queryDate,
               false,
               isDevelopment,
@@ -467,7 +467,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updatePublicNotGenericTable");
             updateTable(
               publicNotGenericTable,
-              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name, displayName],userGroupAccesses",
               false,
               isDevelopment,
               false,
