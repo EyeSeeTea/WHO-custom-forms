@@ -263,7 +263,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           crossDomain: isDevelopment,
           success: function(data) {
             _(data)
-            .omit(removeDataSharingTypes ? ["categoryOptions", ] : [])
+            .omit([])
               .mapValues(function(array, key) {
                       console.log("array "+array);
                 return Array.isArray(array)
@@ -282,15 +282,24 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-                  method([
-                    element.metadataType,
-                    element.program ? element.program.id : "-",
-                    element.program ? element.program.name : "-",
-                    element.id,
-                    element.name ? element.name : "-",
-                    element.dataEntryForm ? element.dataEntryForm.id : "-",
-                    element.dataEntryForm ? element.dataEntryForm.name : "-"
-                  ]);
+				  if (element.metadataType == "programStages"){
+					  method([
+						element.metadataType,
+						element.program ? element.program.id : "-",
+						element.program ? element.program.name : "-",
+						element.id,
+						element.name ? element.name : "-",
+						element.dataEntryForm ? element.dataEntryForm.id : "-",
+						element.dataEntryForm ? element.dataEntryForm.name : "-"
+					  ]);
+				  }
+				  else if (element.metadataType == "programs"){
+					  method([
+						element.metadataType,
+						element.id,
+						element.name ? element.name : "-",
+					  ]);
+				  }
               });
             table.draw();
             nextCall();
@@ -347,6 +356,14 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 
         // Build "Programs with empty custom forms" table
         const emptyCustomFormTable = $("#empty_custom_form").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
+        // Build "Programs with empty custom forms" table
+        const programWithoutProgramStageTable = $("#program_without_programstages").DataTable({
           order: [[2, "asc"]],
           rowGroup: {
             dataSrc: 2
@@ -456,6 +473,19 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
              updateEmptyCustomFormsTable(
               emptyCustomFormTable,
               baseUrl + "/api/programStages.json?fields=id,name,program[id,name],dataEntryForm[name,id,htmlCode,format]&paging=false&filter=dataEntryForm.htmlCode:null&filter=dataEntryForm.id:!null",
+              false,
+              isDevelopment,
+              false,
+              programWithoutProgramStage
+            ); 
+        };
+		
+		
+        function programWithoutProgramStage(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              programWithoutProgramStageTable,
+              baseUrl + "/api/programs.json?paging=false&fields=id,name,userGroupAccesses,programStages~size&filter=programStages:eq:0",
               false,
               isDevelopment,
               false,
@@ -605,6 +635,18 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             <th>Program Stage name</th>
             <th>Data entry form id</th>
             <th>Data entry form name</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  
+      <h3>Programs without programStages</h3>
+      <table class="listTable gridTable" id="program_without_programstages">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
           </tr>
         </thead>
       </table>
