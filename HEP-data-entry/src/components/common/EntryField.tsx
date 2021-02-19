@@ -30,6 +30,30 @@ export function EntryField(attributes: EntryFieldAttributes): string {
     switch (type) {
         case "radio": {
             return [
+                // <label>
+                //     <input
+                //         type="radio"
+                //         name={`${id}-val`}
+                //         class="entryselect"
+                //         id={`${id}-val`}
+                //         value={"true"}
+                //         disabled={disabled}
+                //     />
+                //     Yes
+                // </label>,
+                // <label>
+                //     <input
+                //         type="radio"
+                //         name={`${id}-val`}
+                //         class="entryselect"
+                //         id={`${id}-val`}
+                //         value={"false"}
+                //         disabled={disabled}
+                //     />
+                //     No
+                // </label>,
+
+                //TODO REVIEW THIS, ITS A CUSTOMIZATION FOR SNAKEBITE
                 <label>
                     <input
                         type="radio"
@@ -39,7 +63,6 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                         value={"true"}
                         disabled={disabled}
                     />
-                    Yes
                 </label>,
                 <label>
                     <input
@@ -49,16 +72,9 @@ export function EntryField(attributes: EntryFieldAttributes): string {
                         id={`${id}-val`}
                         value={"false"}
                         disabled={disabled}
+                        hidden
                     />
-                    No
                 </label>,
-                // <img
-                //     class="commentlink"
-                //     id={`${id}-comment`}
-                //     src="../images/comment.png"
-                //     title="View comment"
-                //     style="cursor: pointer;"
-                // />,
             ].join("");
         }
         case "textArea": {
