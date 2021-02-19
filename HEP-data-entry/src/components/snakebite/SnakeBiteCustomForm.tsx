@@ -114,23 +114,15 @@ export async function SnakeBiteCustomForm(
                                 <div class="radio-container">
                                     <label for="polyvalent">Polyvalent</label>
 
-                                    <input type="radio" name="polyvalent" value="true">
-                                        Yes
-                                    </input>
+                                    <input type="radio" name="polyvalent" value="true" />
 
-                                    <input type="radio" name="polyvalent" value="false">
-                                        No
-                                    </input>
+                                    <input type="radio" name="polyvalent" value="false" hidden />
                                 </div>
 
                                 <div class="radio-container">
                                     <label for="monovalent">Monovalent</label>
-                                    <input type="radio" name="monovalent" value="true">
-                                        Yes
-                                    </input>
-                                    <input type="radio" name="monovalent" value="false">
-                                        No
-                                    </input>
+                                    <input type="radio" name="monovalent" value="true" />
+                                    <input type="radio" name="monovalent" value="false" hidden />
                                 </div>
                                 <div id="form-recommended-container">
                                     <label for="recomended">Recommended</label>

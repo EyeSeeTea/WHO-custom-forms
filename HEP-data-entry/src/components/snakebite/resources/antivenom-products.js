@@ -384,6 +384,11 @@ function convertMonovalentPolyvalentToExclusive($tr) {
         if (!loadingAntivenomProductNames) {
             const id = $(this).attr("id");
             const value = $(this).val();
+
+            //This is for dhis2 code
+            //Avoid uncheck a radio button
+            $(this).removeClass("checked");
+
             $(this)
                 .closest("tr")
                 .find("input[type=radio]")
@@ -393,6 +398,13 @@ function convertMonovalentPolyvalentToExclusive($tr) {
                     if ($(this).attr("id") !== id && opposedValue === $(this).val()) {
                         $(this).prop("checked", true);
                         $(this).addClass("checked");
+
+                        var opposedId = $(this).attr("id");
+                        var split = dhis2.de.splitFieldId(opposedId);
+
+                        var dataElementId = split.dataElementId;
+                        var optionComboId = split.optionComboId;
+                        saveBoolean(dataElementId, optionComboId, opposedId);
                     }
                 });
         }
