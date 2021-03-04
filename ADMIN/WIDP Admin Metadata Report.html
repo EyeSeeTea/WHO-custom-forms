@@ -227,8 +227,8 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                     element.id,
                     element.name ? element.name : "-",
                     element.publicAccess ? element.publicAccess : "-",
-                    element.user ? element.user.name : "-",
-                    element.lastUpdatedBy ? element.lastUpdatedBy.name : "-",
+                    element.user ? element.user.displayName : "-",
+                    element.lastUpdatedBy ? element.lastUpdatedBy.displayName : "-",
                     element.userGroupAccesses.length > 0
                       ? `<ul>
                                       ${element.userGroupAccesses
@@ -263,7 +263,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           crossDomain: isDevelopment,
           success: function(data) {
             _(data)
-            .omit(removeDataSharingTypes ? ["categoryOptions", ] : [])
+            .omit([])
               .mapValues(function(array, key) {
                       console.log("array "+array);
                 return Array.isArray(array)
@@ -282,15 +282,24 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-                  method([
-                    element.metadataType,
-                    element.program ? element.program.id : "-",
-                    element.program ? element.program.name : "-",
-                    element.id,
-                    element.name ? element.name : "-",
-                    element.dataEntryForm ? element.dataEntryForm.id : "-",
-                    element.dataEntryForm ? element.dataEntryForm.name : "-"
-                  ]);
+				  if (element.metadataType == "programStages"){
+					  method([
+						element.metadataType,
+						element.program ? element.program.id : "-",
+						element.program ? element.program.name : "-",
+						element.id,
+						element.name ? element.name : "-",
+						element.dataEntryForm ? element.dataEntryForm.id : "-",
+						element.dataEntryForm ? element.dataEntryForm.name : "-"
+					  ]);
+				  }
+				  else if (element.metadataType == "programs"){
+					  method([
+						element.metadataType,
+						element.id,
+						element.name ? element.name : "-",
+					  ]);
+				  }
               });
             table.draw();
             nextCall();
@@ -353,6 +362,14 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           }
         });
 
+        // Build "Programs with empty custom forms" table
+        const programWithoutProgramStageTable = $("#program_without_programstages").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
 		// Update tabble from sqlview
         $.ajax({
           type: "GET",
@@ -382,7 +399,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               .forEach(function(ids) {
                 updateTable(
                   publicObjectsTable,
-                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=id:in:[" +
+                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=id:in:[" +
                     ids.join(",") +
                     "]",
                   true,
@@ -402,7 +419,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateGenericNotPublicTable");
             updateTable(
               genericNotPublicTable,
-              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
               false,
               isDevelopment,
               false,
@@ -414,7 +431,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateInvalidSharingSettingsTable");
             updateTable(
               invalidSharingSettingsTable,
-              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
               false,
               isDevelopment,
               true,
@@ -426,7 +443,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updateInvalidSharingSettingsUserGroupsTable");
 				updateTable(
 				  invalidSharingSettingsTable,
-				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
 				  false,
 				  isDevelopment,
 				  true,
@@ -442,7 +459,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             const queryDate = date.toISOString().split("T")[0];
             updateTable(
               changedMetadataTable,
-              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=lastUpdated:ge:" +
+              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=lastUpdated:ge:" +
                 queryDate,
               false,
               isDevelopment,
@@ -459,6 +476,19 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               false,
               isDevelopment,
               false,
+              programWithoutProgramStage
+            ); 
+        };
+		
+		
+        function programWithoutProgramStage(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              programWithoutProgramStageTable,
+              baseUrl + "/api/programs.json?paging=false&fields=id,name,userGroupAccesses,programStages~size&filter=programStages:eq:0",
+              false,
+              isDevelopment,
+              false,
               updatePublicNotGenericTable
             ); 
         };
@@ -467,7 +497,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
           console.log("table: updatePublicNotGenericTable");
             updateTable(
               publicNotGenericTable,
-              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
+              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name, displayName],userGroupAccesses",
               false,
               isDevelopment,
               false,
@@ -605,6 +635,18 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             <th>Program Stage name</th>
             <th>Data entry form id</th>
             <th>Data entry form name</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  
+      <h3>Programs without programStages</h3>
+      <table class="listTable gridTable" id="program_without_programstages">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
           </tr>
         </thead>
       </table>
