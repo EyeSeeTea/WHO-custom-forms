@@ -1,0 +1,155 @@
+.cde table {
+    border-collapse: collapse;
+}
+
+.cde table th {
+    text-align: center;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+.cde table td {
+    padding: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.cde table input[type="text"] {
+    width: 90%;
+    background-color: #ffffff;
+}
+
+.cde table textarea {
+    min-width: 250px;
+    text-align: left;
+}
+
+.create-antivenom-product {
+    margin-left: 8px;
+}
+
+.add-entry-fields {
+    color: #3162c5 !important;
+}
+
+.remove-entry-fields {
+    color: #3162c5 !important;
+    margin-top: 25px;
+    margin-left: 15px;
+}
+
+.antivenom-table-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-content: center;
+}
+
+#dialog-form label.block,
+input.text {
+    display: block;
+}
+
+#dialog-form fieldset {
+    padding: 0;
+    border: 0;
+    font-size: 1.1em;
+}
+#dialog-form input.text {
+    margin-bottom: 12px;
+    width: 95%;
+    padding: 0.4em;
+}
+
+#dialog-form #form-message {
+    border: 1px solid transparent;
+    padding: 0.3em;
+}
+
+#form-recommended-container {
+    visibility: hidden;
+}
+
+.radio-container {
+    margin-bottom: 12px;
+}
+
+#subnational .cde table th {
+    text-align: center;
+    padding: 5px 10px;
+    white-space: nowrap;
+}
+
+#subnational #custom-form-loader {
+    color: #1c425c;
+    font-size: 14px;
+    margin: 20px;
+    text-align: center;
+    display: none;
+    border-radius: 3px;
+}
+
+#subnational .cde table thead tr:nth-child(1) th {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 48px;
+    background: #f5f5f5;
+    z-index: 60;
+}
+
+#subnational .cde table thead tr:nth-child(2) th {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 71px;
+    background: #f5f5f5;
+    z-index: 60;
+}
+
+#subnational .cde table tbody tr th {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 235px;
+    background: #f5f5f5;
+    z-index: 50;
+}
+
+#leftBar {
+    z-index: 100;
+}
+
+#subnational #Pagination {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+#subnational .pagination-next:hover,
+#subnational .pagination-pre:hover {
+    background: black;
+    color: white;
+    text-decoration: none;
+}
+
+#subnational .pagination-next,
+#subnational .pagination-pre {
+    box-sizing: border-box;
+    display: inline-block;
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #333;
+    border: 1px solid transparent;
+    border-radius: 2px;
+    text-decoration: none;
+}
+#subnational .no-pag {
+    cursor: default;
+    color: #666 !important;
+    border: 1px solid transparent;
+    background: transparent;
+    box-shadow: none;
+    cursor: default;
+}
+
+#subnational .no-pag:hover {
+    background: transparent;
+}

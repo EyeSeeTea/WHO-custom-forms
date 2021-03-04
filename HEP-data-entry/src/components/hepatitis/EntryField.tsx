@@ -1,5 +1,6 @@
 import { createElement } from "typed-html";
-import { SectionDataElement, CategoryOptionCombo, HelpTexts } from "../models/Form";
+import { HelpTexts } from "./models/Form";
+import { SectionDataElement, CategoryOptionCombo } from "../../domain/common/entities";
 
 interface EntryFieldAttributes {
     dataElement: SectionDataElement;

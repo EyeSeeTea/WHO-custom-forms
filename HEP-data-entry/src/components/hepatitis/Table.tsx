@@ -1,14 +1,14 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
 
+import { Form } from "./models/Form";
+import { EntryField } from "./EntryField";
 import {
     Section,
-    SectionDataElement,
-    Form,
     CategoryOptionCombo,
+    SectionDataElement,
     FieldsToRemove,
-} from "../models/Form";
-import { EntryField } from "./EntryField";
+} from "../../domain/common/entities";
 
 interface TableAttributes {
     section: Section;
