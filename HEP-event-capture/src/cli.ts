@@ -63,7 +63,7 @@ async function getProgramPayload(
 
     const programStage = program.programStages[0];
 
-    const customFormHtml = await AssembledFormHTML({ programStage });
+    const customFormHtml = await AssembledFormHTML({ programStage, programId });
 
     const formId = programStage.dataEntryForm ? programStage.dataEntryForm.id : getUid(program.id);
 
