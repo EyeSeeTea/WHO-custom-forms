@@ -289,17 +289,6 @@ dhis2.report.periods = [
                 const method = updateRow
                   ? table.row(`#${element.id}`).data
                   : table.row.add;
-                if (element.metadataType == "users" && element.userCredentials) {
-                  method([
-                     element.metadataType,
-                     element.id,
-                     element.name ? element.name : "-",
-                     element.created ? element.created : "-",
-                     element.userCredentials.username ? element.userCredentials.username : "-",
-                     element.email ? element.email : "-",
-                     element.userCredentials.lastLogin ? element.userCredentials.lastLogin : "-",
-                  ]);
-				} else {
                   method([
                     element.metadataType,
                     element.id,
@@ -316,7 +305,6 @@ dhis2.report.periods = [
                                         .join("")}</ul>`
                       : "NONE"
                   ]);
-                }
               });
             table.draw();
           }
@@ -451,24 +439,7 @@ dhis2.report.periods = [
 
         updateTable(
           publicNotGenericTable,
-          baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rw-w----,rwrw----,r-------,r-r-----,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  false
-        );
-		
-        // Build "Generic users marked as to be deleted" table
-        const usersToBeDeletedTable = $("#to_be_deleted").DataTable({
-          order: [[2, "asc"]],
-          rowGroup: {
-            dataSrc: 2
-          }
-        });
-
-
-        updateTable(
-          usersToBeDeletedTable,
-          baseUrl + "/api/metadata.json?filter=name:ilike:TOBEDELETED&fields=id,name,created,userCredentials[username,lastLogin],email",
+          baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
           false,
           isDevelopment,
 		  false
@@ -549,21 +520,6 @@ dhis2.report.periods = [
             <th>Created by</th>
             <th>Last updated by</th>
             <th>User group accesses</th>
-          </tr>
-        </thead>
-      </table>
-
-	  <h3>List of users marked as _TOBEDELETED</h3>
-      <table class="listTable gridTable" id="to_be_deleted">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Created</th>
-            <th>Username</th>
-            <th>E-mail</th>
-            <th>Lastlogin</th>
           </tr>
         </thead>
       </table>
