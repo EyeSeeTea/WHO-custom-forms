@@ -5,6 +5,25 @@
   var comments = ["aAuKVcYFTB8"];
   var percentages = [];
 
+  function get_resource_link(element_id, tokens) {
+    $.ajax({
+      url: "../api/documents",
+      type: "get",
+      data: {
+        fields: 'id',
+        filter: 'name:token:'+tokens
+      },
+      success: function(response) {
+        id = response['documents'][0]['id'];
+        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
+      },
+      error: function(xhr) {
+        console.log("Error in the request");
+        console.log(xhr);
+      }
+    });
+  }
+
   $(document).ready(function() {
     $(function() {
       $("#mod2_tabs").tabs();
@@ -144,6 +163,13 @@
         .find("tr > *:nth-child(" + (col + 1) + ")")
         .toggle();
     });
+
+    $(function() {
+      console.log('Updating file resources links')
+      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+      get_resource_link('userguide_link', 'NHWA, User, guide');
+      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+    })
   });
 
   function updateWarningsSourceTypes(row) {
@@ -184,8 +210,7 @@
   loadWarningsSourceTypes();
   $(this).on(dhis2.de.event.dataValuesLoaded, loadWarningsSourceTypes);
 </script>
-<style type="text/css">
-  #cde table {
+<style type="text/css">#cde table {
     border-collapse: collapse;
   }
 
@@ -218,2339 +243,508 @@
     content: url("../images/comment_active.png");
   }
 </style>
-<h3 style="text-align: center;">
-  <strong>Health Workforce Education and Training</strong>
-</h3>
+<h3 style="text-align: center;"><strong>Health Workforce Education and Training</strong></h3>
 
-<h4 style="text-align: right;">
-  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
-    >Access the NHWA HANDBOOK</a
-  ><br />
-  <br />
-  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
-    >Access the NHWA USER GUIDE</a
-  >
-</h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="handbook_link" href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
+
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="userguide_link" href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+
 
 <div id="mod2_tabs">
-  <ul>
-    <li><a href="#tab0">Input</a></li>
-    <li><a href="#tab1">Output</a></li>
-    <li><a href="#tab2">Education institutions</a></li>
-    <li><a href="#tab3">Other Resources</a></li>
-  </ul>
+<ul>
+	<li><a href="#tab0">Input</a></li>
+	<li><a href="#tab1">Output</a></li>
+	<li><a href="#tab2">Education institutions</a></li>
+	<li><a href="#tab3">Other Resources</a></li>
+</ul>
 
-  <div id="tab0">
-    <h2>SECTION 1: HWF Education Applicants</h2>
+<div id="tab0">
+<h2>SECTION 1: HWF Education Applicants</h2>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0" class="withSourceType">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="2" scope="row">SN</th>
-            <th colspan="6" rowspan="2" scope="row" style="text-align: center;">
-              HWF Education and Training Programme
-            </th>
-            <th colspan="1" rowspan="2" scope="col" style="text-align: center;">
-              <p>Applications</p>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0" class="withSourceType">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="2" scope="row">SN</th>
+			<th colspan="6" rowspan="2" scope="row" style="text-align: center;">HWF Education and Training Programme</th>
+			<th colspan="1" rowspan="2" scope="col" style="text-align: center;">
+			<p>Applications</p>
 
-              <p>(2-03)</p>
-            </th>
-            <th colspan="2" rowspan="1" scope="col" style="text-align: center;">
-              Applications By Gender&nbsp;(2-03)
-            </th>
-            <th rowspan="2" scope="col" style="text-align: center;">
-              <p>Admissions</p>
+			<p>(2-03)</p>
+			</th>
+			<th colspan="2" rowspan="1" scope="col" style="text-align: center;">Applications By Gender&nbsp;(2-03)</th>
+			<th rowspan="2" scope="col" style="text-align: center;">
+			<p>Admissions</p>
 
-              <p>(2-04)</p>
-            </th>
-            <th colspan="2" rowspan="1" scope="col" style="text-align: center;">
-              Admissions By Gender&nbsp;(2-04)
-            </th>
-            <th colspan="1" rowspan="2" scope="col" style="text-align: center;">
-              <p>Enrolled</p>
+			<p>(2-04)</p>
+			</th>
+			<th colspan="2" rowspan="1" scope="col" style="text-align: center;">Admissions By Gender&nbsp;(2-04)</th>
+			<th colspan="1" rowspan="2" scope="col" style="text-align: center;">
+			<p>Enrolled</p>
 
-              <p>(2-05)</p>
-            </th>
-            <th colspan="2" rowspan="1" scope="col" style="text-align: center;">
-              Enrolled By Gender&nbsp;(2-05)
-            </th>
-            <th colspan="3" rowspan="2" scope="col" style="text-align: center;">
-              Source Type
-            </th>
-          </tr>
-          <tr>
-            <th scope="col" style="text-align: center;">Male</th>
-            <th scope="col" style="text-align: center;">Female</th>
-            <th scope="col">Male</th>
-            <th scope="col">Female</th>
-            <th scope="col" style="text-align: center;">Male</th>
-            <th scope="col" style="text-align: center;">Female</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <th colspan="6" scope="row" style="text-align: left;">
-              Medical Doctors
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Medical Doctors"
-                value="[ Applications in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Medical Doctors"
-                value="[ Male applications in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Medical Doctors"
-                value="[ Female applications in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Medical Doctors"
-                value="[ Admissions in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Medical Doctors"
-                value="[ Male admissions in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Medical Doctors"
-                value="[ Female admissions in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Medical Doctors"
-                value="[ Entrants in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Medical Doctors"
-                value="[ Male entrants in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Medical Doctors"
-                value="[ Female entrants in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="GHRcigiFyO0-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Medical Doctors in education and training source type Ministry of Education"
-                value="[ Medical Doctors in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="GHRcigiFyO0-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Medical Doctors in education and training source type Regulatory bodies"
-                value="[ Medical Doctors in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="GHRcigiFyO0-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Medical Doctors in education and training source type Training Institutes"
-                value="[ Medical Doctors in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="GHRcigiFyO0-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Medical Doctors in education and training source type Other Databases"
-                value="[ Medical Doctors in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.1</th>
-            <th colspan="6" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                General Medical Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers General Medical Practitioner"
-                value="[ Applications in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers General Medical Practitioner"
-                value="[ Male applications in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers General Medical Practitioner"
-                value="[ Female applications in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers General Medical Practitioner"
-                value="[ Admissions in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers General Medical Practitioner"
-                value="[ Male admissions in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers General Medical Practitioner"
-                value="[ Female admissions in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers General Medical Practitioner"
-                value="[ Entrants in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers General Medical Practitioner"
-                value="[ Male entrants in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers General Medical Practitioner"
-                value="[ Female entrants in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="uwBMy7jAOzr-dYLYgidzGd0-val"
-                name="entryfield"
-                title="General Medical Practitioners in education and training source type Ministry of Education"
-                value="[ General Medical Practitioners in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="uwBMy7jAOzr-ukju4pkJeXV-val"
-                name="entryfield"
-                title="General Medical Practitioners in education and training source type Regulatory bodies"
-                value="[ General Medical Practitioners in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="uwBMy7jAOzr-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="General Medical Practitioners in education and training source type Training Institutes"
-                value="[ General Medical Practitioners in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="uwBMy7jAOzr-h0uO1nflznJ-val"
-                name="entryfield"
-                title="General Medical Practitioners in education and training source type Other Databases"
-                value="[ General Medical Practitioners in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2</th>
-            <th colspan="6" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                Specialist Medical Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Applications in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Male applications in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Female applications in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Admissions in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Male admissions in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Female admissions in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Entrants in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Male entrants in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Female entrants in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="lvkcxdk6ewE-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Specialist Medical Practitioners in education and training source type Ministry of Education"
-                value="[ Specialist Medical Practitioners in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="lvkcxdk6ewE-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Specialist Medical Practitioners in education and training source type Regulatory bodies"
-                value="[ Specialist Medical Practitioners in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="lvkcxdk6ewE-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Specialist Medical Practitioners in education and training source type Training Institutes"
-                value="[ Specialist Medical Practitioners in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="lvkcxdk6ewE-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Specialist Medical Practitioners in education and training source type Other Databases"
-                value="[ Specialist Medical Practitioners in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <th
-              colspan="6"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Nursing Professional
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Nursing Professional"
-                value="[ Applications in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Nursing Professional"
-                value="[ Male applications in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Nursing Professional"
-                value="[ Female applications in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Nursing Professional"
-                value="[ Admissions in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Nursing Professional"
-                value="[ Male admissions in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Nursing Professional"
-                value="[ Female admissions in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Nursing Professional"
-                value="[ Entrants in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Nursing Professional"
-                value="[ Male entrants in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Nursing Professional"
-                value="[ Female entrants in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="Tu7mmoVDSFh-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Nursing Professionals in education and training source type Ministry of Education"
-                value="[ Nursing Professionals in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="Tu7mmoVDSFh-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Nursing Professionals in education and training source type Regulatory bodies"
-                value="[ Nursing Professionals in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="Tu7mmoVDSFh-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Nursing Professionals in education and training source type Training Institutes"
-                value="[ Nursing Professionals in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="Tu7mmoVDSFh-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Nursing Professionals in education and training source type Other Databases"
-                value="[ Nursing Professionals in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <th
-              colspan="6"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Midwifery Professional
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Midwifery Professional"
-                value="[ Applications in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Midwifery Professional"
-                value="[ Male applications in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Midwifery Professional"
-                value="[ Female applications in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Midwifery Professional"
-                value="[ Admissions in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Midwifery Professional"
-                value="[ Male admissions in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Midwifery Professional"
-                value="[ Female admissions in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Midwifery Professional"
-                value="[ Entrants in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Midwifery Professional"
-                value="[ Male entrants in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Midwifery Professional"
-                value="[ Female entrants in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="baxzJnblwIA-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Midwifery Professionals in education and training source type Ministry of Education"
-                value="[ Midwifery Professionals in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="baxzJnblwIA-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Midwifery Professionals in education and training source type Regulatory bodies"
-                value="[ Midwifery Professionals in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="baxzJnblwIA-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Midwifery Professionals in education and training source type Training Institutes"
-                value="[ Midwifery Professionals in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="baxzJnblwIA-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Midwifery Professionals in education and training source type Other Databases"
-                value="[ Midwifery Professionals in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <th colspan="6" scope="row" style="text-align: left;">Dentist</th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Dentist"
-                value="[ Applications in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Dentist"
-                value="[ Male applications in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Dentist"
-                value="[ Female applications in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Dentist"
-                value="[ Admissions in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Dentist"
-                value="[ Male admissions in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Dentist"
-                value="[ Female admissions in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Dentist"
-                value="[ Entrants in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Dentist"
-                value="[ Male entrants in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Dentist"
-                value="[ Female entrants in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="vERGKxg4ky5-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Dentists in education and training source type Ministry of Education"
-                value="[ Dentists in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="vERGKxg4ky5-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Dentists in education and training source type Regulatory bodies"
-                value="[ Dentists in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="vERGKxg4ky5-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Dentists in education and training source type Training Institutes"
-                value="[ Dentists in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="vERGKxg4ky5-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Dentists in education and training source type Other Databases"
-                value="[ Dentists in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <th colspan="6" scope="row" style="text-align: left;">
-              Pharmacist
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="GZZ2BDHZX5w-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Applications in HWF Education and Training centers Pharmacist"
-                value="[ Applications in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HVOexl8T1Tv-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male applications in HWF Education and Training centers Pharmacist"
-                value="[ Male applications in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ljMIY6HvkD6-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female applications in HWF Education and Training centers Pharmacist"
-                value="[ Female applications in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Ca8zQsc1xjC-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Admissions in HWF Education and Training centers Pharmacist"
-                value="[ Admissions in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="orhcprpuyDa-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male admissions in HWF Education and Training centers Pharmacist"
-                value="[ Male admissions in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="xpBCkAdPXni-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female admissions in HWF Education and Training centers Pharmacist"
-                value="[ Female admissions in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="dOdILuGzOCT-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Entrants in HWF Education and Training centers Pharmacist"
-                value="[ Entrants in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="OJIzrlkgQh8-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male entrants in HWF Education and Training centers Pharmacist"
-                value="[ Male entrants in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="utIBHSRqgVj-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female entrants in HWF Education and Training centers Pharmacist"
-                value="[ Female entrants in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: left;">
-              <input
-                id="ZeF4Zhl5iSz-dYLYgidzGd0-val"
-                name="entryfield"
-                title="Pharmacists in education and training source type Ministry of Education"
-                value="[ Pharmacists in education and training source type Ministry of Education ]"
-              />Ministry of Education &nbsp;
-              <input
-                id="ZeF4Zhl5iSz-ukju4pkJeXV-val"
-                name="entryfield"
-                title="Pharmacists in education and training source type Regulatory bodies"
-                value="[ Pharmacists in education and training source type Regulatory bodies ]"
-              />Regulatory Bodies<br />
-              <input
-                id="ZeF4Zhl5iSz-mGDxxaXpJHJ-val"
-                name="entryfield"
-                title="Pharmacists in education and training source type Training Institutes"
-                value="[ Pharmacists in education and training source type Training Institutes ]"
-              />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              <input
-                id="ZeF4Zhl5iSz-h0uO1nflznJ-val"
-                name="entryfield"
-                title="Pharmacists in education and training source type Other Databases"
-                value="[ Pharmacists in education and training source type Other Databases ]"
-              />Other Databases
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+			<p>(2-05)</p>
+			</th>
+			<th colspan="2" rowspan="1" scope="col" style="text-align: center;">Enrolled By Gender&nbsp;(2-05)</th>
+			<th colspan="3" rowspan="2" scope="col" style="text-align: center;">Source Type</th>
+		</tr>
+		<tr>
+			<th scope="col" style="text-align: center;">Male</th>
+			<th scope="col" style="text-align: center;">Female</th>
+			<th scope="col">Male</th>
+			<th scope="col">Female</th>
+			<th scope="col" style="text-align: center;">Male</th>
+			<th scope="col" style="text-align: center;">Female</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<th colspan="6" scope="row" style="text-align: left;">Medical Doctors</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="GHRcigiFyO0-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="GHRcigiFyO0-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="GHRcigiFyO0-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="GHRcigiFyO0-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">1.1</th>
+			<th colspan="6" scope="row">
+			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="uwBMy7jAOzr-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="uwBMy7jAOzr-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="uwBMy7jAOzr-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="uwBMy7jAOzr-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">1.2</th>
+			<th colspan="6" scope="row">
+			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="lvkcxdk6ewE-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="lvkcxdk6ewE-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="lvkcxdk6ewE-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="lvkcxdk6ewE-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<th colspan="6" scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="Tu7mmoVDSFh-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="Tu7mmoVDSFh-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="Tu7mmoVDSFh-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="Tu7mmoVDSFh-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<th colspan="6" scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="baxzJnblwIA-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="baxzJnblwIA-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="baxzJnblwIA-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="baxzJnblwIA-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<th colspan="6" scope="row" style="text-align: left;">Dentist</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="vERGKxg4ky5-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="vERGKxg4ky5-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="vERGKxg4ky5-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="vERGKxg4ky5-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<th colspan="6" scope="row" style="text-align: left;">Pharmacist</th>
+			<td style="text-align: center;"><input id="GZZ2BDHZX5w-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="HVOexl8T1Tv-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="ljMIY6HvkD6-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Ca8zQsc1xjC-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="orhcprpuyDa-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="xpBCkAdPXni-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="dOdILuGzOCT-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="OJIzrlkgQh8-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="utIBHSRqgVj-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: left;"><input id="ZeF4Zhl5iSz-dYLYgidzGd0-val" name="entryfield" title="" value="" />Ministry of Education &nbsp; <input id="ZeF4Zhl5iSz-ukju4pkJeXV-val" name="entryfield" title="" value="" />Regulatory Bodies<br />
+			<input id="ZeF4Zhl5iSz-mGDxxaXpJHJ-val" name="entryfield" title="" value="" />Training Institutes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="ZeF4Zhl5iSz-h0uO1nflznJ-val" name="entryfield" title="" value="" />Other Databases</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab1">
-    <h2>SECTION 2: HWF Graduates</h2>
+<div id="tab1">
+<h2>SECTION 2: HWF Graduates</h2>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="2" scope="row">SN</th>
-            <th colspan="3" rowspan="2" scope="row" style="text-align: center;">
-              HWF Education and Training Programme
-            </th>
-            <th rowspan="2" scope="col" style="text-align: center;">
-              <p>Graduates</p>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="2" scope="row">SN</th>
+			<th colspan="3" rowspan="2" scope="row" style="text-align: center;">HWF Education and Training Programme</th>
+			<th rowspan="2" scope="col" style="text-align: center;">
+			<p>Graduates</p>
 
-              <p>(2-07)</p>
-            </th>
-            <th colspan="2" rowspan="1" scope="col" style="text-align: center;">
-              Graduates By Gender
-            </th>
-            <th colspan="2" rowspan="1" scope="col" style="text-align: center;">
-              Graduates By Ownership
-            </th>
-            <th colspan="3" rowspan="1" scope="col" style="text-align: center;">
-              <p>Drop-outs (number) (2-06)</p>
-            </th>
-          </tr>
-          <tr>
-            <th scope="col" style="text-align: center;">Male</th>
-            <th scope="col" style="text-align: center;">Female</th>
-            <th scope="col" style="text-align: center;">Public</th>
-            <th scope="col" style="text-align: center;">Private</th>
-            <th scope="col" style="text-align: center;">Total</th>
-            <th scope="col" style="text-align: center;">Male</th>
-            <th scope="col" style="text-align: center;">Female</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <th colspan="3" scope="row" style="text-align: left;">
-              Medical Doctors
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Medical Doctors"
-                value="[ Graduates in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Medical Doctors"
-                value="[ Male graduates in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Medical Doctors"
-                value="[ Female graduates in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Medical Doctors"
-                value="[ Public graduates in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Medical Doctors"
-                value="[ Private graduates in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Medical Doctors"
-                value="[ Drop-outs in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Medical Doctors"
-                value="[ Male drop-outs in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-woIm3nuS3mM-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Medical Doctors"
-                value="[ Female drop-outs in HWF Education and Training centers Medical Doctors ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.1</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                General Medical Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers General Medical Practitioner"
-                value="[ Graduates in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers General Medical Practitioner"
-                value="[ Male graduates in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers General Medical Practitioner"
-                value="[ Female graduates in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers General Medical Practitioner"
-                value="[ Public graduates in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers General Medical Practitioner"
-                value="[ Private graduates in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers General Medical Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers General Medical Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-Eh8fZEewQLs-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers General Medical Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                Specialist Medical Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Graduates in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-Rr4F4xljMoJ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.1</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                General Paediatricians Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Graduates in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Male graduates in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Female graduates in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Public graduates in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Private graduates in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-p7nN8h3drrz-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers General Paediatricians Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers General Paediatricians Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.2</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Obstetricians and Gynaecologists Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-nC5KZyWITGC-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.3</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Psychiatrists Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Graduates in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-hx9b4UVGIgW-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Psychiatrists Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Psychiatrists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.4</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Medical group of Specialists Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Graduates in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-U0Q8rlyIf0L-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Medical group of Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.5</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Surgical group of Specialists Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Graduates in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-N53ac2J5cmY-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.6</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Other Specialists Practitioner
-              </p>
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Graduates in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Male graduates in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Female graduates in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Public graduates in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Private graduates in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Drop-outs in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Male drop-outs in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-K4qTZe26KoX-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Other Specialists Practitioner"
-                value="[ Female drop-outs in HWF Education and Training centers Other Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <th
-              colspan="3"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Nursing Professional
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Nursing Professional"
-                value="[ Graduates in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Nursing Professional"
-                value="[ Male graduates in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Nursing Professional"
-                value="[ Female graduates in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Nursing Professional"
-                value="[ Public graduates in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Nursing Professional"
-                value="[ Private graduates in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Nursing Professional"
-                value="[ Drop-outs in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Nursing Professional"
-                value="[ Male drop-outs in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-gT8LDQDh2wc-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Nursing Professional"
-                value="[ Female drop-outs in HWF Education and Training centers Nursing Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <th
-              colspan="3"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Midwifery Professional
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Midwifery Professional"
-                value="[ Graduates in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Midwifery Professional"
-                value="[ Male graduates in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Midwifery Professional"
-                value="[ Female graduates in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Midwifery Professional"
-                value="[ Public graduates in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Midwifery Professional"
-                value="[ Private graduates in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Midwifery Professional"
-                value="[ Drop-outs in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Midwifery Professional"
-                value="[ Male drop-outs in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-GrzcLgIHx9h-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Midwifery Professional"
-                value="[ Female drop-outs in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <th colspan="3" scope="row" style="text-align: left;">Dentist</th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Dentist"
-                value="[ Graduates in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Dentist"
-                value="[ Male graduates in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Dentist"
-                value="[ Female graduates in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Dentist"
-                value="[ Public graduates in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Dentist"
-                value="[ Private graduates in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Dentist"
-                value="[ Drop-outs in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Dentist"
-                value="[ Male drop-outs in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-BUVRp4Q2zi7-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Dentist"
-                value="[ Female drop-outs in HWF Education and Training centers Dentist ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <th colspan="3" scope="row" style="text-align: left;">
-              Pharmacist
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="W3hjWF2zAkt-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Graduates in HWF Education and Training centers Pharmacist"
-                value="[ Graduates in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="b5Y5ttOan5u-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male graduates in HWF Education and Training centers Pharmacist"
-                value="[ Male graduates in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="d9aRkLridyB-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female graduates in HWF Education and Training centers Pharmacist"
-                value="[ Female graduates in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="h0MrvKyI3Nk-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Public graduates in HWF Education and Training centers Pharmacist"
-                value="[ Public graduates in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="bXegTxbu4XB-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Private graduates in HWF Education and Training centers Pharmacist"
-                value="[ Private graduates in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GAikjDurEiF-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Drop-outs in HWF Education and Training centers Pharmacist"
-                value="[ Drop-outs in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="GrRfteXDhyS-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Male drop-outs in HWF Education and Training centers Pharmacist"
-                value="[ Male drop-outs in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f9lz93NUbMQ-UbXO8Hq562j-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Female drop-outs in HWF Education and Training centers Pharmacist"
-                value="[ Female drop-outs in HWF Education and Training centers Pharmacist ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+			<p>(2-07)</p>
+			</th>
+			<th colspan="2" rowspan="1" scope="col" style="text-align: center;">Graduates By Gender</th>
+			<th colspan="2" rowspan="1" scope="col" style="text-align: center;">Graduates By Ownership</th>
+			<th colspan="3" rowspan="1" scope="col" style="text-align: center;">
+			<p>Drop-outs (number) (2-06)</p>
+			</th>
+		</tr>
+		<tr>
+			<th scope="col" style="text-align: center;">Male</th>
+			<th scope="col" style="text-align: center;">Female</th>
+			<th scope="col" style="text-align: center;">Public</th>
+			<th scope="col" style="text-align: center;">Private</th>
+			<th scope="col" style="text-align: center;">Total</th>
+			<th scope="col" style="text-align: center;">Male</th>
+			<th scope="col" style="text-align: center;">Female</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<th colspan="3" scope="row" style="text-align: left;">Medical Doctors</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-woIm3nuS3mM-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.1</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.1</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">General Paediatricians Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-p7nN8h3drrz-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.2</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">Obstetricians and Gynaecologists Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-nC5KZyWITGC-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.3</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">Psychiatrists Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-hx9b4UVGIgW-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.4</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">Medical group of Specialists Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-U0Q8rlyIf0L-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.5</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">Surgical group of Specialists Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-N53ac2J5cmY-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.6</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 40px; text-align: left;">Other Specialists Practitioner</p>
+			</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-K4qTZe26KoX-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<th colspan="3" scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<th colspan="3" scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<th colspan="3" scope="row" style="text-align: left;">Dentist</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<th colspan="3" scope="row" style="text-align: left;">Pharmacist</th>
+			<td style="text-align: center;"><input id="W3hjWF2zAkt-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="b5Y5ttOan5u-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="d9aRkLridyB-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="h0MrvKyI3Nk-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="bXegTxbu4XB-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GAikjDurEiF-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="GrRfteXDhyS-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="f9lz93NUbMQ-UbXO8Hq562j-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab2">
-    <h2>SECTION 3: HWF Education Centres</h2>
+<div id="tab2">
+<h2>SECTION 3: HWF Education Centres</h2>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="2" scope="row">SN</th>
-            <th colspan="3" rowspan="2" scope="row" style="text-align: center;">
-              HWF Education and Training Programme
-            </th>
-            <th rowspan="2" scope="row" style="text-align: center;">
-              <p>Educators<br />(2-05)</p>
-            </th>
-            <th colspan="1" rowspan="2" scope="col" style="text-align: center;">
-              Education &amp; training<br />capacity (places)<br />(2-03)
-            </th>
-            <th rowspan="2" scope="col" style="text-align: center;">
-              Training Duration<br />(years) (2-02)
-            </th>
-          </tr>
-          <tr></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <th colspan="3" scope="row" style="text-align: left;">
-              Medical Doctors
-            </th>
-            <th scope="row" style="text-align: left;">
-              <input
-                id="AeURkaiQxjy-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Medical Doctors"
-                value="[ Educators in HWF Education and Training centers Medical Doctors ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Medical Doctors"
-                value="[ Health workforce education and training centers capacity Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-aBpbcEgtzgw-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Medical Doctors"
-                value="[ Training Duration for HWF programmes Medical Doctors ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.1</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                General Medical Practitioner
-              </p>
-            </th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              <input
-                id="AeURkaiQxjy-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers General Medical Practitioner"
-                value="[ Educators in HWF Education and Training centers General Medical Practitioner ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity General Medical Practitioner"
-                value="[ Health workforce education and training centers capacity General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-LHbCtHlZr3Y-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes General Medical Practitioner"
-                value="[ Training Duration for HWF programmes General Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2</th>
-            <th colspan="3" scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                Specialist Medical Practitioner
-              </p>
-            </th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              <input
-                id="AeURkaiQxjy-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Specialist Medical Practitioner"
-                value="[ Educators in HWF Education and Training centers Specialist Medical Practitioner ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Specialist Medical Practitioner"
-                value="[ Health workforce education and training centers capacity Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-VtVkbvygJnm-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Specialist Medical Practitioner"
-                value="[ Training Duration for HWF programmes Specialist Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <th
-              colspan="3"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Nursing Professional
-            </th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              <input
-                id="AeURkaiQxjy-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Nursing Professional"
-                value="[ Educators in HWF Education and Training centers Nursing Professional ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Nursing Professional"
-                value="[ Health workforce education and training centers capacity Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-fGOgbIqsxDn-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Nursing Professional"
-                value="[ Training Duration for HWF programmes Nursing Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <th
-              colspan="3"
-              scope="row"
-              style="margin-left: 20px; text-align: left;"
-            >
-              Midwifery Professional
-            </th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              <input
-                id="AeURkaiQxjy-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Midwifery Professional"
-                value="[ Educators in HWF Education and Training centers Midwifery Professional ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Midwifery Professional"
-                value="[ Health workforce education and training centers capacity Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-MPzyVWiSFF2-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Midwifery Professional"
-                value="[ Training Duration for HWF programmes Midwifery Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <th colspan="3" scope="row" style="text-align: left;">Dentist</th>
-            <th scope="row" style="text-align: left;">
-              <input
-                id="AeURkaiQxjy-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Dentist"
-                value="[ Educators in HWF Education and Training centers Dentist ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Dentist"
-                value="[ Health workforce education and training centers capacity Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-ALBRKpJsddQ-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Dentist"
-                value="[ Training Duration for HWF programmes Dentist ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <th colspan="3" scope="row" style="text-align: left;">
-              Pharmacist
-            </th>
-            <th scope="row" style="text-align: left;">
-              <input
-                id="AeURkaiQxjy-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Educators in HWF Education and Training centers Pharmacist"
-                value="[ Educators in HWF Education and Training centers Pharmacist ]"
-              />
-            </th>
-            <td style="text-align: center;">
-              <input
-                id="RnxSxiLePqc-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Health workforce education and training centers capacity Pharmacist"
-                value="[ Health workforce education and training centers capacity Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="WBxm9A5Qkea-iWRW6jXAzvP-val"
-                name="entryfield"
-                style="width:3.5em;"
-                title="Training Duration for HWF programmes Pharmacist"
-                value="[ Training Duration for HWF programmes Pharmacist ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="2" scope="row">SN</th>
+			<th colspan="3" rowspan="2" scope="row" style="text-align: center;">HWF Education and Training Programme</th>
+			<th rowspan="2" scope="row" style="text-align: center;">
+			<p>Educators<br />
+			(2-05)</p>
+			</th>
+			<th colspan="1" rowspan="2" scope="col" style="text-align: center;">Education &amp; training<br />
+			capacity (places)<br />
+			(2-03)</th>
+			<th rowspan="2" scope="col" style="text-align: center;">Training Duration<br />
+			(years) (2-02)</th>
+		</tr>
+		<tr>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<th colspan="3" scope="row" style="text-align: left;">Medical Doctors</th>
+			<th scope="row" style="text-align: left;"><input id="AeURkaiQxjy-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-aBpbcEgtzgw-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.1</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
+			</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;"><input id="AeURkaiQxjy-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-LHbCtHlZr3Y-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2</th>
+			<th colspan="3" scope="row">
+			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
+			</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;"><input id="AeURkaiQxjy-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-VtVkbvygJnm-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<th colspan="3" scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;"><input id="AeURkaiQxjy-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-fGOgbIqsxDn-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<th colspan="3" scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;"><input id="AeURkaiQxjy-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-MPzyVWiSFF2-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<th colspan="3" scope="row" style="text-align: left;">Dentist</th>
+			<th scope="row" style="text-align: left;"><input id="AeURkaiQxjy-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-ALBRKpJsddQ-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<th colspan="3" scope="row" style="text-align: left;">Pharmacist</th>
+			<th scope="row" style="text-align: left;"><input id="AeURkaiQxjy-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></th>
+			<td style="text-align: center;"><input id="RnxSxiLePqc-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+			<td style="text-align: center;"><input id="WBxm9A5Qkea-iWRW6jXAzvP-val" name="entryfield" style="width:3.5em;" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="2" scope="row">SN</th>
-            <th colspan="3" rowspan="2" scope="row" style="text-align: center;">
-              Item
-            </th>
-            <th scope="row" style="text-align: center;">Value</th>
-            <th
-              class="comments"
-              hidden=""
-              scope="row"
-              style="text-align: center;"
-            >
-              Comment
-            </th>
-          </tr>
-          <tr></tr>
-          <tr>
-            <td colspan="1" scope="row">1</td>
-            <td colspan="3" scope="row" style="text-align: center;">
-              <p>
-                Is your master list of accredited education institutions up to
-                date and available in the public domain? (2-01)
-              </p>
-            </td>
-            <td scope="row" style="text-align: center;">
-              <input
-                id="EtX7FWQ8HOf-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Number of Accredited education institutions up to date and available in the public domain Yes"
-                value="[ Number of Accredited education institutions up to date and available in the public domain Yes ]"
-              />
-              Yes
-              <input
-                id="EtX7FWQ8HOf-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Number of Accredited education institutions up to date and available in the public domain Partial"
-                value="[ Number of Accredited education institutions up to date and available in the public domain Partial ]"
-              />
-              Partial
-              <input
-                id="EtX7FWQ8HOf-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Number of Accredited education institutions up to date and available in the public domain No"
-                value="[ Number of Accredited education institutions up to date and available in the public domain No ]"
-              />
-              No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                style="cursor: pointer; margin-left: 10px;"
-                title="View comment"
-              />
-            </td>
-            <td
-              class="comments"
-              hidden=""
-              scope="row"
-              style="text-align: center;"
-            >
-              <input
-                class="entryfield entryarea"
-                id="aAuKVcYFTB8-Xr12mI7VPn3-val"
-                name="entryfield"
-                style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
-                tabindex="1"
-                disabled=""
-              />
-            </td>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="2" scope="row">SN</th>
+			<th colspan="3" rowspan="2" scope="row" style="text-align: center;">Item</th>
+			<th scope="row" style="text-align: center;">Value</th>
+			<th class="comments" hidden="" scope="row" style="text-align: center;">Comment</th>
+		</tr>
+		<tr>
+		</tr>
+		<tr>
+			<td colspan="1" scope="row">1</td>
+			<td colspan="3" scope="row" style="text-align: center;">
+			<p>Is your master list of accredited education institutions up to date and available in the public domain? (2-01)</p>
+			</td>
+			<td scope="row" style="text-align: center;"><input id="EtX7FWQ8HOf-I93t0K7b1oN-val" name="entryfield" title="" value="" /> Yes <input id="EtX7FWQ8HOf-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" /> Partial <input id="EtX7FWQ8HOf-Y7EAGQA1bfv-val" name="entryfield" title="" value="" /> No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" hidden="" scope="row" style="text-align: center;"><input class="entryfield entryarea" disabled="disabled" id="aAuKVcYFTB8-Xr12mI7VPn3-val" name="entryfield" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);" tabindex="1" /></td>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab3">
-    <h2>SECTION 4: HWF OTHER RESOURCES</h2>
+<div id="tab3">
+<h2>SECTION 4: HWF OTHER RESOURCES</h2>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th>Item</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td style="text-align: Left;">Upload other resources</td>
-            <td>
-              <input
-                id="aPAnpOx79jA-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="HWF Module 2 File upload"
-                value="[ HWF Module 2 File upload ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th>Item</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td style="text-align: Left;">Upload other resources</td>
+			<td><input id="aPAnpOx79jA-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 </div>

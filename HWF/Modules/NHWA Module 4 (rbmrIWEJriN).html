@@ -5,6 +5,25 @@
   var comments = ["fXxS36qL9Vt"];
   var percentages = [];
 
+  function get_resource_link(element_id, tokens) {
+    $.ajax({
+      url: "../api/documents",
+      type: "get",
+      data: {
+        fields: 'id',
+        filter: 'name:token:'+tokens
+      },
+      success: function(response) {
+        id = response['documents'][0]['id'];
+        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
+      },
+      error: function(xhr) {
+        console.log("Error in the request");
+        console.log(xhr);
+      }
+    });
+  }
+
   $(document).ready(function() {
     $(function() {
       $("#mod2_tabs").tabs();
@@ -144,10 +163,15 @@
         .find("tr > *:nth-child(" + (col + 1) + ")")
         .toggle();
     });
+    $(function() {
+      console.log('Updating file resources links')
+      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+      get_resource_link('userguide_link', 'NHWA, User, guide');
+      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+    })
   });
 </script>
-<style type="text/css">
-  #cde table {
+<style type="text/css">#cde table {
     border-collapse: collapse;
   }
 
@@ -184,1286 +208,381 @@
     content: url("../images/comment_active.png");
   }
 </style>
-<h3 style="text-align: center;">
-  <strong
-    >Health Workforce Education Finances<br />Report data in USD
-    (annual)</strong
-  >
-</h3>
+<h3 style="text-align: center;"><strong>Health Workforce Education Finances<br />
+Report data in USD (annual)</strong></h3>
 
-<h4 style="text-align: right;">
-  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
-    >Access the NHWA HANDBOOK</a
-  ><br />
-  <br />
-  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
-    >Access the NHWA USER GUIDE</a
-  >
-</h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="handbook_link" href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
+
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="userguide_link" href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+
 
 <div id="mod2_tabs">
-  <ul>
-    <li><a href="#tab0">Finance</a></li>
-    <li><a href="#tab1">Cost per program</a></li>
-    <li><a href="#tab2">Lifelong Learning</a></li>
-    <li><a href="#tab3">Other Resources</a></li>
-  </ul>
+<ul>
+	<li><a href="#tab0">Finance</a></li>
+	<li><a href="#tab1">Cost per program</a></li>
+	<li><a href="#tab2">Lifelong Learning</a></li>
+	<li><a href="#tab3">Other Resources</a></li>
+</ul>
 
-  <div id="tab0">
-    <h2>SECTION 1: HWF Education Finances</h2>
+<div id="tab0">
+<h2>SECTION 1: HWF Education Finances</h2>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="2">SN</th>
-            <th colspan="1" rowspan="2" style="text-align: center;">Item</th>
-            <th colspan="1" rowspan="2" style="text-align: center;">Public</th>
-            <th colspan="3" rowspan="1" style="text-align: center;">Private</th>
-          </tr>
-          <tr>
-            <th style="text-align: center;">Out of Pockets</th>
-            <th style="text-align: center;">
-              Official Development<br />Assistance
-            </th>
-            <th style="text-align: center;">Others</th>
-          </tr>
-        </thead>
-        <body>
-          <tr>
-            <td>1</td>
-            <td>
-              Total expenditure on higher education (including for non-health
-              sectors) (4-01)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="KzzMv68cifG-HQPWV8cT7li-val"
-                name="entryfield"
-                title="Total expenditure on higher education (including for non-health sectors) Government"
-                value="[ Total expenditure on higher education (including for non-health sectors) Government ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="KzzMv68cifG-FiRcnmXF1Yg-val"
-                name="entryfield"
-                title="Total expenditure on higher education (including for non-health sectors) Out of Pocket"
-                value="[ Total expenditure on higher education (including for non-health sectors) Out of Pocket ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="KzzMv68cifG-QKhM7ublqzd-val"
-                name="entryfield"
-                title="Total expenditure on higher education (including for non-health sectors) Official Development Assistance"
-                value="[ Total expenditure on higher education (including for non-health sectors) Official Development Assistance ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="KzzMv68cifG-txxKPnVUGvV-val"
-                name="entryfield"
-                title="Total expenditure on higher education (including for non-health sectors) Others"
-                value="[ Total expenditure on higher education (including for non-health sectors) Others ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>
-              <p>
-                Total expenditure on health workforce pre-service
-                education&nbsp;(4-02)
-              </p>
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Z6Wd8wiIAfz-HQPWV8cT7li-val"
-                name="entryfield"
-                title="Total expenditure on health workforce pre-service education By Ownership Government"
-                value="[ Total expenditure on health workforce pre-service education By Ownership Government ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Z6Wd8wiIAfz-FiRcnmXF1Yg-val"
-                name="entryfield"
-                title="Total expenditure on health workforce pre-service education By Ownership Out of Pocket"
-                value="[ Total expenditure on health workforce pre-service education By Ownership Out of Pocket ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Z6Wd8wiIAfz-QKhM7ublqzd-val"
-                name="entryfield"
-                title="Total expenditure on health workforce pre-service education By Ownership Official Development Assistance"
-                value="[ Total expenditure on health workforce pre-service education By Ownership Official Development Assistance ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="Z6Wd8wiIAfz-txxKPnVUGvV-val"
-                name="entryfield"
-                title="Total expenditure on health workforce pre-service education By Ownership Others"
-                value="[ Total expenditure on health workforce pre-service education By Ownership Others ]"
-              />
-            </td>
-          </tr>
-        </body>
-      </table>
-    </div>
+<div id="cde">&nbsp;</div>
+</div>
+</div>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <head>
-          <tr>
-            <th><strong>SN</strong></th>
-            <th style="text-align: center;"><strong>Item</strong></th>
-            <th style="text-align: center;">
-              Value
-            </th>
-            <th class="comments" scope="row" style="text-align: center;">
-              Comment
-            </th>
-          </tr>
-        </head>
+<p>&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="2">SN</th>
+			<th colspan="1" rowspan="2" style="text-align: center;">Item</th>
+			<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+			<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+		</tr>
+		<tr>
+			<th style="text-align: center;">Out of Pockets</th>
+			<th style="text-align: center;">Official Development<br />
+			Assistance</th>
+			<th style="text-align: center;">Others</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td>Total expenditure on higher education (including for non-health sectors) (4-01)</td>
+			<td style="text-align: center;"><input id="KzzMv68cifG-HQPWV8cT7li-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="KzzMv68cifG-FiRcnmXF1Yg-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="KzzMv68cifG-QKhM7ublqzd-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="KzzMv68cifG-txxKPnVUGvV-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td>
+			<p>Total expenditure on health workforce pre-service education&nbsp;(4-02)</p>
+			</td>
+			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-HQPWV8cT7li-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-FiRcnmXF1Yg-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-QKhM7ublqzd-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-txxKPnVUGvV-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</p>
 
-        <body>
-          <tr>
-            <td>1</td>
-            <td>
-              Existence of national health workforce strategies and national
-              institutional financing reforms that identify and <br />commit
-              adequate budgetary resources for transformative
-              education&nbsp;(4-04)
-            </td>
-            <td class="yespartialno" style="text-align: center;">
-              <!--<input id="Ybz3qUCWYKC-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
-                id="Ybz3qUCWYKC-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes"
-                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes ]"
-              />Yes
-              <input
-                id="Ybz3qUCWYKC-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial"
-                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial ]"
-              />Partial
-              <input
-                id="Ybz3qUCWYKC-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No"
-                value="[ Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="fXxS36qL9Vt-Xr12mI7VPn3-val"
-                title="Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education"
-                value="[ Comment of Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education ]"
-              />
-            </td>
-          </tr>
-        </body>
-      </table>
-    </div>
-  </div>
+<div id="cde">&nbsp;</div>
 
-  <div id="tab1">
-    <h2>SECTION 2: HWF Education Costs</h2>
+<p>&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<th><strong>SN</strong></th>
+			<th style="text-align: center;"><strong>Item</strong></th>
+			<th style="text-align: center;">Value</th>
+			<th class="comments" scope="row" style="text-align: center;">Comment</th>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>Existence of national health workforce strategies and national institutional financing reforms that identify and<br />
+			commit adequate budgetary resources for transformative education&nbsp;(4-04)</td>
+			<td class="yespartialno" style="text-align: center;"><!--<input id="Ybz3qUCWYKC-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input id="Ybz3qUCWYKC-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="Ybz3qUCWYKC-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="Ybz3qUCWYKC-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="fXxS36qL9Vt-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</p>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="3">SN</th>
-            <th colspan="1" rowspan="3" style="text-align: center;">
-              HWF education and training programme
-            </th>
-            <th rowspan="3" style="text-align: center;">
-              Annual tuition fee<br />by student enrolled<br />(4-03)
-            </th>
-            <th colspan="4" rowspan="1" style="text-align: center;">
-              Annual expenditure on HWF education programmes (4-05/4-06)
-            </th>
-            <th rowspan="3" style="text-align: center;">
-              Recurrent costs of<br />qualified educators<br />(4-07)
-            </th>
-          </tr>
-          <tr>
-            <th colspan="1" rowspan="2" style="text-align: center;">
-              Public Expenditure
-            </th>
-            <th colspan="3" rowspan="1" style="text-align: center;">
-              Private Expenditure
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center;">
-              <p>Out of Pockets</p>
-            </th>
-            <th style="text-align: center;">
-              <p>Official Development<br />Assistance</p>
-            </th>
-            <th style="text-align: center;">Other</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <th scope="row" style="text-align: left;">
-              Medical Doctors
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-woIm3nuS3mM-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Medical Doctors"
-                value="[ Tuition Fee by Student enrolled Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-woIm3nuS3mM-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Medical Doctors"
-                value="[ Public Expenditure on HWF education Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-woIm3nuS3mM-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Medical Doctors"
-                value="[ OOP Private Expenditure on HWF education Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-woIm3nuS3mM-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Medical Doctors"
-                value="[ ODA Private Expenditure on HWF education Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-woIm3nuS3mM-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Medical Doctors"
-                value="[ Other Private Expenditure on HWF education Medical Doctors ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-woIm3nuS3mM-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Medical Doctors"
-                value="[ Recurrent costs of qualified educators Medical Doctors ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.1</th>
-            <th scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                General Medical Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled General Medical Practitioner"
-                value="[ Tuition Fee by Student enrolled General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education General Medical Practitioner"
-                value="[ Public Expenditure on HWF education General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education General Medical Practitioner"
-                value="[ OOP Private Expenditure on HWF education General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education General Medical Practitioner"
-                value="[ ODA Private Expenditure on HWF education General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education General Medical Practitioner"
-                value="[ Other Private Expenditure on HWF education General Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-Eh8fZEewQLs-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators General Medical Practitioner"
-                value="[ Recurrent costs of qualified educators General Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2</th>
-            <th scope="row">
-              <p style="margin-left: 20px; text-align: left;">
-                Specialist Medical Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Specialist Medical Practitioner"
-                value="[ Tuition Fee by Student enrolled Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Specialist Medical Practitioner"
-                value="[ Public Expenditure on HWF education Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Specialist Medical Practitioner"
-                value="[ OOP Private Expenditure on HWF education Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Specialist Medical Practitioner"
-                value="[ ODA Private Expenditure on HWF education Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Specialist Medical Practitioner"
-                value="[ Other Private Expenditure on HWF education Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-Rr4F4xljMoJ-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Specialist Medical Practitioner"
-                value="[ Recurrent costs of qualified educators Specialist Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.1</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                General Paediatricians Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-p7nN8h3drrz-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled General Paediatricians Practitioner"
-                value="[ Tuition Fee by Student enrolled General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-p7nN8h3drrz-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education General Paediatricians Practitioner"
-                value="[ Public Expenditure on HWF education General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-p7nN8h3drrz-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education General Paediatricians Practitioner"
-                value="[ OOP Private Expenditure on HWF education General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-p7nN8h3drrz-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education General Paediatricians Practitioner"
-                value="[ ODA Private Expenditure on HWF education General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-p7nN8h3drrz-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education General Paediatricians Practitioner"
-                value="[ Other Private Expenditure on HWF education General Paediatricians Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-p7nN8h3drrz-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators General Paediatricians Practitioner"
-                value="[ Recurrent costs of qualified educators General Paediatricians Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.2</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Obstetricians and Gynaecologists Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-nC5KZyWITGC-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Obstetricians and Gynaecologists Practitioner"
-                value="[ Tuition Fee by Student enrolled Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-nC5KZyWITGC-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
-                value="[ Public Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-nC5KZyWITGC-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
-                value="[ OOP Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-nC5KZyWITGC-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
-                value="[ ODA Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-nC5KZyWITGC-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
-                value="[ Other Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-nC5KZyWITGC-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Obstetricians and Gynaecologists Practitioner"
-                value="[ Recurrent costs of qualified educators Obstetricians and Gynaecologists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.3</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Psychiatrists Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Psychiatrists Practitioner"
-                value="[ Tuition Fee by Student enrolled Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Psychiatrists Practitioner"
-                value="[ Public Expenditure on HWF education Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Psychiatrists Practitioner"
-                value="[ OOP Private Expenditure on HWF education Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Psychiatrists Practitioner"
-                value="[ ODA Private Expenditure on HWF education Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Psychiatrists Practitioner"
-                value="[ Other Private Expenditure on HWF education Psychiatrists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-hx9b4UVGIgW-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Psychiatrists Practitioner"
-                value="[ Recurrent costs of qualified educators Psychiatrists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.4</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Medical group of Specialists Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Medical group of Specialists Practitioner"
-                value="[ Tuition Fee by Student enrolled Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Medical group of Specialists Practitioner"
-                value="[ Public Expenditure on HWF education Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Medical group of Specialists Practitioner"
-                value="[ OOP Private Expenditure on HWF education Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Medical group of Specialists Practitioner"
-                value="[ ODA Private Expenditure on HWF education Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Medical group of Specialists Practitioner"
-                value="[ Other Private Expenditure on HWF education Medical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-U0Q8rlyIf0L-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Medical group of Specialists Practitioner"
-                value="[ Recurrent costs of qualified educators Medical group of Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.5</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Surgical group of Specialists Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-N53ac2J5cmY-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Surgical group of Specialists Practitioner"
-                value="[ Tuition Fee by Student enrolled Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-N53ac2J5cmY-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Surgical group of Specialists Practitioner"
-                value="[ Public Expenditure on HWF education Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-N53ac2J5cmY-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Surgical group of Specialists Practitioner"
-                value="[ OOP Private Expenditure on HWF education Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-N53ac2J5cmY-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Surgical group of Specialists Practitioner"
-                value="[ ODA Private Expenditure on HWF education Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-N53ac2J5cmY-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Surgical group of Specialists Practitioner"
-                value="[ Other Private Expenditure on HWF education Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-N53ac2J5cmY-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Surgical group of Specialists Practitioner"
-                value="[ Recurrent costs of qualified educators Surgical group of Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">1.2.6</th>
-            <th scope="row">
-              <p style="margin-left: 40px; text-align: left;">
-                Other Specialists Practitioner
-              </p>
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-K4qTZe26KoX-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Other Specialists Practitioner"
-                value="[ Tuition Fee by Student enrolled Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-K4qTZe26KoX-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Other Specialists Practitioner"
-                value="[ Public Expenditure on HWF education Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-K4qTZe26KoX-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Other Specialists Practitioner"
-                value="[ OOP Private Expenditure on HWF education Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-K4qTZe26KoX-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Other Specialists Practitioner"
-                value="[ ODA Private Expenditure on HWF education Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-K4qTZe26KoX-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Other Specialists Practitioner"
-                value="[ Other Private Expenditure on HWF education Other Specialists Practitioner ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-K4qTZe26KoX-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Other Specialists Practitioner"
-                value="[ Recurrent costs of qualified educators Other Specialists Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              Nursing Professional
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Nursing Professional"
-                value="[ Tuition Fee by Student enrolled Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Nursing Professional"
-                value="[ Public Expenditure on HWF education Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Nursing Professional"
-                value="[ OOP Private Expenditure on HWF education Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Nursing Professional"
-                value="[ ODA Private Expenditure on HWF education Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Nursing Professional"
-                value="[ Other Private Expenditure on HWF education Nursing Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-gT8LDQDh2wc-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Nursing Professional"
-                value="[ Recurrent costs of qualified educators Nursing Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <th scope="row" style="margin-left: 20px; text-align: left;">
-              Midwifery Professional
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Midwifery Professional"
-                value="[ Tuition Fee by Student enrolled Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Midwifery Professional"
-                value="[ Public Expenditure on HWF education Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Midwifery Professional"
-                value="[ OOP Private Expenditure on HWF education Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Midwifery Professional"
-                value="[ ODA Private Expenditure on HWF education Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Midwifery Professional"
-                value="[ Other Private Expenditure on HWF education Midwifery Professional ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-GrzcLgIHx9h-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Midwifery Professional"
-                value="[ Recurrent costs of qualified educators Midwifery Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <th scope="row" style="text-align: left;">Dentist</th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Dentist"
-                value="[ Tuition Fee by Student enrolled Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Dentist"
-                value="[ Public Expenditure on HWF education Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Dentist"
-                value="[ OOP Private Expenditure on HWF education Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Dentist"
-                value="[ ODA Private Expenditure on HWF education Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Dentist"
-                value="[ Other Private Expenditure on HWF education Dentist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-BUVRp4Q2zi7-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Dentist"
-                value="[ Recurrent costs of qualified educators Dentist ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <th scope="row" style="text-align: left;">
-              Pharmacist
-            </th>
-            <td>
-              <input
-                id="EI6IOp5v4dR-UbXO8Hq562j-val"
-                name="entryfield"
-                title="Tuition Fee by Student enrolled Pharmacist"
-                value="[ Tuition Fee by Student enrolled Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FQpontg7YBJ-UbXO8Hq562j-val"
-                name="entryfield"
-                title="Public Expenditure on HWF education Pharmacist"
-                value="[ Public Expenditure on HWF education Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FpVMaxDKMvc-UbXO8Hq562j-val"
-                name="entryfield"
-                title="OOP Private Expenditure on HWF education Pharmacist"
-                value="[ OOP Private Expenditure on HWF education Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hNld16i4Kfj-UbXO8Hq562j-val"
-                name="entryfield"
-                title="ODA Private Expenditure on HWF education Pharmacist"
-                value="[ ODA Private Expenditure on HWF education Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tsRGEPI6G9W-UbXO8Hq562j-val"
-                name="entryfield"
-                title="Other Private Expenditure on HWF education Pharmacist"
-                value="[ Other Private Expenditure on HWF education Pharmacist ]"
-              />
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FM20fzfsNov-UbXO8Hq562j-val"
-                name="entryfield"
-                title="Recurrent costs of qualified educators Pharmacist"
-                value="[ Recurrent costs of qualified educators Pharmacist ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="tab1">
+<h2>SECTION 2: HWF Education Costs</h2>
 
-  <div id="tab2">
-    <h2>SECTION 3: LIFELONG LEARNING</h2>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="3">SN</th>
+			<th colspan="1" rowspan="3" style="text-align: center;">HWF education and training programme</th>
+			<th rowspan="3" style="text-align: center;">Annual tuition fee<br />
+			by student enrolled<br />
+			(4-03)</th>
+			<th colspan="4" rowspan="1" style="text-align: center;">Annual expenditure on HWF education programmes (4-05/4-06)</th>
+			<th rowspan="3" style="text-align: center;">Recurrent costs of<br />
+			qualified educators<br />
+			(4-07)</th>
+		</tr>
+		<tr>
+			<th colspan="1" rowspan="2" style="text-align: center;">Public Expenditure</th>
+			<th colspan="3" rowspan="1" style="text-align: center;">Private Expenditure</th>
+		</tr>
+		<tr>
+			<th style="text-align: center;">
+			<p>Out of Pockets</p>
+			</th>
+			<th style="text-align: center;">
+			<p>Official Development<br />
+			Assistance</p>
+			</th>
+			<th style="text-align: center;">Other</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<th scope="row" style="text-align: left;">Medical Doctors</th>
+			<td><input id="EI6IOp5v4dR-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-woIm3nuS3mM-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.1</th>
+			<th scope="row">
+			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-Eh8fZEewQLs-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2</th>
+			<th scope="row">
+			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-Rr4F4xljMoJ-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.1</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">General Paediatricians Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-p7nN8h3drrz-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.2</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">Obstetricians and Gynaecologists Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-nC5KZyWITGC-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.3</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">Psychiatrists Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-hx9b4UVGIgW-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.4</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">Medical group of Specialists Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-U0Q8rlyIf0L-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.5</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">Surgical group of Specialists Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-N53ac2J5cmY-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">1.2.6</th>
+			<th scope="row">
+			<p style="margin-left: 40px; text-align: left;">Other Specialists Practitioner</p>
+			</th>
+			<td><input id="EI6IOp5v4dR-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-K4qTZe26KoX-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
+			<td><input id="EI6IOp5v4dR-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-gT8LDQDh2wc-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<th scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
+			<td><input id="EI6IOp5v4dR-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-GrzcLgIHx9h-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<th scope="row" style="text-align: left;">Dentist</th>
+			<td><input id="EI6IOp5v4dR-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-BUVRp4Q2zi7-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<th scope="row" style="text-align: left;">Pharmacist</th>
+			<td><input id="EI6IOp5v4dR-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FQpontg7YBJ-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FpVMaxDKMvc-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="hNld16i4Kfj-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="tsRGEPI6G9W-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+			<td style="text-align: center;"><input id="FM20fzfsNov-UbXO8Hq562j-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th colspan="1" rowspan="3">SN</th>
-            <th colspan="1" rowspan="3">
-              HWF education and training programme
-            </th>
-            <th colspan="4" rowspan="1" style="text-align: center;">
-              Total expenditure on in-service training and continuing
-              professional development (4-08)
-            </th>
-          </tr>
-          <tr>
-            <th colspan="1" rowspan="2" style="text-align: center;">Public</th>
-            <th colspan="3" rowspan="1" style="text-align: center;">Private</th>
-          </tr>
-          <tr>
-            <th style="text-align: center;">Out of Pockets</th>
-            <th style="text-align: center;">
-              Official Development<br />Assistance
-            </th>
-            <th style="text-align: center;">Others</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td style="text-align: Left;">Medical Doctors</td>
-            <td>
-              <input
-                id="k31vRXPe1UA-aBpbcEgtzgw-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Medical Doctors"
-                value="[ Public expenditure on Continuing Professional Development Medical Doctors ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-aBpbcEgtzgw-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Medical Doctors"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Medical Doctors ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-aBpbcEgtzgw-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-aBpbcEgtzgw-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Medical Doctors"
-                value="[ Others expenditure on Continuing Professional Development Medical Doctors ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>1.1</td>
-            <td style="text-align: Left;">
-              <p style="margin-left: 20px; text-align: Left;">
-                General Medical Practitioner
-              </p>
-            </td>
-            <td>
-              <input
-                id="k31vRXPe1UA-LHbCtHlZr3Y-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development General Medical Practitioner"
-                value="[ Public expenditure on Continuing Professional Development General Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-LHbCtHlZr3Y-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner"
-                value="[ Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-LHbCtHlZr3Y-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-LHbCtHlZr3Y-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development General Medical Practitioner"
-                value="[ Others expenditure on Continuing Professional Development General Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>1.2</td>
-            <td style="text-align: Left;">
-              <p style="margin-left: 20px; text-align: Left;">
-                Specialist Medical Practitioner
-              </p>
-            </td>
-            <td>
-              <input
-                id="k31vRXPe1UA-VtVkbvygJnm-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Specialist Medical Practitioner"
-                value="[ Public expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-VtVkbvygJnm-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-VtVkbvygJnm-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-VtVkbvygJnm-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Specialist Medical Practitioner"
-                value="[ Others expenditure on Continuing Professional Development Specialist Medical Practitioner ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td style="text-align: Left;">Nursing Professional</td>
-            <td>
-              <input
-                id="k31vRXPe1UA-fGOgbIqsxDn-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Nursing Professional"
-                value="[ Public expenditure on Continuing Professional Development Nursing Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-fGOgbIqsxDn-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Nursing Professional"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Nursing Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-fGOgbIqsxDn-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-fGOgbIqsxDn-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Nursing Professional"
-                value="[ Others expenditure on Continuing Professional Development Nursing Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td style="text-align: Left;">Midwifery Professional</td>
-            <td>
-              <input
-                id="k31vRXPe1UA-MPzyVWiSFF2-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Midwifery Professional"
-                value="[ Public expenditure on Continuing Professional Development Midwifery Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-MPzyVWiSFF2-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Midwifery Professional"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Midwifery Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-MPzyVWiSFF2-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-MPzyVWiSFF2-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Midwifery Professional"
-                value="[ Others expenditure on Continuing Professional Development Midwifery Professional ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td style="text-align: Left;">Dentist</td>
-            <td>
-              <input
-                id="k31vRXPe1UA-ALBRKpJsddQ-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Dentist"
-                value="[ Public expenditure on Continuing Professional Development Dentist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-ALBRKpJsddQ-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Dentist"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Dentist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-ALBRKpJsddQ-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Dentist"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Dentist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-ALBRKpJsddQ-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Dentist"
-                value="[ Others expenditure on Continuing Professional Development Dentist ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td style="text-align: Left;">Pharmacist</td>
-            <td>
-              <input
-                id="k31vRXPe1UA-iWRW6jXAzvP-val"
-                name="entryfield"
-                title="Public expenditure on Continuing Professional Development Pharmacist"
-                value="[ Public expenditure on Continuing Professional Development Pharmacist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="go9xficYy4f-iWRW6jXAzvP-val"
-                name="entryfield"
-                title="Out of Pockets expenditure on Continuing Professional Development Pharmacist"
-                value="[ Out of Pockets expenditure on Continuing Professional Development Pharmacist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="BMJGeU5QjPU-iWRW6jXAzvP-val"
-                name="entryfield"
-                title="Official Development Assistanc expenditure on Continuing Professional Development Pharmacist"
-                value="[ Official Development Assistanc expenditure on Continuing Professional Development Pharmacist ]"
-              />
-            </td>
-            <td>
-              <input
-                id="hUqp2FZFNGA-iWRW6jXAzvP-val"
-                name="entryfield"
-                title="Others expenditure on Continuing Professional Development Pharmacist"
-                value="[ Others expenditure on Continuing Professional Development Pharmacist ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="tab2">
+<h2>SECTION 3: LIFELONG LEARNING</h2>
 
-  <div id="tab3">
-    <h2>SECTION 4: HWF OTHER RESOURCES</h2>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th colspan="1" rowspan="3">SN</th>
+			<th colspan="1" rowspan="3">HWF education and training programme</th>
+			<th colspan="4" rowspan="1" style="text-align: center;">Total expenditure on in-service training and continuing professional development (4-08)</th>
+		</tr>
+		<tr>
+			<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+			<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+		</tr>
+		<tr>
+			<th style="text-align: center;">Out of Pockets</th>
+			<th style="text-align: center;">Official Development<br />
+			Assistance</th>
+			<th style="text-align: center;">Others</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td style="text-align: Left;">Medical Doctors</td>
+			<td><input id="k31vRXPe1UA-aBpbcEgtzgw-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-aBpbcEgtzgw-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-aBpbcEgtzgw-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-aBpbcEgtzgw-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>1.1</td>
+			<td style="text-align: Left;">
+			<p style="margin-left: 20px; text-align: Left;">General Medical Practitioner</p>
+			</td>
+			<td><input id="k31vRXPe1UA-LHbCtHlZr3Y-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-LHbCtHlZr3Y-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-LHbCtHlZr3Y-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-LHbCtHlZr3Y-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>1.2</td>
+			<td style="text-align: Left;">
+			<p style="margin-left: 20px; text-align: Left;">Specialist Medical Practitioner</p>
+			</td>
+			<td><input id="k31vRXPe1UA-VtVkbvygJnm-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-VtVkbvygJnm-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-VtVkbvygJnm-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-VtVkbvygJnm-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td style="text-align: Left;">Nursing Professional</td>
+			<td><input id="k31vRXPe1UA-fGOgbIqsxDn-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-fGOgbIqsxDn-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-fGOgbIqsxDn-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-fGOgbIqsxDn-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td style="text-align: Left;">Midwifery Professional</td>
+			<td><input id="k31vRXPe1UA-MPzyVWiSFF2-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-MPzyVWiSFF2-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-MPzyVWiSFF2-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-MPzyVWiSFF2-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>4</td>
+			<td style="text-align: Left;">Dentist</td>
+			<td><input id="k31vRXPe1UA-ALBRKpJsddQ-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-ALBRKpJsddQ-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-ALBRKpJsddQ-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-ALBRKpJsddQ-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>5</td>
+			<td style="text-align: Left;">Pharmacist</td>
+			<td><input id="k31vRXPe1UA-iWRW6jXAzvP-val" name="entryfield" title="" value="" /></td>
+			<td><input id="go9xficYy4f-iWRW6jXAzvP-val" name="entryfield" title="" value="" /></td>
+			<td><input id="BMJGeU5QjPU-iWRW6jXAzvP-val" name="entryfield" title="" value="" /></td>
+			<td><input id="hUqp2FZFNGA-iWRW6jXAzvP-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th>Item</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td style="text-align: Left;">Upload other resources</td>
-            <td>
-              <input
-                id="mQh8RpY2ccw-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="HWF Module 4 File upload"
-                value="[ HWF Module 4 File upload ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="tab3">
+<h2>SECTION 4: HWF OTHER RESOURCES</h2>
+
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th>Item</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td style="text-align: Left;">Upload other resources</td>
+			<td><input id="mQh8RpY2ccw-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
 </div>

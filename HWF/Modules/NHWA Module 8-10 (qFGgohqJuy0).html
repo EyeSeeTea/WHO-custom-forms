@@ -37,6 +37,25 @@
   ];
   var percentages = ["LW954y3FqL8", "fxBC5D01Iem", "EWJZZN7T9IW"];
 
+  function get_resource_link(element_id, tokens) {
+    $.ajax({
+      url: "../api/documents",
+      type: "get",
+      data: {
+        fields: 'id',
+        filter: 'name:token:'+tokens
+      },
+      success: function(response) {
+        id = response['documents'][0]['id'];
+        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
+      },
+      error: function(xhr) {
+        console.log("Error in the request");
+        console.log(xhr);
+      }
+    });
+  }
+
   $(document).ready(function() {
     $(function() {
       $("#mod2_tabs").tabs();
@@ -176,10 +195,16 @@
         .find("tr > *:nth-child(" + (col + 1) + ")")
         .toggle();
     });
+
+    $(function() {
+      console.log('Updating file resources links')
+      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+      get_resource_link('userguide_link', 'NHWA, User, guide');
+      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+    });
   });
 </script>
-<style type="text/css">
-  #cde table {
+<style type="text/css">#cde table {
     border-collapse: collapse;
   }
 
@@ -247,884 +272,245 @@
     content: url("../images/comment_active.png");
   }
 </style>
-<h3 style="text-align: center;">
-  <strong>Skill Mix Composition, Governance and Information Systems</strong>
-</h3>
+<h3 style="text-align: center;"><strong>Skill Mix Composition, Governance and Information Systems</strong></h3>
 
-<h4 style="text-align: right;">
-  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
-    >Access the NHWA HANDBOOK</a
-  ><br />
-  <br />
-  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
-    >Access the NHWA USER GUIDE</a
-  >
-</h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="handbook_link" href="../api/documents/p6IINqTYv2f/data" target="_blank">Access the NHWA HANDBOOK</a></h4>
+
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a id="userguide_link" href="../api/documents/OCoAAGYwapP/data" target="_blank">Access the NHWA USER GUIDE</a></h4>
+
 
 <div id="mod2_tabs">
-  <ul>
-    <li><a href="#tab0">M08 - Skill mix composition&nbsp;</a></li>
-    <li><a href="#tab1">M09 - Governance and policies</a></li>
-    <li><a href="#tab2">M10 - Information Systems</a></li>
-    <li><a href="#tab3">Other Resources</a></li>
-  </ul>
+<ul>
+	<li><a href="#tab0">M08 - Skill mix composition&nbsp;</a></li>
+	<li><a href="#tab1">M09 - Governance and policies</a></li>
+	<li><a href="#tab2">M10 - Information Systems</a></li>
+	<li><a href="#tab3">Other Resources</a></li>
+</ul>
 
-  <div id="tab0">
-    <h2>SECTION 1: HWF Skill Mix composition</h2>
+<div id="tab0">
+<h2>SECTION 1: HWF Skill Mix composition</h2>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th style="text-align: center;">Item</th>
-            <th style="text-align: center; min-width: 200px;">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td style="text-align: left;">
-              Percentage of HWF at the hospitals (8-01)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="LW954y3FqL8-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Percentage of HWF at the hospitals"
-                value="[ Percentage of HWF at the hospitals ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td style="text-align: left;">
-              Percentage of health workforce working in residential long-term
-              care facilities (8-02)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="fxBC5D01Iem-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Percentage of HWF working in residential long-term care facilities"
-                value="[ Percentage of HWF working in residential long-term care facilities ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td style="text-align: left;">
-              Percentage of health workforce working in ambulatory health care
-              (8-03)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="EWJZZN7T9IW-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Percentage of HWF working in ambulatory health care"
-                value="[ Percentage of HWF working in ambulatory health care ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td style="text-align: left;">
-              Number of specialist surgical workers (8-04)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="zozZbvSo4Bz-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Number of specialist surgical workers"
-                value="[ Number of specialist surgical workers ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td style="text-align: left;">
-              Number of family medicine practitioners (8-05)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="XEj0ILIlbWO-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Number of family medicine practioners"
-                value="[ Number of family medicine practioners ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th style="text-align: center;">Item</th>
+			<th style="text-align: center; min-width: 200px;">Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<td style="text-align: left;">Percentage of HWF at the hospitals (8-01)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="LW954y3FqL8-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<td style="text-align: left;">Percentage of health workforce working in residential long-term care facilities (8-02)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="fxBC5D01Iem-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<td style="text-align: left;">Percentage of health workforce working in ambulatory health care (8-03)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="EWJZZN7T9IW-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<td style="text-align: left;">Number of specialist surgical workers (8-04)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="zozZbvSo4Bz-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<td style="text-align: left;">Number of family medicine practitioners (8-05)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="XEj0ILIlbWO-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
 
-    <div id="cde">
-      &nbsp;
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th style="text-align: center;">Item</th>
-            <th style="text-align: center; min-width: 200px;">Existence</th>
-            <th class="comments" scope="row" style="text-align: center;">
-              Comment
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td style="text-align: left;">
-              Existence of advanced nursing roles (8-06)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="tKr3k3lbnJJ-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of advanced nursing roles Yes"
-                value="[ Existence of advanced nursing roles Yes ]"
-              />Yes
-              <input
-                id="tKr3k3lbnJJ-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of advanced nursing roles Partial"
-                value="[ Existence of advanced nursing roles Partial ]"
-              />Partial
-              <input
-                id="tKr3k3lbnJJ-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of advanced nursing roles No"
-                value="[ Existence of advanced nursing roles No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="jlJcFRt3mmg-Xr12mI7VPn3-val"
-                title="Comment of existence of advanced nursing roles"
-                value="[ Comment of existence of advanced nursing roles ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td style="text-align: left;">
-              Availability of human resources to implement IHR (8-07)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="EVairjAiRv6-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Availability of human resources to implement IHR"
-                value="[ Availability of human resources to implement IHR ]"
-              />
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                style="cursor: pointer; margin-left: 10px;"
-                title="View comment"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="rYm7I91K6Je-Xr12mI7VPn3-val"
-                title="Comment of Availability of human resources to implement IHR"
-                value="[ Comment of Availability of human resources to implement IHR ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td style="text-align: left;">
-              Applied epidemiology training programme (8-08)
-            </td>
-            <td style="text-align: center; min-width: 200px;">
-              <input
-                id="u6F6nBWeomT-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="Applied epidemiology training programme"
-                value="[ Applied epidemiology training programme ]"
-              />
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                style="cursor: pointer; margin-left: 10px;"
-                title="View comment"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="PBUMZvqh0r2-Xr12mI7VPn3-val"
-                title="Comment of Applied epidemiology training programme"
-                value="[ Comment of Applied epidemiology training programme ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">&nbsp;
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th style="text-align: center;">Item</th>
+			<th style="text-align: center; min-width: 200px;">Existence</th>
+			<th class="comments" scope="row" style="text-align: center;">Comment</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<td style="text-align: left;">Existence of advanced nursing roles (8-06)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="tKr3k3lbnJJ-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="tKr3k3lbnJJ-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="tKr3k3lbnJJ-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="jlJcFRt3mmg-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<td style="text-align: left;">Availability of human resources to implement IHR (8-07)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="EVairjAiRv6-Xr12mI7VPn3-val" name="entryfield" title="" value="" /> <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="rYm7I91K6Je-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<td style="text-align: left;">Applied epidemiology training programme (8-08)</td>
+			<td style="text-align: center; min-width: 200px;"><input id="u6F6nBWeomT-Xr12mI7VPn3-val" name="entryfield" title="" value="" /> <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="PBUMZvqh0r2-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab1">
-    <h2>SECTION 2: HWF Governance and Policies</h2>
+<div id="tab1">
+<h2>SECTION 2: HWF Governance and Policies</h2>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th style="text-align: center;">Item</th>
-            <th style="text-align: center;">Existence</th>
-            <th class="comments" scope="row" style="text-align: center;">
-              Comment
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td style="text-align: left;">
-              <p lang="en-US">
-                Existence of institutional mechanisms to coordinate an
-                intersectoral health workforce agenda (9-01)
-              </p>
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="ROVoulCcT0j-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda Yes"
-                value="[ Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda Yes ]"
-              />Yes
-              <input
-                id="ROVoulCcT0j-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda Partial"
-                value="[ Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda Partial ]"
-              />Partial
-              <input
-                id="ROVoulCcT0j-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda No"
-                value="[ Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="xtrKmZJKljq-Xr12mI7VPn3-val"
-                title="Comment of existence of institutional mechanisms to coordinate an intersectoral health workforce agenda"
-                value="[ Comment of existence of institutional mechanisms to coordinate an intersectoral health workforce agenda ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td style="text-align: left;">
-              Existence of a health workforce unit responsible for developing
-              and monitoring policies and plans on health workforce&nbsp; (9-02)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="yqQBUxeuga4-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce Yes"
-                value="[ Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce Yes ]"
-              />Yes
-              <input
-                id="yqQBUxeuga4-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce Partial"
-                value="[ Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce Partial ]"
-              />Partial
-              <input
-                id="yqQBUxeuga4-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce No"
-                value="[ Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="R6JXOAVTsay-Xr12mI7VPn3-val"
-                title="Comment of existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce"
-                value="[ Comment of existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td style="text-align: left;">
-              Existence of mechanisms and models for health workforce
-              planning&nbsp; (9-03)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="tdwemEgGckz-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of mechanisms and models for health workforce planning Yes"
-                value="[ Existence of mechanisms and models for health workforce planning Yes ]"
-              />Yes
-              <input
-                id="tdwemEgGckz-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of mechanisms and models for health workforce planning Partial"
-                value="[ Existence of mechanisms and models for health workforce planning Partial ]"
-              />Partial
-              <input
-                id="tdwemEgGckz-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of mechanisms and models for health workforce planning No"
-                value="[ Existence of mechanisms and models for health workforce planning No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="risbLwkLwW5-Xr12mI7VPn3-val"
-                title="Comment of existence of mechanisms and models for health workforce planning"
-                value="[ Comment of existence of mechanisms and models for health workforce planning ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td style="text-align: left;">
-              Existence of national education plans for health workers, aligned
-              with the national health plan&nbsp;and the national health
-              workforce strategy/plan&nbsp; (9-04)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="wDaqByzsz7p-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy Yes"
-                value="[ Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy Yes ]"
-              />Yes
-              <input
-                id="wDaqByzsz7p-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy Partial"
-                value="[ Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy Partial ]"
-              />Partial
-              <input
-                id="wDaqByzsz7p-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy No"
-                value="[ Existence of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="oLpoOT6tO7g-Xr12mI7VPn3-val"
-                title="Comment of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy"
-                value="[ Comment of national education plans for the health workforce, aligned with the national health plan and the national health workforce strategy ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td style="text-align: left;">
-              Existence of institutional models for assessing and monitoring
-              staffing needs for health service delivery&nbsp; (9-05)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="HgQ76w0VONy-I93t0K7b1oN-val"
-                name="entryfield"
-                title="undefined"
-                value="[ undefined ]"
-              />Yes
-              <input
-                id="HgQ76w0VONy-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="undefined"
-                value="[ undefined ]"
-              />Partial
-              <input
-                id="HgQ76w0VONy-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="undefined"
-                value="[ undefined ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="RM1vy8bSPE8-Xr12mI7VPn3-val"
-                title="Comment of Existence of institutional models for assessing and monitoring staffing needs for health service delivery"
-                value="[ Comment of Existence of institutional models for assessing and monitoring staffing needs for health service delivery ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th style="text-align: center;">Item</th>
+			<th style="text-align: center;">Existence</th>
+			<th class="comments" scope="row" style="text-align: center;">Comment</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<td style="text-align: left;">
+			<p lang="en-US">Existence of institutional mechanisms to coordinate an intersectoral health workforce agenda (9-01)</p>
+			</td>
+			<td style="text-align: center;"><input id="ROVoulCcT0j-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="ROVoulCcT0j-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="ROVoulCcT0j-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="xtrKmZJKljq-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<td style="text-align: left;">Existence of a health workforce unit responsible for developing and monitoring policies and plans on health workforce&nbsp; (9-02)</td>
+			<td style="text-align: center;"><input id="yqQBUxeuga4-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="yqQBUxeuga4-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="yqQBUxeuga4-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="R6JXOAVTsay-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<td style="text-align: left;">Existence of mechanisms and models for health workforce planning&nbsp; (9-03)</td>
+			<td style="text-align: center;"><input id="tdwemEgGckz-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="tdwemEgGckz-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="tdwemEgGckz-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="risbLwkLwW5-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<td style="text-align: left;">Existence of national education plans for health workers, aligned with the national health plan&nbsp;and the national health workforce strategy/plan&nbsp; (9-04)</td>
+			<td style="text-align: center;"><input id="wDaqByzsz7p-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="wDaqByzsz7p-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="wDaqByzsz7p-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="oLpoOT6tO7g-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<td style="text-align: left;">Existence of institutional models for assessing and monitoring staffing needs for health service delivery&nbsp; (9-05)</td>
+			<td style="text-align: center;"><input id="HgQ76w0VONy-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="HgQ76w0VONy-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="HgQ76w0VONy-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="RM1vy8bSPE8-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab2">
-    <h2>SECTION 3: Health Workforce Information Systems</h2>
+<div id="tab2">
+<h2>SECTION 3: Health Workforce Information Systems</h2>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th style="text-align: center;">Item</th>
-            <th style="text-align: center;">Existence</th>
-            <th class="comments" scope="row" style="text-align: center;">
-              Comment
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td style="text-align: left;">
-              Existence of HRHIS for reporting on International Health
-              Regulations (10-01)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="f87mpByuPub-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on International Health Regulations Yes"
-                value="[ Existence of HRHIS for reporting on International Health Regulations Yes ]"
-              />Yes
-              <input
-                id="f87mpByuPub-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on International Health Regulations Partial"
-                value="[ Existence of HRHIS for reporting on International Health Regulations Partial ]"
-              />Partial
-              <input
-                id="f87mpByuPub-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on International Health Regulations No"
-                value="[ Existence of HRHIS for reporting on International Health Regulations No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="jieOOtItEQg-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS for reporting on International Health Regulations"
-                value="[ Comment of Existence of HRHIS for reporting on International Health Regulations ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td style="text-align: left;">
-              Existence of HRHIS for reporting on &nbsp;the WHO Global Code of
-              Practice on the International Recruitment of Health
-              Personnel&nbsp;(10-02)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="RHokurJAbjS-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  Yes"
-                value="[ Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  Yes ]"
-              />Yes
-              <input
-                id="RHokurJAbjS-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  Partial"
-                value="[ Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  Partial ]"
-              />Partial
-              <input
-                id="RHokurJAbjS-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  No"
-                value="[ Existence of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel  No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="tASpRJWiyvN-Xr12mI7VPn3-val"
-                title="Comment of Existance of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel"
-                value="[ Comment of Existance of HRHIS for reporting on  the WHO Global Code of Practice on the International Recruitment of Health Personnel ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td style="text-align: left;">
-              Existence of HRHIS for reporting on Skilled Attendance at Birth
-              requirements&nbsp;(10-03)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="w8SWd1reRm8-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on Skilled Attendance at Birth requirements Yes"
-                value="[ Existence of HRHIS for reporting on Skilled Attendance at Birth requirements Yes ]"
-              />Yes
-              <input
-                id="w8SWd1reRm8-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on Skilled Attendance at Birth requirements Partial"
-                value="[ Existence of HRHIS for reporting on Skilled Attendance at Birth requirements Partial ]"
-              />Partial
-              <input
-                id="w8SWd1reRm8-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on Skilled Attendance at Birth requirements No"
-                value="[ Existence of HRHIS for reporting on Skilled Attendance at Birth requirements No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="aAaUMHvUPv1-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS for reporting on Skilled Attendance at Birth requirements"
-                value="[ Comment of Existence of HRHIS for reporting on Skilled Attendance at Birth requirements ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td style="text-align: left;">
-              Existence of HRHIS for reporting on outputs from education and
-              training institutions&nbsp;(10-04)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="IidAimBSgEf-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on outputs from education and training institutions Yes"
-                value="[ Existence of HRHIS for reporting on outputs from education and training institutions Yes ]"
-              />Yes
-              <input
-                id="IidAimBSgEf-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on outputs from education and training institutions Partial"
-                value="[ Existence of HRHIS for reporting on outputs from education and training institutions Partial ]"
-              />Partial
-              <input
-                id="IidAimBSgEf-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS for reporting on outputs from education and training institutions No"
-                value="[ Existence of HRHIS for reporting on outputs from education and training institutions No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="mwwpy9cyOGy-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS for reporting on outputs from education and training institutions"
-                value="[ Comment of Existence of HRHIS for reporting on outputs from education and training institutions ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td style="text-align: left;">
-              Existence of HRHIS to track entrants to the labour
-              market&nbsp;(10-05)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="q8CUMlpFLtJ-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS to track entrants to the labour market Yes"
-                value="[ Existence of HRHIS to track entrants to the labour market Yes ]"
-              />Yes
-              <input
-                id="q8CUMlpFLtJ-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS to track entrants to the labour market Partial"
-                value="[ Existence of HRHIS to track entrants to the labour market Partial ]"
-              />Partial
-              <input
-                id="q8CUMlpFLtJ-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS to track entrants to the labour market No"
-                value="[ Existence of HRHIS to track entrants to the labour market No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="AK5r5VIXYOW-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS to track entrants to the labour market"
-                value="[ Comment of Existence of HRHIS to track entrants to the labour market ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">6</th>
-            <td style="text-align: left;">
-              Existence of HRHIS to track the number of active stock per
-              year&nbsp;(10-06)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="hR7B1ITcCMe-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of active stock per year Yes"
-                value="[ Existence of HRHIS to track the number of active stock per year Yes ]"
-              />Yes
-              <input
-                id="hR7B1ITcCMe-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of active stock per year Partial"
-                value="[ Existence of HRHIS to track the number of active stock per year Partial ]"
-              />Partial
-              <input
-                id="hR7B1ITcCMe-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of active stock per year No"
-                value="[ Existence of HRHIS to track the number of active stock per year No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="QuUK6IgR9oZ-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS to track the number of active stock per year"
-                value="[ Comment of Existence of HRHIS to track the number of active stock per year ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">7</th>
-            <td style="text-align: left;">
-              Existence of HRHIS to track the number of exits per
-              year&nbsp;(10-07)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="qNxAIa6jvmm-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of exits per year Yes"
-                value="[ Existence of HRHIS to track the number of exits per year Yes ]"
-              />Yes
-              <input
-                id="qNxAIa6jvmm-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of exits per year Partial"
-                value="[ Existence of HRHIS to track the number of exits per year Partial ]"
-              />Partial
-              <input
-                id="qNxAIa6jvmm-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS to track the number of exits per year No"
-                value="[ Existence of HRHIS to track the number of exits per year No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="bGA2GtwhrC9-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS to track the number of exits per year"
-                value="[ Comment of Existence of HRHIS to track the number of exits per year ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <th scope="row">8</th>
-            <td style="text-align: left;">
-              Existence of HRHIS to produce geo-coded location of health
-              facilities&nbsp;(10-08)
-            </td>
-            <td style="text-align: center;">
-              <input
-                id="FZYvE3Jdf8L-I93t0K7b1oN-val"
-                name="entryfield"
-                title="Existence of HRHIS to produce geo-coded location of health facilities Yes"
-                value="[ Existence of HRHIS to produce geo-coded location of health facilities Yes ]"
-              />Yes
-              <input
-                id="FZYvE3Jdf8L-Xgr3PJxcWfJ-val"
-                name="entryfield"
-                title="Existence of HRHIS to produce geo-coded location of health facilities Partial"
-                value="[ Existence of HRHIS to produce geo-coded location of health facilities Partial ]"
-              />Partial
-              <input
-                id="FZYvE3Jdf8L-Y7EAGQA1bfv-val"
-                name="entryfield"
-                title="Existence of HRHIS to produce geo-coded location of health facilities No"
-                value="[ Existence of HRHIS to produce geo-coded location of health facilities No ]"
-              />No
-              <img
-                class="comment-bubble"
-                src="../images/comment.png"
-                title="View comment"
-                style="cursor: pointer; margin-left: 10px;"
-              />
-            </td>
-            <td class="comments" scope="row" style="text-align: center;">
-              <input
-                name="entryfield"
-                class="entryfield"
-                id="cWUu9JeMtg7-Xr12mI7VPn3-val"
-                title="Comment of Existence of HRHIS to produce geo-coded location of health facilities"
-                value="[ Comment of Existence of HRHIS to produce geo-coded location of health facilities ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th style="text-align: center;">Item</th>
+			<th style="text-align: center;">Existence</th>
+			<th class="comments" scope="row" style="text-align: center;">Comment</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">1</th>
+			<td style="text-align: left;">Existence of HRHIS for reporting on International Health Regulations (10-01)</td>
+			<td style="text-align: center;"><input id="f87mpByuPub-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="f87mpByuPub-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="f87mpByuPub-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="jieOOtItEQg-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">2</th>
+			<td style="text-align: left;">Existence of HRHIS for reporting on &nbsp;the WHO Global Code of Practice on the International Recruitment of Health Personnel&nbsp;(10-02)</td>
+			<td style="text-align: center;"><input id="RHokurJAbjS-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="RHokurJAbjS-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="RHokurJAbjS-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="tASpRJWiyvN-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">3</th>
+			<td style="text-align: left;">Existence of HRHIS for reporting on Skilled Attendance at Birth requirements&nbsp;(10-03)</td>
+			<td style="text-align: center;"><input id="w8SWd1reRm8-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="w8SWd1reRm8-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="w8SWd1reRm8-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="aAaUMHvUPv1-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">4</th>
+			<td style="text-align: left;">Existence of HRHIS for reporting on outputs from education and training institutions&nbsp;(10-04)</td>
+			<td style="text-align: center;"><input id="IidAimBSgEf-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="IidAimBSgEf-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="IidAimBSgEf-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="mwwpy9cyOGy-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">5</th>
+			<td style="text-align: left;">Existence of HRHIS to track entrants to the labour market&nbsp;(10-05)</td>
+			<td style="text-align: center;"><input id="q8CUMlpFLtJ-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="q8CUMlpFLtJ-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="q8CUMlpFLtJ-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="AK5r5VIXYOW-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">6</th>
+			<td style="text-align: left;">Existence of HRHIS to track the number of active stock per year&nbsp;(10-06)</td>
+			<td style="text-align: center;"><input id="hR7B1ITcCMe-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="hR7B1ITcCMe-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="hR7B1ITcCMe-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="QuUK6IgR9oZ-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">7</th>
+			<td style="text-align: left;">Existence of HRHIS to track the number of exits per year&nbsp;(10-07)</td>
+			<td style="text-align: center;"><input id="qNxAIa6jvmm-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="qNxAIa6jvmm-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="qNxAIa6jvmm-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="bGA2GtwhrC9-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<th scope="row">8</th>
+			<td style="text-align: left;">Existence of HRHIS to produce geo-coded location of health facilities&nbsp;(10-08)</td>
+			<td style="text-align: center;"><input id="FZYvE3Jdf8L-I93t0K7b1oN-val" name="entryfield" title="" value="" />Yes <input id="FZYvE3Jdf8L-Xgr3PJxcWfJ-val" name="entryfield" title="" value="" />Partial <input id="FZYvE3Jdf8L-Y7EAGQA1bfv-val" name="entryfield" title="" value="" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
+			<td class="comments" scope="row" style="text-align: center;"><input class="entryfield" id="cWUu9JeMtg7-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 
-  <div id="tab3">
-    <h2>SECTION 4: Other Resources</h2>
+<div id="tab3">
+<h2>SECTION 4: Other Resources</h2>
 
-    <div id="cde">
-      <table cellpadding="0" cellspacing="0">
-        <thead>
-          <tr>
-            <th>SN</th>
-            <th>Item</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td style="text-align: Left;">
-              Upload other resources for Module 8
-            </td>
-            <td>
-              <input
-                id="FvQ6WiqHbmo-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="HWF Module 8 File upload"
-                value="[ HWF Module 8 File upload ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td style="text-align: Left;">
-              Upload other resources for Module 9
-            </td>
-            <td>
-              <input
-                id="VbA9JYedRlP-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="HWF Module 9 File upload"
-                value="[ HWF Module 9 File upload ]"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td style="text-align: Left;">
-              Upload other resources for Module 10
-            </td>
-            <td>
-              <input
-                id="c0hyfYTOuUh-Xr12mI7VPn3-val"
-                name="entryfield"
-                title="HWF Module 10 File upload"
-                value="[ HWF Module 10 File upload ]"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div id="cde">
+<table cellpadding="0" cellspacing="0">
+	<thead>
+		<tr>
+			<th>SN</th>
+			<th>Item</th>
+			<th>Value</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>1</td>
+			<td style="text-align: Left;">Upload other resources for Module 8</td>
+			<td><input id="FvQ6WiqHbmo-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>2</td>
+			<td style="text-align: Left;">Upload other resources for Module 9</td>
+			<td><input id="VbA9JYedRlP-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+		<tr>
+			<td>3</td>
+			<td style="text-align: Left;">Upload other resources for Module 10</td>
+			<td><input id="c0hyfYTOuUh-Xr12mI7VPn3-val" name="entryfield" title="" value="" /></td>
+		</tr>
+	</tbody>
+</table>
+</div>
+</div>
 </div>
