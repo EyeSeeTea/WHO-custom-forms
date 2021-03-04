@@ -144,36 +144,6 @@
   
   <body>
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div id="header">
       <img id="headerBanner" src="../api/staticContent/logo_banner" onclick="window.location.href='../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="View home page">
 
@@ -197,6 +167,18 @@
 <input type="button" value="Back" onclick="javascript:window.location.href='displayViewReportForm.action'" style="width:140px">
 </div>
 
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
+integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+crossorigin="anonymous"
+></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 <script type="text/javascript">
 
 dhis2.util.namespace( 'dhis2.report' );
@@ -214,56 +196,7 @@ dhis2.report.date = "";
 
 dhis2.report.periods = [
 ];
-
-</script>
-
-<div>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
-    />
-    <style type="text/css">
-      .gridDiv {
-        font-family: sans-serif, arial;
-      }
-
-      table.gridTable {
-        border-collapse: collapse;
-        font-size: 11pt;
-      }
-
-      .gridTable th,
-      .gridTable td {
-        padding: 8px 4px 7px 4px;
-        border: 1px solid #e7e7e7;
-      }
-
-      .gridTable th {
-        background-color: #f3f3f3;
-        font-weight: bold;
-      }
-    </style>
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
-      integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
-    <script type="text/javascript">
-      function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
         $.ajax({
           type: "GET",
           dataType: "json",
@@ -311,12 +244,65 @@ dhis2.report.periods = [
           }
         });
       }
+      function done(){
+          console.log("Done");
+      };
+      function start(){
+          console.log("Starting...");
+      };
+      //{"programStages":[{"name":"Clinical examination","id":"gESnmSpQq3g","dataEntryForm":{"id":"pyZxv2ORTh4","name":"Clinical examination","format":0},
+      //"program":{"name":"Cutaneous leishmaniasis cases - Tracker","id":"uGCVVme3C4e"}}
+      function updateEmptyCustomFormsTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url,
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            _(data)
+            .omit(removeDataSharingTypes ? ["categoryOptions", ] : [])
+              .mapValues(function(array, key) {
+                      console.log("array "+array);
+                return Array.isArray(array)
+                  ? _.map(array, function(element) {
+                      element.metadataType = key;
+                      console.log("key "+key);
+                      console.log("element "+element);
+                      return element;
+                    })
+                  : [];
+              })
+              .values()
+              .flatten()
+              .forEach(function(element) {
+                console.log("element" + element);
+                const method = updateRow
+                  ? table.row(`#${element.id}`).data
+                  : table.row.add;
+                  method([
+                    element.metadataType,
+                    element.program ? element.program.id : "-",
+                    element.program ? element.program.name : "-",
+                    element.id,
+                    element.name ? element.name : "-",
+                    element.dataEntryForm ? element.dataEntryForm.id : "-",
+                    element.dataEntryForm ? element.dataEntryForm.name : "-"
+                  ]);
+              });
+            table.draw();
+            nextCall();
+          }
+        });
+      }
 
       $(document).ready(function() {
         const isDevelopment = window.location.protocol === "file:";
-		const baseUrl = "..";
+		    const baseUrl = "..";
 		
-		// BUILD TABLES
+		    // BUILD TABLES
         // Build "Invalid sharing settings" table
         const invalidSharingSettingsTable = $(
           "#invalid_sharing_settings"
@@ -358,6 +344,15 @@ dhis2.report.periods = [
           }
         });
 
+
+        // Build "Programs with empty custom forms" table
+        const emptyCustomFormTable = $("#empty_custom_form").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
 		// Update tabble from sqlview
         $.ajax({
           type: "GET",
@@ -393,7 +388,7 @@ dhis2.report.periods = [
                   true,
                   isDevelopment,
                   false,
-                  {}
+                  start
                 );
                 publicObjectsTable
                   .rowGroup()
@@ -404,6 +399,7 @@ dhis2.report.periods = [
         });
 		//UPDATE TABLES FUNCTIONS
         function updateGenericNotPublicTable(){
+          console.log("table: updateGenericNotPublicTable");
             updateTable(
               genericNotPublicTable,
               baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
@@ -415,6 +411,7 @@ dhis2.report.periods = [
         };
 
         function updateInvalidSharingSettingsTable(){
+          console.log("table: updateInvalidSharingSettingsTable");
             updateTable(
               invalidSharingSettingsTable,
               baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
@@ -426,6 +423,7 @@ dhis2.report.periods = [
         }
 
         function updateInvalidSharingSettingsUserGroupsTable(){
+          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
 				updateTable(
 				  invalidSharingSettingsTable,
 				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
@@ -438,6 +436,7 @@ dhis2.report.periods = [
         }
 
         function updateChangedMetadataTable(){
+          console.log("table: updateChangedMetadataTable");
             let date = new Date();
             date.setDate(date.getDate() - 14);
             const queryDate = date.toISOString().split("T")[0];
@@ -448,32 +447,78 @@ dhis2.report.periods = [
               false,
               isDevelopment,
               false,
-              updatePublicNotGenericTable
+              updateEmptyCustomForms
             );
         };
 
-        function done(){
-        console.log("Done")
+        function updateEmptyCustomForms(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              emptyCustomFormTable,
+              baseUrl + "/api/programStages.json?fields=id,name,program[id,name],dataEntryForm[name,id,htmlCode,format]&paging=false&filter=dataEntryForm.htmlCode:null&filter=dataEntryForm.id:!null",
+              false,
+              isDevelopment,
+              false,
+              updatePublicNotGenericTable
+            ); 
         };
-
+		
         function updatePublicNotGenericTable(){
+          console.log("table: updatePublicNotGenericTable");
             updateTable(
               publicNotGenericTable,
               baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
               false,
               isDevelopment,
               false,
-              {done}
+              done
             );
         };
         
-		//START UPDATE TABLES
+        console.log("Start");
+		    //START UPDATE TABLES
         updateGenericNotPublicTable();
+        console.log("executed");
       });
-    </script>
+</script>
+
+<div>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+    />
+    <style type="text/css">
+      .gridDiv {
+        font-family: sans-serif, arial;
+      }
+
+      table.gridTable {
+        border-collapse: collapse;
+        font-size: 11pt;
+      }
+
+      .gridTable th,
+      .gridTable td {
+        padding: 8px 4px 7px 4px;
+        border: 1px solid #e7e7e7;
+      }
+
+      .gridTable th {
+        background-color: #f3f3f3;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body>
     <div class="gridDiv">
+	  
       <h3>Public Objects</h3>
       <table class="listTable gridTable" id="public_objects">
         <thead>
@@ -545,6 +590,21 @@ dhis2.report.periods = [
             <th>Created by</th>
             <th>Last updated by</th>
             <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+
+      <h3>Empty custom forms</h3>
+      <table class="listTable gridTable" id="empty_custom_form">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
+            <th>Program Stage id</th>
+            <th>Program Stage name</th>
+            <th>Data entry form id</th>
+            <th>Data entry form name</th>
           </tr>
         </thead>
       </table>
