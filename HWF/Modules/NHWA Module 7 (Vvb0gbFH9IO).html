@@ -1,0 +1,999 @@
+<script type="text/javascript">
+  var yespartialno = [];
+  var categoryIssues = [];
+  var yesno = ["M7R7LVsXlAN"];
+  var comments = ["cXn60b9eotz"];
+  var percentages = [];
+
+  $(document).ready(function() {
+    $(function() {
+      $("#mod2_tabs").tabs();
+    });
+
+    function updateCommentVisibility($textfield) {
+      const $input = $textfield
+        .closest("td")
+        .prev()
+        .find("input");
+
+      if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
+        $textfield.removeAttr("disabled");
+        $textfield.css("background-color", "rgb(255, 255, 255)");
+      } else if (!$input.hasClass("entryoptionset")) {
+        $textfield.prop("disabled", true);
+        $textfield.css("background-color", "rgb(204, 204, 204)");
+      }
+    }
+
+    function updateBubble($textfield) {
+      const enable = $textfield.val() !== "";
+      const $bubble = $textfield
+        .closest("td")
+        .prev()
+        .find(".comment-bubble");
+      if (enable) {
+        $bubble.addClass("comment-available");
+      } else {
+        $bubble.removeClass("comment-available");
+      }
+    }
+
+    function init() {
+      $(".comments").toggle(false);
+      comments.forEach(function(comment) {
+        const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
+        updateCommentVisibility($textfield);
+
+        updateBubble($textfield);
+        $textfield.on(
+          "change keyup paste",
+          _.debounce(function() {
+            updateBubble($(this));
+
+            // Store comments as comment too
+            var commentSaver = new CommentSaver(
+              comment,
+              "Xr12mI7VPn3",
+              $(this).val()
+            );
+            commentSaver.save();
+          }, 500)
+        );
+
+        if ($textfield.val() !== "") {
+          const col = $textfield.parent().index() + 1;
+          $textfield
+            .closest("table")
+            .find("tr > *:nth-child(" + col + ")")
+            .toggle(true);
+        }
+      });
+
+      yespartialno.forEach(function(dataElement) {
+        categoryIssues.forEach(function(option) {
+          $("#" + dataElement + "-" + option + "-val").on("click", function() {
+            const id = $(this).attr("id");
+            updateCommentVisibility(
+              $(this)
+                .closest("td")
+                .next()
+                .find("textarea")
+            );
+
+            if ($(this).is(":checked")) {
+              categoryIssues.forEach(function(id) {
+                if (id !== option) {
+                  const str = "#" + dataElement + "-" + id + "-val";
+                  if ($(str).is(":checked")) {
+                    $(str).click();
+                  }
+                }
+              });
+            }
+          });
+        });
+      });
+
+      yesno.forEach(function(dataElement) {
+        ["true", "false"].forEach(function(value) {
+          $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+            "click",
+            function() {
+              const $textfield = $(this)
+                .closest("td")
+                .next()
+                .find("textarea");
+              if ($(this).is(":checked")) {
+                $textfield.removeAttr("disabled");
+                $textfield.css("background-color", "rgb(255, 255, 255)");
+              } else {
+                $textfield.prop("disabled", true);
+                $textfield.css("background-color", "rgb(204, 204, 204)");
+              }
+            }
+          );
+        });
+      });
+
+      percentages.forEach(function(percentage) {
+        $("#" + percentage + "-Xr12mI7VPn3-val").on(
+          "change keyup paste",
+          _.debounce(function() {
+            const value = parseFloat($(this).val());
+            if (value > 100 || value < 0) {
+              alert("Value " + value + " is not a valid percentage");
+              $(this)
+                .val("")
+                .trigger("change");
+            }
+          }, 500)
+        );
+      });
+    }
+
+    init();
+    $(this).on(dhis2.de.event.dataValuesLoaded, init);
+
+    $(".comment-bubble").on("click", function() {
+      const col =
+        $(this)
+          .parent()
+          .index() + 1;
+      $(this)
+        .closest("table")
+        .find("tr > *:nth-child(" + (col + 1) + ")")
+        .toggle();
+    });
+  });
+</script>
+<style type="text/css">
+  #cde table {
+    border-collapse: collapse;
+  }
+
+  #cde table,
+  #cde th,
+  #cde td {
+    border: 1px solid #c0c0c0;
+  }
+
+  #cde td,
+  #cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .cde-greyfield {
+    background-color: #e0e0e0;
+  }
+
+  .multiselect {
+    width: 650px;
+  }
+
+  .selectBox {
+    position: relative;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .hwf {
+    display: none;
+    border: 1px #dadada solid;
+  }
+
+  label {
+    display: block;
+    text-align: left;
+  }
+
+  /* Tooltip container */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    /* If you want dots under the hoverable text */
+  }
+
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+
+    /* Fade in tooltip */
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  /* Tooltip arrow */
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .commentlink {
+    display: none;
+  }
+
+  .yesno label {
+    display: inline;
+  }
+
+  .comments textarea {
+    text-align: left;
+  }
+
+  .comment-bubble {
+    content: url("../images/comment.png");
+  }
+
+  .comment-available {
+    content: url("../images/comment_active.png");
+  }
+</style>
+<h3 style="text-align: center;">
+  <strong
+    >Health Workforce Spending and Remuneration<br />Report data in USD
+    (annual)</strong
+  >
+</h3>
+
+<h4 style="text-align: right;">
+  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
+    >Access the NHWA HANDBOOK</a
+  ><br />
+  <br />
+  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
+    >Access the NHWA USER GUIDE</a
+  >
+</h4>
+
+<div id="mod2_tabs">
+  <ul>
+    <li><a href="#tab0">Expenditure</a></li>
+    <li><a href="#tab1">Remuneration</a></li>
+    <li><a href="#tab2">Other Resources</a></li>
+  </ul>
+
+  <div id="tab0">
+    <h2>SECTION 1: HWF Expenditure</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="2">SN</th>
+            <th colspan="1" rowspan="2">Item</th>
+            <th colspan="3" rowspan="1" style="text-align: center;">
+              Value (USD)
+            </th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Public</th>
+            <th style="text-align: center;">Private not for Profit</th>
+            <th style="text-align: center;">Private for Profit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">
+              Total expenditure on health workforce (7-01)
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="gNDFctqpNyv-IMqululFzhP-val"
+                name="entryfield"
+                title="Expenditure on health workforce Public"
+                value="[ Expenditure on health workforce Public ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gNDFctqpNyv-N3nYJ6ScaYx-val"
+                name="entryfield"
+                title="Expenditure on health workforce Private not for profit"
+                value="[ Expenditure on health workforce Private not for profit ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gNDFctqpNyv-UKbfaRlqkpY-val"
+                name="entryfield"
+                title="Expenditure on health workforce Private for profit"
+                value="[ Expenditure on health workforce Private for profit ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th style="text-align: center;">Value</th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">
+              <p lang="en-US">
+                Incoming financial support received from official development
+                assistance allocated to health workforce (7-02)
+              </p>
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="Wgfv9IaDiWM-Xr12mI7VPn3-val"
+                name="entryfield"
+                title="Financial income received from official development assistance and allocated to HWF"
+                value="[ Financial income received from official development assistance and allocated to HWF ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th style="text-align: center;">
+              <div class="tooltip">
+                Government (USD)
+                <span class="tooltiptext"
+                  >Government schemes and compulsory contributory health care
+                  financing schemes</span
+                >
+              </div>
+            </th>
+            <th style="text-align: center;">
+              <div class="tooltip">
+                Voluntary (USD)<span class="tooltiptext"
+                  >Voluntary health care payment schemes (other than Out of
+                  pocket)</span
+                >
+              </div>
+            </th>
+            <th style="text-align: center;">
+              <div class="tooltip">
+                Household (USD)<span class="tooltiptext"
+                  >Household out-of-pocket payment</span
+                >
+              </div>
+            </th>
+            <th style="text-align: center;">Others (USD)</th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">
+              <p lang="en-US">
+                Total expenditure on compensation of health workers (7-03)
+              </p>
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="CvaGFNVhuQl-Pva8axKgU16-val"
+                name="entryfield"
+                title="Total expenditure on compensation of employees Government"
+                value="[ Total expenditure on compensation of employees Government ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="CvaGFNVhuQl-tOubXDEXuXK-val"
+                name="entryfield"
+                title="Total expenditure on compensation of employees Voluntary"
+                value="[ Total expenditure on compensation of employees Voluntary ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="CvaGFNVhuQl-BEmreemK803-val"
+                name="entryfield"
+                title="Total expenditure on compensation of employees Household"
+                value="[ Total expenditure on compensation of employees Household ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="CvaGFNVhuQl-qPPju3xBhV9-val"
+                name="entryfield"
+                title="Total expenditure on compensation of employees Other compensation"
+                value="[ Total expenditure on compensation of employees Other compensation ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th style="text-align: center;">Wages and Salary (USD)</th>
+            <th style="text-align: center;">Social Contribution (USD)</th>
+            <th style="text-align: center;">Others&nbsp;(USD)</th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">
+              <p lang="en-US">
+                Public expenditure on compensation of health workers (7-04)
+              </p>
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="l5RPrypr3Wg-LfoJLP7BbDk-val"
+                name="entryfield"
+                title="Public expenditure on compensation of employees Wages and Salary"
+                value="[ Public expenditure on compensation of employees Wages and Salary ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="l5RPrypr3Wg-hL8lKfXNzln-val"
+                name="entryfield"
+                title="Public expenditure on compensation of employees Social contribution"
+                value="[ Public expenditure on compensation of employees Social contribution ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="l5RPrypr3Wg-VWIQFya88eZ-val"
+                name="entryfield"
+                title="Public expenditure on compensation of employees Others"
+                value="[ Public expenditure on compensation of employees Others ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab1">
+    <h2>SECTION 2: HWF Wages</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="2">SN</th>
+            <th colspan="1" rowspan="2">Occupation</th>
+            <th colspan="3" rowspan="1" style="text-align: center;">
+              <p lang="en-US">
+                Average of Entry-level wages and<br />
+                salaries excluding Social Contributions (USD) (7-05)
+              </p>
+            </th>
+            <th colspan="3" rowspan="1" style="text-align: center;">
+              Median annual earning (USD) (7-07)
+            </th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Public</th>
+            <th style="text-align: center;">Private not for Profit</th>
+            <th style="text-align: center;">Private for Profit</th>
+            <th style="text-align: center;">Total</th>
+            <th style="text-align: center;">Men</th>
+            <th style="text-align: center;">Women</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">Medical Doctors</th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Medical Doctors"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Medical Doctors"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Medical Doctors"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="total earnings of men HWF Medical Doctors"
+                value="[ total median earnings HWF Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="median earnings of men HWF Medical Doctors"
+                value="[ median earnings of men HWF Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-aBpbcEgtzgw-val"
+                name="entryfield"
+                title="median earnings of female HWF Medical Doctors"
+                value="[ median earnings of female HWF Medical Doctors ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">1.1</th>
+            <th>
+              <p style="margin-left: 20px; text-align: left;">
+                General Medical Practitioner
+              </p>
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities General Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities General Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities General Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="total median earnings HWF General Medical Practitioner"
+                value="[ total median earnings HWF General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="median earnings of men HWF General Medical Practitioner"
+                value="[ median earnings of men HWF General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-LHbCtHlZr3Y-val"
+                name="entryfield"
+                title="median earnings of female HWF General Medical Practitioner"
+                value="[ median earnings of female HWF General Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">1.2</th>
+            <th>
+              <p style="margin-left: 20px; text-align: left;">
+                Specialist Medical Practitioner
+              </p>
+            </th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Specialist Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Specialist Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-VtVkbvygJnm-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Specialist Medical Practitioner"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-VtVkbvygJnm-val"
+                name="entryfield"
+                title="total median earnings HWF Specialist Medical Practitioner"
+                value="[ total median earnings HWF Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-VtVkbvygJnm-val"
+                name="entryfield"
+                title="median earnings of men HWF Specialist Medical Practitioner"
+                value="[ median earnings of men HWF Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-VtVkbvygJnm-val"
+                name="entryfield"
+                title="median earnings of female HWF Specialist Medical Practitioner"
+                value="[ median earnings of female HWF Specialist Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <th style="text-align: left;">Nursing Professional</th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Nursing Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Nursing Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Nursing Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="total median earnings HWF Nursing Professional"
+                value="[ total median earnings HWF Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="median earnings of men HWF Nursing Professional"
+                value="[ median earnings of men HWF Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-fGOgbIqsxDn-val"
+                name="entryfield"
+                title="median earnings of female HWF Nursing Professional"
+                value="[ median earnings of female HWF Nursing Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <th style="text-align: left;">Midwifery Professional</th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Midwifery Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Midwifery Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Midwifery Professional"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="total median earnings HWF Midwifery Professional"
+                value="[ total median earnings HWF Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="median earnings of men HWF Midwifery Professional"
+                value="[ median earnings of men HWF Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-MPzyVWiSFF2-val"
+                name="entryfield"
+                title="median earnings of female HWF Midwifery Professional"
+                value="[ median earnings of female HWF Midwifery Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">4</th>
+            <th style="text-align: left;">Dentist</th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Dentist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Dentist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Dentist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="total median earnings HWF Dentist"
+                value="[ total median earnings HWF Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="median earnings of men HWF Dentist"
+                value="[ median earnings of men HWF Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-ALBRKpJsddQ-val"
+                name="entryfield"
+                title="median earnings of female HWF Dentist"
+                value="[ median earnings of female HWF Dentist ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">5</th>
+            <th style="text-align: left;">Pharmacist</th>
+            <td style="text-align: center;">
+              <input
+                id="FVANVRToxVF-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Pharmacist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Public Facilities Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOsqct4iCpa-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Pharmacist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private not for profit Facilities Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="H6pdAoosHWN-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Pharmacist"
+                value="[ Average of Entry-level wages and salaries excluding Social Contributions in Private Facilities Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BCjjT4Xujzu-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="total median earnings HWF Pharmacist"
+                value="[ total median earnings HWF Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="oTcSBrUk1hs-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="median earnings of men HWF Pharmacist"
+                value="[ median earnings of men HWF Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kOWad32u5xr-iWRW6jXAzvP-val"
+                name="entryfield"
+                title="median earnings of female HWF Pharmacist"
+                value="[ median earnings of female HWF Pharmacist ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th style="text-align: center;">Existence</th>
+            <th class="comments" scope="row" style="text-align: center;" hidden>
+              Comment
+            </th>
+          </tr>
+          <tr></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <th style="text-align: left;">
+              <p lang="en-US">
+                Existence of national/subnational policies or standards on
+                public sector wage ceiling (7-06)
+              </p>
+            </th>
+            <td class="yesno" style="text-align: center;">
+              <input
+                id="M7R7LVsXlAN-Xr12mI7VPn3-val"
+                name="entryfield"
+                title="Existence of national/subnational policies or standards on public sector wage ceiling"
+                value="[ Existence of national/subnational policies or standards on public sector wage ceiling ]"
+              />
+              <img
+                class="comment-bubble"
+                src="../images/comment.png"
+                title="View comment"
+                style="cursor: pointer; margin-left: 10px;"
+              />
+            </td>
+            <td class="comments" scope="row" style="text-align: center;" hidden>
+              <input
+                name="entryfield"
+                class="entryfield entryarea"
+                id="cXn60b9eotz-Xr12mI7VPn3-val"
+                tabindex="1"
+                style="background-color: rgb(255, 255, 255); border: 1px solid rgb(170, 170, 170);"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab2">
+    <h2>SECTION 3: HWF OTHER RESOURCES</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Upload other resources</td>
+            <td>
+              <input
+                id="X2FXsNBTisV-Xr12mI7VPn3-val"
+                name="entryfield"
+                title="HWF Module 7 File upload"
+                value="[ HWF Module 7 File upload ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

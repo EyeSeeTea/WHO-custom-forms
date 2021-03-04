@@ -1,0 +1,1502 @@
+<script type="text/javascript">
+  var yespartialno = [];
+  var categoryIssues = [];
+  var yesno = [];
+  var comments = [];
+
+  $(document).ready(function() {
+    $(function() {
+      $("#mod2_tabs").tabs();
+    });
+  });
+  var expanded = false;
+
+  function showCheckboxes(element) {
+    var checkboxes = document.getElementById(element);
+    //var checkboxes = element.id;
+    if (!expanded) {
+      checkboxes.style.display = "block";
+      expanded = true;
+    } else {
+      checkboxes.style.display = "none";
+      expanded = false;
+    }
+  }
+</script>
+<style type="text/css">
+  #cde table {
+    border-collapse: collapse;
+  }
+
+  #cde table,
+  #cde th,
+  #cde td {
+    border: 1px solid #c0c0c0;
+  }
+
+  #cde td,
+  #cde th {
+    height: 30px;
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .cde-greyfield {
+    background-color: #e0e0e0;
+  }
+
+  .multiselect {
+    width: 650px;
+  }
+
+  .selectBox {
+    position: relative;
+  }
+
+  .selectBox select {
+    width: 100%;
+    font-weight: bold;
+  }
+
+  .overSelect {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+  }
+
+  .hwf {
+    display: none;
+    border: 1px #dadada solid;
+  }
+
+  label {
+    display: block;
+    text-align: left;
+  }
+</style>
+<h3 style="text-align: center;">
+  <strong>Health Workforce Market Flow</strong>
+</h3>
+
+<h4 style="text-align: right;">
+  <a href="../api/documents/p6IINqTYv2f/data" target="_blank"
+    >Access the NHWA HANDBOOK</a
+  ><br />
+  <br />
+  <a href="../api/documents/OCoAAGYwapP/data" target="_blank"
+    >Access the NHWA USER GUIDE</a
+  >
+</h4>
+
+<div id="mod2_tabs">
+  <ul>
+    <li><a href="#tab0">Entry into Labour Market</a></li>
+    <li><a href="#tab1">Exit from Labour Market</a></li>
+    <li><a href="#tab2">Other Resources</a></li>
+  </ul>
+
+  <div id="tab0">
+    <h2>SECTION 1: Entry into Labour Market</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="2">SN</th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Occupation
+            </th>
+            <th rowspan="2" style="text-align: center;">
+              Started practicing within<br />
+              one year of graduation (5-01)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              Started practicing within<br />
+              one year of graduation By Sex&nbsp;(5-01)
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Total &nbsp;newly &nbsp;active domestic<br />
+              trained HWF&nbsp;(5-02)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              Newly active domestic<br />
+              trained HWF By Sex&nbsp;(5-02)
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Total newly active foreign<br />
+              trained employed&nbsp;(5-03)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              Newly active foreign<br />
+              trained employed By Sex&nbsp;(5-03)
+            </th>
+          </tr>
+          <tr>
+            <th colspan="1" style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+            <th style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+            <th style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Medical Doctors"
+                value="[ Health workforce Started practicing within one year of graduation Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Medical Doctors"
+                value="[ Male Health workforce Started practicing within one year of graduation Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Medical Doctors"
+                value="[ Female Health workforce Started practicing within one year of graduation Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Medical Doctors"
+                value="[ Newly active domestic trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Medical Doctors"
+                value="[ Male newly active domestic trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Medical Doctors"
+                value="[ Female newly active domestic trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Medical Doctors"
+                value="[ Newly active foreign trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Medical Doctors"
+                value="[ Male newly active foreign trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Medical Doctors"
+                value="[ Female newly active foreign trained Health Workforce Medical Doctors ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>1.1</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation General Medical Practitioner"
+                value="[ Health workforce Started practicing within one year of graduation General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation General Medical Practitioner"
+                value="[ Male Health workforce Started practicing within one year of graduation General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation General Medical Practitioner"
+                value="[ Female Health workforce Started practicing within one year of graduation General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce General Medical Practitioner"
+                value="[ Newly active domestic trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce General Medical Practitioner"
+                value="[ Male newly active domestic trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce General Medical Practitioner"
+                value="[ Female newly active domestic trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce General Medical Practitioner"
+                value="[ Newly active foreign trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce General Medical Practitioner"
+                value="[ Male newly active foreign trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce General Medical Practitioner"
+                value="[ Female newly active foreign trained Health Workforce General Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>1.2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Specialist Medical Practitioner"
+                value="[ Health workforce Started practicing within one year of graduation Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Specialist Medical Practitioner"
+                value="[ Male Health workforce Started practicing within one year of graduation Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Specialist Medical Practitioner"
+                value="[ Female Health workforce Started practicing within one year of graduation Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Specialist Medical Practitioner"
+                value="[ Newly active domestic trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Specialist Medical Practitioner"
+                value="[ Male newly active domestic trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Specialist Medical Practitioner"
+                value="[ Female newly active domestic trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Specialist Medical Practitioner"
+                value="[ Newly active foreign trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Specialist Medical Practitioner"
+                value="[ Male newly active foreign trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Specialist Medical Practitioner"
+                value="[ Female newly active foreign trained Health Workforce Specialist Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Nursing Professional"
+                value="[ Health workforce Started practicing within one year of graduation Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Nursing Professional"
+                value="[ Male Health workforce Started practicing within one year of graduation Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Nursing Professional"
+                value="[ Female Health workforce Started practicing within one year of graduation Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Nursing Professional"
+                value="[ Newly active domestic trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Nursing Professional"
+                value="[ Male newly active domestic trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Nursing Professional"
+                value="[ Female newly active domestic trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Nursing Professional"
+                value="[ Newly active foreign trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Nursing Professional"
+                value="[ Male newly active foreign trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Nursing Professional"
+                value="[ Female newly active foreign trained Health Workforce Nursing Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Midwifery Professional"
+                value="[ Health workforce Started practicing within one year of graduation Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Midwifery Professional"
+                value="[ Male Health workforce Started practicing within one year of graduation Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Midwifery Professional"
+                value="[ Female Health workforce Started practicing within one year of graduation Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Midwifery Professional"
+                value="[ Newly active domestic trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Midwifery Professional"
+                value="[ Male newly active domestic trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Midwifery Professional"
+                value="[ Female newly active domestic trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Midwifery Professional"
+                value="[ Newly active foreign trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Midwifery Professional"
+                value="[ Male newly active foreign trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Midwifery Professional"
+                value="[ Female newly active foreign trained Health Workforce Midwifery Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Dentist"
+                value="[ Health workforce Started practicing within one year of graduation Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Dentist"
+                value="[ Male Health workforce Started practicing within one year of graduation Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Dentist"
+                value="[ Female Health workforce Started practicing within one year of graduation Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Dentist"
+                value="[ Newly active domestic trained Health Workforce Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Dentist"
+                value="[ Male newly active domestic trained Health Workforce Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Dentist"
+                value="[ Female newly active domestic trained Health Workforce Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Dentist"
+                value="[ Newly active foreign trained Health Workforce Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Dentist"
+                value="[ Male newly active foreign trained Health Workforce Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Dentist"
+                value="[ Female newly active foreign trained Health Workforce Dentist ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td style="text-align: center;">
+              <input
+                id="P9FK7e2Ngsz-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce Started practicing within one year of graduation Pharmacist"
+                value="[ Health workforce Started practicing within one year of graduation Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qNRERx0Icjw-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce Started practicing within one year of graduation Pharmacist"
+                value="[ Male Health workforce Started practicing within one year of graduation Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="SSzpjcForGt-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce Started practicing within one year of graduation Pharmacist"
+                value="[ Female Health workforce Started practicing within one year of graduation Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="DwYaOZuilM8-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active domestic trained Health Workforce Pharmacist"
+                value="[ Newly active domestic trained Health Workforce Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="gvkPV8aqP39-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active domestic trained Health Workforce Pharmacist"
+                value="[ Male newly active domestic trained Health Workforce Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sF1LtVEqk6Y-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active domestic trained Health Workforce Pharmacist"
+                value="[ Female newly active domestic trained Health Workforce Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="OI5vu4jG4Rf-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Newly active foreign trained Health Workforce Pharmacist"
+                value="[ Newly active foreign trained Health Workforce Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="h1S7GCkmvVn-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male newly active foreign trained Health Workforce Pharmacist"
+                value="[ Male newly active foreign trained Health Workforce Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="ftfTDf31OnN-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female newly active foreign trained Health Workforce Pharmacist"
+                value="[ Female newly active foreign trained Health Workforce Pharmacist ]"
+              />
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab1">
+    <h2>SECTION 2: Exit from Labour Market&nbsp;</h2>
+
+    <div id="cde">
+      &nbsp;
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th colspan="1" rowspan="2">SN</th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Occupation
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b"
+                >Currently unemployed&nbsp;</b
+              >(5-06)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              <b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b"
+                >Currently unemployed&nbsp;</b
+              >(5-06)
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Vacancy rate<br />
+              (%)&nbsp;(5-07)
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Voluntary exits&nbsp;(5-04)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              Voluntary exits<br />
+              (5-04)
+            </th>
+            <th colspan="1" rowspan="2" style="text-align: center;">
+              Involuntary exits&nbsp;(5-05)
+            </th>
+            <th colspan="2" rowspan="1" style="text-align: center;">
+              Involuntary exits&nbsp;(5-05)
+            </th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+            <th style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+            <th style="text-align: center;">Male</th>
+            <th style="text-align: center;">Female</th>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Medical Doctors</td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Medical Doctors"
+                value="[ Health workforce currently unemployed Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Medical Doctors"
+                value="[ Male Health workforce currently unemployed Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Medical Doctors"
+                value="[ Female Health workforce currently unemployed Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Medical Doctors"
+                value="[ Vacancy rate for HWF Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Medical Doctors"
+                value="[ Health workforce who have voluntary exit from the force Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Medical Doctors"
+                value="[ Male Health workforce who have voluntary exit from the force Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Medical Doctors"
+                value="[ Female Health workforce who have voluntary exit from the force Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Medical Doctors"
+                value="[ Health workforce who have involuntary exit from the force Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Medical Doctors"
+                value="[ Male Health workforce who have involuntary exit from the force Medical Doctors ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-aBpbcEgtzgw-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Medical Doctors"
+                value="[ Female Health workforce who have involuntary exit from the force Medical Doctors ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>1.1</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                General Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed General Medical Practitioner"
+                value="[ Health workforce currently unemployed General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed General Medical Practitioner"
+                value="[ Male Health workforce currently unemployed General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed General Medical Practitioner"
+                value="[ Female Health workforce currently unemployed General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF General Medical Practitioner"
+                value="[ Vacancy rate for HWF General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force General Medical Practitioner"
+                value="[ Health workforce who have voluntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force General Medical Practitioner"
+                value="[ Male Health workforce who have voluntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force General Medical Practitioner"
+                value="[ Female Health workforce who have voluntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force General Medical Practitioner"
+                value="[ Health workforce who have involuntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force General Medical Practitioner"
+                value="[ Male Health workforce who have involuntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-LHbCtHlZr3Y-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force General Medical Practitioner"
+                value="[ Female Health workforce who have involuntary exit from the force General Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>1.2</td>
+            <td>
+              <p style="margin-left: 20px; text-align: Left;">
+                Specialist Medical Practitioner
+              </p>
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Specialist Medical Practitioner"
+                value="[ Health workforce currently unemployed Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Specialist Medical Practitioner"
+                value="[ Male Health workforce currently unemployed Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Specialist Medical Practitioner"
+                value="[ Female Health workforce currently unemployed Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Specialist Medical Practitioner"
+                value="[ Vacancy rate for HWF Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Specialist Medical Practitioner"
+                value="[ Health workforce who have voluntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Specialist Medical Practitioner"
+                value="[ Male Health workforce who have voluntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Specialist Medical Practitioner"
+                value="[ Female Health workforce who have voluntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Specialist Medical Practitioner"
+                value="[ Health workforce who have involuntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Specialist Medical Practitioner"
+                value="[ Male Health workforce who have involuntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-VtVkbvygJnm-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Specialist Medical Practitioner"
+                value="[ Female Health workforce who have involuntary exit from the force Specialist Medical Practitioner ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td style="text-align: Left;">Nursing Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Nursing Professional"
+                value="[ Health workforce currently unemployed Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Nursing Professional"
+                value="[ Male Health workforce currently unemployed Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Nursing Professional"
+                value="[ Female Health workforce currently unemployed Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Nursing Professional"
+                value="[ Vacancy rate for HWF Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Nursing Professional"
+                value="[ Health workforce who have voluntary exit from the force Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Nursing Professional"
+                value="[ Male Health workforce who have voluntary exit from the force Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Nursing Professional"
+                value="[ Female Health workforce who have voluntary exit from the force Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Nursing Professional"
+                value="[ Health workforce who have involuntary exit from the force Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Nursing Professional"
+                value="[ Male Health workforce who have involuntary exit from the force Nursing Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-fGOgbIqsxDn-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Nursing Professional"
+                value="[ Female Health workforce who have involuntary exit from the force Nursing Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td style="text-align: Left;">Midwifery Professional</td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Midwifery Professional"
+                value="[ Health workforce currently unemployed Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Midwifery Professional"
+                value="[ Male Health workforce currently unemployed Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Midwifery Professional"
+                value="[ Female Health workforce currently unemployed Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Midwifery Professional"
+                value="[ Vacancy rate for HWF Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Midwifery Professional"
+                value="[ Health workforce who have voluntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Midwifery Professional"
+                value="[ Male Health workforce who have voluntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Midwifery Professional"
+                value="[ Female Health workforce who have voluntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Midwifery Professional"
+                value="[ Health workforce who have involuntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Midwifery Professional"
+                value="[ Male Health workforce who have involuntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-MPzyVWiSFF2-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Midwifery Professional"
+                value="[ Female Health workforce who have involuntary exit from the force Midwifery Professional ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td style="text-align: Left;">Dentist</td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Dentist"
+                value="[ Health workforce currently unemployed Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Dentist"
+                value="[ Male Health workforce currently unemployed Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Dentist"
+                value="[ Female Health workforce currently unemployed Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Dentist"
+                value="[ Vacancy rate for HWF Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Dentist"
+                value="[ Health workforce who have voluntary exit from the force Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Dentist"
+                value="[ Male Health workforce who have voluntary exit from the force Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Dentist"
+                value="[ Female Health workforce who have voluntary exit from the force Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Dentist"
+                value="[ Health workforce who have involuntary exit from the force Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Dentist"
+                value="[ Male Health workforce who have involuntary exit from the force Dentist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-ALBRKpJsddQ-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Dentist"
+                value="[ Female Health workforce who have involuntary exit from the force Dentist ]"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td style="text-align: Left;">Pharmacist</td>
+            <td style="text-align: center;">
+              <input
+                id="sdNHn8qmokO-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce currently unemployed Pharmacist"
+                value="[ Health workforce currently unemployed Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="Xr81a9iOAyC-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce currently unemployed Pharmacist"
+                value="[ Male Health workforce currently unemployed Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="kcoQHDRTi4E-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce currently unemployed Pharmacist"
+                value="[ Female Health workforce currently unemployed Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="aeGGK8bRvmr-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Vacancy rate for HWF Pharmacist"
+                value="[ Vacancy rate for HWF Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="BOPZbzxOfSA-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have voluntary exit from the force Pharmacist"
+                value="[ Health workforce who have voluntary exit from the force Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="qQBFc1FSZBd-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have voluntary exit from the force Pharmacist"
+                value="[ Male Health workforce who have voluntary exit from the force Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="sw0lh63wqsA-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have voluntary exit from the force Pharmacist"
+                value="[ Female Health workforce who have voluntary exit from the force Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="NNQYgAf2Cj8-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Health workforce who have involuntary exit from the force Pharmacist"
+                value="[ Health workforce who have involuntary exit from the force Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="AZqsANkZRnD-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Male Health workforce who have involuntary exit from the force Pharmacist"
+                value="[ Male Health workforce who have involuntary exit from the force Pharmacist ]"
+              />
+            </td>
+            <td style="text-align: center;">
+              <input
+                id="yazrkuSMGHD-iWRW6jXAzvP-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="Female Health workforce who have involuntary exit from the force Pharmacist"
+                value="[ Female Health workforce who have involuntary exit from the force Pharmacist ]"
+              />
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab2">
+    <h2>SECTION 3: HWF OTHER RESOURCES</h2>
+
+    <div id="cde">
+      <table cellpadding="0" cellspacing="0">
+        <thead>
+          <tr>
+            <th>SN</th>
+            <th>Item</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td style="text-align: Left;">Upload other resources</td>
+            <td>
+              <input
+                id="ek4BsT4iUo8-Xr12mI7VPn3-val"
+                name="entryfield"
+                style="width:3.5em"
+                title="HWF Module 5 File upload"
+                value="[ HWF Module 5 File upload ]"
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
