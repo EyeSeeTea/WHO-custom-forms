@@ -1,7 +1,6 @@
 import { createElement } from "typed-html";
 import { DataSet } from "../../domain/common/entities";
 import { commentDE, correctOrgUnitNameDE, dataElementGroups } from "./dataElementGroups";
-import { TrueOnlyEntries } from "./TrueOnlyEntries";
 import { getResource } from "./utils";
 
 export default async function CustomForm(dataSet: DataSet): Promise<string> {
@@ -80,27 +79,6 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
                                 <textarea id={`{{orgUnitId}}-${commentDE.id}`} />
                             </td>
                         </tr>
-                        <tr>
-                            <th>Source Type</th>
-                            <th></th>
-                            <th></th>
-
-                            {dataElementGroups.map((group, index) => {
-                                const containerId = `{{orgUnitId}}-checkboxes${index}`;
-                                const className = group.readOnly ? "read-only" : "";
-
-                                return (
-                                    <td class={className}>
-                                        <TrueOnlyEntries
-                                            containerId={containerId}
-                                            inputCheckboxes={group.inputCheckboxes}
-                                        />
-                                    </td>
-                                );
-                            })}
-
-                            <td></td>
-                        </tr>
                         {"{{/rows}}"}
                     </tbody>
                 </table>
@@ -159,12 +137,10 @@ export default async function CustomForm(dataSet: DataSet): Promise<string> {
 
 function getMissingDataElementsInDataSet(dataSet: DataSet) {
     const numericInputs = dataElementGroups.map(de => de.inputNumeric.id.split("-")[0]);
-    const checkboxesInputs = dataElementGroups.flatMap(de =>
-        de.inputCheckboxes.map(de => de.id.split("-")[0])
-    );
+
     const textInputs = [correctOrgUnitNameDE.id.split("-")[0], commentDE.id.split("-")[0]];
 
-    const allDEInForm = [...numericInputs, ...new Set(checkboxesInputs), ...textInputs].sort();
+    const allDEInForm = [...numericInputs, ...textInputs].sort();
 
     const allDEDataSet = dataSet.dataSetElements.map(dse => dse.dataElement.id).sort();
 
