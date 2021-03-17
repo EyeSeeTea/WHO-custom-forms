@@ -109,8 +109,8 @@ export const dataElementGroups: DataElementGroup[] = [
     {
         order: '5',
         inputNumeric: {
-            id: 'UPfQopzBdyx-Xr12mI7VPn3-val',
-            displayName: 'Dental Assistants and Therapists'
+            id: 'lHfsZY4fyv4-Xr12mI7VPn3-val',
+            displayName: 'Pharmacists'
         }
     }
 ]
