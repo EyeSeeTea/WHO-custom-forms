@@ -33,7 +33,7 @@ export function CatOptionCombosDataCells(attributes: EntryFieldAttributes): stri
                     name={orgUnitDataElementAtt ? "subnationalTotal" : "total"}
                     readonly="readonly"
                     title={`${dataElement.code}`}
-                    class={"entryfield"}
+                    class={"entryfield read-only"}
                     type={"text"}
                 />
             </td>

@@ -12,6 +12,10 @@ $(document).ready(function() {
         selectedOrgUnitId = dhis2.de.currentOrganisationUnitId;
         $("#tabs").tabs({ active: 0 });
 
+        $(".read-only").each(function() {
+            $(this).prop("readonly", true);
+        });
+
         const subnationalTabs = [];
 
         $(".subnational-tab").each(function() {
