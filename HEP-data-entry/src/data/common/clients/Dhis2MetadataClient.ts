@@ -1,26 +1,8 @@
 import fetch from "node-fetch";
 import * as qs from "qs";
 
-import { safeParseJSON } from "./utils";
-import { Section, DataEntryForm } from "./models/Form";
-
-export interface Ref {
-    id: string;
-}
-
-interface DataSetElement {
-    dataElement: Ref;
-    dataSet: Ref;
-    categoryCombo?: Ref;
-}
-
-export interface DataSet {
-    id: string;
-    name: string;
-    dataEntryForm?: Ref;
-    dataSetElements: DataSetElement[];
-    sections: Section[];
-}
+import { safeParseJSON } from "../../../utils";
+import { DataEntryForm, Ref } from "../../../domain/common/entities";
 
 export interface MetadataPayload {
     dataSets: { id: string; dataEntryForm: Ref }[];
@@ -47,7 +29,7 @@ export type Dhis2MetadataOptions = {
     debug: boolean;
 };
 
-export class Dhis2Metadata {
+export class Dhis2MetadataClient {
     private apiUrl: string;
 
     headers = { "Content-Type": "application/json" };

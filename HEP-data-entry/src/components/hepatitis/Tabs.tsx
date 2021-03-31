@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
-import { Section } from "../models/Form";
 import { Table } from "./Table";
+import { Section } from "../../domain/common/entities";
 
 export interface TabsAttributes {
     sections: Section[];
@@ -10,6 +10,7 @@ export function Tabs(attributes: TabsAttributes): string {
     const { sections } = attributes;
     const items = sections.map(s => {
         return {
+            id: s.id,
             title: s.displayName,
             contents: <Table section={s} />,
         };
@@ -20,7 +21,7 @@ export function Tabs(attributes: TabsAttributes): string {
                 role="tablist"
                 class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header"
             >
-                {items.map(({ title }, index) => (
+                {items.map(({ title, id }, index) => (
                     <li
                         role="tab"
                         tabindex="-1"
@@ -32,7 +33,7 @@ export function Tabs(attributes: TabsAttributes): string {
                             tabindex="-1"
                             class="ui-tabs-anchor"
                         >
-                            {title}
+                            <span id={`${id}-section-title`}>{title}</span>
                         </a>
                     </li>
                 ))}

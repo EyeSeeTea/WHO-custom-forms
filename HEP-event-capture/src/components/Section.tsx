@@ -6,7 +6,9 @@ export function Section(attributes: { section: FormSection; i: number }) {
     const { section } = attributes;
     return (
         <div>
-            <div class="section-label">{section.title}</div>
+            <div class="section-label" id={`${section.id}-section-title`}>
+                {section.title}
+            </div>
             <Table dataElements={section.dataElements} programStageId={section.programStageId} />
         </div>
     );

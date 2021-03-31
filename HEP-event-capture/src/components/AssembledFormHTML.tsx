@@ -6,14 +6,23 @@ import { ProgramStage } from "../Dhis2Metadata";
 
 interface AssembledFormHTMLAttributes {
     programStage: ProgramStage;
+    programId: string;
 }
 
 export async function AssembledFormHTML(attributes: AssembledFormHTMLAttributes): Promise<string> {
     const formHtml = Form.getFormHtml(attributes.programStage);
     const style = await getResource("custom-form.css");
+    const javascript = await getResource("custom-form.js");
     return (
         <html>
             <head>
+                <script
+                    id="custom-form-script"
+                    type="text/javascript"
+                    data-program-id={`${attributes.programId}`}
+                >
+                    ${javascript}
+                </script>
                 <style>${style}</style>
                 <link
                     rel="stylesheet"

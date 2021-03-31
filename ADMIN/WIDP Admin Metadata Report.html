@@ -144,36 +144,6 @@
   
   <body>
     
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div id="header">
       <img id="headerBanner" src="../api/staticContent/logo_banner" onclick="window.location.href='../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="View home page">
 
@@ -197,6 +167,18 @@
 <input type="button" value="Back" onclick="javascript:window.location.href='displayViewReportForm.action'" style="width:140px">
 </div>
 
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
+integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+crossorigin="anonymous"
+></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 <script type="text/javascript">
 
 dhis2.util.namespace( 'dhis2.report' );
@@ -214,7 +196,320 @@ dhis2.report.date = "";
 
 dhis2.report.periods = [
 ];
+function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url,
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            _(data)
+			  .omit(removeDataSharingTypes ? ["programs", "dataSets", "categoryOptions", "trackedEntityTypes", "relationshipTypes", "programStages", ] : [])
+              .mapValues(function(array, key) {
+                return Array.isArray(array)
+                  ? _.map(array, function(element) {
+                      element.metadataType = key;
+                      return element;
+                    })
+                  : [];
+              })
+              .values()
+              .flatten()
+              .forEach(function(element) {
+                const method = updateRow
+                  ? table.row(`#${element.id}`).data
+                  : table.row.add;
+                  method([
+                    element.metadataType,
+                    element.id,
+                    element.name ? element.name : "-",
+                    element.publicAccess ? element.publicAccess : "-",
+                    element.user ? element.user.displayName : "-",
+                    element.lastUpdatedBy ? element.lastUpdatedBy.displayName : "-",
+                    element.userGroupAccesses.length > 0
+                      ? `<ul>
+                                      ${element.userGroupAccesses
+                                        .map(function(access) {
+                                          return `<li>${access.displayName} (${access.access})</li>`;
+                                        })
+                                        .join("")}</ul>`
+                      : "NONE"
+                  ]);
+              });
+            table.draw();
+            nextCall();
+          }
+        });
+      }
+      function done(){
+          console.log("Done");
+      };
+      function start(){
+          console.log("Starting...");
+      };
+      //{"programStages":[{"name":"Clinical examination","id":"gESnmSpQq3g","dataEntryForm":{"id":"pyZxv2ORTh4","name":"Clinical examination","format":0},
+      //"program":{"name":"Cutaneous leishmaniasis cases - Tracker","id":"uGCVVme3C4e"}}
+      function updateEmptyCustomFormsTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url,
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            _(data)
+            .omit([])
+              .mapValues(function(array, key) {
+                      console.log("array "+array);
+                return Array.isArray(array)
+                  ? _.map(array, function(element) {
+                      element.metadataType = key;
+                      console.log("key "+key);
+                      console.log("element "+element);
+                      return element;
+                    })
+                  : [];
+              })
+              .values()
+              .flatten()
+              .forEach(function(element) {
+                console.log("element" + element);
+                const method = updateRow
+                  ? table.row(`#${element.id}`).data
+                  : table.row.add;
+				  if (element.metadataType == "programStages"){
+					  method([
+						element.metadataType,
+						element.program ? element.program.id : "-",
+						element.program ? element.program.name : "-",
+						element.id,
+						element.name ? element.name : "-",
+						element.dataEntryForm ? element.dataEntryForm.id : "-",
+						element.dataEntryForm ? element.dataEntryForm.name : "-"
+					  ]);
+				  }
+				  else if (element.metadataType == "programs"){
+					  method([
+						element.metadataType,
+						element.id,
+						element.name ? element.name : "-",
+					  ]);
+				  }
+              });
+            table.draw();
+            nextCall();
+          }
+        });
+      }
 
+      $(document).ready(function() {
+        const isDevelopment = window.location.protocol === "file:";
+		    const baseUrl = "..";
+		
+		    // BUILD TABLES
+        // Build "Invalid sharing settings" table
+        const invalidSharingSettingsTable = $(
+          "#invalid_sharing_settings"
+        ).DataTable({
+          order: [[4, "asc"]],
+          rowGroup: {
+            dataSrc: 4
+          }
+        });
+
+        // Build "Public Objects" table
+        const publicObjectsTable = $("#public_objects").DataTable({
+          order: [[4, "asc"]],
+          rowGroup: {
+            dataSrc: 4
+          }
+        });
+
+        // Build "Recently edited metadata" table
+        const changedMetadataTable = $("#changed_metadata").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+        // Build "Generic elements that are not public" table
+        const genericNotPublicTable = $("#generic_not_public").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+        // Build "Public elements that are not generic" table
+        const publicNotGenericTable = $("#public_not_generic").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+
+        // Build "Programs with empty custom forms" table
+        const emptyCustomFormTable = $("#empty_custom_form").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
+        // Build "Programs with empty custom forms" table
+        const programWithoutProgramStageTable = $("#program_without_programstages").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
+		// Update tabble from sqlview
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url:
+            baseUrl + "/api/sqlViews/RIw9kc7N4g4/data?paging=false",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            // Quick load of SQL View
+            _.forEach(data.listGrid.rows, function(row) {
+              publicObjectsTable.row.add([...row, "-", "-", "-"]).node().id =
+                row[1];
+            });
+
+            publicObjectsTable
+              .rowGroup()
+              .disable()
+              .draw();
+
+            // Advanced load
+            _(data.listGrid.rows)
+              .map(1)
+              .chunk(500)
+              .forEach(function(ids) {
+                updateTable(
+                  publicObjectsTable,
+                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=id:in:[" +
+                    ids.join(",") +
+                    "]",
+                  true,
+                  isDevelopment,
+                  false,
+                  start
+                );
+                publicObjectsTable
+                  .rowGroup()
+                  .enable()
+                  .draw();
+              });
+          }
+        });
+		//UPDATE TABLES FUNCTIONS
+        function updateGenericNotPublicTable(){
+          console.log("table: updateGenericNotPublicTable");
+            updateTable(
+              genericNotPublicTable,
+              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              updateInvalidSharingSettingsTable
+            );
+        };
+
+        function updateInvalidSharingSettingsTable(){
+          console.log("table: updateInvalidSharingSettingsTable");
+            updateTable(
+              invalidSharingSettingsTable,
+              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              true,
+              updateInvalidSharingSettingsUserGroupsTable
+            );
+        }
+
+        function updateInvalidSharingSettingsUserGroupsTable(){
+          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
+				updateTable(
+				  invalidSharingSettingsTable,
+				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+				  false,
+				  isDevelopment,
+				  true,
+				  updateChangedMetadataTable
+				);
+
+        }
+
+        function updateChangedMetadataTable(){
+          console.log("table: updateChangedMetadataTable");
+            let date = new Date();
+            date.setDate(date.getDate() - 14);
+            const queryDate = date.toISOString().split("T")[0];
+            updateTable(
+              changedMetadataTable,
+              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=lastUpdated:ge:" +
+                queryDate,
+              false,
+              isDevelopment,
+              false,
+              updateEmptyCustomForms
+            );
+        };
+
+        function updateEmptyCustomForms(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              emptyCustomFormTable,
+              baseUrl + "/api/programStages.json?fields=id,name,program[id,name],dataEntryForm[name,id,htmlCode,format]&paging=false&filter=dataEntryForm.htmlCode:null&filter=dataEntryForm.id:!null",
+              false,
+              isDevelopment,
+              false,
+              programWithoutProgramStage
+            ); 
+        };
+		
+		
+        function programWithoutProgramStage(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              programWithoutProgramStageTable,
+              baseUrl + "/api/programs.json?paging=false&fields=id,name,userGroupAccesses,programStages~size&filter=programStages:eq:0",
+              false,
+              isDevelopment,
+              false,
+              updatePublicNotGenericTable
+            ); 
+        };
+		
+        function updatePublicNotGenericTable(){
+          console.log("table: updatePublicNotGenericTable");
+            updateTable(
+              publicNotGenericTable,
+              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name, displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              done
+            );
+        };
+        
+        console.log("Start");
+		    //START UPDATE TABLES
+        updateGenericNotPublicTable();
+        console.log("executed");
+      });
 </script>
 
 <div>
@@ -250,188 +545,10 @@ dhis2.report.periods = [
         font-weight: bold;
       }
     </style>
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
-      integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
-    <script type="text/javascript">
-      function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes) {
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: url,
-          xhrFields: {
-            withCredentials: true
-          },
-          crossDomain: isDevelopment,
-          success: function(data) {
-            _(data)
-			  .omit(removeDataSharingTypes ? ["programs", "dataSets", "categoryOptions", "trackedEntityTypes", "relationshipTypes", "programStages", ] : [])
-              .mapValues(function(array, key) {
-                return Array.isArray(array)
-                  ? _.map(array, function(element) {
-                      element.metadataType = key;
-                      return element;
-                    })
-                  : [];
-              })
-              .values()
-              .flatten()
-              .forEach(function(element) {
-                const method = updateRow
-                  ? table.row(`#${element.id}`).data
-                  : table.row.add;
-
-                method([
-                  element.metadataType,
-                  element.id,
-                  element.name ? element.name : "-",
-                  element.publicAccess ? element.publicAccess : "-",
-                  element.user ? element.user.name : "-",
-                  element.lastUpdatedBy ? element.lastUpdatedBy.name : "-",
-                  element.userGroupAccesses.length > 0
-                    ? `<ul>
-                                    ${element.userGroupAccesses
-                                      .map(function(access) {
-                                        return `<li>${access.displayName} (${access.access})</li>`;
-                                      })
-                                      .join("")}</ul>`
-                    : "NONE"
-                ]);
-              });
-            table.draw();
-          }
-        });
-      }
-
-      $(document).ready(function() {
-        const isDevelopment = window.location.protocol === "file:";
-		const baseUrl = "..";
-
-        // Build "Public Objects" table
-        const publicObjectsTable = $("#public_objects").DataTable({
-          order: [[4, "asc"]],
-          rowGroup: {
-            dataSrc: 4
-          }
-        });
-
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url:
-            baseUrl + "/api/sqlViews/RIw9kc7N4g4/data?paging=false",
-          xhrFields: {
-            withCredentials: true
-          },
-          crossDomain: isDevelopment,
-          success: function(data) {
-            // Quick load of SQL View
-            _.forEach(data.listGrid.rows, function(row) {
-              publicObjectsTable.row.add([...row, "-", "-", "-"]).node().id =
-                row[1];
-            });
-
-            publicObjectsTable
-              .rowGroup()
-              .disable()
-              .draw();
-
-            // Advanced load
-            _(data.listGrid.rows)
-              .map(1)
-              .chunk(500)
-              .forEach(function(ids) {
-                updateTable(
-                  publicObjectsTable,
-                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=id:in:[" +
-                    ids.join(",") +
-                    "]",
-                  true,
-                  isDevelopment,
-				  false
-                );
-                publicObjectsTable
-                  .rowGroup()
-                  .enable()
-                  .draw();
-              });
-          }
-        });
-
-        // Build "Invalid sharing settings" table
-        const invalidSharingSettingsTable = $(
-          "#invalid_sharing_settings"
-        ).DataTable({
-          order: [[4, "asc"]],
-          rowGroup: {
-            dataSrc: 4
-          }
-        });
-
-        updateTable(
-          invalidSharingSettingsTable,
-          baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  true
-        );
-        updateTable(
-          invalidSharingSettingsTable,
-          baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  true
-        );
-
-        // Build "Recently edited metadata" table
-        const changedMetadataTable = $("#changed_metadata").DataTable({
-          order: [[5, "asc"]],
-          rowGroup: {
-            dataSrc: 5
-          }
-        });
-
-        let date = new Date();
-        date.setDate(date.getDate() - 14);
-        const queryDate = date.toISOString().split("T")[0];
-        updateTable(
-          changedMetadataTable,
-          baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses&filter=lastUpdated:ge:" +
-            queryDate,
-          false,
-          isDevelopment,
-		  false
-        );
-		
-		// Build "Generic elements that are not public" table
-        const genericNotPublicTable = $("#generic_not_public").DataTable({
-          order: [[5, "asc"]],
-          rowGroup: {
-            dataSrc: 5
-          }
-        });
-
-        updateTable(
-          genericNotPublicTable,
-          baseUrl + "/api/metadata.json?filter=name:$ilike:GEN\_&filter=publicAccess:in:[--------]&fields=id,name,publicAccess,user[name],lastUpdatedBy[name],userGroupAccesses",
-          false,
-          isDevelopment,
-		  false
-        );
-      });
-    </script>
   </head>
   <body>
     <div class="gridDiv">
+	  
       <h3>Public Objects</h3>
       <table class="listTable gridTable" id="public_objects">
         <thead>
@@ -477,7 +594,7 @@ dhis2.report.periods = [
         </thead>
       </table>
 	  
-	  <h3>Generic elements that are not public</h3>
+	  <h3>Generic elements that are not public or invalid public permissions</h3>
       <table class="listTable gridTable" id="generic_not_public">
         <thead>
           <tr>
@@ -488,6 +605,48 @@ dhis2.report.periods = [
             <th>Created by</th>
             <th>Last updated by</th>
             <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  <h3>Public elements that are not generic</h3>
+      <table class="listTable gridTable" id="public_not_generic">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+
+      <h3>Empty custom forms</h3>
+      <table class="listTable gridTable" id="empty_custom_form">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
+            <th>Program Stage id</th>
+            <th>Program Stage name</th>
+            <th>Data entry form id</th>
+            <th>Data entry form name</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  
+      <h3>Programs without programStages</h3>
+      <table class="listTable gridTable" id="program_without_programstages">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
           </tr>
         </thead>
       </table>

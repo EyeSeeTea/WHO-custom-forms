@@ -1,15 +1,11 @@
 import { createElement } from "typed-html";
-import { getResource } from "../utils";
+import { getResource } from "./utils";
 
-import { Form } from "../models/Form";
-import { DataSet } from "../Dhis2Metadata";
+import { Form } from "./models/Form";
+import { DataSet } from "../../domain/common/entities";
 
-interface AssembledFormHTMLAttributes {
-    dataSet: DataSet;
-}
-
-export async function AssembledFormHTML(attributes: AssembledFormHTMLAttributes): Promise<string> {
-    const formHtml = Form.getFormHtml(attributes.dataSet);
+export async function AssembledFormHTML(dataSet: DataSet): Promise<string> {
+    const formHtml = Form.getFormHtml(dataSet);
     const style = await getResource("custom-form.css");
     const javascript = await getResource("custom-form.js");
     return (
@@ -19,7 +15,7 @@ export async function AssembledFormHTML(attributes: AssembledFormHTMLAttributes)
                 <script
                     id="custom-form-script"
                     type="text/javascript"
-                    data-dataset-id={`${attributes.dataSet.id}`}
+                    data-dataset-id={`${dataSet.id}`}
                 >
                     ${javascript}
                 </script>

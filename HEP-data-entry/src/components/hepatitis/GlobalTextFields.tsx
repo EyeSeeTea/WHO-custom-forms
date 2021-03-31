@@ -1,6 +1,6 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
-import { SectionDataElement, CategoryOptionCombo } from "../models/Form";
+import { CategoryOptionCombo, SectionDataElement } from "../../domain/common/entities";
 
 interface GlobalTextFieldAttributes {
     dataElements: SectionDataElement[];
@@ -10,8 +10,12 @@ interface GlobalTextFieldAttributes {
 export function GlobalTextFields(attributes: GlobalTextFieldAttributes): string {
     const { dataElements, categoryOptionCombos } = attributes;
     const fields = _.flatMap(dataElements, de =>
-        categoryOptionCombos.map(coc => [
-            <div class="global-entry-title">{`${de.formName} for the whole ${coc.name} cascade`}</div>,
+        categoryOptionCombos.map((coc, i) => [
+            <div class="global-entry-title">
+                <span
+                    id={`${de.id}-global-dataElements-${i}`}
+                >{`${de.formName} for the whole ${coc.name} cascade`}</span>
+            </div>,
             <textarea
                 id={`${de.id}-${coc.id}-val`}
                 name="entryfield"

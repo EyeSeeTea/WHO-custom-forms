@@ -1,582 +1,931 @@
 <script type="text/javascript">
-  var yespartialno = ["Ybz3qUCWYKC"];
-  var yesno = [];
-  var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
-  var comments = ["fXxS36qL9Vt"];
-  var percentages = [];
+	var yespartialno = ["Ybz3qUCWYKC"];
+	var yesno = [];
+	var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
+	var comments = ["fXxS36qL9Vt"];
+	var percentages = [];
 
-  function get_resource_link(element_id, tokens) {
-    $.ajax({
-      url: "../api/documents",
-      type: "get",
-      data: {
-        fields: 'id',
-        filter: 'name:token:'+tokens
-      },
-      success: function(response) {
-        id = response['documents'][0]['id'];
-        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
-      },
-      error: function(xhr) {
-        console.log("Error in the request");
-        console.log(xhr);
-      }
-    });
-  }
+	function get_resource_link(element_id, tokens) {
+		$.ajax({
+			url: "../api/documents",
+			type: "get",
+			data: {
+				fields: 'id',
+				filter: 'name:token:' + tokens
+			},
+			success: function (response) {
+				id = response['documents'][0]['id'];
+				document.getElementById(element_id).href = '../api/documents/' + id + '/data'
+			},
+			error: function (xhr) {
+				console.log("Error in the request");
+				console.log(xhr);
+			}
+		});
+	}
 
-  $(document).ready(function() {
-    $(function() {
-      $("#mod2_tabs").tabs();
-    });
+	$(document).ready(function () {
+		$(function () {
+			$("#mod2_tabs").tabs();
+		});
 
-    function updateCommentVisibility($textfield) {
-      const $input = $textfield
-        .closest("td")
-        .prev()
-        .find("input");
+		function updateCommentVisibility($textfield) {
+			const $input = $textfield
+				.closest("td")
+				.prev()
+				.find("input");
 
-      if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
-        $textfield.removeAttr("disabled");
-        $textfield.css("background-color", "rgb(255, 255, 255)");
-      } else if (!$input.hasClass("entryoptionset")) {
-        $textfield.prop("disabled", true);
-        $textfield.css("background-color", "rgb(204, 204, 204)");
-      }
-    }
+			if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
+				$textfield.removeAttr("disabled");
+				$textfield.css("background-color", "rgb(255, 255, 255)");
+			} else if (!$input.hasClass("entryoptionset")) {
+				$textfield.prop("disabled", true);
+				$textfield.css("background-color", "rgb(204, 204, 204)");
+			}
+		}
 
-    function updateBubble($textfield) {
-      const enable = $textfield.val() !== "";
-      const $bubble = $textfield
-        .closest("td")
-        .prev()
-        .find(".comment-bubble");
-      if (enable) {
-        $bubble.addClass("comment-available");
-      } else {
-        $bubble.removeClass("comment-available");
-      }
-    }
+		function updateBubble($textfield) {
+			const enable = $textfield.val() !== "";
+			const $bubble = $textfield
+				.closest("td")
+				.prev()
+				.find(".comment-bubble");
+			if (enable) {
+				$bubble.addClass("comment-available");
+			} else {
+				$bubble.removeClass("comment-available");
+			}
+		}
 
-    function init() {
-      $(".comments").toggle(false);
-      comments.forEach(function(comment) {
-        const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
-        updateCommentVisibility($textfield);
+		function init() {
+			$(".comments").toggle(false);
+			comments.forEach(function (comment) {
+				const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
+				updateCommentVisibility($textfield);
 
-        updateBubble($textfield);
-        $textfield.on(
-          "change keyup paste",
-          _.debounce(function() {
-            updateBubble($(this));
+				updateBubble($textfield);
+				$textfield.on(
+					"change keyup paste",
+					_.debounce(function () {
+						updateBubble($(this));
 
-            // Store comments as comment too
-            var commentSaver = new CommentSaver(
-              comment,
-              "Xr12mI7VPn3",
-              $(this).val()
-            );
-            commentSaver.save();
-          }, 500)
-        );
+						// Store comments as comment too
+						var commentSaver = new CommentSaver(
+							comment,
+							"Xr12mI7VPn3",
+							$(this).val()
+						);
+						commentSaver.save();
+					}, 500)
+				);
 
-        if ($textfield.val() !== "") {
-          const col = $textfield.parent().index() + 1;
-          $textfield
-            .closest("table")
-            .find("tr > *:nth-child(" + col + ")")
-            .toggle(true);
-        }
-      });
+				if ($textfield.val() !== "") {
+					const col = $textfield.parent().index() + 1;
+					$textfield
+						.closest("table")
+						.find("tr > *:nth-child(" + col + ")")
+						.toggle(true);
+				}
+			});
 
-      yespartialno.forEach(function(dataElement) {
-        categoryIssues.forEach(function(option) {
-          $("#" + dataElement + "-" + option + "-val").on("click", function() {
-            const id = $(this).attr("id");
-            updateCommentVisibility(
-              $(this)
-                .closest("td")
-                .next()
-                .find("textarea")
-            );
+			yespartialno.forEach(function (dataElement) {
+				categoryIssues.forEach(function (option) {
+					$("#" + dataElement + "-" + option + "-val").on("click", function () {
+						const id = $(this).attr("id");
+						updateCommentVisibility(
+							$(this)
+								.closest("td")
+								.next()
+								.find("textarea")
+						);
 
-            if ($(this).is(":checked")) {
-              categoryIssues.forEach(function(id) {
-                if (id !== option) {
-                  const str = "#" + dataElement + "-" + id + "-val";
-                  if ($(str).is(":checked")) {
-                    $(str).click();
-                  }
-                }
-              });
-            }
-          });
-        });
-      });
+						if ($(this).is(":checked")) {
+							categoryIssues.forEach(function (id) {
+								if (id !== option) {
+									const str = "#" + dataElement + "-" + id + "-val";
+									if ($(str).is(":checked")) {
+										$(str).click();
+									}
+								}
+							});
+						}
+					});
+				});
+			});
 
-      yesno.forEach(function(dataElement) {
-        ["true", "false"].forEach(function(value) {
-          $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
-            "click",
-            function() {
-              const $textfield = $(this)
-                .closest("td")
-                .next()
-                .find("textarea");
-              if ($(this).is(":checked")) {
-                $textfield.removeAttr("disabled");
-                $textfield.css("background-color", "rgb(255, 255, 255)");
-              } else {
-                $textfield.prop("disabled", true);
-                $textfield.css("background-color", "rgb(204, 204, 204)");
-              }
-            }
-          );
-        });
-      });
+			yesno.forEach(function (dataElement) {
+				["true", "false"].forEach(function (value) {
+					$("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+						"click",
+						function () {
+							const $textfield = $(this)
+								.closest("td")
+								.next()
+								.find("textarea");
+							if ($(this).is(":checked")) {
+								$textfield.removeAttr("disabled");
+								$textfield.css("background-color", "rgb(255, 255, 255)");
+							} else {
+								$textfield.prop("disabled", true);
+								$textfield.css("background-color", "rgb(204, 204, 204)");
+							}
+						}
+					);
+				});
+			});
 
-      percentages.forEach(function(percentage) {
-        $("#" + percentage + "-Xr12mI7VPn3-val").on(
-          "change keyup paste",
-          _.debounce(function() {
-            const value = parseFloat($(this).val());
-            if (value > 100 || value < 0) {
-              alert("Value " + value + " is not a valid percentage");
-              $(this)
-                .val("")
-                .trigger("change");
-            }
-          }, 500)
-        );
-      });
-    }
+			percentages.forEach(function (percentage) {
+				$("#" + percentage + "-Xr12mI7VPn3-val").on(
+					"change keyup paste",
+					_.debounce(function () {
+						const value = parseFloat($(this).val());
+						if (value > 100 || value < 0) {
+							alert("Value " + value + " is not a valid percentage");
+							$(this)
+								.val("")
+								.trigger("change");
+						}
+					}, 500)
+				);
+			});
+		}
 
-    init();
-    $(this).on(dhis2.de.event.dataValuesLoaded, init);
+		init();
+		$(this).on(dhis2.de.event.dataValuesLoaded, init);
 
-    $(".comment-bubble").on("click", function() {
-      const col =
-        $(this)
-          .parent()
-          .index() + 1;
-      $(this)
-        .closest("table")
-        .find("tr > *:nth-child(" + (col + 1) + ")")
-        .toggle();
-    });
-    $(function() {
-      console.log('Updating file resources links')
-      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
-      get_resource_link('userguide_link', 'NHWA, User, guide');
-      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
-    })
-  });
+		$(".comment-bubble").on("click", function () {
+			const col =
+				$(this)
+					.parent()
+					.index() + 1;
+			$(this)
+				.closest("table")
+				.find("tr > *:nth-child(" + (col + 1) + ")")
+				.toggle();
+		});
+		$(function () {
+			console.log('Updating file resources links')
+			get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
+			get_resource_link('userguide_link', 'NHWA, User, guide');
+			get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
+		})
+	});
 </script>
-<style type="text/css">#cde table {
-    border-collapse: collapse;
-  }
+<style type="text/css">
+	#cde table {
+		border-collapse: collapse;
+	}
 
-  #cde table,
-  #cde th,
-  #cde td {
-    border: 1px solid #c0c0c0;
-  }
+	#cde table,
+	#cde th,
+	#cde td {
+		border: 1px solid #c0c0c0;
+	}
 
-  #cde td,
-  #cde th {
-    height: 30px;
-    padding: 10px;
-    margin: 10px;
-  }
+	#cde td,
+	#cde th {
+		height: 30px;
+		padding: 10px;
+		margin: 10px;
+	}
 
-  .cde-greyfield {
-    background-color: #e0e0e0;
-  }
+	.cde-greyfield {
+		background-color: #e0e0e0;
+	}
 
-  .yespartialno {
-    min-width: 170px;
-  }
+	.yespartialno {
+		min-width: 170px;
+	}
 
-  .comments textarea {
-    text-align: left;
-  }
+	.comments textarea {
+		text-align: left;
+	}
 
-  .comment-bubble {
-    content: url("../images/comment.png");
-  }
+	.comment-bubble {
+		content: url("../images/comment.png");
+	}
 
-  .comment-available {
-    content: url("../images/comment_active.png");
-  }
+	.comment-available {
+		content: url("../images/comment_active.png");
+	}
 </style>
 <h3 style="text-align: center;"><strong>Health Workforce Education Finances<br />
-Report data in USD (annual)</strong></h3>
+		Report data in USD (annual)</strong></h3>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/p6IINqTYv2f/data" id="handbook_link" target="_blank">Access the NHWA HANDBOOK</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/p6IINqTYv2f/data"
+		id="handbook_link" target="_blank">Access the NHWA HANDBOOK</a></h4>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/OCoAAGYwapP/data" id="userguide_link" target="_blank">Access the NHWA USER GUIDE</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/OCoAAGYwapP/data"
+		id="userguide_link" target="_blank">Access the NHWA USER GUIDE</a></h4>
 
 <div id="mod2_tabs">
-<ul>
-	<li><a href="#tab0">Finance</a></li>
-	<li><a href="#tab1">Cost per program</a></li>
-	<li><a href="#tab2">Lifelong Learning</a></li>
-	<li><a href="#tab3">Other Resources</a></li>
-</ul>
+	<ul>
+		<li><a href="#tab0">Finance</a></li>
+		<li><a href="#tab1">Cost per program</a></li>
+		<li><a href="#tab2">Lifelong Learning</a></li>
+		<li><a href="#tab3">Other Resources</a></li>
+	</ul>
 
-<div id="tab0">
-<h2>SECTION 1: HWF Education Finances</h2>
+	<div id="tab0">
+		<h2>SECTION 1: HWF Education Finances</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="2">SN</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Item</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
-			<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
-		</tr>
-		<tr>
-			<th style="text-align: center;">Out of Pockets</th>
-			<th style="text-align: center;">Official Development<br />
-			Assistance</th>
-			<th style="text-align: center;">Others</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Total expenditure on higher education (including for non-health sectors) (4-01)</td>
-			<td style="text-align: center;"><input id="KzzMv68cifG-HQPWV8cT7li-val" name="entryfield" title="NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Public expenditure" value="[ NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Public expenditure ]" /></td>
-			<td style="text-align: center;"><input id="KzzMv68cifG-FiRcnmXF1Yg-val" name="entryfield" title="NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Out of Pocket" value="[ NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Out of Pocket ]" /></td>
-			<td style="text-align: center;"><input id="KzzMv68cifG-QKhM7ublqzd-val" name="entryfield" title="NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Official Development Assistance" value="[ NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Official Development Assistance ]" /></td>
-			<td style="text-align: center;"><input id="KzzMv68cifG-txxKPnVUGvV-val" name="entryfield" title="NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Others" value="[ NHWA_Total expenditure on higher education (including for non-health sectors) old_NHWA_Others ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>
-			<p>Total expenditure on health workforce pre-service education&nbsp;(4-02)</p>
-			</td>
-			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-HQPWV8cT7li-val" name="entryfield" title="NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Public expenditure" value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Public expenditure ]" /></td>
-			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-FiRcnmXF1Yg-val" name="entryfield" title="NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Out of Pocket" value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Out of Pocket ]" /></td>
-			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-QKhM7ublqzd-val" name="entryfield" title="NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Official Development Assistance" value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Official Development Assistance ]" /></td>
-			<td style="text-align: center;"><input id="Z6Wd8wiIAfz-txxKPnVUGvV-val" name="entryfield" title="NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Others" value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership old_NHWA_Others ]" /></td>
-		</tr>
-	</tbody>
-</table>
+		<div id="cde">
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th colspan="1" rowspan="2">SN</th>
+						<th colspan="1" rowspan="2" style="text-align: center;">Item</th>
+						<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+						<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+					</tr>
+					<tr>
+						<th style="text-align: center;">Out of Pockets</th>
+						<th style="text-align: center;">Official Development<br />
+							Assistance</th>
+						<th style="text-align: center;">Others</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td>Total expenditure on higher education (including for non-health sectors) (4-01)</td>
+						<td style="text-align: center;"><input id="KzzMv68cifG-HQPWV8cT7li-val" name="entryfield"
+								title="NHWA_Total expenditure on higher education (including for non-health sectors) Public expenditure"
+								value="[ NHWA_Total expenditure on higher education (including for non-health sectors) Public expenditure ]" />
+						</td>
+						<td style="text-align: center;"><input id="KzzMv68cifG-FiRcnmXF1Yg-val" name="entryfield"
+								title="NHWA_Total expenditure on higher education (including for non-health sectors) Out of Pocket"
+								value="[ NHWA_Total expenditure on higher education (including for non-health sectors) Out of Pocket ]" />
+						</td>
+						<td style="text-align: center;"><input id="KzzMv68cifG-QKhM7ublqzd-val" name="entryfield"
+								title="NHWA_Total expenditure on higher education (including for non-health sectors) Official Development Assistance"
+								value="[ NHWA_Total expenditure on higher education (including for non-health sectors) Official Development Assistance ]" />
+						</td>
+						<td style="text-align: center;"><input id="KzzMv68cifG-txxKPnVUGvV-val" name="entryfield"
+								title="NHWA_Total expenditure on higher education (including for non-health sectors) Others"
+								value="[ NHWA_Total expenditure on higher education (including for non-health sectors) Others ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>
+							<p>Total expenditure on health workforce pre-service education&nbsp;(4-02)</p>
+						</td>
+						<td style="text-align: center;"><input id="Z6Wd8wiIAfz-HQPWV8cT7li-val" name="entryfield"
+								title="NHWA_Total expenditure on health workforce pre-service education By Ownership Public expenditure"
+								value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership Public expenditure ]" />
+						</td>
+						<td style="text-align: center;"><input id="Z6Wd8wiIAfz-FiRcnmXF1Yg-val" name="entryfield"
+								title="NHWA_Total expenditure on health workforce pre-service education By Ownership Out of Pocket"
+								value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership Out of Pocket ]" />
+						</td>
+						<td style="text-align: center;"><input id="Z6Wd8wiIAfz-QKhM7ublqzd-val" name="entryfield"
+								title="NHWA_Total expenditure on health workforce pre-service education By Ownership Official Development Assistance"
+								value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership Official Development Assistance ]" />
+						</td>
+						<td style="text-align: center;"><input id="Z6Wd8wiIAfz-txxKPnVUGvV-val" name="entryfield"
+								title="NHWA_Total expenditure on health workforce pre-service education By Ownership Others"
+								value="[ NHWA_Total expenditure on health workforce pre-service education By Ownership Others ]" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-<p>&nbsp;</p>
+			<p>&nbsp;</p>
 
-<table cellpadding="0" cellspacing="0">
-	<tbody>
-		<tr>
-			<th><strong>SN</strong></th>
-			<th style="text-align: center;"><strong>Item</strong></th>
-			<th style="text-align: center;">Value</th>
-			<th class="comments" scope="row" style="text-align: center;">Comment</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Existence of national health workforce strategies and national institutional financing reforms that identify and<br />
-			commit adequate budgetary resources for transformative education&nbsp;(4-04)</td>
-			<td class="yespartialno" style="text-align: center;"><!--<input id="Ybz3qUCWYKC-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input id="Ybz3qUCWYKC-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_Yes" value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_Yes ]" />Yes <input id="Ybz3qUCWYKC-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_Partial" value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_Partial ]" />Partial <input id="Ybz3qUCWYKC-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_No" value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="fXxS36qL9Vt-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education" value="[ NHWA_Comment of existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+			<table cellpadding="0" cellspacing="0">
+				<tbody>
+					<tr>
+						<th><strong>SN</strong></th>
+						<th style="text-align: center;"><strong>Item</strong></th>
+						<th style="text-align: center;">Value</th>
+						<th class="comments" scope="row" style="text-align: center;">Comment</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>Existence of national health workforce strategies and national institutional financing
+							reforms that identify and<br />
+							commit adequate budgetary resources for transformative education&nbsp;(4-04)</td>
+						<td class="yespartialno" style="text-align: center;">
+							<!--<input id="Ybz3qUCWYKC-Xr12mI7VPn3-val" name="entryfield" title="undefined" value="[ undefined ]"/>--><input
+								id="Ybz3qUCWYKC-I93t0K7b1oN-val" name="entryfield"
+								title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes"
+								value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Yes ]" />Yes
+							<input id="Ybz3qUCWYKC-Xgr3PJxcWfJ-val" name="entryfield"
+								title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial"
+								value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education Partial ]" />Partial
+							<input id="Ybz3qUCWYKC-Y7EAGQA1bfv-val" name="entryfield"
+								title="NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No"
+								value="[ NHWA_Existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education No ]" />No
+							<img class="comment-bubble" src="../images/comment.png"
+								style="cursor: pointer; margin-left: 10px;" title="View comment" />
+						</td>
+						<td class="comments" scope="row" style="text-align: center;"><input
+								id="fXxS36qL9Vt-Xr12mI7VPn3-val" name="entryfield"
+								title="NHWA_Comment of existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education"
+								value="[ NHWA_Comment of existence of national health workforce strategies and national institutional financing reforms that identify and commit adequate budgetary resources for transformative education ]" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-<div id="tab1">
-<h2>SECTION 2: HWF Education Costs</h2>
+	<div id="tab1">
+		<h2>SECTION 2: HWF Education Costs</h2>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="3">SN</th>
-			<th colspan="1" rowspan="3" style="text-align: center;">HWF education and training programme</th>
-			<th rowspan="3" style="text-align: center;">Annual tuition fee<br />
-			by student enrolled<br />
-			(4-03)</th>
-			<th colspan="4" rowspan="1" style="text-align: center;">Annual expenditure on HWF education programmes (4-05/4-06)</th>
-			<th rowspan="3" style="text-align: center;">Recurrent costs of<br />
-			qualified educators<br />
-			(4-07)</th>
-		</tr>
-		<tr>
-			<th colspan="1" rowspan="2" style="text-align: center;">Public Expenditure</th>
-			<th colspan="3" rowspan="1" style="text-align: center;">Private Expenditure</th>
-		</tr>
-		<tr>
-			<th style="text-align: center;">
-			<p>Out of Pockets</p>
-			</th>
-			<th style="text-align: center;">
-			<p>Official Development<br />
-			Assistance</p>
-			</th>
-			<th style="text-align: center;">Other</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<th scope="row">1</th>
-			<th scope="row" style="text-align: left;">Medical Doctors</th>
-			<td><input id="EI6IOp5v4dR-woIm3nuS3mM-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-woIm3nuS3mM-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-woIm3nuS3mM-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Medical Doctors" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-woIm3nuS3mM-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Medical Doctors" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-woIm3nuS3mM-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-woIm3nuS3mM-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.1</th>
-			<th scope="row">
-			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-Eh8fZEewQLs-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-Eh8fZEewQLs-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_General Medical Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_General Medical Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-Eh8fZEewQLs-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-Eh8fZEewQLs-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2</th>
-			<th scope="row">
-			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-Rr4F4xljMoJ-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-Rr4F4xljMoJ-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Specialist Medical Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Specialist Medical Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-Rr4F4xljMoJ-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-Rr4F4xljMoJ-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.1</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">General Paediatricians Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-p7nN8h3drrz-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-p7nN8h3drrz-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-p7nN8h3drrz-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_General Paediatricians Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_General Paediatricians Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-p7nN8h3drrz-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_General Paediatricians Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_General Paediatricians Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-p7nN8h3drrz-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-p7nN8h3drrz-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.2</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">Obstetricians and Gynaecologists Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-nC5KZyWITGC-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-nC5KZyWITGC-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-nC5KZyWITGC-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Obstetricians and Gynaecologists Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Obstetricians and Gynaecologists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-nC5KZyWITGC-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Obstetricians and Gynaecologists Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Obstetricians and Gynaecologists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-nC5KZyWITGC-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-nC5KZyWITGC-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.3</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">Psychiatrists Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-hx9b4UVGIgW-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-hx9b4UVGIgW-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-hx9b4UVGIgW-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Psychiatrists Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Psychiatrists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-hx9b4UVGIgW-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Psychiatrists Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Psychiatrists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-hx9b4UVGIgW-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-hx9b4UVGIgW-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.4</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">Medical group of Specialists Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-U0Q8rlyIf0L-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-U0Q8rlyIf0L-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-U0Q8rlyIf0L-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Medical group of Specialists Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Medical group of Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-U0Q8rlyIf0L-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Medical group of Specialists Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Medical group of Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-U0Q8rlyIf0L-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-U0Q8rlyIf0L-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.5</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">Surgical group of Specialists Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-N53ac2J5cmY-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-N53ac2J5cmY-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-N53ac2J5cmY-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Surgical group of Specialists Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Surgical group of Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-N53ac2J5cmY-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Surgical group of Specialists Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Surgical group of Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-N53ac2J5cmY-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-N53ac2J5cmY-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">1.2.6</th>
-			<th scope="row">
-			<p style="margin-left: 40px; text-align: left;">Other Specialists Practitioner</p>
-			</th>
-			<td><input id="EI6IOp5v4dR-K4qTZe26KoX-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-K4qTZe26KoX-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-K4qTZe26KoX-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Other Specialists Practitioner" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Other Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-K4qTZe26KoX-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Other Specialists Practitioner" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Other Specialists Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-K4qTZe26KoX-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-K4qTZe26KoX-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">2</th>
-			<th scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
-			<td><input id="EI6IOp5v4dR-gT8LDQDh2wc-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-gT8LDQDh2wc-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Nursing Professional" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Nursing Professional" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-gT8LDQDh2wc-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-gT8LDQDh2wc-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">3</th>
-			<th scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
-			<td><input id="EI6IOp5v4dR-GrzcLgIHx9h-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-GrzcLgIHx9h-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Midwifery Professional" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Midwifery Professional" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-GrzcLgIHx9h-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-GrzcLgIHx9h-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">4</th>
-			<th scope="row" style="text-align: left;">Dentist</th>
-			<td><input id="EI6IOp5v4dR-BUVRp4Q2zi7-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-BUVRp4Q2zi7-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Dentist" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Dentist" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-BUVRp4Q2zi7-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-BUVRp4Q2zi7-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-		<tr>
-			<th scope="row">5</th>
-			<th scope="row" style="text-align: left;">Pharmacist</th>
-			<td><input id="EI6IOp5v4dR-UbXO8Hq562j-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FQpontg7YBJ-UbXO8Hq562j-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FpVMaxDKMvc-UbXO8Hq562j-val" name="entryfield" title="NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Pharmacist" value="[ NHWA_Out of Pockets Private Expenditure on HWF education NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="hNld16i4Kfj-UbXO8Hq562j-val" name="entryfield" title="NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Pharmacist" value="[ NHWA_Official Development Assistance Private Expenditure on HWF education NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="tsRGEPI6G9W-UbXO8Hq562j-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-			<td style="text-align: center;"><input id="FM20fzfsNov-UbXO8Hq562j-val" name="entryfield" title="undefined" value="[ undefined ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+		<div id="cde">&nbsp;
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th colspan="1" rowspan="3">SN</th>
+						<th colspan="1" rowspan="3" style="text-align: center;">HWF education and training programme
+						</th>
+						<th rowspan="3" style="text-align: center;">Annual tuition fee<br />
+							by student enrolled<br />
+							(4-03)</th>
+						<th colspan="4" rowspan="1" style="text-align: center;">Annual expenditure on HWF education
+							programmes (4-05/4-06)</th>
+						<th rowspan="3" style="text-align: center;">Recurrent costs of<br />
+							qualified educators<br />
+							(4-07)</th>
+					</tr>
+					<tr>
+						<th colspan="1" rowspan="2" style="text-align: center;">Public Expenditure</th>
+						<th colspan="3" rowspan="1" style="text-align: center;">Private Expenditure</th>
+					</tr>
+					<tr>
+						<th style="text-align: center;">
+							<p>Out of Pockets</p>
+						</th>
+						<th style="text-align: center;">
+							<p>Official Development<br />
+								Assistance</p>
+						</th>
+						<th style="text-align: center;">Other</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th scope="row">1</th>
+						<th scope="row" style="text-align: left;">Medical Doctors</th>
+						<td><input id="EI6IOp5v4dR-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Medical Doctors"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Medical Doctors ]" /></td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Medical Doctors"
+								value="[ NHWA_Public Expenditure on HWF education Medical Doctors ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Medical Doctors"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Medical Doctors ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Medical Doctors"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Medical Doctors ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Medical Doctors"
+								value="[ NHWA_Other Private Expenditure on HWF education Medical Doctors ]" /></td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Medical Doctors"
+								value="[ NHWA_Recurrent costs of qualified educators Medical Doctors ]" /></td>
+					</tr>
+					<tr>
+						<th scope="row">1.1</th>
+						<th scope="row">
+							<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled General Medical Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled General Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education General Medical Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education General Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education General Medical Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education General Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education General Medical Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education General Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education General Medical Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education General Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators General Medical Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators General Medical Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2</th>
+						<th scope="row">
+							<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Specialist Medical Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Specialist Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Specialist Medical Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Specialist Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Specialist Medical Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Specialist Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Specialist Medical Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Specialist Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Specialist Medical Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Specialist Medical Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Specialist Medical Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Specialist Medical Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.1</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">General Paediatricians Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled General Paediatricians Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled General Paediatricians Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education General Paediatricians Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education General Paediatricians Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education General Paediatricians Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education General Paediatricians Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education General Paediatricians Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education General Paediatricians Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education General Paediatricians Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education General Paediatricians Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-p7nN8h3drrz-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators General Paediatricians Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators General Paediatricians Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.2</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">Obstetricians and Gynaecologists
+								Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-nC5KZyWITGC-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Obstetricians and Gynaecologists Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Obstetricians and Gynaecologists Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.3</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">Psychiatrists Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Psychiatrists Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Psychiatrists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Psychiatrists Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Psychiatrists Practitioner ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Psychiatrists Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Psychiatrists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Psychiatrists Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Psychiatrists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Psychiatrists Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Psychiatrists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-hx9b4UVGIgW-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Psychiatrists Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Psychiatrists Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.4</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">Medical group of Specialists Practitioner
+							</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Medical group of Specialists Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Medical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Medical group of Specialists Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Medical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Medical group of Specialists Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Medical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Medical group of Specialists Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Medical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Medical group of Specialists Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Medical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-U0Q8rlyIf0L-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Medical group of Specialists Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Medical group of Specialists Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.5</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">Surgical group of Specialists Practitioner
+							</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Surgical group of Specialists Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Surgical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Surgical group of Specialists Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Surgical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Surgical group of Specialists Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Surgical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Surgical group of Specialists Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Surgical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Surgical group of Specialists Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Surgical group of Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-N53ac2J5cmY-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Surgical group of Specialists Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Surgical group of Specialists Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">1.2.6</th>
+						<th scope="row">
+							<p style="margin-left: 40px; text-align: left;">Other Specialists Practitioner</p>
+						</th>
+						<td><input id="EI6IOp5v4dR-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Other Specialists Practitioner"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Other Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Other Specialists Practitioner"
+								value="[ NHWA_Public Expenditure on HWF education Other Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Other Specialists Practitioner"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Other Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Other Specialists Practitioner"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Other Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Other Specialists Practitioner"
+								value="[ NHWA_Other Private Expenditure on HWF education Other Specialists Practitioner ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-K4qTZe26KoX-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Other Specialists Practitioner"
+								value="[ NHWA_Recurrent costs of qualified educators Other Specialists Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">2</th>
+						<th scope="row" style="margin-left: 20px; text-align: left;">Nursing Professional</th>
+						<td><input id="EI6IOp5v4dR-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Nursing Professional"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Nursing Professional ]" /></td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Nursing Professional"
+								value="[ NHWA_Public Expenditure on HWF education Nursing Professional ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Nursing Professional"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Nursing Professional ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Nursing Professional"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Nursing Professional ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Nursing Professional"
+								value="[ NHWA_Other Private Expenditure on HWF education Nursing Professional ]" /></td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Nursing Professional"
+								value="[ NHWA_Recurrent costs of qualified educators Nursing Professional ]" /></td>
+					</tr>
+					<tr>
+						<th scope="row">3</th>
+						<th scope="row" style="margin-left: 20px; text-align: left;">Midwifery Professional</th>
+						<td><input id="EI6IOp5v4dR-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Midwifery Professional"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Midwifery Professional ]" /></td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Midwifery Professional"
+								value="[ NHWA_Public Expenditure on HWF education Midwifery Professional ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Midwifery Professional"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Midwifery Professional ]" />
+						</td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Midwifery Professional"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Midwifery Professional ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Midwifery Professional"
+								value="[ NHWA_Other Private Expenditure on HWF education Midwifery Professional ]" />
+						</td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Midwifery Professional"
+								value="[ NHWA_Recurrent costs of qualified educators Midwifery Professional ]" /></td>
+					</tr>
+					<tr>
+						<th scope="row">4</th>
+						<th scope="row" style="text-align: left;">Dentist</th>
+						<td><input id="EI6IOp5v4dR-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Dentist"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Dentist ]" /></td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Dentist"
+								value="[ NHWA_Public Expenditure on HWF education Dentist ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Dentist"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Dentist ]" /></td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Dentist"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Dentist ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Dentist"
+								value="[ NHWA_Other Private Expenditure on HWF education Dentist ]" /></td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Dentist"
+								value="[ NHWA_Recurrent costs of qualified educators Dentist ]" /></td>
+					</tr>
+					<tr>
+						<th scope="row">5</th>
+						<th scope="row" style="text-align: left;">Pharmacist</th>
+						<td><input id="EI6IOp5v4dR-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Annual Tuition Fee by Student enrolled Pharmacist"
+								value="[ NHWA_Annual Tuition Fee by Student enrolled Pharmacist ]" /></td>
+						<td style="text-align: center;"><input id="FQpontg7YBJ-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Public Expenditure on HWF education Pharmacist"
+								value="[ NHWA_Public Expenditure on HWF education Pharmacist ]" /></td>
+						<td style="text-align: center;"><input id="FpVMaxDKMvc-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Out of Pockets Private Expenditure on HWF education Pharmacist"
+								value="[ NHWA_Out of Pockets Private Expenditure on HWF education Pharmacist ]" /></td>
+						<td style="text-align: center;"><input id="hNld16i4Kfj-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Official Development Assistance Private Expenditure on HWF education Pharmacist"
+								value="[ NHWA_Official Development Assistance Private Expenditure on HWF education Pharmacist ]" />
+						</td>
+						<td style="text-align: center;"><input id="tsRGEPI6G9W-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Other Private Expenditure on HWF education Pharmacist"
+								value="[ NHWA_Other Private Expenditure on HWF education Pharmacist ]" /></td>
+						<td style="text-align: center;"><input id="FM20fzfsNov-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Recurrent costs of qualified educators Pharmacist"
+								value="[ NHWA_Recurrent costs of qualified educators Pharmacist ]" /></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-<div id="tab2">
-<h2>SECTION 3: LIFELONG LEARNING</h2>
+	<div id="tab2">
+		<h2>SECTION 3: LIFELONG LEARNING</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="3">SN</th>
-			<th colspan="1" rowspan="3">HWF education and training programme</th>
-			<th colspan="4" rowspan="1" style="text-align: center;">Total expenditure on in-service training and continuing professional development (4-08)</th>
-		</tr>
-		<tr>
-			<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
-			<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
-		</tr>
-		<tr>
-			<th style="text-align: center;">Out of Pockets</th>
-			<th style="text-align: center;">Official Development<br />
-			Assistance</th>
-			<th style="text-align: center;">Others</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Medical Doctors</td>
-			<td><input id="k31vRXPe1UA-woIm3nuS3mM-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Medical Doctors" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="go9xficYy4f-woIm3nuS3mM-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Medical Doctors" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="BMJGeU5QjPU-woIm3nuS3mM-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Medical Doctors" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="hUqp2FZFNGA-woIm3nuS3mM-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Medical Doctors" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Medical Doctors ]" /></td>
-		</tr>
-		<tr>
-			<td>1.1</td>
-			<td style="text-align: Left;">
-			<p style="margin-left: 20px; text-align: Left;">General Medical Practitioner</p>
-			</td>
-			<td><input id="k31vRXPe1UA-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="go9xficYy4f-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="BMJGeU5QjPU-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="hUqp2FZFNGA-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_General Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>1.2</td>
-			<td style="text-align: Left;">
-			<p style="margin-left: 20px; text-align: Left;">Specialist Medical Practitioner</p>
-			</td>
-			<td><input id="k31vRXPe1UA-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="go9xficYy4f-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="BMJGeU5QjPU-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="hUqp2FZFNGA-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Specialist Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td style="text-align: Left;">Nursing Professional</td>
-			<td><input id="k31vRXPe1UA-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Nursing Professional" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="go9xficYy4f-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Nursing Professional" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="BMJGeU5QjPU-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Nursing Professional" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="hUqp2FZFNGA-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Nursing Professional" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Nursing Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td style="text-align: Left;">Midwifery Professional</td>
-			<td><input id="k31vRXPe1UA-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Midwifery Professional" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="go9xficYy4f-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Midwifery Professional" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="BMJGeU5QjPU-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Midwifery Professional" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="hUqp2FZFNGA-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Midwifery Professional" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Midwifery Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td style="text-align: Left;">Dentist</td>
-			<td><input id="k31vRXPe1UA-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Dentist" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Dentist ]" /></td>
-			<td><input id="go9xficYy4f-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Dentist" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Dentist ]" /></td>
-			<td><input id="BMJGeU5QjPU-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Dentist" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Dentist ]" /></td>
-			<td><input id="hUqp2FZFNGA-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Dentist" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Dentist ]" /></td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td style="text-align: Left;">Pharmacist</td>
-			<td><input id="k31vRXPe1UA-UbXO8Hq562j-val" name="entryfield" title="NHWA_Public expenditure on Continuing Professional Development old_NHWA_Pharmacist" value="[ NHWA_Public expenditure on Continuing Professional Development old_NHWA_Pharmacist ]" /></td>
-			<td><input id="go9xficYy4f-UbXO8Hq562j-val" name="entryfield" title="NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Pharmacist" value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development old_NHWA_Pharmacist ]" /></td>
-			<td><input id="BMJGeU5QjPU-UbXO8Hq562j-val" name="entryfield" title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Pharmacist" value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development old_NHWA_Pharmacist ]" /></td>
-			<td><input id="hUqp2FZFNGA-UbXO8Hq562j-val" name="entryfield" title="NHWA_Others expenditure on Continuing Professional Development old_NHWA_Pharmacist" value="[ NHWA_Others expenditure on Continuing Professional Development old_NHWA_Pharmacist ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+		<div id="cde">
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th colspan="1" rowspan="3">SN</th>
+						<th colspan="1" rowspan="3">HWF education and training programme</th>
+						<th colspan="4" rowspan="1" style="text-align: center;">Total expenditure on in-service training
+							and continuing professional development (4-08)</th>
+					</tr>
+					<tr>
+						<th colspan="1" rowspan="2" style="text-align: center;">Public</th>
+						<th colspan="3" rowspan="1" style="text-align: center;">Private</th>
+					</tr>
+					<tr>
+						<th style="text-align: center;">Out of Pockets</th>
+						<th style="text-align: center;">Official Development<br />
+							Assistance</th>
+						<th style="text-align: center;">Others</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td style="text-align: Left;">Medical Doctors</td>
+						<td><input id="k31vRXPe1UA-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Medical Doctors"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Medical Doctors ]" />
+						</td>
+						<td><input id="go9xficYy4f-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Medical Doctors"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Medical Doctors ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Medical Doctors ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-woIm3nuS3mM-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Medical Doctors"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Medical Doctors ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>1.1</td>
+						<td style="text-align: Left;">
+							<p style="margin-left: 20px; text-align: Left;">General Medical Practitioner</p>
+						</td>
+						<td><input id="k31vRXPe1UA-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development General Medical Practitioner"
+								value="[ NHWA_Public expenditure on Continuing Professional Development General Medical Practitioner ]" />
+						</td>
+						<td><input id="go9xficYy4f-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development General Medical Practitioner ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development General Medical Practitioner ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-Eh8fZEewQLs-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development General Medical Practitioner"
+								value="[ NHWA_Others expenditure on Continuing Professional Development General Medical Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>1.2</td>
+						<td style="text-align: Left;">
+							<p style="margin-left: 20px; text-align: Left;">Specialist Medical Practitioner</p>
+						</td>
+						<td><input id="k31vRXPe1UA-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Specialist Medical Practitioner"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Specialist Medical Practitioner ]" />
+						</td>
+						<td><input id="go9xficYy4f-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Specialist Medical Practitioner ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Specialist Medical Practitioner ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-Rr4F4xljMoJ-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Specialist Medical Practitioner"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Specialist Medical Practitioner ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td style="text-align: Left;">Nursing Professional</td>
+						<td><input id="k31vRXPe1UA-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Nursing Professional"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Nursing Professional ]" />
+						</td>
+						<td><input id="go9xficYy4f-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Nursing Professional"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Nursing Professional ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Nursing Professional ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-gT8LDQDh2wc-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Nursing Professional"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Nursing Professional ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td style="text-align: Left;">Midwifery Professional</td>
+						<td><input id="k31vRXPe1UA-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Midwifery Professional"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Midwifery Professional ]" />
+						</td>
+						<td><input id="go9xficYy4f-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Midwifery Professional"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Midwifery Professional ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Midwifery Professional ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-GrzcLgIHx9h-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Midwifery Professional"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Midwifery Professional ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>4</td>
+						<td style="text-align: Left;">Dentist</td>
+						<td><input id="k31vRXPe1UA-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Dentist"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Dentist ]" />
+						</td>
+						<td><input id="go9xficYy4f-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Dentist"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Dentist ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Dentist"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Dentist ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-BUVRp4Q2zi7-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Dentist"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Dentist ]" />
+						</td>
+					</tr>
+					<tr>
+						<td>5</td>
+						<td style="text-align: Left;">Pharmacist</td>
+						<td><input id="k31vRXPe1UA-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Public expenditure on Continuing Professional Development Pharmacist"
+								value="[ NHWA_Public expenditure on Continuing Professional Development Pharmacist ]" />
+						</td>
+						<td><input id="go9xficYy4f-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Out of Pockets expenditure on Continuing Professional Development Pharmacist"
+								value="[ NHWA_Out of Pockets expenditure on Continuing Professional Development Pharmacist ]" />
+						</td>
+						<td><input id="BMJGeU5QjPU-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Official Development Assistanc expenditure on Continuing Professional Development Pharmacist"
+								value="[ NHWA_Official Development Assistanc expenditure on Continuing Professional Development Pharmacist ]" />
+						</td>
+						<td><input id="hUqp2FZFNGA-UbXO8Hq562j-val" name="entryfield"
+								title="NHWA_Others expenditure on Continuing Professional Development Pharmacist"
+								value="[ NHWA_Others expenditure on Continuing Professional Development Pharmacist ]" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 
-<div id="tab3">
-<h2>SECTION 4: HWF OTHER RESOURCES</h2>
+	<div id="tab3">
+		<h2>SECTION 4: HWF OTHER RESOURCES</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th>Item</th>
-			<th>Value</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Upload other resources</td>
-			<td><input id="mQh8RpY2ccw-Xr12mI7VPn3-val" name="entryfield" title="NHWA_HWF Module 4 File upload" value="[ NHWA_HWF Module 4 File upload ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
+		<div id="cde">
+			<table cellpadding="0" cellspacing="0">
+				<thead>
+					<tr>
+						<th>SN</th>
+						<th>Item</th>
+						<th>Value</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td style="text-align: Left;">Upload other resources</td>
+						<td><input id="mQh8RpY2ccw-Xr12mI7VPn3-val" name="entryfield"
+								title="NHWA_HWF Module 4 File upload" value="[ NHWA_HWF Module 4 File upload ]" /></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

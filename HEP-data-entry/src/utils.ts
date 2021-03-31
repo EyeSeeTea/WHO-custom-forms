@@ -1,18 +1,9 @@
 import * as _ from "lodash";
 import * as md5 from "md5";
-import * as fs from "fs";
-import * as path from "path";
-import { promisify } from "util";
 import { Response } from "node-fetch";
-
-const readFile = promisify(fs.readFile);
 
 export function prettyJSON(value: any) {
     return JSON.stringify(value, null, 4);
-}
-
-export function getResource(filename: string): Promise<string> {
-    return readFile(path.join(__dirname, `resources/${filename}`), "utf8");
 }
 
 export async function safeParseJSON(response: Response) {

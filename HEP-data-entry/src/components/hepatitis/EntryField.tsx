@@ -1,5 +1,6 @@
 import { createElement } from "typed-html";
-import { SectionDataElement, CategoryOptionCombo, HelpTexts } from "../models/Form";
+import { HelpTexts } from "./models/Form";
+import { SectionDataElement, CategoryOptionCombo } from "../../domain/common/entities";
 
 interface EntryFieldAttributes {
     dataElement: SectionDataElement;
@@ -27,6 +28,7 @@ export function EntryField(attributes: EntryFieldAttributes): string {
             {helpMessages ? (
                 <i
                     class="fas fa-info-circle help-icon"
+                    id={`${dataElement.id}-${categoryOptionCombo.name}-field-description`}
                     title={`${helpMessages[categoryOptionCombo.name]}`}
                 ></i>
             ) : null}

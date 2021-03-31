@@ -1,14 +1,14 @@
 import { createElement } from "typed-html";
 import * as _ from "lodash";
 
+import { Form } from "./models/Form";
+import { EntryField } from "./EntryField";
 import {
     Section,
-    SectionDataElement,
-    Form,
     CategoryOptionCombo,
+    SectionDataElement,
     FieldsToRemove,
-} from "../models/Form";
-import { EntryField } from "./EntryField";
+} from "../../domain/common/entities";
 
 interface TableAttributes {
     section: Section;
@@ -62,8 +62,12 @@ function FieldsRow(attributes: {
     return (
         <tr>
             <td class={`column-big ${background} center-text`}>
-                {dataElement.formName}
-                <i class="fas fa-info-circle help-icon" title={`${helpMessages.main}`}></i>
+                <span id={`${dataElement.id}-dataElement`}>{dataElement.formName}</span>
+                <i
+                    id={`${dataElement.id}-dataElement-description`}
+                    class="fas fa-info-circle help-icon"
+                    title={`${helpMessages.main}`}
+                ></i>
             </td>
             {...fieldTds}
         </tr>
@@ -84,7 +88,9 @@ function CheckBoxGroup(attributes: {
                 categoryOptionCombo={categoryOptionCombo}
                 type="checkbox"
             />
-            <div>{de.formName}</div>
+            <div>
+                <span id={`${de.id}-dataElement`}>{de.formName}</span>
+            </div>
         </div>
     ));
     const background = Form.getCategoryOptionComboColor(categoryOptionCombo);

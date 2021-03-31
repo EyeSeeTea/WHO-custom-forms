@@ -30,6 +30,7 @@ export interface ProgramStage {
 }
 
 interface DataElementGroup {
+    id: string;
     code?: string;
     shortName?: string;
     dataElements?: DataElement[];
