@@ -399,7 +399,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 		var date_formatted = year +"-"+month +"-"+day;
         updateTable(
           usersLastLogin,
-          baseUrl + "/api/users.json?filter=userCredentials.lastLogin:lt:"+date_formatted+"&fields=id,name,created,userCredentials[username,lastLogin],email",
+          baseUrl + "/api/users.json?filter=userCredentials.lastLogin:lt:"+date_formatted+"&fields=id,name,created,userCredentials[username,lastLogin],email&filter=userCredentials.lastLogin:null&rootJunction=OR&paging=false",
           false,
           isDevelopment,
 		  false
