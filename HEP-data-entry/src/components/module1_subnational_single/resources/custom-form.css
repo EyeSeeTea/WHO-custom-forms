@@ -117,6 +117,22 @@ textarea {
     z-index: 50;
 }
 
+.cde table tbody tr th {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 235px;
+    background: #f5f5f5;
+    z-index: 25;
+}
+
+.cde table tbody tr th.simple-de {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 405px;
+    background: #f5f5f5;
+    z-index: 25;
+}
+
 #leftBar {
     z-index: 100;
 }
