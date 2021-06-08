@@ -1,5 +1,4 @@
 <script type="text/javascript">
-    var attTotalByActivityLevel = "data-total-by-activity-level";
     var yespartialno = [];
     var categoryIssues = [];
     var yesno = [];
@@ -248,7 +247,7 @@
         },
     ];
 
-    var calculatedParentNumericCells = [
+    var calculatedNumericCells = [
         //Working Details
 
         //1 - Medical Doctors
@@ -1190,9 +1189,9 @@
         },
     ];
 
-    function calculateParentNumericCells() {
-        calculatedParentNumericCells.forEach(function (calculatedNumericCell) {
-            calculateParentNumericCell(calculatedNumericCell.id);
+    function calculateNumericCells() {
+        calculatedNumericCells.forEach(function (calculatedNumericCell) {
+            calculateNumericCell(calculatedNumericCell.id);
         });
     }
 
@@ -1202,14 +1201,14 @@
         });
     }
 
-    function calculateParentNumericCell(inputId) {
+    function calculateNumericCell(inputId) {
         var total = 0;
 
-        var parentCell = calculatedParentNumericCells.find(function (cell) {
+        var calculateNumericCell = calculatedNumericCells.find(function (cell) {
             return cell.id == inputId;
         });
 
-        parentCell.children.forEach(function (childId) {
+        calculateNumericCell.children.forEach(function (childId) {
             var value = $("#" + childId).val();
 
             if (value != "" && !isNaN(value)) {
@@ -1219,71 +1218,6 @@
 
         $("#" + inputId).val(total);
         $("#" + inputId).trigger("change");
-    }
-
-    function calculateTotalByActivityLevel(inputId) {
-        const cellIsEmpty = id => {
-            const currentValue = $("#" + id).val();
-
-            return currentValue === "" || currentValue === "0";
-        };
-
-        const cellIsNotEmpty = id => !cellIsEmpty(id);
-
-        if (cellIsEmpty(inputId)) {
-            const deByActivityLevel = $("#" + inputId).attr(attTotalByActivityLevel);
-
-            const practisingId = `${deByActivityLevel}-drJDZnHzeBH-val`;
-            const professionallyActiveId = `${deByActivityLevel}-VPShWMVpQkb-val`;
-            const licensedToPracticeId = `${deByActivityLevel}-xcotqxKxwlL-val`;
-
-            const valueIdToAssign = cellIsNotEmpty(practisingId)
-                ? practisingId
-                : cellIsNotEmpty(professionallyActiveId)
-                ? professionallyActiveId
-                : cellIsNotEmpty(licensedToPracticeId)
-                ? licensedToPracticeId
-                : "";
-
-            if (valueIdToAssign) {
-                const valueToAssign = $("#" + valueIdToAssign).val();
-
-                $("#" + inputId).val(valueToAssign);
-                $("#" + inputId).trigger("input");
-                $("#" + inputId).trigger("change");
-
-                const commentToAssign =
-                    valueIdToAssign === practisingId
-                        ? "Value obtained from Practising"
-                        : valueIdToAssign === professionallyActiveId
-                        ? "Value obtained from Professionally Active"
-                        : valueIdToAssign === licensedToPracticeId
-                        ? "Value obtained from Licensed to Practice"
-                        : "";
-
-                const dataElement = inputId.split("-")[0];
-                const categoryOption = inputId.split("-")[1];
-
-                setTimeout(() => {
-                    var commentSaver = new CommentSaver(
-                        dataElement,
-                        categoryOption,
-                        commentToAssign
-                    );
-                    commentSaver.save();
-                }, 100);
-            }
-        }
-    }
-
-    function clearComment(inputId) {
-        const dataElement = inputId.split("-")[0];
-        const categoryOption = inputId.split("-")[1];
-
-        setTimeout(() => {
-            var commentSaver = new CommentSaver(dataElement, categoryOption, "");
-            commentSaver.save();
-        }, 100);
     }
 
     function calculateCheckboxCell(inputId) {
@@ -1305,26 +1239,14 @@
     }
 
     function onNumericInputChange(changedInputId) {
-        calculatedParentNumericCells.forEach(function (calculatedNumericCell) {
+        calculatedNumericCells.forEach(function (calculatedNumericCell) {
             calculatedNumericCell.children.forEach(function (childId) {
                 if (changedInputId == childId) {
-                    calculateParentNumericCell(calculatedNumericCell.id);
+                    calculateNumericCell(calculatedNumericCell.id);
                     return;
                 }
             });
         });
-    }
-
-    var calculatingTotalsByActivityLevel = false;
-
-    function calculateTotalsByActivityLevel() {
-        calculatingTotalsByActivityLevel = true;
-
-        $(`[${attTotalByActivityLevel}]`).each(function () {
-            calculateTotalByActivityLevel($(this).attr("id"));
-        });
-
-        calculatingTotalsByActivityLevel = false;
     }
 
     function onCheckboxInputChange(changedInputId) {
@@ -1364,36 +1286,6 @@
         });
     }
 
-    function showCalculateTotalsByActivityLevel() {
-        $.ajax({
-            url: "../api/me",
-            type: "get",
-            data: {
-                fields: "id, userGroups",
-            },
-            success: function (user) {
-                const userGroups = user.userGroups.map(ug => ug.id);
-
-                const nhwaDataManagersId = "xcDZeClzdse";
-                const nhwaGlobalTeamId = "MVWS4lpbPo2";
-
-                if (
-                    userGroups.includes(nhwaDataManagersId) ||
-                    userGroups.includes(nhwaGlobalTeamId)
-                ) {
-                    $("#calculateTotalsByActivityLevel").show();
-                } else {
-                    $("#calculateTotalsByActivityLevel").hide();
-                }
-            },
-            error: function (xhr) {
-                debugger;
-                console.log("Error in the request");
-                console.log(xhr);
-            },
-        });
-    }
-
     $(document).ready(function () {
         $(function () {
             //alert("Here")
@@ -1418,15 +1310,7 @@
             $("input[type=checkbox]").on("change", function (e) {
                 onCheckboxInputChange(e.target.id);
             });
-
-            $(`[${attTotalByActivityLevel}]`).on("change", function (e) {
-                if (!calculatingTotalsByActivityLevel) {
-                    clearComment(e.target.id);
-                }
-            });
         });
-
-        showCalculateTotalsByActivityLevel();
 
         $(function () {
             console.log("Updating file resources links");
@@ -1484,7 +1368,7 @@
             }
         }, 100);
 
-        calculateParentNumericCells();
+        calculateNumericCells();
         calculateCheckboxCells();
     });
 
@@ -1641,15 +1525,6 @@
 
     <div id="tab0">
         <h2>SECTION 1: HWF WORKING DETAILS</h2>
-        <button
-            id="calculateTotalsByActivityLevel"
-            name="calculateTotalsByActivityLevel"
-            onclick="calculateTotalsByActivityLevel()"
-            style="display: none"
-            type="button"
-        >
-            Calculate Totals By Activity Level
-        </button>
 
         <div id="cde">
             &nbsp;
