@@ -1208,7 +1208,7 @@
 	}
 
 	function calculateParentNumericCell(inputId) {
-		var total = 0;
+		var total = "";
 
 		var parentCell = calculatedParentNumericCells.find(function (cell) {
 			return cell.id == inputId;
@@ -1218,7 +1218,9 @@
 			var value = $("#" + childId).val();
 
 			if (value != "" && !isNaN(value)) {
-				total = total + parseInt(value);
+				currentTotal = total === "" ? 0 : total;
+
+				total = currentTotal + parseInt(value);
 			}
 		});
 
@@ -1738,7 +1740,8 @@
 															id="fEck0UnAFaV-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_Medical Doctors composition and distribution source type Other databases"
 															value="[ NHWA_Medical Doctors composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -1829,7 +1832,8 @@
 															id="idY7moseTTD-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_General Medical Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_General Medical Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -1919,7 +1923,8 @@
 															id="RfqYbGs8Za9-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Specialist Medical Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Specialist Medical Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2009,7 +2014,8 @@
 															id="nS0ZJGJUX0u-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_General Paediatricians Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_General Paediatricians Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2099,7 +2105,8 @@
 															id="bSvvw3Ms4BE-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Obstetricians and Gynaecologists Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Obstetricians and Gynaecologists Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2188,7 +2195,8 @@
 															id="h3kClMEpMAy-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Psychiatrists Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Psychiatrists Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2279,7 +2287,8 @@
 															id="e3ba55rLVTZ-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical group of Specialists Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical group of Specialists Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2370,7 +2379,8 @@
 															id="KAU5IPKoIgx-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Surgical group of Specialists Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Surgical group of Specialists Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2460,7 +2470,8 @@
 															id="bYXQMVmauLD-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Other Specialists Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Other Specialists Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2550,7 +2561,8 @@
 															id="pSRNRBuOBi8-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical doctors not further defined composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical doctors not further defined composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2637,7 +2649,8 @@
 															id="yrP0fOB2Yxv-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_Nursing Personnel composition and distribution source type Other databases"
 															value="[ NHWA_Nursing Personnel composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2728,7 +2741,8 @@
 															id="dutH7uvTAut-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Nursing Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Nursing Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2825,7 +2839,8 @@
 															name="entryfield"
 															title="NHWA_Nursing Professionals with additional midwifery training composition and distribution source type Other databases"
 															value="[ NHWA_Nursing Professionals with additional midwifery training composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -2918,7 +2933,8 @@
 															id="vtidz1k9BOw-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Nursing Associate Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Nursing Associate Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3014,7 +3030,8 @@
 															id="FU6JZtf1IOo-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_Nursing Associate Professionals with additional midwifery training composition and distribution source type Other databases"
 															value="[ NHWA_Nursing Associate Professionals with additional midwifery training composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3106,7 +3123,8 @@
 															id="MFUxfSaYW2e-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Nurses not further defined composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Nurses not further defined composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3194,7 +3212,8 @@
 															id="l1mCEuDf2ZI-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_Midwifery personnel composition and distribution source type Other databases"
 															value="[ NHWA_Midwifery personnel composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3286,7 +3305,8 @@
 															id="ud6YiQ9ekgi-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Midwifery Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Midwifery Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3379,7 +3399,8 @@
 															id="LKiTYPmaOhj-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Midwifery Associate Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Midwifery Associate Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3471,7 +3492,8 @@
 															id="vnulYqEDjxA-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Midwives not further defined composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Midwives not further defined composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3555,7 +3577,8 @@
 															id="P5RXZZXrLGM-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Dentists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Dentists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3646,7 +3669,8 @@
 															id="ON8DBreBXlt-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Dental Assistants and Therapists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Dental Assistants and Therapists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3737,7 +3761,8 @@
 															id="SRSiY1qW6W8-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Dental Prosthetic Technicians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Dental Prosthetic Technicians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3822,7 +3847,8 @@
 															id="M1hZV0c1jpw-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Pharmacists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Pharmacists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -3913,7 +3939,8 @@
 															id="Va9QjeOhGZa-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Pharmaceutical Technicians and Assistants composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Pharmaceutical Technicians and Assistants composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4003,7 +4030,8 @@
 															id="E6yC5xp14iQ-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Paramedical Practitioners composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Paramedical Practitioners composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4095,7 +4123,8 @@
 															id="zmJu31AVVts-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical and Pathology Laboratory scientists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical and Pathology Laboratory scientists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4189,7 +4218,8 @@
 															id="HmC6k52OuR4-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical Imaging and Therapeutic Equipment Technicians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical Imaging and Therapeutic Equipment Technicians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4281,7 +4311,8 @@
 															id="eP4EDcfclsH-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical and Pathology Laboratory Technicians  composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical and Pathology Laboratory Technicians  composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4375,7 +4406,8 @@
 															id="cnxVb8H17tm-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Environmental and Occupational Health and Hygiene Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Environmental and Occupational Health and Hygiene Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4469,7 +4501,8 @@
 															id="mnfnutsHsxh-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Environmental and Occupational Health Inspectors and Associates composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Environmental and Occupational Health Inspectors and Associates composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4563,7 +4596,8 @@
 															id="hiSNbC7WWAb-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Traditional and Complementary Medicine Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Traditional and Complementary Medicine Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4657,7 +4691,8 @@
 															id="PXZbVlkKwcw-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Traditional and Complementary Medicine Associate Professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Traditional and Complementary Medicine Associate Professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4747,7 +4782,8 @@
 															id="TcSxFdjVWEh-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Community Health Workers composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Community Health Workers composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4837,7 +4873,8 @@
 															id="ZtjIuqdv5S7-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Personal care workers  composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Personal care workers  composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -4926,7 +4963,8 @@
 															id="BgJoMJEnaO1-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Health Care Assistants composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Health Care Assistants composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5016,7 +5054,8 @@
 															id="LO5oNfvohPx-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Home-based Personal Care Workers composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Home-based Personal Care Workers composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5107,7 +5146,8 @@
 															id="uQe1J0rpnwS-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Personal care workers in health services n.e.c composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Personal care workers in health services n.e.c composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5194,7 +5234,8 @@
 															id="XIHIwocWj9J-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Physiotherapists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Physiotherapists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5286,7 +5327,8 @@
 															id="RK9mngtJtTL-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Physiotherapy Technicians and Assistants composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Physiotherapy Technicians and Assistants composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5371,7 +5413,8 @@
 															id="D2MFGJKtc1Y-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Dieticians  composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Dieticians  composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5458,7 +5501,8 @@
 															id="m4eOcU1zHtL-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Nutritionists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Nutritionists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5549,7 +5593,8 @@
 															id="VZnZ8xJoaIW-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Audiologists and Speech Therapists composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Audiologists and Speech Therapists composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5640,7 +5685,8 @@
 															id="rsmgY2HkHEf-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Optometrists and Ophthalmic Opticians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Optometrists and Ophthalmic Opticians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5729,7 +5775,8 @@
 															id="A8qvwcGQ7oR-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Dispensing Opticians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Dispensing Opticians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5820,7 +5867,8 @@
 															id="HLgQXol1EPh-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical Prosthetic Technicians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical Prosthetic Technicians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -5912,7 +5960,8 @@
 															id="tWmFeJagj87-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical Records and Health Information Technicians composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical Records and Health Information Technicians composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6000,7 +6049,8 @@
 															id="EojH3xtSttx-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Medical Assistants composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Medical Assistants composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6087,7 +6137,8 @@
 															id="HeI3osYsbQa-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Ambulance Workers composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Ambulance Workers composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6179,7 +6230,8 @@
 															id="cxmJyqa1T5C-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Social work and counselling professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Social work and counselling professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6270,7 +6322,8 @@
 															id="eA4qiSbPKdb-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Social work associate professionals composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Social work associate professionals composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6359,7 +6412,8 @@
 															id="Ngzlv0PnZHM-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Biomedical engineer composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Biomedical engineer composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6618,7 +6672,8 @@
 															id="jxUmQ1pAqyo-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Managerial staff composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Managerial staff composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6707,7 +6762,8 @@
 															id="Gi4BzUhTjYb-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Administrative staff composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Administrative staff composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6798,7 +6854,8 @@
 															id="cs7H0NFWgV1-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Health information systems personnel composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Health information systems personnel composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6889,7 +6946,8 @@
 															id="Ls5uiJRlx9L-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Engineering and maintenance staff composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Engineering and maintenance staff composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -6980,7 +7038,8 @@
 															id="hTbGyO8zzbu-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Other non-medical professional staff composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Other non-medical professional staff composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
@@ -7071,7 +7130,8 @@
 															id="zVBLVa1TCTI-xgbBSeyiDWp-val" name="entryfield"
 															title="NHWA_HWF_Other non-medical support staff composition and distribution source type Other databases"
 															value="[ NHWA_HWF_Other non-medical support staff composition and distribution source type Other databases ]" />Other
-														databases</label></td>
+														databases</label>
+												</td>
 											</tr>
 										</tbody>
 									</table>
