@@ -15,7 +15,7 @@ function getCurrentDataSetDataValues() {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get dataValueSets request");
                 console.log(xhr);
                 reject(xhr);
@@ -35,7 +35,7 @@ function removeDataValues(json) {
             success: response => {
                 resolve(response);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the request");
                 console.log(xhr);
                 reject(xhr);
@@ -55,7 +55,7 @@ function getAntivenomProducts(includeDeleted) {
             success: json => {
                 resolve(json.filter(p => includeDeleted || !p.deleted));
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get dataValueSets request");
                 console.log(xhr);
                 reject(xhr);
@@ -70,7 +70,7 @@ async function getAntivenomProductsGroupByRecommended() {
     const getSelectItems = recommended => {
         return antivenomProducts
             .filter(product => product.recommended === recommended)
-            .sort(function(a, b) {
+            .sort(function (a, b) {
                 if (a.productName < b.productName) {
                     return -1;
                 }
@@ -105,7 +105,7 @@ function saveAntivenomProduct(newProduct) {
                 success: response => {
                     resolve(response);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.log("Error in the request");
                     console.log(xhr);
                     reject(xhr);
@@ -134,7 +134,7 @@ function removeAntivenomProduct(productName) {
                 success: response => {
                     resolve(response);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.log("Error in the request");
                     console.log(xhr);
                     reject(xhr);
@@ -155,7 +155,7 @@ function getAntivenomEntries() {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get dataValueSets request");
                 console.log(xhr);
                 reject(xhr);
@@ -175,7 +175,7 @@ function getCustomMetadata() {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get dataValueSets request");
                 console.log(xhr);
                 reject(xhr);
@@ -196,7 +196,7 @@ function getDataElement(dataElementId) {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get getDataElement request");
                 console.log(xhr);
                 reject(xhr);
@@ -214,7 +214,7 @@ function getMe() {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get getDataElement request");
                 console.log(xhr);
                 reject(xhr);
@@ -232,7 +232,7 @@ function getOrgUnits(ids) {
             success: json => {
                 resolve(json);
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the get getDataElement request");
                 console.log(xhr);
                 reject(xhr);

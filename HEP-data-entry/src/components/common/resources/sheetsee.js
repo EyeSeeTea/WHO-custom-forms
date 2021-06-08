@@ -24,7 +24,7 @@ function makeTable(data) {
 
 // Called once to listen for clicks on table headers
 function initiateTableSorter() {
-    document.body.addEventListener("click", function(event) {
+    document.body.addEventListener("click", function (event) {
         if (event.target.classList.contains("tHeader")) {
             perpareSort(event);
         }
@@ -48,7 +48,7 @@ function sortData() {
     if (tblOpts.filtering) sortGroup = tblOpts.pgnMta.allRows;
     else sortGroup = tblOpts.data;
 
-    sortGroup.sort(function(a, b) {
+    sortGroup.sort(function (a, b) {
         var aa = a[tblOpts.sortMeta.sortBy].toLowerCase();
         var bb = b[tblOpts.sortMeta.sortBy].toLowerCase();
         aa = aa.match(/^[\d,]$/) ? Number(aa) : aa;
@@ -79,7 +79,7 @@ function initiateTableFilter(options) {
     var filterInput = document.getElementById(options.filterDiv.replace("#", ""));
 
     // listen for clicks on clear button
-    document.querySelector(".clear").addEventListener("click", function() {
+    document.querySelector(".clear").addEventListener("click", function () {
         filterInput.value = "";
         // This resets the table to initial direction
         if (tblOpts.pgnMta.dir) tblOpts.pgnMta.dir = Number(0);
@@ -87,7 +87,7 @@ function initiateTableFilter(options) {
         prepTable();
     });
     // Listen for input in the serach field
-    filterInput.addEventListener("keyup", function(e) {
+    filterInput.addEventListener("keyup", function (e) {
         searchTable(e.target.value);
     });
 }
@@ -95,7 +95,7 @@ function initiateTableFilter(options) {
 // Search the table with input
 function searchTable(searchTerm) {
     var filteredList = [];
-    tblOpts.data.forEach(function(object) {
+    tblOpts.data.forEach(function (object) {
         var stringObject = JSON.stringify(object).toLowerCase();
         if (stringObject.match(searchTerm.toLowerCase())) filteredList.push(object);
     });
@@ -220,7 +220,7 @@ function addPaginationDOM(nopages) {
         document.querySelector(".pagination-next-" + tblId).classList.remove("no-pag");
     }
     // Listen for next clicks
-    document.querySelector(".pagination-next-" + tblId).addEventListener("click", function(e) {
+    document.querySelector(".pagination-next-" + tblId).addEventListener("click", function (e) {
         if (e.target.classList.contains("no-pag")) return;
         tblOpts.pgnMta.dir = Number(1);
         // if there is text in the search and you are paginating
@@ -229,7 +229,7 @@ function addPaginationDOM(nopages) {
         else prepTable();
     });
     // Listen for previous clicks
-    document.querySelector(".pagination-pre-" + tblId).addEventListener("click", function(e) {
+    document.querySelector(".pagination-pre-" + tblId).addEventListener("click", function (e) {
         if (e.target.classList.contains("no-pag")) return;
         tblOpts.pgnMta.dir = Number(-1);
         // if there is text in the search and you are paginating

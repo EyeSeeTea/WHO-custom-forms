@@ -3,8 +3,8 @@ interface DataElementData {
     color?: string;
     name?: string;
     info?: string;
-    showTotal?: boolean,
-    showName?: boolean,
+    showTotal?: boolean;
+    showName?: boolean;
     totalName?: string;
     defaultCatOptionComboName?: string;
 }
@@ -18,13 +18,13 @@ interface OptionComboData {
 }
 
 interface SubnationalDataSet {
-    id: string,
-    name: string
+    id: string;
+    name: string;
 }
 
 export interface CustomMetadata {
     dataElements: Record<string, DataElementData>;
     optionCombos: Record<string, OptionComboData>;
     subnationalStockDataDataSet: SubnationalDataSet;
-    subnationalEpidemiologicalDataDataSet: SubnationalDataSet
+    subnationalEpidemiologicalDataDataSet: SubnationalDataSet;
 }

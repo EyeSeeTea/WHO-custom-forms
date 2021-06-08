@@ -1,4 +1,3 @@
-
 import * as fs from "fs";
 import _ = require("lodash");
 import * as path from "path";
@@ -12,7 +11,10 @@ export function getResource(filename: string): Promise<string> {
     return readFile(path.join(__dirname, filename), "utf8");
 }
 
-export function sortCategoryOptionCombos(dataElement: SectionDataElement, customMetadata: CustomMetadata): NameRef[] {
+export function sortCategoryOptionCombos(
+    dataElement: SectionDataElement,
+    customMetadata: CustomMetadata
+): NameRef[] {
     return _.sortBy(
         dataElement.categoryCombo.categoryOptionCombos.map(catOpCombo => {
             const catComboData = customMetadata.optionCombos[catOpCombo.id];
@@ -27,4 +29,4 @@ export function sortCategoryOptionCombos(dataElement: SectionDataElement, custom
         }),
         ["order"]
     );
-} 
+}

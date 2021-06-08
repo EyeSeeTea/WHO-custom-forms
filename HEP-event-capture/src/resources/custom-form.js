@@ -1,10 +1,7 @@
 async function applyChangesToForm() {
     const programToApplyChanges = $("#custom-form-script").attr("data-program-id");
-    const {
-        dataElementTranslations,
-        sectionTranslations,
-        userLocale,
-    } = await getLocaleAndTranslations(programToApplyChanges);
+    const { dataElementTranslations, sectionTranslations, userLocale } =
+        await getLocaleAndTranslations(programToApplyChanges);
     replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale);
 }
 

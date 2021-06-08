@@ -25,7 +25,7 @@ class Sheetsee {
 
     // Called once to listen for clicks on table headers
     initiateTableSorter() {
-        document.body.addEventListener("click", function(event) {
+        document.body.addEventListener("click", function (event) {
             if (event.target.classList.contains("tHeader")) {
                 perpareSort(event);
             }
@@ -50,7 +50,7 @@ class Sheetsee {
         if (this.tblOpts.filtering) sortGroup = this.tblOpts.pgnMta.allRows;
         else sortGroup = this.tblOpts.data;
 
-        sortGroup.sort(function(a, b) {
+        sortGroup.sort(function (a, b) {
             const aa = a[this.tblOpts.sortMeta.sortBy].toLowerCase();
             const bb = b[this.tblOpts.sortMeta.sortBy].toLowerCase();
             aa = aa.match(/^[\d,]$/) ? Number(aa) : aa;
@@ -81,7 +81,7 @@ class Sheetsee {
         const filterInput = document.getElementById(options.filterDiv.replace("#", ""));
 
         // listen for clicks on clear button
-        document.querySelector(".clear").addEventListener("click", function() {
+        document.querySelector(".clear").addEventListener("click", function () {
             filterInput.value = "";
             // This resets the table to initial direction
             if (this.tblOpts.pgnMta.dir) this.tblOpts.pgnMta.dir = Number(0);
@@ -89,7 +89,7 @@ class Sheetsee {
             this.prepTable();
         });
         // Listen for input in the serach field
-        filterInput.addEventListener("keyup", function(e) {
+        filterInput.addEventListener("keyup", function (e) {
             this.searchTable(e.target.value);
         });
     }
@@ -97,7 +97,7 @@ class Sheetsee {
     // Search the table with input
     searchTable(searchTerm) {
         const filteredList = [];
-        this.tblOpts.data.forEach(function(object) {
+        this.tblOpts.data.forEach(function (object) {
             const stringObject = JSON.stringify(object).toLowerCase();
             if (stringObject.match(searchTerm.toLowerCase())) filteredList.push(object);
         });

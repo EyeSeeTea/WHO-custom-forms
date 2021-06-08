@@ -65,7 +65,7 @@ function onInputChange(id) {
     saveVal(dataElementId, optionComboId, id);
 
     calculatedNumericCells.forEach(calculatedNumericCell => {
-        calculatedNumericCell.children.forEach(function(childId) {
+        calculatedNumericCell.children.forEach(function (childId) {
             if (id === organisationUnitId + "-" + childId) {
                 calculateNumericCell(organisationUnitId + "-" + calculatedNumericCell.id);
                 return;
@@ -82,11 +82,11 @@ function get_resource_link(element_id, tokens) {
             fields: "id",
             filter: "name:token:" + tokens,
         },
-        success: function(response) {
+        success: function (response) {
             id = response["documents"][0]["id"];
             document.getElementById(element_id).href = "../api/documents/" + id + "/data";
         },
-        error: function(xhr) {
+        error: function (xhr) {
             console.log("Error in the request");
             console.log(xhr);
         },
@@ -106,14 +106,14 @@ function showCheckboxes(element) {
 }
 
 function loadValues() {
-    $(".read-only input").each(function() {
+    $(".read-only input").each(function () {
         $(this).attr("disabled", "disabled");
     });
 
     const $nextPageButton = document.querySelector(".pagination-next-orgUnitsTable");
 
     if ($nextPageButton) {
-        $nextPageButton.addEventListener("click", function(e) {
+        $nextPageButton.addEventListener("click", function (e) {
             if (e.target.classList.contains("no-pag")) return;
 
             loadValues();
@@ -123,7 +123,7 @@ function loadValues() {
     const $previousPageButton = document.querySelector(".pagination-pre-orgUnitsTable");
 
     if ($previousPageButton) {
-        $previousPageButton.addEventListener("click", function(e) {
+        $previousPageButton.addEventListener("click", function (e) {
             if (e.target.classList.contains("no-pag")) return;
 
             loadValues();
@@ -144,7 +144,7 @@ function loadValues() {
         data: params,
         dataType: "json",
         success: json => {
-            $.safeEach(json.dataValues, function(i, dataValue) {
+            $.safeEach(json.dataValues, function (i, dataValue) {
                 var fieldId = `#${dataValue.orgUnit}-${dataValue.dataElement}-${dataValue.categoryOptionCombo}-val`;
                 if ($(fieldId).length > 0) {
                     var entryField = $(fieldId);
@@ -156,14 +156,14 @@ function loadValues() {
                 }
             });
 
-            $("input[type=text]").on("change", function(e) {
+            $("input[type=text]").on("change", function (e) {
                 onInputChange(e.target.id);
             });
-            $("textarea").on("change", function(e) {
+            $("textarea").on("change", function (e) {
                 onInputChange(e.target.id);
             });
         },
-        error: function(xhr) {
+        error: function (xhr) {
             console.log("Error in the request");
             console.log(xhr);
         },
@@ -179,7 +179,7 @@ function renderCustomForm() {
     $.ajax({
         url: `../api/sqlViews/F9WNm3XNjli/data?${filter}`,
         type: "get",
-        success: function(response) {
+        success: function (response) {
             const orgUnits = response.listGrid.rows.map(row => ({
                 orgUnitId: row[0],
                 orgUnitName: row[1],
@@ -198,22 +198,22 @@ function renderCustomForm() {
 
             loadValues();
         },
-        error: function(xhr) {
+        error: function (xhr) {
             console.log("Error in the request");
             console.log(xhr);
         },
     });
 }
 
-$(document).ready(function() {
-    $(function() {
+$(document).ready(function () {
+    $(function () {
         $("#mod2_tabs").tabs();
 
-        dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
+        dhis2.util.on("dhis2.de.event.dataValuesLoaded", function (event, ds) {
             renderCustomForm();
         });
     });
-    $(function() {
+    $(function () {
         console.log("Updating file resources links");
         get_resource_link("handbook_link", "NHWA, Indicator, HandBook");
         get_resource_link("userguide_link", "NHWA, User, guide");

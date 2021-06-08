@@ -1,16 +1,15 @@
-
 export interface AntivenomEntriesDataElementData {
-    id: string,
-    prop: string
-    disabled?: boolean,
-    recommendedProductsSelector?: boolean
+    id: string;
+    prop: string;
+    disabled?: boolean;
+    recommendedProductsSelector?: boolean;
 }
 
 export interface AntivenomEntriesGroupData {
-    id: string,
+    id: string;
     title: string;
     info?: string;
-    addEntryButton: string,
+    addEntryButton: string;
     dataElements: AntivenomEntriesDataElementData[];
 }
 

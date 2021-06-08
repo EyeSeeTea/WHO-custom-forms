@@ -3,11 +3,8 @@ async function applyChangesToForm() {
     const currentDataset = $("#selectedDataSetId").val();
     $("#completenessDiv").wrap("<div id='completenessWrapper'></div>");
     if (datasetToApplyChanges === currentDataset) {
-        const {
-            dataElementTranslations,
-            sectionTranslations,
-            userLocale,
-        } = await getLocaleAndTranslations(currentDataset);
+        const { dataElementTranslations, sectionTranslations, userLocale } =
+            await getLocaleAndTranslations(currentDataset);
         replaceLocalizedTexts(dataElementTranslations, sectionTranslations, userLocale);
         $("#completenessWrapper").hide();
     } else {

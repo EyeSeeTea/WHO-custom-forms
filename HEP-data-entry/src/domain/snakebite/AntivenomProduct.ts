@@ -1,6 +1,5 @@
-
 export interface AntivenomProduct {
-    productName: string,
-    manufacturerName?: string,
-    polyvalent: boolean
+    productName: string;
+    manufacturerName?: string;
+    polyvalent: boolean;
 }

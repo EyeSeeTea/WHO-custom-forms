@@ -1,9 +1,7 @@
 #!/bin/bash
 
 if [[ -d $1 ]]; then
-    prettier $1/**/**.{ts,js,json,scss,css,html} --write --end-of-line lf
-elif [[ (-f $1) && ($1 == *.json) ]]; then
-    prettier $1 --write --end-of-line lf
+    prettier "$1/**/*.{ts,js,json,css,html}" --write
 else
-    prettier *.{ts,js,json,scss,css,html} --write --end-of-line lf
+    prettier "./**/*.{ts,js,json,css,html}" --write
 fi

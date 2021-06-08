@@ -1,13 +1,18 @@
 import _ = require("lodash");
 import { DataSet } from "../../../domain/common/entities";
 import { DataSetRepository } from "../../../domain/common/repositories";
-import { Dhis2MetadataClient, MetadataOptions, MetadataPayload, MetadataResponse } from "../clients/Dhis2MetadataClient";
+import {
+    Dhis2MetadataClient,
+    MetadataOptions,
+    MetadataPayload,
+    MetadataResponse,
+} from "../clients/Dhis2MetadataClient";
 
 export class D2DataSetRepository implements DataSetRepository {
-    constructor(private dhis2MetadataClient: Dhis2MetadataClient) { }
+    constructor(private dhis2MetadataClient: Dhis2MetadataClient) {}
 
     async get(dataSetId: string): Promise<DataSet> {
-        const { dataSets } = await this.dhis2MetadataClient.get<{ dataSets: DataSet[]; }>({
+        const { dataSets } = await this.dhis2MetadataClient.get<{ dataSets: DataSet[] }>({
             "dataSets:fields": `:owner,
                 sections[
                     id,
@@ -27,7 +32,10 @@ export class D2DataSetRepository implements DataSetRepository {
         return dataSet;
     }
 
-    async saveCustomForm(payload: MetadataPayload, options: MetadataOptions): Promise<MetadataResponse> {
-        return await this.dhis2MetadataClient.post(payload, options)
+    async saveCustomForm(
+        payload: MetadataPayload,
+        options: MetadataOptions
+    ): Promise<MetadataResponse> {
+        return await this.dhis2MetadataClient.post(payload, options);
     }
 }
