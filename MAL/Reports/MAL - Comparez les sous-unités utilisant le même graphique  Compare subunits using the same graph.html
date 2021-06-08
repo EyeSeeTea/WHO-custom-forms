@@ -1,0 +1,296 @@
+﻿<style type="text/css">
+.chart {
+	border: 1px solid #ddd;
+	height: 300px;
+	width: 100%;
+	float: left;
+}
+
+
+.chartContainer {
+	margin: 10px;
+	margin-bottom: 20px;
+	page-break-inside: avoid;
+}
+
+@media print {
+.no-print, .no-print * {
+	display: none !important;
+}
+}
+</style>
+
+<!-- <script src="https://dhis2-cdn.org/v225-1/plugin/chart.js"></script> -->
+<script src="../dhis-web-visualizer/chart.js"></script>
+
+<script type="text/javascript">
+
+
+var favoriteList = [];
+var favoriteId;
+var favoriteName;
+
+var selectedFavorite;
+
+var orgunits;
+var filterBy = 'ou';
+
+$( document ).ready( function() {
+
+	orgunits = dhis2.report.organisationUnitChildren;
+	orgunits.sort(sortByName);
+	
+	//Once the reports is loaded, get list of favorites
+	getFavoriteList(1);
+	
+});
+
+
+//Recursively (page by page), fetch charts that match the criteria of having ou dimension as filter
+function getFavoriteList(page) {
+
+	//Can be simplified, as API now supports getting charts using something like filter=filterDimension:in:[ou]
+	$.getJSON( "../api/visualizations.json?fields=displayName,id,filterDimensions&page=" + page, function( data ) {
+		//Iterate charts - get next page
+		for (var i = 0; i < data.visualizations.length; i++) {
+		
+			//Manually filter charts - can be removed when using API-filtering
+			var relevant = false;
+			for (var j = 0; j < data.visualizations[i].filterDimensions.length; j++) {
+				if (data.visualizations[i].filterDimensions[j] === filterBy) {
+					relevant = true;
+					break;
+				}
+			}
+			if (relevant) {
+				favoriteList.push(data.visualizations[i]);
+			}	
+		}
+		
+		//No more pages, display dropdown
+		if (page === data.pager.pageCount) {
+			
+			//Make dropdown
+			makeFavoriteList();
+		}
+		//More pages, get next
+		else {
+			getFavoriteList(++page);
+		}
+	
+	});
+}
+
+//Populate the dropdown list of chart favorites
+function makeFavoriteList() {
+	var select = document.getElementById('favoriteList');
+
+	for (var i = 0; i < favoriteList.length; i++){
+		var opt = document.createElement('option');
+		opt.value = favoriteList[i].id;
+		opt.innerHTML = favoriteList[i].displayName;
+		select.appendChild(opt);
+	}
+}
+
+
+//Called when a chart has been selected
+function drawCharts() {
+	favoriteId = document.getElementById( "favoriteList" ).value;
+	console.log("Fetching chart");
+	//fetch all metadata about the chart favorite that has been selected
+	$.getJSON( "../api/visualizations/" + favoriteId + ".json?fields=:all", function( data ) {
+		
+		favoriteName = data.displayName;
+
+		//make divs where we will put charts, one per orgunit
+		makeContainers();	
+		
+		//make charts
+		makeCharts(data);
+		
+	
+	});
+	
+}
+
+//make divs where we will put charts, one per orgunit
+function makeContainers() {
+	var html = '<h2 style="margin-bottom: 5px">' + favoriteName + '</h2>' + '<h2 style="margin-bottom: 5px">' + dhis2.report.organisationUnit.name + '</h2>';	
+	
+	//check window size to see if we want one, two or three charts per "row"
+	var containerSize;
+	var chartsPerRow = document.getElementById( "chartsPerRow" ).value;
+	containerSize = Math.floor((window.outerWidth - 41 - chartsPerRow*20 - chartsPerRow)/chartsPerRow);
+	
+	for (var i = 0; i < orgunits.length; i++) {
+	
+		//Container for title + chart
+		html += '<div class="chartContainer" style="width: '  + containerSize + 'px; height: 340px; float: left">'
+		
+		//Title
+		//html += '<h3 style="margin-bottom: 5px">' + orgunits[i].name + '</h3>';
+		
+		//Chart
+		html += '<div class="chart" id="' + orgunits[i].id + '"></div>';
+		
+		//End of container
+		html += '</div>';
+
+	}
+	
+	
+	$('#container').html(html);
+}
+
+
+//make charts
+function makeCharts(chart) {
+	
+	//In order to change the orgunit selection that is saved as part of the chart favorite, we need to overwrite the whole
+	//filter dimension. That means we need to also recreate any other filter dimension, e.g. data element, period or 
+	//dataElementCategory. Possibly missing some dimension, e.g. orgunit disaggregation?
+	var filters = [];
+	for (var i = 0; i < chart.filterDimensions.length; i++) {
+		switch (chart.filterDimensions[i]) {
+			case 'ou': 
+				break;
+			case 'dx':
+				filters.push(dataFilterItems(chart));
+				break;
+			case 'pe':
+				filters.push(periodFilterItems(chart));
+				break;
+			default: 
+				filters.push(otherFilterItems(chart, chart.filterDimensions[i]));
+		}
+	}
+	
+	//Iterate over all orgunits and call the chart plugin for each
+	var currentFilters;
+	for (var i = 0; i < orgunits.length; i++) {
+		currentFilters = filters.slice();
+		currentFilters.push({dimension: "ou", items: [{id: orgunits[i].id}]});
+		chartPlugin.url = "..";
+		chartPlugin.load([{
+			el: orgunits[i].id,
+			id: favoriteId,
+			filters: currentFilters
+		}]);	
+	}
+	
+}
+
+
+//Utility function for recreating the data dimension as filter for chart plugin
+function dataFilterItems(visualization) {
+	var dimension = { 
+		'dimension': 'dx',
+		'items': []
+		};
+	
+	for (var i = 0; i < visualization.dataDimensionItems.length; i++) {
+			dimension.items.push({'id': visualization.dataDimensionItems[i].dataElement.id});
+	}
+	
+	return dimension;
+}
+
+//Utility function for recreating the period dimension as filter for chart plugin
+function periodFilterItems(visualization) {
+	var dimension = { 
+		'dimension': 'pe',
+		'items': []
+		};
+	
+	
+	for (var i = 0; i < chart.periods.length; i++) {
+		dimension.items.push({'id': chart.periods[i].id});
+	}
+	
+	//TODO: relative periods
+	if (visualization.relativePeriods.thisYear) dimension.items.push({'id': 'THIS_YEAR'});
+	if (visualization.relativePeriods.quartersLastYear) dimension.items.push({'id': 'QUARTERS_LAST_YEAR'});
+	if (visualization.relativePeriods.last52Weeks) dimension.items.push({'id': 'LAST_52_WEEKS'});
+	if (visualization.relativePeriods.thisWeek) dimension.items.push({'id': 'THIS_WEEK'});
+	if (visualization.relativePeriods.lastMonth) dimension.items.push({'id': 'LAST_MONTH'});
+	if (visualization.relativePeriods.monthsThisYear) dimension.items.push({'id': 'MONTHS_THIS_YEAR'});
+	if (visualization.relativePeriods.last2SixMonths) dimension.items.push({'id': 'LAST_2_SIX_MONTHS'});
+	if (visualization.relativePeriods.thisQuarter) dimension.items.push({'id': 'THIS_QUARTER'});
+	if (visualization.relativePeriods.last12Months) dimension.items.push({'id': 'LAST_12_MONTHS'});
+	if (visualization.relativePeriods.last5FinancialYears) dimension.items.push({'id': 'LAST_5_FINANCIAL_YEARS'});
+	if (visualization.relativePeriods.thisSixMonth) dimension.items.push({'id': 'THIS_SIX_MONTH'});
+	if (visualization.relativePeriods.lastQuarter) dimension.items.push({'id': 'LAST_QUARTER'});
+	if (visualization.relativePeriods.thisFinancialYear) dimension.items.push({'id': 'THIS_FINANCIAL_YEAR'});
+	if (visualization.relativePeriods.last4Weeks) dimension.items.push({'id': 'LAST_4_WEEKS'});
+	if (visualization.relativePeriods.last3Months) dimension.items.push({'id': 'LAST_3_MONTHS'});
+	if (visualization.relativePeriods.thisMonth) dimension.items.push({'id': 'THIS_MONTH'});
+	if (visualization.relativePeriods.last5Years) dimension.items.push({'id': 'LAST_5_YEARS'});
+	if (visualization.relativePeriods.last6BiMonths) dimension.items.push({'id': 'LAST_6_BI_MONTHS'});
+	if (visualization.relativePeriods.lastFinancialYear) dimension.items.push({'id': 'LAST_FINANCIAL_YEAR'});
+	if (visualization.relativePeriods.last6Months) dimension.items.push({'id': 'LAST_6_MONTHS'});
+	if (visualization.relativePeriods.quartersThisYear) dimension.items.push({'id': 'QUARTERS_THIS_YEAR'});
+	if (visualization.relativePeriods.monthsLastYear) dimension.items.push({'id': 'MONTHS_LAST_YEAR'});
+	if (visualization.relativePeriods.lastWeek) dimension.items.push({'id': 'LAST_WEEK'});
+	if (visualization.relativePeriods.thisBimonth) dimension.items.push({'id': 'THIS_BIMONTH'});
+	if (visualization.relativePeriods.lastBimonth) dimension.items.push({'id': 'LAST_BIMONTH'});
+	if (visualization.relativePeriods.lastSixMonth) dimension.items.push({'id': 'LAST_SIX_MONTH'});
+	if (visualization.relativePeriods.lastYear) dimension.items.push({'id': 'LAST_YEAR'});
+	if (visualization.relativePeriods.last12Weeks) dimension.items.push({'id': 'LAST_12_WEEKS'});
+	if (visualization.relativePeriods.last4Quarters) dimension.items.push({'id': 'LAST_4_QUARTERS'});
+	
+	return dimension;
+
+}
+
+
+//Utility function for recreating the category dimension as filter for chart plugin
+//We might also need an orgunit dimension here (or orgunit group disaggregation)
+function otherFilterItems(visualization, dimensionId) {
+	var dimension = { 
+		'dimension': dimensionId,
+		'items': []
+		};
+	
+	for (var i = 0; i < visualization.categoryDimensions.length; i++) {
+		if (visualization.categoryDimensions[i].dataElementCategory.id === dimensionId) {
+		
+			for (var j = 0; j < visualization.categoryDimensions[i].categoryOptions.length; j++) {
+		
+				dimension.items.push({'id': visualization.categoryDimensions[i].categoryOptions[j].id});
+				
+			}
+		}
+	}
+	
+	return dimension;
+}
+
+
+function sortByName(a, b){
+  	var nameA = a.name.toLowerCase();
+  	var nameB = b.name.toLowerCase(); 
+  	return ((nameA < nameB) ? -1 : ((nameA > nameB) ? 1 : 0));
+}
+
+</script>
+
+
+<div class="no-print">
+	<label>Graphique / chart</label>
+	<select id="favoriteList"></select>
+	
+	<label style="margin-left: 10px">Graphiques par ligne / Graphs per row</label>
+	<select style="width: 50px" id="chartsPerRow">
+		<option value=1>1</option>
+		<option value=2>2</option>
+		<option value=3>3</option>
+		<option value=4>4</option>
+	</select>
+	
+	<button style="margin-left: 10px" onClick="drawCharts();">Générer / Generate</button>
+	
+	<hr />
+</div>
+<h2 id="title"></h2>
+<div id="container" class="content" style="overflow: hidden"></div>
