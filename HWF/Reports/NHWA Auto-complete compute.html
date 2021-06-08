@@ -78,6 +78,80 @@
       #header * {
         font-family: "Roboto";
       }
+
+      #loading {
+        display: none;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        position: fixed;
+        z-index: 2000;
+        background: rgba(38, 50, 56, 0.9);
+      }
+
+      #spinner {
+        height: 60px;
+        width: 60px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-animation: rotation 1s infinite linear;
+        -moz-animation: rotation 1s infinite linear;
+        -o-animation: rotation 1s infinite linear;
+        animation: rotation 1s infinite linear;
+        border: 6px solid white;
+        border-radius: 100%;
+        border-top: 6px solid transparent;
+      }
+
+      #spinner:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: -6px;
+        top: -6px;
+        height: 100%;
+        width: 100%;
+        border-top: 6px solid transparent;
+        border-left: 6px solid transparent;
+        border-bottom: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-radius: 100%;
+      }
+
+      @-webkit-keyframes rotation {
+        from {
+          -webkit-transform: rotate(0deg);
+        }
+        to {
+          -webkit-transform: rotate(359deg);
+        }
+      }
+      @-moz-keyframes rotation {
+        from {
+          -moz-transform: rotate(0deg);
+        }
+        to {
+          -moz-transform: rotate(359deg);
+        }
+      }
+      @-o-keyframes rotation {
+        from {
+          -o-transform: rotate(0deg);
+        }
+        to {
+          -o-transform: rotate(359deg);
+        }
+      }
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
     </style>
 
     <script type="text/javascript">
@@ -397,23 +471,6 @@
     <div id="headerMessage" class="bold"></div>
 
     <div class="page" id="mainPage">
-      <!-- Do not set style attr -->
-      <div style="margin-bottom:16px" class="hideInPrint">
-        <input
-          type="button"
-          value="Print"
-          onclick="window.print()"
-          id="printButton"
-          style="width:140px"
-        />
-        <input
-          type="button"
-          value="Back"
-          onclick="javascript:window.location.href='displayViewReportForm.action'"
-          style="width:140px"
-        />
-      </div>
-
       <script type="text/javascript">
         dhis2.util.namespace("dhis2.report");
 
@@ -1445,6 +1502,7 @@
                         text: "Fix all incorrect values",
                         action: function(e, dt, node, config) {
                           if (correctDataValues !== undefined) {
+                            $("#loading").show();
                             console.log(correctDataValues);
                             this.disable();
                             $.ajax({
@@ -1479,6 +1537,7 @@
                                         : ""
                                     }`
                                 );
+                                $("#loading").hide();
                                 location.reload();
                               }
                             });
@@ -1491,6 +1550,8 @@
                     ]
                   }
                 });
+
+                $("#loading").show();
 
                 $.ajax({
                   type: "GET",
@@ -1653,6 +1714,8 @@
                             ]);
                           });
                           module1TotalsTable.draw();
+
+                          $("#loading").hide();
                         });
                       }
                     });
@@ -1676,7 +1739,7 @@
                     <th>Period</th>
                     <th>Organisation unit</th>
                     <th>Correct value</th>
-                    <th>Original value</th>
+                    <th>Current value</th>
                   </tr>
                 </thead>
               </table>
@@ -1695,5 +1758,7 @@
       </span>
       <div id="rightBarContents"></div>
     </div>
+
+    <div id="loading"><div id="spinner"></div></div>
   </body>
 </html>
