@@ -1,595 +1,912 @@
-
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <!--[if IE 7]><html lang="en"  class="ie7"><![endif]-->
 <!--[if IE 8]><html lang="en"  class="ie8"><![endif]-->
 <!--[if IE 9]><html lang="en"  class="ie9"><![endif]-->
-<![if !IE]><html dir="ltr" lang="en"   ><![endif]>
-  <head>
-    <title>- DEVELOPMENT - WHO Integrated data platform</title>
-    <meta name="description" content="DHIS 2">
-    <meta name="keywords" content="DHIS 2">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="screen,print" href="../dhis-web-commons/css/light_blue/light_blue.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="screen,print" href="../dhis-web-commons/css/widgets.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="print" href="../dhis-web-commons/css/print.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=ce9c6db" />
-    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/select2/select2.css?_rev=ce9c6db" />
+<![if !IE]>
+<html dir="ltr" lang="en">
+    <![endif]>
+    <head>
+        <title>- DEVELOPMENT - WHO Integrated data platform</title>
+        <meta name="description" content="DHIS 2" />
+        <meta name="keywords" content="DHIS 2" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen,print"
+            href="../dhis-web-commons/css/light_blue/light_blue.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen,print"
+            href="../dhis-web-commons/css/widgets.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="print"
+            href="../dhis-web-commons/css/print.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/select2/select2.css?_rev=ce9c6db"
+        />
         <link type="text/css" rel="stylesheet" href="../api/files/style?_rev=ce9c6db" />
-    <link rel="shortcut icon" href="../favicon.ico" />
-    <!-- Material UI fonts -->
-    <link href="../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css">
-    <link href="../dhis-web-commons/material-design-icons/material-icons.css" rel="stylesheet" type="text/css">
-    <style>
-        html {
-            font-size: 14px;
-        }
-
-        #header * {
-            font-family: 'Roboto';
-        }
-    </style>
-
-    <script type="text/javascript">
-      var dateFormat = 'yy-mm-dd';
-    </script>
-
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/ext/ext-all.js"></script>
-
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=ce9c6db"></script>
-    <script>
-      $.ajaxSetup( {
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader(
-              'X-Requested-With',
-              {
-                toString: function() {
-                  return '';
-                }
-              }
-          );
-        }
-      } );
-    </script>
-
-    <!-- Menu dependencies -->
-    <script type="text/javascript" src="../dhis-web-core-resource/react-15/react-15.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
-    <script type="text/javascript" src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
-    <!-- Menu script is up here due to perceived loading time increase -->
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"></script>
-    <script>
-        // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
-        jQuery(function () {
-            try {
-                if ('Dhis2HeaderBar' in window) {
-                    Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), undefined, {noLoadingIndicator: true});
-                }
-            } catch (e) {
-                if ('console' in window ) {
-                    console.error(e);
-                }
+        <link rel="shortcut icon" href="../favicon.ico" />
+        <!-- Material UI fonts -->
+        <link href="../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css" />
+        <link
+            href="../dhis-web-commons/material-design-icons/material-icons.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <style>
+            html {
+                font-size: 14px;
             }
-        });
-    </script>
-    <!-- // End menu -->
-    <!--[if lte IE 8]><script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"></script><![endif]-->
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/underscore.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/filesize.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/commons.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/commons.ajax.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/lists.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/periodType.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/date.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/json2.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/validationRules.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/moment/moment-with-langs.min.js?_rev=ce9c6db"></script>
-	<script type="text/javascript" src="../dhis-web-commons/select2/select2.min.js?_rev=ce9c6db"></script>
-        <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.period.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.picker.min.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.selected.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.comparator.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.availability.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.trigger.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.sharing.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.validation.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ss.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ls.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.idb.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.memory.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.contextmenu.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.appcache.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.translate.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../dhis-web-commons/i18nJavaScript.action?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../main.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../request.js?_rev=ce9c6db"></script>
 
-        <script type="text/javascript" src="../api/files/script?_rev=ce9c6db"></script>
-    <!-- Create global system calendar -->
-    <script>
-      dhis2.period.format = 'yyyy-mm-dd';
-            dhis2.period.calendar = $.calendars.instance('gregorian');
-            dhis2.period.generator = new dhis2.period.PeriodGenerator( dhis2.period.calendar, dhis2.period.format );
-      dhis2.period.picker = new dhis2.period.DatePicker( dhis2.period.calendar, dhis2.period.format );
+            #header * {
+                font-family: "Roboto";
+            }
+        </style>
 
-    </script>
-  </head>
-
-  
-  <body>
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <div id="header">
-      <img id="headerBanner" src="../api/staticContent/logo_banner" onclick="window.location.href='../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="View home page">
-
-      <div id="dhisDropDownMenu"></div>
-    </div>
-    <span id="showLeftBar">
-      <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
-        <i class="fa fa-arrow-right leftBarIcon"></i>
-      </a>
-    </span>
-
-        <style type="text/css">
-      #mainPage { margin-left: 20px; }
-    </style>
-    
-    <div id="headerMessage" class="bold"></div>
-
-    <div class="page" id="mainPage"> <!-- Do not set style attr -->
-              <div style="margin-bottom:16px" class="hideInPrint">
-<input type="button" value="Print" onclick="window.print()" id="printButton" style="width:140px">
-<input type="button" value="Back" onclick="javascript:window.location.href='displayViewReportForm.action'" style="width:140px">
-</div>
-
-<script type="text/javascript">
-
-dhis2.util.namespace( 'dhis2.report' );
-
-dhis2.report.organisationUnit = {
-};
-
-dhis2.report.organisationUnitHierarchy = [
-];
-
-dhis2.report.organisationUnitChildren = [
-];
-
-dhis2.report.date = "";
-
-dhis2.report.periods = [
-];
-
-</script>
-
-<div>
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
-    />
-    <style type="text/css">
-      .gridDiv {
-        font-family: sans-serif, arial;
-      }
-
-      table.gridTable {
-        border-collapse: collapse;
-        font-size: 11pt;
-      }
-
-      .gridTable th,
-      .gridTable td {
-        padding: 8px 4px 7px 4px;
-        border: 1px solid #e7e7e7;
-      }
-
-      .gridTable th {
-        background-color: #f3f3f3;
-        font-weight: bold;
-      }
-    </style>
-    <script
-      src="https://code.jquery.com/jquery-3.4.1.min.js"
-      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
-      integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
-    <script type="text/javascript">
- 
-      
-function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, filter, ignoreGroups) {
-        $.ajax({
-          type: "GET",
-          dataType: "json",
-          url: url,
-          xhrFields: {
-            withCredentials: true
-          },
-          crossDomain: isDevelopment,
-          success: function(data) {
-            _(data)
-              .mapValues(function(array, key) {
-                return Array.isArray(array)
-                  ? _.map(array, function(element) {
-                      element.metadataType = key;
-                      return element;
-                    })
-                  : [];
-              })
-              .values()
-              .flatten()
-              .forEach(function(element) {
-                const method = updateRow
-                  ? table.row(`#${element.id}`).data
-                  : table.row.add;
-                if (element.metadataType == "users" && element.userCredentials && 
-					 element.userCredentials.userRoles) {
-					 var isAdmin= false;
-					for (var key in element.userGroups){
-					//Check if the user is widp.admin or template or is in the usergroup widp it team
-						if (element.id == "bI1uY3KuAKV" || element.id == "cNtWc18LXBS" 
-						|| element.id == "kxaP3vUEnJn"  || element.id == "WT6QkP45vEC" || element.id == "FnkRtcOGOVQ" || ignoreGroups.includes(element.userGroups[key].id) ){
-							isAdmin=true;
-						}
-					}
-					//ignore admin users
-					if(!isAdmin){
-						for (var key in element.userCredentials.userRoles){ 
-							for (var subkey in element.userCredentials.userRoles[key]["authorities"]){ 
-								// draw users with roles with admin authorities
-								if (!filter.includes(element.userCredentials.userRoles[key]["authorities"][subkey])){ 
-									 method([
-										 element.metadataType,
-										 element.id,
-										 element.name ? element.name : "-",
-										 element.userCredentials.lastLogin ? element.userCredentials.lastLogin : "-",
-										 element.userCredentials.username ? element.userCredentials.username : "-",
-										 element.userCredentials.userRoles[key].name? element.userCredentials.userRoles[key].name : "-",
-										 element.userCredentials.userRoles[key]["authorities"][subkey] ? element.userCredentials.userRoles[key]["authorities"][subkey] : "-",
-										 
-									  ]);
-								}else{
-									continue;
-								}
-							}
-						}
-					}
-				}
-				else if (element.metadataType == "users" && element.userCredentials ) {
-                  method([
-                     element.metadataType,
-                     element.id,
-                     element.name ? element.name : "-",
-                     element.created ? element.created : "-",
-                     element.userCredentials.username ? element.userCredentials.username : "-",
-                     element.email ? element.email : "-",
-                     element.userCredentials.lastLogin ? element.userCredentials.lastLogin : "-",
-                  ]);
-				}
-				else if (element.metadataType == "userRoles" ) {
-                  method([
-                     element.metadataType,
-                     element.id,
-                     element.name ? element.name : "-",
-                     element.created ? element.created : "-",
-                     element.description ? element.description : "-",
-                     element.authorities ? element.authorities.join('\n') : "-",
-                     element.lastUpdated ? element.lastUpdated : "-",
-                  ]);
-				}else if (element.metadataType == "userCredentials"){
-                  method([
-                     element.metadataType,
-                     element.id,
-                     element.name ? element.name : "-",
-                     element.created ? element.created : "-",
-                     element.description ? element.description : "-",
-                     element.authorities ? element.authorities.join('\n') : "-",
-                     element.lastUpdated ? element.lastUpdated : "-",
-                  ]);
-				}
-              });
-            table.draw();
-          }
-        });
-      } 
-	  $(document).ready(function() {                                                                                            
-    const isDevelopment = window.location.protocol === "file:";                                                                             
-    const baseUrl = "..";                                                                                                                                                      
-                                                                                
-		
-		
-        // Build "Generic users marked as to be deleted" table
-        const widpAdminsWithInvalidAuthorities = $("#invalid_admins_authorities").DataTable({
-          order: [[2, "asc"]],
-          rowGroup: {
-            dataSrc: 2
-          }
-        });           
-        // Build "Generic users marked as to be deleted" table
-        const usersWithInvalidAuthorities = $("#invalid_users_authorities").DataTable({
-          order: [[2, "asc"]],
-          rowGroup: {
-            dataSrc: 2
-          }
-        });           
-        const extWithInvalidAuthorities = $("#invalid_ext_users_authorities").DataTable({
-          order: [[2, "asc"]],
-          rowGroup: {
-            dataSrc: 2
-          }
-        });
-        const userManagerWithInvalidAuthorities = $("#invalid_user_manager_authorities").DataTable({
-          order: [[2, "asc"]],
-          rowGroup: {
-            dataSrc: 2
-          }
-        });                      
-		
-    $.ajax({                                                                                               
-        type: "GET",                                                                                                    
-        dataType: "json",                                                                                                 
-        url: baseUrl + "/api/users/kxaP3vUEnJn.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
-        xhrFields: {                                                                                                                                                           
-            withCredentials: true                                                          
-        },                                                                                                 
-        crossDomain: isDevelopment,                                                                                     
-        success: function(data) {                                                                                         
-            var authorities = [];                                                                                                              
-            for (var role in data["userCredentials"]["userRoles"]) {                                                                                                           
-                for (var aut in data["userCredentials"]["userRoles"][role]["authorities"]) {           
-                    authorities[authorities.length] = data["userCredentials"]["userRoles"][role]["authorities"][aut]
-                }                                                                                                       
-                                                                                                                          
-            }                                                                                                                                  
-            filter = authorities;                                                                                                                                              
-            updateTable(                                                                    
-                widpAdminsWithInvalidAuthorities,                                                                 
-                baseUrl + "/api/users.json?filter=userGroups.id:in:[sCjEPgiOhP1]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
-                false,                                                                                                    
-                isDevelopment,                                                                                                                 
-                false,                                                                                                                                                         
-                filter, ["UfhhwZK73Lg"]
-					);  
-					$.ajax({                                                                                               
-						type: "GET",                                                                                                    
-						dataType: "json",                                                                                                 
-						url: baseUrl + "/api/users/WT6QkP45vEC.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
-						xhrFields: {                                                                                                                                                           
-							withCredentials: true                                                          
-						},                                                                                                 
-						crossDomain: isDevelopment,                                                                                     
-						success: function(data) {                                                                                         
-							var authorities = [];                                                                                                              
-							for (var role in data["userCredentials"]["userRoles"]) {                                                                                                           
-								for (var aut in data["userCredentials"]["userRoles"][role]["authorities"]) {           
-									authorities[authorities.length] = data["userCredentials"]["userRoles"][role]["authorities"][aut]
-								}                                                                                                       
-																																		  
-							}                                                                                                                                  
-							filter = authorities;                                                                                                                                              
-							updateTable(                                                                    
-								usersWithInvalidAuthorities,                                                                 
-								baseUrl + "/api/users.json?filter=userGroups.id:!in:[sCjEPgiOhP1]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
-								false,                                                                                                    
-								isDevelopment,                                                                                                                 
-								false,                                                                                                                                                         
-								filter, ["UfhhwZK73Lg", "sCjEPgiOhP1", "e5NqEzmd8Ql", "L5dlGQ4m5av"]
-									); 
-
-									
-					$.ajax({                                                                                               
-						type: "GET",                                                                                                    
-						dataType: "json",                                                                                                 
-						url: baseUrl + "/api/users/FnkRtcOGOVQ.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
-						xhrFields: {                                                                                                                                                           
-							withCredentials: true                                                          
-						},                                                                                                 
-						crossDomain: isDevelopment,                                                                                     
-						success: function(data) {                                                                                         
-							var authorities = [];                                                                                                              
-							for (var role in data["userCredentials"]["userRoles"]) {                                                                                                           
-								for (var aut in data["userCredentials"]["userRoles"][role]["authorities"]) {           
-									authorities[authorities.length] = data["userCredentials"]["userRoles"][role]["authorities"][aut]
-								}                                                                                                       
-																																		  
-							}                                                                                                                                  
-							filter = authorities;                                                                                                                                              
-							updateTable(                                                                    
-								extWithInvalidAuthorities,                                                                 
-								baseUrl + "/api/users.json?filter=userGroups.id:in:[e5NqEzmd8Ql]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
-								false,                                                                                                    
-								isDevelopment,                                                                                                                 
-								false,                                                                                                                                                         
-								filter, ["UfhhwZK73Lg", "sCjEPgiOhP1"]
-									); 
-
-
-									
-								}                                                                                                                                                                                                          
-							});
-					$.ajax({                                                                                               
-						type: "GET",                                                                                                    
-						dataType: "json",                                                                                                 
-						url: baseUrl + "/api/users/Q2e3xq4hRCj.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
-						xhrFields: {                                                                                                                                                           
-							withCredentials: true                                                          
-						},                                                                                                 
-						crossDomain: isDevelopment,                                                                                     
-						success: function(data) {                                                                                         
-							var authorities = [];                                                                                                              
-							for (var role in data["userCredentials"]["userRoles"]) {                                                                                                           
-								for (var aut in data["userCredentials"]["userRoles"][role]["authorities"]) {           
-									authorities[authorities.length] = data["userCredentials"]["userRoles"][role]["authorities"][aut]
-								}                                                                                                       
-																																		  
-							}                                                                                                                                  
-							filter = authorities;                                                                                                                                              
-							updateTable(                                                                    
-								userManagerWithInvalidAuthorities,                                                                 
-								baseUrl + "/api/users.json?filter=userGroups.id:in:[L5dlGQ4m5av]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
-								false,                                                                                                    
-								isDevelopment,                                                                                                                 
-								false,                                                                                                                                                         
-								filter, ["UfhhwZK73Lg", "sCjEPgiOhP1"]
-									); 
-
-
-									
-								}                                                                                                                                                                                                          
-							});
-							
-								}                                                                                                                                                                                                          
-							});       					
-				}                                                                                                                                                                                                          
-			});                                                                                                               
-		});         
-			  
-    </script>
-  </head>
-  <body>
-    <div class="gridDiv">
-
-	  <h3>List of WIDP Admin users with not allowed roles</h3>
-      <table class="listTable gridTable" id="invalid_admins_authorities">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Last login</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Admin authority</th>
-          </tr>
-        </thead>
-      </table>
-
-
-	  <h3>List of Widp users with not allowed roles</h3>
-      <table class="listTable gridTable" id="invalid_users_authorities">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Last login</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Admin authority</th>
-          </tr>
-        </thead>
-      </table>
-	  
-	  <h3>List of External developers with not allowed roles</h3>
-      <table class="listTable gridTable" id="invalid_ext_users_authorities">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Last login</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Admin authority</th>
-          </tr>
-        </thead>
-      </table>
-	  
-	  <h3>List of WIDP User Manager with not allowed roles</h3>
-      <table class="listTable gridTable" id="invalid_user_manager_authorities">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Last login</th>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Admin authority</th>
-          </tr>
-        </thead>
-      </table>
-</div>          </div>
-    <script type="text/javascript">
+        <script type="text/javascript">
+            var dateFormat = "yy-mm-dd";
         </script>
 
-    <div id="rightBar">
-      <span id="hideRightBar"><a href="javascript:hideHelpContent()" title="Close">
-        <i class="fa fa-times leftBarIcon"></i></a>
-      </span>
-      <div id="rightBarContents"></div>
-    </div>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/ext/ext-all.js"
+        ></script>
 
-    
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=ce9c6db"
+        ></script>
+        <script>
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-Requested-With", {
+                        toString: function () {
+                            return "";
+                        },
+                    });
+                },
+            });
+        </script>
 
+        <!-- Menu dependencies -->
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/react-15/react-15.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"
+        ></script>
+        <!-- Menu script is up here due to perceived loading time increase -->
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"
+        ></script>
+        <script>
+            // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
+            jQuery(function () {
+                try {
+                    if ("Dhis2HeaderBar" in window) {
+                        Dhis2HeaderBar.initHeaderBar(document.querySelector("#header"), undefined, {
+                            noLoadingIndicator: true,
+                        });
+                    }
+                } catch (e) {
+                    if ("console" in window) {
+                        console.error(e);
+                    }
+                }
+            });
+        </script>
+        <!-- // End menu -->
+        <!--[if lte IE 8
+            ]><script
+                type="text/javascript"
+                src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"
+            ></script
+        ><![endif]-->
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/underscore.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/filesize.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/commons.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/commons.ajax.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/lists.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/periodType.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/date.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/json2.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/validationRules.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/moment/moment-with-langs.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/select2/select2.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.period.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.picker.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.selected.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.comparator.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.availability.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.trigger.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.sharing.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.validation.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ss.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ls.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.idb.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.memory.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.contextmenu.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.appcache.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.translate.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/i18nJavaScript.action?_rev=ce9c6db"
+        ></script>
+        <script type="text/javascript" src="../main.js?_rev=ce9c6db"></script>
+        <script type="text/javascript" src="../request.js?_rev=ce9c6db"></script>
 
-  </body>
+        <script type="text/javascript" src="../api/files/script?_rev=ce9c6db"></script>
+        <!-- Create global system calendar -->
+        <script>
+            dhis2.period.format = "yyyy-mm-dd";
+            dhis2.period.calendar = $.calendars.instance("gregorian");
+            dhis2.period.generator = new dhis2.period.PeriodGenerator(
+                dhis2.period.calendar,
+                dhis2.period.format
+            );
+            dhis2.period.picker = new dhis2.period.DatePicker(
+                dhis2.period.calendar,
+                dhis2.period.format
+            );
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <img
+                id="headerBanner"
+                src="../api/staticContent/logo_banner"
+                onclick="window.location.href='../dhis-web-commons-about/redirect.action'"
+                style="cursor: pointer"
+                title="View home page"
+            />
+
+            <div id="dhisDropDownMenu"></div>
+        </div>
+        <span id="showLeftBar">
+            <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
+                <i class="fa fa-arrow-right leftBarIcon"></i>
+            </a>
+        </span>
+
+        <style type="text/css">
+            #mainPage {
+                margin-left: 20px;
+            }
+        </style>
+
+        <div id="headerMessage" class="bold"></div>
+
+        <div class="page" id="mainPage">
+            <!-- Do not set style attr -->
+            <div style="margin-bottom: 16px" class="hideInPrint">
+                <input
+                    type="button"
+                    value="Print"
+                    onclick="window.print()"
+                    id="printButton"
+                    style="width: 140px"
+                />
+                <input
+                    type="button"
+                    value="Back"
+                    onclick="javascript:window.location.href='displayViewReportForm.action'"
+                    style="width: 140px"
+                />
+            </div>
+
+            <script type="text/javascript">
+                dhis2.util.namespace("dhis2.report");
+
+                dhis2.report.organisationUnit = {};
+
+                dhis2.report.organisationUnitHierarchy = [];
+
+                dhis2.report.organisationUnitChildren = [];
+
+                dhis2.report.date = "";
+
+                dhis2.report.periods = [];
+            </script>
+
+            <div>
+                <html>
+                    <head>
+                        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
+                        />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+                        />
+                        <style type="text/css">
+                            .gridDiv {
+                                font-family: sans-serif, arial;
+                            }
+
+                            table.gridTable {
+                                border-collapse: collapse;
+                                font-size: 11pt;
+                            }
+
+                            .gridTable th,
+                            .gridTable td {
+                                padding: 8px 4px 7px 4px;
+                                border: 1px solid #e7e7e7;
+                            }
+
+                            .gridTable th {
+                                background-color: #f3f3f3;
+                                font-weight: bold;
+                            }
+                        </style>
+                        <script
+                            src="https://code.jquery.com/jquery-3.4.1.min.js"
+                            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                            crossorigin="anonymous"
+                        ></script>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
+                            integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+                            crossorigin="anonymous"
+                        ></script>
+                        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+                        <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+                        <script type="text/javascript">
+                            function updateTable(
+                                table,
+                                url,
+                                updateRow,
+                                isDevelopment,
+                                removeDataSharingTypes,
+                                filter,
+                                ignoreGroups
+                            ) {
+                                $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    url: url,
+                                    xhrFields: {
+                                        withCredentials: true,
+                                    },
+                                    crossDomain: isDevelopment,
+                                    success: function (data) {
+                                        _(data)
+                                            .mapValues(function (array, key) {
+                                                return Array.isArray(array)
+                                                    ? _.map(array, function (element) {
+                                                          element.metadataType = key;
+                                                          return element;
+                                                      })
+                                                    : [];
+                                            })
+                                            .values()
+                                            .flatten()
+                                            .forEach(function (element) {
+                                                const method = updateRow
+                                                    ? table.row(`#${element.id}`).data
+                                                    : table.row.add;
+                                                if (
+                                                    element.metadataType == "users" &&
+                                                    element.userCredentials &&
+                                                    element.userCredentials.userRoles
+                                                ) {
+                                                    var isAdmin = false;
+                                                    for (var key in element.userGroups) {
+                                                        //Check if the user is widp.admin or template or is in the usergroup widp it team
+                                                        if (
+                                                            element.id == "bI1uY3KuAKV" ||
+                                                            element.id == "cNtWc18LXBS" ||
+                                                            element.id == "kxaP3vUEnJn" ||
+                                                            element.id == "WT6QkP45vEC" ||
+                                                            element.id == "FnkRtcOGOVQ" ||
+                                                            ignoreGroups.includes(
+                                                                element.userGroups[key].id
+                                                            )
+                                                        ) {
+                                                            isAdmin = true;
+                                                        }
+                                                    }
+                                                    //ignore admin users
+                                                    if (!isAdmin) {
+                                                        for (var key in element.userCredentials
+                                                            .userRoles) {
+                                                            for (var subkey in element
+                                                                .userCredentials.userRoles[key][
+                                                                "authorities"
+                                                            ]) {
+                                                                // draw users with roles with admin authorities
+                                                                if (
+                                                                    !filter.includes(
+                                                                        element.userCredentials
+                                                                            .userRoles[key][
+                                                                            "authorities"
+                                                                        ][subkey]
+                                                                    )
+                                                                ) {
+                                                                    method([
+                                                                        element.metadataType,
+                                                                        element.id,
+                                                                        element.name
+                                                                            ? element.name
+                                                                            : "-",
+                                                                        element.userCredentials
+                                                                            .lastLogin
+                                                                            ? element
+                                                                                  .userCredentials
+                                                                                  .lastLogin
+                                                                            : "-",
+                                                                        element.userCredentials
+                                                                            .username
+                                                                            ? element
+                                                                                  .userCredentials
+                                                                                  .username
+                                                                            : "-",
+                                                                        element.userCredentials
+                                                                            .userRoles[key].name
+                                                                            ? element
+                                                                                  .userCredentials
+                                                                                  .userRoles[key]
+                                                                                  .name
+                                                                            : "-",
+                                                                        element.userCredentials
+                                                                            .userRoles[key][
+                                                                            "authorities"
+                                                                        ][subkey]
+                                                                            ? element
+                                                                                  .userCredentials
+                                                                                  .userRoles[key][
+                                                                                  "authorities"
+                                                                              ][subkey]
+                                                                            : "-",
+                                                                    ]);
+                                                                } else {
+                                                                    continue;
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                } else if (
+                                                    element.metadataType == "users" &&
+                                                    element.userCredentials
+                                                ) {
+                                                    method([
+                                                        element.metadataType,
+                                                        element.id,
+                                                        element.name ? element.name : "-",
+                                                        element.created ? element.created : "-",
+                                                        element.userCredentials.username
+                                                            ? element.userCredentials.username
+                                                            : "-",
+                                                        element.email ? element.email : "-",
+                                                        element.userCredentials.lastLogin
+                                                            ? element.userCredentials.lastLogin
+                                                            : "-",
+                                                    ]);
+                                                } else if (element.metadataType == "userRoles") {
+                                                    method([
+                                                        element.metadataType,
+                                                        element.id,
+                                                        element.name ? element.name : "-",
+                                                        element.created ? element.created : "-",
+                                                        element.description
+                                                            ? element.description
+                                                            : "-",
+                                                        element.authorities
+                                                            ? element.authorities.join("\n")
+                                                            : "-",
+                                                        element.lastUpdated
+                                                            ? element.lastUpdated
+                                                            : "-",
+                                                    ]);
+                                                } else if (
+                                                    element.metadataType == "userCredentials"
+                                                ) {
+                                                    method([
+                                                        element.metadataType,
+                                                        element.id,
+                                                        element.name ? element.name : "-",
+                                                        element.created ? element.created : "-",
+                                                        element.description
+                                                            ? element.description
+                                                            : "-",
+                                                        element.authorities
+                                                            ? element.authorities.join("\n")
+                                                            : "-",
+                                                        element.lastUpdated
+                                                            ? element.lastUpdated
+                                                            : "-",
+                                                    ]);
+                                                }
+                                            });
+                                        table.draw();
+                                    },
+                                });
+                            }
+                            $(document).ready(function () {
+                                const isDevelopment = window.location.protocol === "file:";
+                                const baseUrl = "..";
+
+                                // Build "Generic users marked as to be deleted" table
+                                const widpAdminsWithInvalidAuthorities = $(
+                                    "#invalid_admins_authorities"
+                                ).DataTable({
+                                    order: [[2, "asc"]],
+                                    rowGroup: {
+                                        dataSrc: 2,
+                                    },
+                                });
+                                // Build "Generic users marked as to be deleted" table
+                                const usersWithInvalidAuthorities = $(
+                                    "#invalid_users_authorities"
+                                ).DataTable({
+                                    order: [[2, "asc"]],
+                                    rowGroup: {
+                                        dataSrc: 2,
+                                    },
+                                });
+                                const extWithInvalidAuthorities = $(
+                                    "#invalid_ext_users_authorities"
+                                ).DataTable({
+                                    order: [[2, "asc"]],
+                                    rowGroup: {
+                                        dataSrc: 2,
+                                    },
+                                });
+                                const userManagerWithInvalidAuthorities = $(
+                                    "#invalid_user_manager_authorities"
+                                ).DataTable({
+                                    order: [[2, "asc"]],
+                                    rowGroup: {
+                                        dataSrc: 2,
+                                    },
+                                });
+
+                                $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    url:
+                                        baseUrl +
+                                        "/api/users/kxaP3vUEnJn.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
+                                    xhrFields: {
+                                        withCredentials: true,
+                                    },
+                                    crossDomain: isDevelopment,
+                                    success: function (data) {
+                                        var authorities = [];
+                                        for (var role in data["userCredentials"]["userRoles"]) {
+                                            for (var aut in data["userCredentials"]["userRoles"][
+                                                role
+                                            ]["authorities"]) {
+                                                authorities[authorities.length] =
+                                                    data["userCredentials"]["userRoles"][role][
+                                                        "authorities"
+                                                    ][aut];
+                                            }
+                                        }
+                                        filter = authorities;
+                                        updateTable(
+                                            widpAdminsWithInvalidAuthorities,
+                                            baseUrl +
+                                                "/api/users.json?filter=userGroups.id:in:[sCjEPgiOhP1]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
+                                            false,
+                                            isDevelopment,
+                                            false,
+                                            filter,
+                                            ["UfhhwZK73Lg"]
+                                        );
+                                        $.ajax({
+                                            type: "GET",
+                                            dataType: "json",
+                                            url:
+                                                baseUrl +
+                                                "/api/users/WT6QkP45vEC.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
+                                            xhrFields: {
+                                                withCredentials: true,
+                                            },
+                                            crossDomain: isDevelopment,
+                                            success: function (data) {
+                                                var authorities = [];
+                                                for (var role in data["userCredentials"][
+                                                    "userRoles"
+                                                ]) {
+                                                    for (var aut in data["userCredentials"][
+                                                        "userRoles"
+                                                    ][role]["authorities"]) {
+                                                        authorities[authorities.length] =
+                                                            data["userCredentials"]["userRoles"][
+                                                                role
+                                                            ]["authorities"][aut];
+                                                    }
+                                                }
+                                                filter = authorities;
+                                                updateTable(
+                                                    usersWithInvalidAuthorities,
+                                                    baseUrl +
+                                                        "/api/users.json?filter=userGroups.id:!in:[sCjEPgiOhP1]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
+                                                    false,
+                                                    isDevelopment,
+                                                    false,
+                                                    filter,
+                                                    [
+                                                        "UfhhwZK73Lg",
+                                                        "sCjEPgiOhP1",
+                                                        "e5NqEzmd8Ql",
+                                                        "L5dlGQ4m5av",
+                                                    ]
+                                                );
+
+                                                $.ajax({
+                                                    type: "GET",
+                                                    dataType: "json",
+                                                    url:
+                                                        baseUrl +
+                                                        "/api/users/FnkRtcOGOVQ.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
+                                                    xhrFields: {
+                                                        withCredentials: true,
+                                                    },
+                                                    crossDomain: isDevelopment,
+                                                    success: function (data) {
+                                                        var authorities = [];
+                                                        for (var role in data["userCredentials"][
+                                                            "userRoles"
+                                                        ]) {
+                                                            for (var aut in data["userCredentials"][
+                                                                "userRoles"
+                                                            ][role]["authorities"]) {
+                                                                authorities[authorities.length] =
+                                                                    data["userCredentials"][
+                                                                        "userRoles"
+                                                                    ][role]["authorities"][aut];
+                                                            }
+                                                        }
+                                                        filter = authorities;
+                                                        updateTable(
+                                                            extWithInvalidAuthorities,
+                                                            baseUrl +
+                                                                "/api/users.json?filter=userGroups.id:in:[e5NqEzmd8Ql]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
+                                                            false,
+                                                            isDevelopment,
+                                                            false,
+                                                            filter,
+                                                            ["UfhhwZK73Lg", "sCjEPgiOhP1"]
+                                                        );
+                                                    },
+                                                });
+                                                $.ajax({
+                                                    type: "GET",
+                                                    dataType: "json",
+                                                    url:
+                                                        baseUrl +
+                                                        "/api/users/Q2e3xq4hRCj.json?fields=name,id,lastLogin,userCredentials[username,id,name,userRoles[name,id,authorities]]",
+                                                    xhrFields: {
+                                                        withCredentials: true,
+                                                    },
+                                                    crossDomain: isDevelopment,
+                                                    success: function (data) {
+                                                        var authorities = [];
+                                                        for (var role in data["userCredentials"][
+                                                            "userRoles"
+                                                        ]) {
+                                                            for (var aut in data["userCredentials"][
+                                                                "userRoles"
+                                                            ][role]["authorities"]) {
+                                                                authorities[authorities.length] =
+                                                                    data["userCredentials"][
+                                                                        "userRoles"
+                                                                    ][role]["authorities"][aut];
+                                                            }
+                                                        }
+                                                        filter = authorities;
+                                                        updateTable(
+                                                            userManagerWithInvalidAuthorities,
+                                                            baseUrl +
+                                                                "/api/users.json?filter=userGroups.id:in:[L5dlGQ4m5av]&fields=id,name,userGroups,userCredentials[username,lastLogin,userRoles[name,authorities]]&paging",
+                                                            false,
+                                                            isDevelopment,
+                                                            false,
+                                                            filter,
+                                                            ["UfhhwZK73Lg", "sCjEPgiOhP1"]
+                                                        );
+                                                    },
+                                                });
+                                            },
+                                        });
+                                    },
+                                });
+                            });
+                        </script>
+                    </head>
+                    <body>
+                        <div class="gridDiv">
+                            <h3>List of WIDP Admin users with not allowed roles</h3>
+                            <table class="listTable gridTable" id="invalid_admins_authorities">
+                                <thead>
+                                    <tr>
+                                        <th>Metadata type</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Last login</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Admin authority</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <h3>List of Widp users with not allowed roles</h3>
+                            <table class="listTable gridTable" id="invalid_users_authorities">
+                                <thead>
+                                    <tr>
+                                        <th>Metadata type</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Last login</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Admin authority</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <h3>List of External developers with not allowed roles</h3>
+                            <table class="listTable gridTable" id="invalid_ext_users_authorities">
+                                <thead>
+                                    <tr>
+                                        <th>Metadata type</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Last login</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Admin authority</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <h3>List of WIDP User Manager with not allowed roles</h3>
+                            <table
+                                class="listTable gridTable"
+                                id="invalid_user_manager_authorities"
+                            >
+                                <thead>
+                                    <tr>
+                                        <th>Metadata type</th>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Last login</th>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Admin authority</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <script type="text/javascript"></script>
+
+                        <div id="rightBar">
+                            <span id="hideRightBar"
+                                ><a href="javascript:hideHelpContent()" title="Close">
+                                    <i class="fa fa-times leftBarIcon"></i
+                                ></a>
+                            </span>
+                            <div id="rightBarContents"></div>
+                        </div>
+                    </body>
+                </html>
+            </div>
+        </div>
+    </body>
 </html>

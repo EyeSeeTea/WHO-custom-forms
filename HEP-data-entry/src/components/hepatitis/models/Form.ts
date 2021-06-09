@@ -1,7 +1,12 @@
 import { CustomForm } from "../CustomForm";
 import * as _ from "lodash";
-import { Section, SectionDataElement, CategoryOptionCombo, OrderedSection, DataSet } from "../../../domain/common/entities";
-
+import {
+    Section,
+    SectionDataElement,
+    CategoryOptionCombo,
+    OrderedSection,
+    DataSet,
+} from "../../../domain/common/entities";
 
 export interface HelpTexts {
     [key: string]: string;

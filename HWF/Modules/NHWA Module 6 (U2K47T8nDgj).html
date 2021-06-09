@@ -1,558 +1,1285 @@
 <script type="text/javascript">
-  var yespartialno = [
-    "lvs1RCQOOp4",
-    "LYjT01KiTTw",
-    "gGSJZCN2L8C",
-    "FDUFnJmPb2t",
-    "DVyhvgkJrXg",
-    "Uyxr85SOJiI",
-    "I5m9Dl43XO2",
-    "gDinmRT6Pqb",
-    "LUVRqQq2NLE"
-  ];
-  var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
-  var yesno = ["Ii26DODuUbB", "cV7DhKFPk3R", "di91e0qZijs"];
-  var comments = [
-    "FXC8HIEHwHI",
-    "d7hKlZbQARX",
-    "TiqoQCq1BL4",
-    "p9tpHX1KEpx",
-    "Vgrwxohqyex",
-    "diMX6HJrY20",
-    "Z8z72QAYDaj",
-    "MSX8eTjkneO",
-    "pp4mjoKsU50",
-    "OejaVtMvR4x",
-    "NI5EQM6hHmc",
-    "OX7yvkLP2Uj"
-  ];
-  var percentages = [];
+    var yespartialno = [
+        "lvs1RCQOOp4",
+        "LYjT01KiTTw",
+        "gGSJZCN2L8C",
+        "FDUFnJmPb2t",
+        "DVyhvgkJrXg",
+        "Uyxr85SOJiI",
+        "I5m9Dl43XO2",
+        "gDinmRT6Pqb",
+        "LUVRqQq2NLE",
+    ];
+    var categoryIssues = ["I93t0K7b1oN", "Xgr3PJxcWfJ", "Y7EAGQA1bfv"];
+    var yesno = ["Ii26DODuUbB", "cV7DhKFPk3R", "di91e0qZijs"];
+    var comments = [
+        "FXC8HIEHwHI",
+        "d7hKlZbQARX",
+        "TiqoQCq1BL4",
+        "p9tpHX1KEpx",
+        "Vgrwxohqyex",
+        "diMX6HJrY20",
+        "Z8z72QAYDaj",
+        "MSX8eTjkneO",
+        "pp4mjoKsU50",
+        "OejaVtMvR4x",
+        "NI5EQM6hHmc",
+        "OX7yvkLP2Uj",
+    ];
+    var percentages = [];
 
-  function get_resource_link(element_id, tokens) {
-    $.ajax({
-      url: "../api/documents",
-      type: "get",
-      data: {
-        fields: 'id',
-        filter: 'name:token:'+tokens
-      },
-      success: function(response) {
-        id = response['documents'][0]['id'];
-        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
-      },
-      error: function(xhr) {
-        console.log("Error in the request");
-        console.log(xhr);
-      }
-    });
-  }
-
-  $(document).ready(function() {
-    $(function() {
-      $("#mod2_tabs").tabs();
-    });
-
-    function updateCommentVisibility($textfield) {
-      const $input = $textfield
-        .closest("td")
-        .prev()
-        .find("input");
-
-      if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
-        $textfield.removeAttr("disabled");
-        $textfield.css("background-color", "rgb(255, 255, 255)");
-      } else if (!$input.hasClass("entryoptionset")) {
-        $textfield.prop("disabled", true);
-        $textfield.css("background-color", "rgb(204, 204, 204)");
-      }
-    }
-
-    function updateBubble($textfield) {
-      const enable = $textfield.val() !== "";
-      const $bubble = $textfield
-        .closest("td")
-        .prev()
-        .find(".comment-bubble");
-      if (enable) {
-        $bubble.addClass("comment-available");
-      } else {
-        $bubble.removeClass("comment-available");
-      }
-    }
-
-    function init() {
-      $(".comments").toggle(false);
-      comments.forEach(function(comment) {
-        const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
-        updateCommentVisibility($textfield);
-
-        updateBubble($textfield);
-        $textfield.on(
-          "change keyup paste",
-          _.debounce(function() {
-            updateBubble($(this));
-
-            // Store comments as comment too
-            var commentSaver = new CommentSaver(
-              comment,
-              "Xr12mI7VPn3",
-              $(this).val()
-            );
-            commentSaver.save();
-          }, 500)
-        );
-
-        if ($textfield.val() !== "") {
-          const col = $textfield.parent().index() + 1;
-          $textfield
-            .closest("table")
-            .find("tr > *:nth-child(" + col + ")")
-            .toggle(true);
-        }
-      });
-
-      yespartialno.forEach(function(dataElement) {
-        categoryIssues.forEach(function(option) {
-          $("#" + dataElement + "-" + option + "-val").on("click", function() {
-            const id = $(this).attr("id");
-            updateCommentVisibility(
-              $(this)
-                .closest("td")
-                .next()
-                .find("textarea")
-            );
-
-            if ($(this).is(":checked")) {
-              categoryIssues.forEach(function(id) {
-                if (id !== option) {
-                  const str = "#" + dataElement + "-" + id + "-val";
-                  if ($(str).is(":checked")) {
-                    $(str).click();
-                  }
-                }
-              });
-            }
-          });
+    function get_resource_link(element_id, tokens) {
+        $.ajax({
+            url: "../api/documents",
+            type: "get",
+            data: {
+                fields: "id",
+                filter: "name:token:" + tokens,
+            },
+            success: function (response) {
+                id = response["documents"][0]["id"];
+                document.getElementById(element_id).href = "../api/documents/" + id + "/data";
+            },
+            error: function (xhr) {
+                console.log("Error in the request");
+                console.log(xhr);
+            },
         });
-      });
+    }
 
-      yesno.forEach(function(dataElement) {
-        ["true", "false"].forEach(function(value) {
-          $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
-            "click",
-            function() {
-              const $textfield = $(this)
-                .closest("td")
-                .next()
-                .find("textarea");
-              if ($(this).is(":checked")) {
+    $(document).ready(function () {
+        $(function () {
+            $("#mod2_tabs").tabs();
+        });
+
+        function updateCommentVisibility($textfield) {
+            const $input = $textfield.closest("td").prev().find("input");
+
+            if ($input.is(":checked") || $input.attr("name") !== "entryfield") {
                 $textfield.removeAttr("disabled");
                 $textfield.css("background-color", "rgb(255, 255, 255)");
-              } else {
+            } else if (!$input.hasClass("entryoptionset")) {
                 $textfield.prop("disabled", true);
                 $textfield.css("background-color", "rgb(204, 204, 204)");
-              }
             }
-          );
-        });
-      });
+        }
 
-      percentages.forEach(function(percentage) {
-        $("#" + percentage + "-Xr12mI7VPn3-val").on(
-          "change keyup paste",
-          _.debounce(function() {
-            const value = parseFloat($(this).val());
-            if (value > 100 || value < 0) {
-              alert("Value " + value + " is not a valid percentage");
-              $(this)
-                .val("")
-                .trigger("change");
+        function updateBubble($textfield) {
+            const enable = $textfield.val() !== "";
+            const $bubble = $textfield.closest("td").prev().find(".comment-bubble");
+            if (enable) {
+                $bubble.addClass("comment-available");
+            } else {
+                $bubble.removeClass("comment-available");
             }
-          }, 500)
-        );
-      });
+        }
+
+        function init() {
+            $(".comments").toggle(false);
+            comments.forEach(function (comment) {
+                const $textfield = $("#" + comment + "-Xr12mI7VPn3-val");
+                updateCommentVisibility($textfield);
+
+                updateBubble($textfield);
+                $textfield.on(
+                    "change keyup paste",
+                    _.debounce(function () {
+                        updateBubble($(this));
+
+                        // Store comments as comment too
+                        var commentSaver = new CommentSaver(comment, "Xr12mI7VPn3", $(this).val());
+                        commentSaver.save();
+                    }, 500)
+                );
+
+                if ($textfield.val() !== "") {
+                    const col = $textfield.parent().index() + 1;
+                    $textfield
+                        .closest("table")
+                        .find("tr > *:nth-child(" + col + ")")
+                        .toggle(true);
+                }
+            });
+
+            yespartialno.forEach(function (dataElement) {
+                categoryIssues.forEach(function (option) {
+                    $("#" + dataElement + "-" + option + "-val").on("click", function () {
+                        const id = $(this).attr("id");
+                        updateCommentVisibility($(this).closest("td").next().find("textarea"));
+
+                        if ($(this).is(":checked")) {
+                            categoryIssues.forEach(function (id) {
+                                if (id !== option) {
+                                    const str = "#" + dataElement + "-" + id + "-val";
+                                    if ($(str).is(":checked")) {
+                                        $(str).click();
+                                    }
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+            yesno.forEach(function (dataElement) {
+                ["true", "false"].forEach(function (value) {
+                    $("#" + dataElement + "-Xr12mI7VPn3-val[value='" + value + "']").on(
+                        "click",
+                        function () {
+                            const $textfield = $(this).closest("td").next().find("textarea");
+                            if ($(this).is(":checked")) {
+                                $textfield.removeAttr("disabled");
+                                $textfield.css("background-color", "rgb(255, 255, 255)");
+                            } else {
+                                $textfield.prop("disabled", true);
+                                $textfield.css("background-color", "rgb(204, 204, 204)");
+                            }
+                        }
+                    );
+                });
+            });
+
+            percentages.forEach(function (percentage) {
+                $("#" + percentage + "-Xr12mI7VPn3-val").on(
+                    "change keyup paste",
+                    _.debounce(function () {
+                        const value = parseFloat($(this).val());
+                        if (value > 100 || value < 0) {
+                            alert("Value " + value + " is not a valid percentage");
+                            $(this).val("").trigger("change");
+                        }
+                    }, 500)
+                );
+            });
+        }
+
+        init();
+        $(this).on(dhis2.de.event.dataValuesLoaded, init);
+
+        $(".comment-bubble").on("click", function () {
+            const col = $(this).parent().index() + 1;
+            $(this)
+                .closest("table")
+                .find("tr > *:nth-child(" + (col + 1) + ")")
+                .toggle();
+        });
+
+        $(function () {
+            console.log("Updating file resources links");
+            get_resource_link("handbook_link", "NHWA, Indicator, HandBook");
+            get_resource_link("userguide_link", "NHWA, User, guide");
+            get_resource_link("occupation_link", "NHWA, Occupation, Mapping");
+        });
+    });
+</script>
+<style type="text/css">
+    #cde table {
+        border-collapse: collapse;
     }
 
-    init();
-    $(this).on(dhis2.de.event.dataValuesLoaded, init);
+    #cde table,
+    #cde th,
+    #cde td {
+        border: 1px solid #c0c0c0;
+    }
 
-    $(".comment-bubble").on("click", function() {
-      const col =
-        $(this)
-          .parent()
-          .index() + 1;
-      $(this)
-        .closest("table")
-        .find("tr > *:nth-child(" + (col + 1) + ")")
-        .toggle();
-    });
+    #cde td,
+    #cde th {
+        height: 30px;
+        padding: 10px;
+        margin: 10px;
+    }
 
-    $(function() {
-      console.log('Updating file resources links')
-      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
-      get_resource_link('userguide_link', 'NHWA, User, guide');
-      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
-    });
-  });
-</script>
-<style type="text/css">#cde table {
-    border-collapse: collapse;
-  }
+    .commentlink {
+        display: none;
+    }
 
-  #cde table,
-  #cde th,
-  #cde td {
-    border: 1px solid #c0c0c0;
-  }
+    .cde-greyfield {
+        background-color: #e0e0e0;
+    }
 
-  #cde td,
-  #cde th {
-    height: 30px;
-    padding: 10px;
-    margin: 10px;
-  }
+    .yesno label {
+        display: inline;
+    }
 
-  .commentlink {
-    display: none;
-  }
+    .comments textarea {
+        text-align: left;
+    }
 
-  .cde-greyfield {
-    background-color: #e0e0e0;
-  }
+    .comment-bubble {
+        content: url("../images/comment.png");
+    }
 
-  .yesno label {
-    display: inline;
-  }
-
-  .comments textarea {
-    text-align: left;
-  }
-
-  .comment-bubble {
-    content: url("../images/comment.png");
-  }
-
-  .comment-available {
-    content: url("../images/comment_active.png");
-  }
+    .comment-available {
+        content: url("../images/comment_active.png");
+    }
 </style>
-<h3 style="text-align: center;"><strong>Health Workforce Employment characteristics and working conditions</strong></h3>
+<h3 style="text-align: center">
+    <strong>Health Workforce Employment characteristics and working conditions</strong>
+</h3>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/p6IINqTYv2f/data" id="handbook_link" target="_blank">Access the NHWA HANDBOOK</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times">
+    <a href="../api/documents/p6IINqTYv2f/data" id="handbook_link" target="_blank"
+        >Access the NHWA HANDBOOK</a
+    >
+</h4>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/OCoAAGYwapP/data" id="userguide_link" target="_blank">Access the NHWA USER GUIDE</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times">
+    <a href="../api/documents/OCoAAGYwapP/data" id="userguide_link" target="_blank"
+        >Access the NHWA USER GUIDE</a
+    >
+</h4>
 
 <div id="mod2_tabs">
-<ul>
-	<li><a href="#tab0">Characteristics</a></li>
-	<li><a href="#tab1">Conditions</a></li>
-	<li><a href="#tab2">Regulations</a></li>
-	<li><a href="#tab3">Other Resources</a></li>
-</ul>
+    <ul>
+        <li><a href="#tab0">Characteristics</a></li>
+        <li><a href="#tab1">Conditions</a></li>
+        <li><a href="#tab2">Regulations</a></li>
+        <li><a href="#tab3">Other Resources</a></li>
+    </ul>
 
-<div id="tab0">
-<h2>SECTION 1: HWF Working Characteristics</h2>
+    <div id="tab0">
+        <h2>SECTION 1: HWF Working Characteristics</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th style="text-align: center;">Item</th>
-			<th style="text-align: center;">Standard working hours in a week (6-01)</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Standard working hours as per the national law</td>
-			<td style="text-align: center;"><input id="iM5NIZBqAUL-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Standard working hours as per the national law" value="[ NHWA_Standard working hours as per the national law ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
+        <div id="cde">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th style="text-align: center">Item</th>
+                        <th style="text-align: center">Standard working hours in a week (6-01)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Standard working hours as per the national law</td>
+                        <td style="text-align: center">
+                            <input
+                                id="iM5NIZBqAUL-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Standard working hours as per the national law"
+                                value="[ NHWA_Standard working hours as per the national law ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="3">SN</th>
-			<th colspan="1" rowspan="3" style="text-align: center;">Occupation</th>
-			<th colspan="1" rowspan="3" style="text-align: center;">Standard working hours<br />
-			in a week (6-01)</th>
-			<th colspan="4" style="text-align: center;">Number of health workers with part-time contract (6-02)</th>
-			<th colspan="1" rowspan="3" style="text-align: center;">Number of self-employed<br />
-			health workers (6-06)</th>
-		</tr>
-		<tr>
-			<th rowspan="2" style="text-align: center;">Total</th>
-			<th rowspan="2" style="text-align: center;">Public Owned Facilities</th>
-			<th rowspan="2" style="text-align: center;">Not for Profit Private<br />
-			Facilities</th>
-			<th rowspan="2" style="text-align: center;">For Profit<br />
-			Private Facilities</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Medical Doctors</td>
-			<td><input id="GeY6o2BMvp1-woIm3nuS3mM-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Medical Doctors" value="[ NHWA_Standard Working Hours in a week old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="hBzWHe6kuvu-woIm3nuS3mM-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Medical Doctors" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="C8MvR5CNwpG-woIm3nuS3mM-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Medical Doctors" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="wsmvhizfctg-woIm3nuS3mM-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Medical Doctors" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="KlsBVkjtkkV-woIm3nuS3mM-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Medical Doctors" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Medical Doctors ]" /></td>
-			<td><input id="N6VNhZ2PCG7-woIm3nuS3mM-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Medical Doctors" value="[ NHWA_Health workforce Self employed old_NHWA_Medical Doctors ]" /></td>
-		</tr>
-		<tr>
-			<td>1.1</td>
-			<td>
-			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
-			</td>
-			<td><input id="GeY6o2BMvp1-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_General Medical Practitioner" value="[ NHWA_Standard Working Hours in a week old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="hBzWHe6kuvu-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="C8MvR5CNwpG-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="wsmvhizfctg-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="KlsBVkjtkkV-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_General Medical Practitioner ]" /></td>
-			<td><input id="N6VNhZ2PCG7-Eh8fZEewQLs-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce Self employed old_NHWA_General Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>1.2</td>
-			<td>
-			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
-			</td>
-			<td><input id="GeY6o2BMvp1-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Standard Working Hours in a week old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="hBzWHe6kuvu-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="C8MvR5CNwpG-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="wsmvhizfctg-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="KlsBVkjtkkV-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td><input id="N6VNhZ2PCG7-Rr4F4xljMoJ-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce Self employed old_NHWA_Specialist Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Nursing Professional</td>
-			<td><input id="GeY6o2BMvp1-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Nursing Professional" value="[ NHWA_Standard Working Hours in a week old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="hBzWHe6kuvu-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Nursing Professional" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="C8MvR5CNwpG-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Nursing Professional" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="wsmvhizfctg-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Nursing Professional" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="KlsBVkjtkkV-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Nursing Professional" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Nursing Professional ]" /></td>
-			<td><input id="N6VNhZ2PCG7-gT8LDQDh2wc-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Nursing Professional" value="[ NHWA_Health workforce Self employed old_NHWA_Nursing Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Midwifery Professional</td>
-			<td><input id="GeY6o2BMvp1-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Midwifery Professional" value="[ NHWA_Standard Working Hours in a week old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="hBzWHe6kuvu-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="C8MvR5CNwpG-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="wsmvhizfctg-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="KlsBVkjtkkV-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Midwifery Professional ]" /></td>
-			<td><input id="N6VNhZ2PCG7-GrzcLgIHx9h-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce Self employed old_NHWA_Midwifery Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>Dentist</td>
-			<td><input id="GeY6o2BMvp1-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Dentist" value="[ NHWA_Standard Working Hours in a week old_NHWA_Dentist ]" /></td>
-			<td><input id="hBzWHe6kuvu-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Dentist" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Dentist ]" /></td>
-			<td><input id="C8MvR5CNwpG-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Dentist" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Dentist ]" /></td>
-			<td><input id="wsmvhizfctg-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Dentist" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Dentist ]" /></td>
-			<td><input id="KlsBVkjtkkV-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Dentist" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Dentist ]" /></td>
-			<td><input id="N6VNhZ2PCG7-BUVRp4Q2zi7-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Dentist" value="[ NHWA_Health workforce Self employed old_NHWA_Dentist ]" /></td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>Pharmacist</td>
-			<td><input id="GeY6o2BMvp1-UbXO8Hq562j-val" name="entryfield" title="NHWA_Standard Working Hours in a week old_NHWA_Pharmacist" value="[ NHWA_Standard Working Hours in a week old_NHWA_Pharmacist ]" /></td>
-			<td><input id="hBzWHe6kuvu-UbXO8Hq562j-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Pharmacist" value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Pharmacist ]" /></td>
-			<td><input id="C8MvR5CNwpG-UbXO8Hq562j-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Pharmacist" value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Pharmacist ]" /></td>
-			<td><input id="wsmvhizfctg-UbXO8Hq562j-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Pharmacist" value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Pharmacist ]" /></td>
-			<td><input id="KlsBVkjtkkV-UbXO8Hq562j-val" name="entryfield" title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Pharmacist" value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Pharmacist ]" /></td>
-			<td><input id="N6VNhZ2PCG7-UbXO8Hq562j-val" name="entryfield" title="NHWA_Health workforce Self employed old_NHWA_Pharmacist" value="[ NHWA_Health workforce Self employed old_NHWA_Pharmacist ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="1" rowspan="3">SN</th>
+                        <th colspan="1" rowspan="3" style="text-align: center">Occupation</th>
+                        <th colspan="1" rowspan="3" style="text-align: center">
+                            Standard working hours<br />
+                            in a week (6-01)
+                        </th>
+                        <th colspan="4" style="text-align: center">
+                            Number of health workers with part-time contract (6-02)
+                        </th>
+                        <th colspan="1" rowspan="3" style="text-align: center">
+                            Number of self-employed<br />
+                            health workers (6-06)
+                        </th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2" style="text-align: center">Total</th>
+                        <th rowspan="2" style="text-align: center">Public Owned Facilities</th>
+                        <th rowspan="2" style="text-align: center">
+                            Not for Profit Private<br />
+                            Facilities
+                        </th>
+                        <th rowspan="2" style="text-align: center">
+                            For Profit<br />
+                            Private Facilities
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Medical Doctors</td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Medical Doctors"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-woIm3nuS3mM-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: left">
+                                General Medical Practitioner
+                            </p>
+                        </td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: left">
+                                Specialist Medical Practitioner
+                            </p>
+                        </td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Nursing Professional</td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Nursing Professional"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Midwifery Professional</td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Dentist</td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Dentist"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Dentist ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Pharmacist</td>
+                        <td>
+                            <input
+                                id="GeY6o2BMvp1-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Standard Working Hours in a week old_NHWA_Pharmacist"
+                                value="[ NHWA_Standard Working Hours in a week old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="hBzWHe6kuvu-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in total old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce with Part Time Contract in total old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="C8MvR5CNwpG-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a public owned facilities old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="wsmvhizfctg-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a Not-for-profit privately owned facilities old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="KlsBVkjtkkV-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce with Part Time Contract in a For-profit privately owned owned facilities old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="N6VNhZ2PCG7-UbXO8Hq562j-val"
+                                name="entryfield"
+                                title="NHWA_Health workforce Self employed old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce Self employed old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div id="tab1">
-<h2>SECTION 2: HWF Working Conditions</h2>
+    <div id="tab1">
+        <h2>SECTION 2: HWF Working Conditions</h2>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th style="text-align: center;">Item</th>
-			<th style="text-align: center;">Existence</th>
-			<th class="comments" scope="row" style="text-align: center;">Comment</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Existence of national/sub-national policies/laws for prevention of attacks on health workers (6-09)</td>
-			<td><input id="LUVRqQq2NLE-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Yes" value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Yes ]" /> Yes <input id="LUVRqQq2NLE-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Partial" value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Partial ]" /> Partial <input id="LUVRqQq2NLE-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_No" value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_No ]" /> No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="FXC8HIEHwHI-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national/sub-national policies/laws for prevention of attacks on health workers" value="[ NHWA_Comment of Existence of national/sub-national policies/laws for prevention of attacks on health workers ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Existence of national/sub-national policies/laws regulating compulsory service (6-08)</td>
-			<td class="yesno"><input id="Ii26DODuUbB-Xr12mI7VPn3-val" name="entryfield" style="width:3.5em;/" title="NHWA_Existence of national/subnational policies for regulating compulsory service" value="[ NHWA_Existence of national/subnational policies for regulating compulsory service ]" /> <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="d7hKlZbQARX-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national/subnational policies for regulating compulsory service" value="[ NHWA_Comment of Existence of national/subnational policies for regulating compulsory service ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Existence of national/sub-national policies/laws regulating dual practice (6-07)</td>
-			<td class="yesno"><input id="cV7DhKFPk3R-Xr12mI7VPn3-val" name="entryfield" style="width:3.5em;/" title="NHWA_Existence of national/sub-national policies/laws regulating dual practice" value="[ NHWA_Existence of national/sub-national policies/laws regulating dual practice ]" /> <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="TiqoQCq1BL4-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national/sub-national policies/laws regulating dual practice" value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating dual practice ]" /></td>
-		</tr>
-	</tbody>
-</table>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th style="text-align: center">Item</th>
+                        <th style="text-align: center">Existence</th>
+                        <th class="comments" scope="row" style="text-align: center">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            Existence of national/sub-national policies/laws for prevention of
+                            attacks on health workers (6-09)
+                        </td>
+                        <td>
+                            <input
+                                id="LUVRqQq2NLE-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Yes"
+                                value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Yes ]"
+                            />
+                            Yes
+                            <input
+                                id="LUVRqQq2NLE-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Partial"
+                                value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_Partial ]"
+                            />
+                            Partial
+                            <input
+                                id="LUVRqQq2NLE-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_No"
+                                value="[ NHWA_Existence of national/sub-national policies/laws for prevention of attacks on health workers NHWA_No ]"
+                            />
+                            No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="FXC8HIEHwHI-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national/sub-national policies/laws for prevention of attacks on health workers"
+                                value="[ NHWA_Comment of Existence of national/sub-national policies/laws for prevention of attacks on health workers ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            Existence of national/sub-national policies/laws regulating compulsory
+                            service (6-08)
+                        </td>
+                        <td class="yesno">
+                            <input
+                                id="Ii26DODuUbB-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                style="width:3.5em;/"
+                                title="NHWA_Existence of national/subnational policies for regulating compulsory service"
+                                value="[ NHWA_Existence of national/subnational policies for regulating compulsory service ]"
+                            />
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="d7hKlZbQARX-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national/subnational policies for regulating compulsory service"
+                                value="[ NHWA_Comment of Existence of national/subnational policies for regulating compulsory service ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>
+                            Existence of national/sub-national policies/laws regulating dual
+                            practice (6-07)
+                        </td>
+                        <td class="yesno">
+                            <input
+                                id="cV7DhKFPk3R-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                style="width:3.5em;/"
+                                title="NHWA_Existence of national/sub-national policies/laws regulating dual practice"
+                                value="[ NHWA_Existence of national/sub-national policies/laws regulating dual practice ]"
+                            />
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="TiqoQCq1BL4-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national/sub-national policies/laws regulating dual practice"
+                                value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating dual practice ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-<p>&nbsp;</p>
+            <p>&nbsp;</p>
 
-<table border="1" cellpadding="1" cellspacing="1">
-	<tbody>
-		<tr>
-			<th colspan="1" rowspan="2" style="text-align: center;">SN</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Item</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Total</th>
-			<th colspan="4" rowspan="1" style="text-align: center;">Primary object of attack</th>
-		</tr>
-		<tr>
-			<th style="text-align: center;">Facility</th>
-			<th style="text-align: center;">Health care Provider</th>
-			<th style="text-align: center;">Transport</th>
-			<th style="text-align: center;">Patient</th>
-		</tr>
-		<tr>
-			<th>1</th>
-			<th style="text-align: left;">Number of attacks on health-care system (6-10)</th>
-			<td><input id="qqVKuhK0RgY-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Violent attacks on health workers" value="[ NHWA_Violent attacks on health workers ]" /></td>
-			<td><input id="iS6Vzt6PPjr-OYOzRJlu3B5-val" name="entryfield" title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Facility" value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Facility ]" /></td>
-			<td><input id="iS6Vzt6PPjr-JfxMvAwKsR7-val" name="entryfield" title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Health-care provider" value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Health-care provider ]" /></td>
-			<td><input id="iS6Vzt6PPjr-MfcVRlA41v6-val" name="entryfield" title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Transport" value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Transport ]" /></td>
-			<td><input id="iS6Vzt6PPjr-xeQGICllTPa-val" name="entryfield" title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Patient" value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Patient ]" /></td>
-		</tr>
-	</tbody>
-</table>
+            <table border="1" cellpadding="1" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <th colspan="1" rowspan="2" style="text-align: center">SN</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">Item</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">Total</th>
+                        <th colspan="4" rowspan="1" style="text-align: center">
+                            Primary object of attack
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center">Facility</th>
+                        <th style="text-align: center">Health care Provider</th>
+                        <th style="text-align: center">Transport</th>
+                        <th style="text-align: center">Patient</th>
+                    </tr>
+                    <tr>
+                        <th>1</th>
+                        <th style="text-align: left">
+                            Number of attacks on health-care system (6-10)
+                        </th>
+                        <td>
+                            <input
+                                id="qqVKuhK0RgY-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Violent attacks on health workers"
+                                value="[ NHWA_Violent attacks on health workers ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="iS6Vzt6PPjr-OYOzRJlu3B5-val"
+                                name="entryfield"
+                                title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Facility"
+                                value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Facility ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="iS6Vzt6PPjr-JfxMvAwKsR7-val"
+                                name="entryfield"
+                                title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Health-care provider"
+                                value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Health-care provider ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="iS6Vzt6PPjr-MfcVRlA41v6-val"
+                                name="entryfield"
+                                title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Transport"
+                                value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Transport ]"
+                            />
+                        </td>
+                        <td>
+                            <input
+                                id="iS6Vzt6PPjr-xeQGICllTPa-val"
+                                name="entryfield"
+                                title="NHWA_Violent attacks on health workers by primary object of attack NHWA_Patient"
+                                value="[ NHWA_Violent attacks on health workers by primary object of attack NHWA_Patient ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-<p>&nbsp;</p>
-</div>
-</div>
+            <p>&nbsp;</p>
+        </div>
+    </div>
 
-<div id="tab2">
-<h2>SECTION 3:Regulations</h2>
+    <div id="tab2">
+        <h2>SECTION 3:Regulations</h2>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="2">SN</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Occupation</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Existence of national/sub-national policies/laws<br />
-			regulating working hours and conditions (6-03)</th>
-			<th class="comments" scope="row" style="text-align: center;">Comment</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Medical Doctors</td>
-			<td style="text-align: center;"><input id="LYjT01KiTTw-I93t0K7b1oN-val" name="entryfield" title="undefined" value="[ undefined ]" />Yes <input id="LYjT01KiTTw-Xgr3PJxcWfJ-val" name="entryfield" title="undefined" value="[ undefined ]" />Partial <input id="LYjT01KiTTw-Y7EAGQA1bfv-val" name="entryfield" title="undefined" value="[ undefined ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="p9tpHX1KEpx-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Medical Doctors" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Medical Doctors ]" /></td>
-		</tr>
-		<tr>
-			<td>1.1</td>
-			<td>
-			<p style="margin-left: 20px; text-align: left;">General Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="gGSJZCN2L8C-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Yes ]" />Yes <input id="gGSJZCN2L8C-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Partial ]" />Partial <input id="gGSJZCN2L8C-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="Vgrwxohqyex-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - General Medical Practitioner" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - General Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>1.2</td>
-			<td>
-			<p style="margin-left: 20px; text-align: left;">Specialist Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="FDUFnJmPb2t-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Yes ]" />Yes <input id="FDUFnJmPb2t-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Partial ]" />Partial <input id="FDUFnJmPb2t-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="diMX6HJrY20-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Specialist Medical Practitioner" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Specialist Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Nursing Professional</td>
-			<td style="text-align: center;"><input id="DVyhvgkJrXg-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Yes ]" />Yes <input id="DVyhvgkJrXg-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Partial ]" />Partial <input id="DVyhvgkJrXg-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="Z8z72QAYDaj-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Nursing Professional" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Nursing Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td>Midwifery Professional</td>
-			<td style="text-align: center;"><input id="Uyxr85SOJiI-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Yes ]" />Yes <input id="Uyxr85SOJiI-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Partial ]" />Partial <input id="Uyxr85SOJiI-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="MSX8eTjkneO-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Midwifery Professional" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Midwifery Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td>Dentist</td>
-			<td style="text-align: center;"><input id="I5m9Dl43XO2-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Yes ]" />Yes <input id="I5m9Dl43XO2-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Partial ]" />Partial <input id="I5m9Dl43XO2-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="pp4mjoKsU50-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Dentist" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Dentist ]" /></td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td>Pharmacist</td>
-			<td style="text-align: center;"><input id="gDinmRT6Pqb-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Yes" value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Yes ]" />Yes <input id="gDinmRT6Pqb-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Partial" value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Partial ]" />Partial <input id="gDinmRT6Pqb-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_No" value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="OejaVtMvR4x-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Pharmacist" value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Pharmacist ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="1" rowspan="2">SN</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">Occupation</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Existence of national/sub-national policies/laws<br />
+                            regulating working hours and conditions (6-03)
+                        </th>
+                        <th class="comments" scope="row" style="text-align: center">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Medical Doctors</td>
+                        <td style="text-align: center">
+                            <input
+                                id="LYjT01KiTTw-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="undefined"
+                                value="[ undefined ]"
+                            />Yes
+                            <input
+                                id="LYjT01KiTTw-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="undefined"
+                                value="[ undefined ]"
+                            />Partial
+                            <input
+                                id="LYjT01KiTTw-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="undefined"
+                                value="[ undefined ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="p9tpHX1KEpx-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Medical Doctors"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Medical Doctors ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: left">
+                                General Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gGSJZCN2L8C-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="gGSJZCN2L8C-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="gGSJZCN2L8C-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for General Medical Practitioner NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="Vgrwxohqyex-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - General Medical Practitioner"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - General Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: left">
+                                Specialist Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="FDUFnJmPb2t-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="FDUFnJmPb2t-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="FDUFnJmPb2t-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Specialist Medical Practitioner NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="diMX6HJrY20-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Specialist Medical Practitioner"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Nursing Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="DVyhvgkJrXg-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="DVyhvgkJrXg-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="DVyhvgkJrXg-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Nursing Professional NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="Z8z72QAYDaj-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Nursing Professional"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Nursing Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Midwifery Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="Uyxr85SOJiI-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="Uyxr85SOJiI-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="Uyxr85SOJiI-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Midwifery Professional NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="MSX8eTjkneO-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Midwifery Professional"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Midwifery Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Dentist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="I5m9Dl43XO2-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="I5m9Dl43XO2-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="I5m9Dl43XO2-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Dentist NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="pp4mjoKsU50-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Dentist"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Dentist ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Pharmacist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="gDinmRT6Pqb-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Yes"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Yes ]"
+                            />Yes
+                            <input
+                                id="gDinmRT6Pqb-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Partial"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="gDinmRT6Pqb-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_No"
+                                value="[ NHWA_Existence of national law on regulating working hours and conditions for Pharmacist NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="OejaVtMvR4x-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national law on regulating working hours and conditions - Pharmacist"
+                                value="[ NHWA_Comment of Existence of national law on regulating working hours and conditions - Pharmacist ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th style="text-align: center;">Item</th>
-			<th style="text-align: center;">Existence</th>
-			<th class="comments" scope="row" style="text-align: center;">Comment</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Existence of national/sub-national policies/laws regulating minimum wages (6-04)</td>
-			<td class="yesno"><input id="di91e0qZijs-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws regulating minimum wages" value="[ NHWA_Existence of national/sub-national policies/laws regulating minimum wages ]" /> <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="NI5EQM6hHmc-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national/sub-national policies/laws regulating minimum wages" value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating minimum wages ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td>Existence of national/sub-national policies/laws regulating social protection (6-05)</td>
-			<td><input id="lvs1RCQOOp4-I93t0K7b1oN-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Yes" value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Yes ]" /> Yes<input id="lvs1RCQOOp4-Xgr3PJxcWfJ-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Partial" value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Partial ]" />Partial <input id="lvs1RCQOOp4-Y7EAGQA1bfv-val" name="entryfield" title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_No" value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_No ]" />No <img class="comment-bubble" src="../images/comment.png" style="cursor: pointer; margin-left: 10px;" title="View comment" /></td>
-			<td class="comments" scope="row" style="text-align: center;"><input id="OX7yvkLP2Uj-Xr12mI7VPn3-val" name="entryfield" title="NHWA_Comment of Existence of national/sub-national policies/laws regulating social protection" value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating social protection ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th style="text-align: center">Item</th>
+                        <th style="text-align: center">Existence</th>
+                        <th class="comments" scope="row" style="text-align: center">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            Existence of national/sub-national policies/laws regulating minimum
+                            wages (6-04)
+                        </td>
+                        <td class="yesno">
+                            <input
+                                id="di91e0qZijs-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws regulating minimum wages"
+                                value="[ NHWA_Existence of national/sub-national policies/laws regulating minimum wages ]"
+                            />
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="NI5EQM6hHmc-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national/sub-national policies/laws regulating minimum wages"
+                                value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating minimum wages ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>
+                            Existence of national/sub-national policies/laws regulating social
+                            protection (6-05)
+                        </td>
+                        <td>
+                            <input
+                                id="lvs1RCQOOp4-I93t0K7b1oN-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Yes"
+                                value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Yes ]"
+                            />
+                            Yes<input
+                                id="lvs1RCQOOp4-Xgr3PJxcWfJ-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Partial"
+                                value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_Partial ]"
+                            />Partial
+                            <input
+                                id="lvs1RCQOOp4-Y7EAGQA1bfv-val"
+                                name="entryfield"
+                                title="NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_No"
+                                value="[ NHWA_Existence of national/sub-national policies/laws regulating social protection NHWA_No ]"
+                            />No
+                            <img
+                                class="comment-bubble"
+                                src="../images/comment.png"
+                                style="cursor: pointer; margin-left: 10px"
+                                title="View comment"
+                            />
+                        </td>
+                        <td class="comments" scope="row" style="text-align: center">
+                            <input
+                                id="OX7yvkLP2Uj-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_Comment of Existence of national/sub-national policies/laws regulating social protection"
+                                value="[ NHWA_Comment of Existence of national/sub-national policies/laws regulating social protection ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-<div id="tab3">
-<h2>SECTION 4: HWF OTHER RESOURCES</h2>
+    <div id="tab3">
+        <h2>SECTION 4: HWF OTHER RESOURCES</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th>Item</th>
-			<th>Value</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Upload other resources</td>
-			<td><input id="YpvMwP4LgpH-Xr12mI7VPn3-val" name="entryfield" title="NHWA_HWF Module 6 File upload" value="[ NHWA_HWF Module 6 File upload ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+        <div id="cde">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Item</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: Left">Upload other resources</td>
+                        <td>
+                            <input
+                                id="YpvMwP4LgpH-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                title="NHWA_HWF Module 6 File upload"
+                                value="[ NHWA_HWF Module 6 File upload ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

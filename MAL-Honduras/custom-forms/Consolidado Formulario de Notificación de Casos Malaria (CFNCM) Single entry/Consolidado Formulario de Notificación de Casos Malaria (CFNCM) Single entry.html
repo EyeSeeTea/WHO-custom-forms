@@ -234,7 +234,8 @@
         function perpareSort(event) {
             if (!tblOpts.sortMeta.sorted || tblOpts.sortMeta.sorted === "descending") {
                 tblOpts.sortMeta.sorted = "ascending";
-            } else if (tblOpts.sortMeta.sorted === "ascending") tblOpts.sortMeta.sorted = "descending";
+            } else if (tblOpts.sortMeta.sorted === "ascending")
+                tblOpts.sortMeta.sorted = "descending";
             // TODO maybe make all keys in data lowercase...
             tblOpts.sortMeta.sortBy = event.target.innerHTML.replace(/\s/g, "").replace(/\W/g, "");
             tblOpts.tableDiv = "#" + event.target.closest("div").getAttribute("id");
@@ -340,7 +341,8 @@
             tblOpts.pgnMta.totalPages = Math.ceil(tblOpts.pgnMta.allRowsLen / tblOpts.pagination);
             tblOpts.pgnMta.crntPage = current + dir;
             tblOpts.pgnMta.nextPage = tblOpts.pgnMta.crntPage - 1;
-            tblOpts.pgnMta.crntStart = tblOpts.pgnMta.crntPage * tblOpts.pagination - tblOpts.pagination;
+            tblOpts.pgnMta.crntStart =
+                tblOpts.pgnMta.crntPage * tblOpts.pagination - tblOpts.pagination;
             tblOpts.pgnMta.crntEnd = tblOpts.pgnMta.crntPage * tblOpts.pagination;
             tblOpts.pgnMta.crntRows = data.slice(tblOpts.pgnMta.crntStart, tblOpts.pgnMta.crntEnd);
             return;
@@ -386,26 +388,31 @@
                 document.querySelector(".pagination-next-" + tblId).classList.remove("no-pag");
             }
             // Listen for next clicks
-            document.querySelector(".pagination-next-" + tblId).addEventListener("click", function (e) {
-                if (e.target.classList.contains("no-pag")) return;
-                tblOpts.pgnMta.dir = Number(1);
-                // if there is text in the search and you are paginating
-                // through filtered data, build table with what is in paginationmeta data
-                if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
-                else prepTable();
-            });
+            document
+                .querySelector(".pagination-next-" + tblId)
+                .addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+                    tblOpts.pgnMta.dir = Number(1);
+                    // if there is text in the search and you are paginating
+                    // through filtered data, build table with what is in paginationmeta data
+                    if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
+                    else prepTable();
+                });
             // Listen for previous clicks
-            document.querySelector(".pagination-pre-" + tblId).addEventListener("click", function (e) {
-                if (e.target.classList.contains("no-pag")) return;
-                tblOpts.pgnMta.dir = Number(-1);
-                // if there is text in the search and you are paginating
-                // through filtered data, build table with what is in paginationmeta data
-                if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
-                else prepTable();
-            });
+            document
+                .querySelector(".pagination-pre-" + tblId)
+                .addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+                    tblOpts.pgnMta.dir = Number(-1);
+                    // if there is text in the search and you are paginating
+                    // through filtered data, build table with what is in paginationmeta data
+                    if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
+                    else prepTable();
+                });
         }
     </script>
-    <script>var subnationalDataSetId = "DdIVZcGE77H";
+    <script>
+        var subnationalDataSetId = "DdIVZcGE77H";
 
         function onInputChange(id) {
             const organisationUnitId = id.split("-")[0];
@@ -454,7 +461,10 @@
                         var fieldId = `#${dataValue.orgUnit}-${dataValue.dataElement}-${dataValue.categoryOptionCombo}-val`;
                         if ($(fieldId).length > 0) {
                             var entryField = $(fieldId);
-                            if ("true" == dataValue.value && entryField.attr("type") == "checkbox") {
+                            if (
+                                "true" == dataValue.value &&
+                                entryField.attr("type") == "checkbox"
+                            ) {
                                 $(fieldId).prop("checked", true);
                             } else {
                                 $(fieldId).val(dataValue.value);
@@ -522,7 +532,8 @@
 
         <div class="cde" id="orgUnitsTable">&nbsp;</div>
 
-        <div id="custom-form-loader"><img id="loader" src="../images/ajax-loader-circle.gif" />
+        <div id="custom-form-loader">
+            <img id="loader" src="../images/ajax-loader-circle.gif" />
             <p>Please wait while the system is loading the custom form...</p>
         </div>
     </div>

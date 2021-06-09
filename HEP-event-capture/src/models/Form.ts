@@ -63,10 +63,7 @@ export class Form {
             };
         });
 
-        const orderedSections: FormSection[] = _(sections)
-            .uniqBy("order")
-            .sortBy("order")
-            .value();
+        const orderedSections: FormSection[] = _(sections).uniqBy("order").sortBy("order").value();
 
         return { sections: orderedSections };
     }

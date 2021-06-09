@@ -3,7 +3,7 @@ import { safeParseJSON } from "../../../utils";
 
 export class DataStoreClient {
     private baseUrl: string;
-    readonly namespace: string
+    readonly namespace: string;
 
     headers = { "Content-Type": "application/json" };
 
@@ -26,7 +26,7 @@ export class DataStoreClient {
         } else if (response.status === 404) {
             return undefined;
         } else {
-            throw Error(await response.text())
+            throw Error(await response.text());
         }
     }
 }

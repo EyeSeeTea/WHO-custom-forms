@@ -4,1761 +4,1789 @@
 <!--[if IE 9]><html lang="en"  class="ie9"><![endif]-->
 <![if !IE]>
 <html dir="ltr" lang="en">
-  <![endif]>
+    <![endif]>
 
-  <head>
-    <title>WHO Integrated data platform</title>
-    <meta name="description" content="DHIS 2" />
-    <meta name="keywords" content="DHIS 2" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="screen"
-      href="../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="screen,print"
-      href="../dhis-web-commons/css/light_blue/light_blue.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="screen,print"
-      href="../dhis-web-commons/css/widgets.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="print"
-      href="../dhis-web-commons/css/print.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="screen"
-      href="../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      media="screen"
-      href="../dhis-web-commons/select2/select2.css?_rev=ce9c6db"
-    />
-    <link
-      type="text/css"
-      rel="stylesheet"
-      href="../api/files/style?_rev=ce9c6db"
-    />
-    <link rel="shortcut icon" href="../favicon.ico" />
-    <!-- Material UI fonts -->
-    <link
-      href="../dhis-web-commons/fonts/roboto.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      href="../dhis-web-commons/material-design-icons/material-icons.css"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <style>
-      html {
-        font-size: 14px;
-      }
-
-      #header * {
-        font-family: "Roboto";
-      }
-
-      #loading {
-        display: none;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        left: 0;
-        position: fixed;
-        z-index: 2000;
-        background: rgba(38, 50, 56, 0.9);
-      }
-
-      #spinner {
-        height: 60px;
-        width: 60px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-animation: rotation 1s infinite linear;
-        -moz-animation: rotation 1s infinite linear;
-        -o-animation: rotation 1s infinite linear;
-        animation: rotation 1s infinite linear;
-        border: 6px solid white;
-        border-radius: 100%;
-        border-top: 6px solid transparent;
-      }
-
-      #spinner:before {
-        content: "";
-        display: block;
-        position: absolute;
-        left: -6px;
-        top: -6px;
-        height: 100%;
-        width: 100%;
-        border-top: 6px solid transparent;
-        border-left: 6px solid transparent;
-        border-bottom: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-radius: 100%;
-      }
-
-      @-webkit-keyframes rotation {
-        from {
-          -webkit-transform: rotate(0deg);
-        }
-        to {
-          -webkit-transform: rotate(359deg);
-        }
-      }
-      @-moz-keyframes rotation {
-        from {
-          -moz-transform: rotate(0deg);
-        }
-        to {
-          -moz-transform: rotate(359deg);
-        }
-      }
-      @-o-keyframes rotation {
-        from {
-          -o-transform: rotate(0deg);
-        }
-        to {
-          -o-transform: rotate(359deg);
-        }
-      }
-      @keyframes rotation {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(359deg);
-        }
-      }
-    </style>
-
-    <script type="text/javascript">
-      var dateFormat = "yy-mm-dd";
-    </script>
-
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/ext/ext-all.js"
-    ></script>
-
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=ce9c6db"
-    ></script>
-    <script>
-      $.ajaxSetup({
-        beforeSend: function(xhr) {
-          xhr.setRequestHeader("X-Requested-With", {
-            toString: function() {
-              return "";
+    <head>
+        <title>WHO Integrated data platform</title>
+        <meta name="description" content="DHIS 2" />
+        <meta name="keywords" content="DHIS 2" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            href="../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen,print"
+            href="../dhis-web-commons/css/light_blue/light_blue.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen,print"
+            href="../dhis-web-commons/css/widgets.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="print"
+            href="../dhis-web-commons/css/print.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=ce9c6db"
+        />
+        <link
+            type="text/css"
+            rel="stylesheet"
+            media="screen"
+            href="../dhis-web-commons/select2/select2.css?_rev=ce9c6db"
+        />
+        <link type="text/css" rel="stylesheet" href="../api/files/style?_rev=ce9c6db" />
+        <link rel="shortcut icon" href="../favicon.ico" />
+        <!-- Material UI fonts -->
+        <link href="../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css" />
+        <link
+            href="../dhis-web-commons/material-design-icons/material-icons.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <style>
+            html {
+                font-size: 14px;
             }
-          });
-        }
-      });
-    </script>
 
-    <!-- Menu dependencies -->
-    <script
-      type="text/javascript"
-      src="../dhis-web-core-resource/react-15/react-15.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"
-    ></script>
-    <!-- Menu script is up here due to perceived loading time increase -->
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"
-    ></script>
-    <script>
-      // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
-      jQuery(function() {
-        try {
-          if ("Dhis2HeaderBar" in window) {
-            Dhis2HeaderBar.initHeaderBar(
-              document.querySelector("#header"),
-              undefined,
-              { noLoadingIndicator: true }
-            );
-          }
-        } catch (e) {
-          if ("console" in window) {
-            console.error(e);
-          }
-        }
-      });
-    </script>
-    <!-- // End menu -->
-    <!--[if lte IE 8
-      ]><script
-        type="text/javascript"
-        src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"
-      ></script
-    ><![endif]-->
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/filesize.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/commons.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/commons.ajax.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/lists.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/periodType.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/date.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/json2.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/validationRules.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/moment/moment-with-langs.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/select2/select2.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.period.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.picker.min.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.selected.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.comparator.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.availability.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.trigger.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.sharing.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.validation.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ss.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ls.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.idb.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.memory.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.contextmenu.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.appcache.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/javascripts/dhis2/dhis2.translate.js?_rev=ce9c6db"
-    ></script>
-    <script
-      type="text/javascript"
-      src="../dhis-web-commons/i18nJavaScript.action?_rev=ce9c6db"
-    ></script>
-    <script type="text/javascript" src="../main.js?_rev=ce9c6db"></script>
-    <script type="text/javascript" src="../request.js?_rev=ce9c6db"></script>
+            #header * {
+                font-family: "Roboto";
+            }
 
-    <script
-      type="text/javascript"
-      src="../api/files/script?_rev=ce9c6db"
-    ></script>
-    <!-- Create global system calendar -->
-    <script>
-      dhis2.period.format = "yyyy-mm-dd";
-      dhis2.period.calendar = $.calendars.instance("gregorian");
-      dhis2.period.generator = new dhis2.period.PeriodGenerator(
-        dhis2.period.calendar,
-        dhis2.period.format
-      );
-      dhis2.period.picker = new dhis2.period.DatePicker(
-        dhis2.period.calendar,
-        dhis2.period.format
-      );
-    </script>
-  </head>
+            #loading {
+                display: none;
+                height: 100%;
+                width: 100%;
+                top: 0;
+                left: 0;
+                position: fixed;
+                z-index: 2000;
+                background: rgba(38, 50, 56, 0.9);
+            }
 
-  <body>
-    <div id="header">
-      <img
-        id="headerBanner"
-        src="../api/staticContent/logo_banner"
-        onclick="window.location.href='../dhis-web-commons-about/redirect.action'"
-        style="cursor:pointer"
-        title="View home page"
-      />
+            #spinner {
+                height: 60px;
+                width: 60px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -webkit-animation: rotation 1s infinite linear;
+                -moz-animation: rotation 1s infinite linear;
+                -o-animation: rotation 1s infinite linear;
+                animation: rotation 1s infinite linear;
+                border: 6px solid white;
+                border-radius: 100%;
+                border-top: 6px solid transparent;
+            }
 
-      <div id="dhisDropDownMenu"></div>
-    </div>
-    <span id="showLeftBar">
-      <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
-        <i class="fa fa-arrow-right leftBarIcon"></i>
-      </a>
-    </span>
+            #spinner:before {
+                content: "";
+                display: block;
+                position: absolute;
+                left: -6px;
+                top: -6px;
+                height: 100%;
+                width: 100%;
+                border-top: 6px solid transparent;
+                border-left: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-right: 6px solid transparent;
+                border-radius: 100%;
+            }
 
-    <style type="text/css">
-      #mainPage {
-        margin-left: 20px;
-      }
-    </style>
+            @-webkit-keyframes rotation {
+                from {
+                    -webkit-transform: rotate(0deg);
+                }
+                to {
+                    -webkit-transform: rotate(359deg);
+                }
+            }
+            @-moz-keyframes rotation {
+                from {
+                    -moz-transform: rotate(0deg);
+                }
+                to {
+                    -moz-transform: rotate(359deg);
+                }
+            }
+            @-o-keyframes rotation {
+                from {
+                    -o-transform: rotate(0deg);
+                }
+                to {
+                    -o-transform: rotate(359deg);
+                }
+            }
+            @keyframes rotation {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(359deg);
+                }
+            }
+        </style>
 
-    <div id="headerMessage" class="bold"></div>
+        <script type="text/javascript">
+            var dateFormat = "yy-mm-dd";
+        </script>
 
-    <div class="page" id="mainPage">
-      <script type="text/javascript">
-        dhis2.util.namespace("dhis2.report");
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/ext/ext-all.js"
+        ></script>
 
-        dhis2.report.organisationUnit = {};
-
-        dhis2.report.organisationUnitHierarchy = [];
-
-        dhis2.report.organisationUnitChildren = [];
-
-        dhis2.report.date = "";
-
-        dhis2.report.periods = [];
-      </script>
-
-      <div>
-        <html>
-          <head>
-            <meta
-              http-equiv="Content-Type"
-              content="text/html; charset=UTF-8"
-            />
-            <link
-              rel="stylesheet"
-              href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
-            />
-            <link
-              rel="stylesheet"
-              href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
-            />
-            <link
-              rel="stylesheet"
-              href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css"
-            />
-            <style type="text/css">
-              .gridDiv {
-                font-family: sans-serif, arial;
-              }
-
-              table.gridTable {
-                border-collapse: collapse;
-                font-size: 11pt;
-              }
-
-              .gridTable th,
-              .gridTable td {
-                padding: 8px 4px 7px 4px;
-                border: 1px solid #e7e7e7;
-              }
-
-              .gridTable th {
-                background-color: #f3f3f3;
-                font-weight: bold;
-              }
-            </style>
-            <script
-              src="https://code.jquery.com/jquery-3.4.1.min.js"
-              integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-              crossorigin="anonymous"
-            ></script>
-            <script
-              src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
-              integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
-              crossorigin="anonymous"
-            ></script>
-            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
-            <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
-            <script type="text/javascript">
-              var correctDataValues = undefined;
-              $(document).ready(function() {
-                const isDevelopment = false;
-                const baseUrl = isDevelopment
-                  ? "http://taris.sferadev.com:9004"
-                  : "..";
-
-                // Build "totals that do not match" table
-                const calculatedNumericCells = [
-                  //Working Details
-
-                  //1 - Medical Doctors
-                  {
-                    id: "h6VJJu0W8U7-Xr12mI7VPn3-val",
-                    children: [
-                      "Yxkvq7nmosQ-Xr12mI7VPn3-val",
-                      "Ta8ifRxwOmP-Xr12mI7VPn3-val",
-                      "jj5ZtVGdcwd-Xr12mI7VPn3-val"
-                    ]
-                  },
-                  {
-                    id: "MdkO4mttohH-drJDZnHzeBH-val",
-                    children: [
-                      "dFWlhArOcXj-drJDZnHzeBH-val",
-                      "rjQiZlCjHp6-drJDZnHzeBH-val",
-                      "J1gsCnLV1C6-drJDZnHzeBH-val"
-                    ]
-                  },
-                  {
-                    id: "MdkO4mttohH-VPShWMVpQkb-val",
-                    children: [
-                      "dFWlhArOcXj-VPShWMVpQkb-val",
-                      "rjQiZlCjHp6-VPShWMVpQkb-val",
-                      "J1gsCnLV1C6-VPShWMVpQkb-val"
-                    ]
-                  },
-                  {
-                    id: "MdkO4mttohH-xcotqxKxwlL-val",
-                    children: [
-                      "dFWlhArOcXj-xcotqxKxwlL-val",
-                      "rjQiZlCjHp6-xcotqxKxwlL-val",
-                      "J1gsCnLV1C6-xcotqxKxwlL-val"
-                    ]
-                  },
-                  //2 - Nursing Personnel
-                  {
-                    id: "sYJkQfzW1BG-Xr12mI7VPn3-val",
-                    children: [
-                      "LrG8CqG0mhV-Xr12mI7VPn3-val",
-                      "eEQkLvHHoSU-Xr12mI7VPn3-val",
-                      "CpUti69L5aW-Xr12mI7VPn3-val"
-                    ]
-                  },
-                  {
-                    id: "ixpABERkob0-drJDZnHzeBH-val",
-                    children: [
-                      "M1ZpUXbo7Ql-drJDZnHzeBH-val",
-                      "m7MTceflWz3-drJDZnHzeBH-val",
-                      "Osqz2NJoO0h-drJDZnHzeBH-val"
-                    ]
-                  },
-                  {
-                    id: "ixpABERkob0-VPShWMVpQkb-val",
-                    children: [
-                      "M1ZpUXbo7Ql-VPShWMVpQkb-val",
-                      "m7MTceflWz3-VPShWMVpQkb-val",
-                      "Osqz2NJoO0h-VPShWMVpQkb-val"
-                    ]
-                  },
-                  {
-                    id: "ixpABERkob0-xcotqxKxwlL-val",
-                    children: [
-                      "M1ZpUXbo7Ql-xcotqxKxwlL-val",
-                      "m7MTceflWz3-xcotqxKxwlL-val",
-                      "Osqz2NJoO0h-xcotqxKxwlL-val"
-                    ]
-                  },
-                  //3 - Midwifery personnel
-                  {
-                    id: "t5jOlOCqSr3-Xr12mI7VPn3-val",
-                    children: [
-                      "nBLlavpOdkF-Xr12mI7VPn3-val",
-                      "uHCDEltKEA6-Xr12mI7VPn3-val",
-                      "LPTrylkVM4Q-Xr12mI7VPn3-val"
-                    ]
-                  },
-                  {
-                    id: "U20BELNfToU-drJDZnHzeBH-val",
-                    children: [
-                      "Ml6HBooImtM-drJDZnHzeBH-val",
-                      "wQ1FfvMZU9a-drJDZnHzeBH-val",
-                      "uTwQaiIEDk6-drJDZnHzeBH-val"
-                    ]
-                  },
-                  {
-                    id: "U20BELNfToU-VPShWMVpQkb-val",
-                    children: [
-                      "Ml6HBooImtM-VPShWMVpQkb-val",
-                      "wQ1FfvMZU9a-VPShWMVpQkb-val",
-                      "uTwQaiIEDk6-VPShWMVpQkb-val"
-                    ]
-                  },
-                  {
-                    id: "U20BELNfToU-xcotqxKxwlL-val",
-                    children: [
-                      "Ml6HBooImtM-xcotqxKxwlL-val",
-                      "wQ1FfvMZU9a-xcotqxKxwlL-val",
-                      "uTwQaiIEDk6-xcotqxKxwlL-val"
-                    ]
-                  },
-                  //Demographic
-
-                  //1 - Medical Doctors
-                  {
-                    id: "GFfMM55sVzg-sAC6z2IMFrR-val",
-                    children: [
-                      "vCOrIolhyxP-sAC6z2IMFrR-val",
-                      "dxbj7q8MNNf-sAC6z2IMFrR-val",
-                      "tPCE4uhj0hy-sAC6z2IMFrR-val"
-                    ]
-                  },
-                  {
-                    id: "GFfMM55sVzg-F3kCvhpDnMM-val",
-                    children: [
-                      "vCOrIolhyxP-F3kCvhpDnMM-val",
-                      "dxbj7q8MNNf-F3kCvhpDnMM-val",
-                      "tPCE4uhj0hy-F3kCvhpDnMM-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-StFfGxHbuDF-val",
-                    children: [
-                      "I5EztFwNzC0-StFfGxHbuDF-val",
-                      "puzqoVkC9bH-StFfGxHbuDF-val",
-                      "jD7f0DfCi3d-StFfGxHbuDF-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-unqbIiA0uir-val",
-                    children: [
-                      "I5EztFwNzC0-unqbIiA0uir-val",
-                      "puzqoVkC9bH-unqbIiA0uir-val",
-                      "jD7f0DfCi3d-unqbIiA0uir-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-cMLHJtYTW40-val",
-                    children: [
-                      "I5EztFwNzC0-cMLHJtYTW40-val",
-                      "puzqoVkC9bH-cMLHJtYTW40-val",
-                      "jD7f0DfCi3d-cMLHJtYTW40-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-VioJV8V3lMO-val",
-                    children: [
-                      "I5EztFwNzC0-VioJV8V3lMO-val",
-                      "puzqoVkC9bH-VioJV8V3lMO-val",
-                      "jD7f0DfCi3d-VioJV8V3lMO-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-MYvkD09xyeq-val",
-                    children: [
-                      "I5EztFwNzC0-MYvkD09xyeq-val",
-                      "puzqoVkC9bH-MYvkD09xyeq-val",
-                      "jD7f0DfCi3d-MYvkD09xyeq-val"
-                    ]
-                  },
-                  {
-                    id: "v2CCdaKGum8-xIJxneZjiWm-val",
-                    children: [
-                      "I5EztFwNzC0-xIJxneZjiWm-val",
-                      "puzqoVkC9bH-xIJxneZjiWm-val",
-                      "jD7f0DfCi3d-xIJxneZjiWm-val"
-                    ]
-                  },
-                  //2 - Nursing Personnel
-                  {
-                    id: "wrceD1un08Y-sAC6z2IMFrR-val",
-                    children: [
-                      "ejrzC4bEJ5R-sAC6z2IMFrR-val",
-                      "oWqVbrpimjf-sAC6z2IMFrR-val",
-                      "VIWOOPfPUnX-sAC6z2IMFrR-val"
-                    ]
-                  },
-                  {
-                    id: "wrceD1un08Y-F3kCvhpDnMM-val",
-                    children: [
-                      "ejrzC4bEJ5R-F3kCvhpDnMM-val",
-                      "oWqVbrpimjf-F3kCvhpDnMM-val",
-                      "VIWOOPfPUnX-F3kCvhpDnMM-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-StFfGxHbuDF-val",
-                    children: [
-                      "BrtoXLjA4pi-StFfGxHbuDF-val",
-                      "NVuew7FtnQS-StFfGxHbuDF-val",
-                      "xpa2vZRWT7M-StFfGxHbuDF-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-unqbIiA0uir-val",
-                    children: [
-                      "BrtoXLjA4pi-unqbIiA0uir-val",
-                      "NVuew7FtnQS-unqbIiA0uir-val",
-                      "xpa2vZRWT7M-unqbIiA0uir-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-cMLHJtYTW40-val",
-                    children: [
-                      "BrtoXLjA4pi-cMLHJtYTW40-val",
-                      "NVuew7FtnQS-cMLHJtYTW40-val",
-                      "xpa2vZRWT7M-cMLHJtYTW40-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-VioJV8V3lMO-val",
-                    children: [
-                      "BrtoXLjA4pi-VioJV8V3lMO-val",
-                      "NVuew7FtnQS-VioJV8V3lMO-val",
-                      "xpa2vZRWT7M-VioJV8V3lMO-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-MYvkD09xyeq-val",
-                    children: [
-                      "BrtoXLjA4pi-MYvkD09xyeq-val",
-                      "NVuew7FtnQS-MYvkD09xyeq-val",
-                      "xpa2vZRWT7M-MYvkD09xyeq-val"
-                    ]
-                  },
-                  {
-                    id: "o1HqfAPcWtK-xIJxneZjiWm-val",
-                    children: [
-                      "BrtoXLjA4pi-xIJxneZjiWm-val",
-                      "NVuew7FtnQS-xIJxneZjiWm-val",
-                      "xpa2vZRWT7M-xIJxneZjiWm-val"
-                    ]
-                  },
-                  //3 - Midwifery personnel
-                  {
-                    id: "MazllecOrQC-sAC6z2IMFrR-val",
-                    children: [
-                      "tWbJWEUNu2F-sAC6z2IMFrR-val",
-                      "Gt3WTdWYUeJ-sAC6z2IMFrR-val",
-                      "arZWO8Ag3iO-sAC6z2IMFrR-val"
-                    ]
-                  },
-                  {
-                    id: "MazllecOrQC-F3kCvhpDnMM-val",
-                    children: [
-                      "tWbJWEUNu2F-F3kCvhpDnMM-val",
-                      "Gt3WTdWYUeJ-F3kCvhpDnMM-val",
-                      "arZWO8Ag3iO-F3kCvhpDnMM-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-StFfGxHbuDF-val",
-                    children: [
-                      "aOYOo12rVAs-StFfGxHbuDF-val",
-                      "uoqUo1n2Bbr-StFfGxHbuDF-val",
-                      "PRFVamHB0VQ-StFfGxHbuDF-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-unqbIiA0uir-val",
-                    children: [
-                      "aOYOo12rVAs-unqbIiA0uir-val",
-                      "uoqUo1n2Bbr-unqbIiA0uir-val",
-                      "PRFVamHB0VQ-unqbIiA0uir-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-cMLHJtYTW40-val",
-                    children: [
-                      "aOYOo12rVAs-cMLHJtYTW40-val",
-                      "uoqUo1n2Bbr-cMLHJtYTW40-val",
-                      "PRFVamHB0VQ-cMLHJtYTW40-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-VioJV8V3lMO-val",
-                    children: [
-                      "aOYOo12rVAs-VioJV8V3lMO-val",
-                      "uoqUo1n2Bbr-VioJV8V3lMO-val",
-                      "PRFVamHB0VQ-VioJV8V3lMO-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-MYvkD09xyeq-val",
-                    children: [
-                      "aOYOo12rVAs-MYvkD09xyeq-val",
-                      "uoqUo1n2Bbr-MYvkD09xyeq-val",
-                      "PRFVamHB0VQ-MYvkD09xyeq-val"
-                    ]
-                  },
-                  {
-                    id: "ZPgTreSg9Xd-xIJxneZjiWm-val",
-                    children: [
-                      "aOYOo12rVAs-xIJxneZjiWm-val",
-                      "uoqUo1n2Bbr-xIJxneZjiWm-val",
-                      "PRFVamHB0VQ-xIJxneZjiWm-val"
-                    ]
-                  },
-                  //Place of Birth and training
-
-                  //1 - Medical Doctors
-                  {
-                    id: "ifKISqV6PJh-XTvbzm2HwCZ-val",
-                    children: [
-                      "tjT8FgtoZmV-XTvbzm2HwCZ-val",
-                      "eWlZ0JPdgiX-XTvbzm2HwCZ-val",
-                      "JRLY2XBpopS-XTvbzm2HwCZ-val"
-                    ]
-                  },
-                  {
-                    id: "ifKISqV6PJh-uBsAlWtPLFK-val",
-                    children: [
-                      "tjT8FgtoZmV-uBsAlWtPLFK-val",
-                      "eWlZ0JPdgiX-uBsAlWtPLFK-val",
-                      "JRLY2XBpopS-uBsAlWtPLFK-val"
-                    ]
-                  },
-                  {
-                    id: "P7NeDYkZMDT-VxD9oa7UFFY-val",
-                    children: [
-                      "pS9QqWeC7OO-VxD9oa7UFFY-val",
-                      "cTz9crtzdvU-VxD9oa7UFFY-val",
-                      "EKWgav1YgFc-VxD9oa7UFFY-val"
-                    ]
-                  },
-                  {
-                    id: "P7NeDYkZMDT-GSHgapGzSnl-val",
-                    children: [
-                      "pS9QqWeC7OO-GSHgapGzSnl-val",
-                      "cTz9crtzdvU-GSHgapGzSnl-val",
-                      "EKWgav1YgFc-GSHgapGzSnl-val"
-                    ]
-                  },
-                  {
-                    id: "P7NeDYkZMDT-Ot71GbygcHf-val",
-                    children: [
-                      "pS9QqWeC7OO-Ot71GbygcHf-val",
-                      "cTz9crtzdvU-Ot71GbygcHf-val",
-                      "EKWgav1YgFc-Ot71GbygcHf-val"
-                    ]
-                  },
-                  //2 - Nursing Personnel
-                  {
-                    id: "HmD6AHanlbO-XTvbzm2HwCZ-val",
-                    children: [
-                      "oNyG3X3DPbz-XTvbzm2HwCZ-val",
-                      "ABy98AXLIvi-XTvbzm2HwCZ-val",
-                      "d3IcPgQbeH5-XTvbzm2HwCZ-val"
-                    ]
-                  },
-                  {
-                    id: "HmD6AHanlbO-uBsAlWtPLFK-val",
-                    children: [
-                      "oNyG3X3DPbz-uBsAlWtPLFK-val",
-                      "ABy98AXLIvi-uBsAlWtPLFK-val",
-                      "d3IcPgQbeH5-uBsAlWtPLFK-val"
-                    ]
-                  },
-                  {
-                    id: "qfVp6vFGOpZ-VxD9oa7UFFY-val",
-                    children: [
-                      "aVL32L9ycAJ-VxD9oa7UFFY-val",
-                      "Xya97JPAwJP-VxD9oa7UFFY-val",
-                      "lTZshHjGQEe-VxD9oa7UFFY-val"
-                    ]
-                  },
-                  {
-                    id: "qfVp6vFGOpZ-GSHgapGzSnl-val",
-                    children: [
-                      "aVL32L9ycAJ-GSHgapGzSnl-val",
-                      "Xya97JPAwJP-GSHgapGzSnl-val",
-                      "lTZshHjGQEe-GSHgapGzSnl-val"
-                    ]
-                  },
-                  {
-                    id: "qfVp6vFGOpZ-Ot71GbygcHf-val",
-                    children: [
-                      "aVL32L9ycAJ-Ot71GbygcHf-val",
-                      "Xya97JPAwJP-Ot71GbygcHf-val",
-                      "lTZshHjGQEe-Ot71GbygcHf-val"
-                    ]
-                  },
-                  //3 - Midwifery personnel
-                  {
-                    id: "qE7bXo1gdhI-XTvbzm2HwCZ-val",
-                    children: [
-                      "EnoivPEWUMM-XTvbzm2HwCZ-val",
-                      "mEaeC6W4Oga-XTvbzm2HwCZ-val",
-                      "u1aymSGFTqA-XTvbzm2HwCZ-val"
-                    ]
-                  },
-                  {
-                    id: "qE7bXo1gdhI-uBsAlWtPLFK-val",
-                    children: [
-                      "EnoivPEWUMM-uBsAlWtPLFK-val",
-                      "mEaeC6W4Oga-uBsAlWtPLFK-val",
-                      "u1aymSGFTqA-uBsAlWtPLFK-val"
-                    ]
-                  },
-                  {
-                    id: "Xw3tkU97nlR-VxD9oa7UFFY-val",
-                    children: [
-                      "yelUZHtyQ3J-VxD9oa7UFFY-val",
-                      "UTEeOMyhBoY-VxD9oa7UFFY-val",
-                      "ChqxKtGrHVA-VxD9oa7UFFY-val"
-                    ]
-                  },
-                  {
-                    id: "Xw3tkU97nlR-GSHgapGzSnl-val",
-                    children: [
-                      "yelUZHtyQ3J-GSHgapGzSnl-val",
-                      "UTEeOMyhBoY-GSHgapGzSnl-val",
-                      "ChqxKtGrHVA-GSHgapGzSnl-val"
-                    ]
-                  },
-                  {
-                    id: "Xw3tkU97nlR-Ot71GbygcHf-val",
-                    children: [
-                      "yelUZHtyQ3J-Ot71GbygcHf-val",
-                      "UTEeOMyhBoY-Ot71GbygcHf-val",
-                      "ChqxKtGrHVA-Ot71GbygcHf-val"
-                    ]
-                  },
-                  //Other indicators in Module 1
-
-                  //1 - Medical Doctors
-                  {
-                    id: "WsVBFxzWhi1-IMqululFzhP-val",
-                    children: [
-                      "Q7AJ1ykq09H-IMqululFzhP-val",
-                      "N6pEEiEpNS1-IMqululFzhP-val",
-                      "qScWuUGR5yF-IMqululFzhP-val"
-                    ]
-                  },
-                  {
-                    id: "WsVBFxzWhi1-N3nYJ6ScaYx-val",
-                    children: [
-                      "Q7AJ1ykq09H-N3nYJ6ScaYx-val",
-                      "N6pEEiEpNS1-N3nYJ6ScaYx-val",
-                      "qScWuUGR5yF-N3nYJ6ScaYx-val"
-                    ]
-                  },
-                  {
-                    id: "WsVBFxzWhi1-UKbfaRlqkpY-val",
-                    children: [
-                      "Q7AJ1ykq09H-UKbfaRlqkpY-val",
-                      "N6pEEiEpNS1-UKbfaRlqkpY-val",
-                      "qScWuUGR5yF-UKbfaRlqkpY-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-p3raMKTiHsj-val",
-                    children: [
-                      "TTLIv7PVhKo-p3raMKTiHsj-val",
-                      "PDI1LOtG5mD-p3raMKTiHsj-val",
-                      "tnPO3Tkofqr-p3raMKTiHsj-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-DyPeahMx1ww-val",
-                    children: [
-                      "TTLIv7PVhKo-DyPeahMx1ww-val",
-                      "PDI1LOtG5mD-DyPeahMx1ww-val",
-                      "tnPO3Tkofqr-DyPeahMx1ww-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-fJBWZdiQ1Vj-val",
-                    children: [
-                      "TTLIv7PVhKo-fJBWZdiQ1Vj-val",
-                      "PDI1LOtG5mD-fJBWZdiQ1Vj-val",
-                      "tnPO3Tkofqr-fJBWZdiQ1Vj-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-Vy4zROU78hr-val",
-                    children: [
-                      "TTLIv7PVhKo-Vy4zROU78hr-val",
-                      "PDI1LOtG5mD-Vy4zROU78hr-val",
-                      "tnPO3Tkofqr-Vy4zROU78hr-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-SbearYuCfX5-val",
-                    children: [
-                      "TTLIv7PVhKo-SbearYuCfX5-val",
-                      "PDI1LOtG5mD-SbearYuCfX5-val",
-                      "tnPO3Tkofqr-SbearYuCfX5-val"
-                    ]
-                  },
-                  {
-                    id: "nLbuvx5jioD-TCVfWydCsa4-val",
-                    children: [
-                      "TTLIv7PVhKo-TCVfWydCsa4-val",
-                      "PDI1LOtG5mD-TCVfWydCsa4-val",
-                      "tnPO3Tkofqr-TCVfWydCsa4-val"
-                    ]
-                  },
-                  //2 - Nursing Personnel
-                  {
-                    id: "KGnMzMLw9z0-IMqululFzhP-val",
-                    children: [
-                      "HU1QlB34WcG-IMqululFzhP-val",
-                      "O7xuokSXg4m-IMqululFzhP-val",
-                      "YvRkyv7LXzq-IMqululFzhP-val"
-                    ]
-                  },
-                  {
-                    id: "KGnMzMLw9z0-N3nYJ6ScaYx-val",
-                    children: [
-                      "HU1QlB34WcG-N3nYJ6ScaYx-val",
-                      "O7xuokSXg4m-N3nYJ6ScaYx-val",
-                      "YvRkyv7LXzq-N3nYJ6ScaYx-val"
-                    ]
-                  },
-                  {
-                    id: "KGnMzMLw9z0-UKbfaRlqkpY-val",
-                    children: [
-                      "HU1QlB34WcG-UKbfaRlqkpY-val",
-                      "O7xuokSXg4m-UKbfaRlqkpY-val",
-                      "YvRkyv7LXzq-UKbfaRlqkpY-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-p3raMKTiHsj-val",
-                    children: [
-                      "cROoQk16jlH-p3raMKTiHsj-val",
-                      "mZVNxEL1OKd-p3raMKTiHsj-val",
-                      "e7mFNsyiTtQ-p3raMKTiHsj-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-DyPeahMx1ww-val",
-                    children: [
-                      "cROoQk16jlH-DyPeahMx1ww-val",
-                      "mZVNxEL1OKd-DyPeahMx1ww-val",
-                      "e7mFNsyiTtQ-DyPeahMx1ww-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-fJBWZdiQ1Vj-val",
-                    children: [
-                      "cROoQk16jlH-fJBWZdiQ1Vj-val",
-                      "mZVNxEL1OKd-fJBWZdiQ1Vj-val",
-                      "e7mFNsyiTtQ-fJBWZdiQ1Vj-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-Vy4zROU78hr-val",
-                    children: [
-                      "cROoQk16jlH-Vy4zROU78hr-val",
-                      "mZVNxEL1OKd-Vy4zROU78hr-val",
-                      "e7mFNsyiTtQ-Vy4zROU78hr-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-SbearYuCfX5-val",
-                    children: [
-                      "cROoQk16jlH-SbearYuCfX5-val",
-                      "mZVNxEL1OKd-SbearYuCfX5-val",
-                      "e7mFNsyiTtQ-SbearYuCfX5-val"
-                    ]
-                  },
-                  {
-                    id: "GuIr410uu6E-TCVfWydCsa4-val",
-                    children: [
-                      "cROoQk16jlH-TCVfWydCsa4-val",
-                      "mZVNxEL1OKd-TCVfWydCsa4-val",
-                      "e7mFNsyiTtQ-TCVfWydCsa4-val"
-                    ]
-                  },
-                  //3 - Midwifery personnel
-                  {
-                    id: "qCRmLPzIMfA-IMqululFzhP-val",
-                    children: [
-                      "i54ywgixjhp-IMqululFzhP-val",
-                      "O9FGiWCttH4-IMqululFzhP-val",
-                      "GeB8aO0VMdh-IMqululFzhP-val"
-                    ]
-                  },
-                  {
-                    id: "qCRmLPzIMfA-N3nYJ6ScaYx-val",
-                    children: [
-                      "i54ywgixjhp-N3nYJ6ScaYx-val",
-                      "O9FGiWCttH4-N3nYJ6ScaYx-val",
-                      "GeB8aO0VMdh-N3nYJ6ScaYx-val"
-                    ]
-                  },
-                  {
-                    id: "qCRmLPzIMfA-UKbfaRlqkpY-val",
-                    children: [
-                      "i54ywgixjhp-UKbfaRlqkpY-val",
-                      "O9FGiWCttH4-UKbfaRlqkpY-val",
-                      "GeB8aO0VMdh-UKbfaRlqkpY-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-p3raMKTiHsj-val",
-                    children: [
-                      "lguPmuZBWDk-p3raMKTiHsj-val",
-                      "u7WSQpbLBGs-p3raMKTiHsj-val",
-                      "ezAgi6u5Qta-p3raMKTiHsj-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-DyPeahMx1ww-val",
-                    children: [
-                      "lguPmuZBWDk-DyPeahMx1ww-val",
-                      "u7WSQpbLBGs-DyPeahMx1ww-val",
-                      "ezAgi6u5Qta-DyPeahMx1ww-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-fJBWZdiQ1Vj-val",
-                    children: [
-                      "lguPmuZBWDk-fJBWZdiQ1Vj-val",
-                      "u7WSQpbLBGs-fJBWZdiQ1Vj-val",
-                      "ezAgi6u5Qta-fJBWZdiQ1Vj-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-Vy4zROU78hr-val",
-                    children: [
-                      "lguPmuZBWDk-Vy4zROU78hr-val",
-                      "u7WSQpbLBGs-Vy4zROU78hr-val",
-                      "ezAgi6u5Qta-Vy4zROU78hr-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-SbearYuCfX5-val",
-                    children: [
-                      "lguPmuZBWDk-SbearYuCfX5-val",
-                      "u7WSQpbLBGs-SbearYuCfX5-val",
-                      "ezAgi6u5Qta-SbearYuCfX5-val"
-                    ]
-                  },
-                  {
-                    id: "iLowQAmnmZK-TCVfWydCsa4-val",
-                    children: [
-                      "lguPmuZBWDk-TCVfWydCsa4-val",
-                      "u7WSQpbLBGs-TCVfWydCsa4-val",
-                      "ezAgi6u5Qta-TCVfWydCsa4-val"
-                    ]
-                  }
-                ];
-                const calculatedCheckboxCells = [
-                  //Working Details
-                  //1 - Medical Doctors
-                  {
-                    id: "fEck0UnAFaV-LvGn3KFEzvA-val",
-                    children: [
-                      "idY7moseTTD-LvGn3KFEzvA-val",
-                      "RfqYbGs8Za9-LvGn3KFEzvA-val",
-                      "pSRNRBuOBi8-LvGn3KFEzvA-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-MXfWGD11wLh-val",
-                    children: [
-                      "idY7moseTTD-MXfWGD11wLh-val",
-                      "RfqYbGs8Za9-MXfWGD11wLh-val",
-                      "pSRNRBuOBi8-MXfWGD11wLh-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-hC2N9T8F5JD-val",
-                    children: [
-                      "idY7moseTTD-hC2N9T8F5JD-val",
-                      "RfqYbGs8Za9-hC2N9T8F5JD-val",
-                      "pSRNRBuOBi8-hC2N9T8F5JD-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-wcnRf5LJrnK-val",
-                    children: [
-                      "idY7moseTTD-wcnRf5LJrnK-val",
-                      "RfqYbGs8Za9-wcnRf5LJrnK-val",
-                      "pSRNRBuOBi8-wcnRf5LJrnK-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-eWjpUQpzWKX-val",
-                    children: [
-                      "idY7moseTTD-eWjpUQpzWKX-val",
-                      "RfqYbGs8Za9-eWjpUQpzWKX-val",
-                      "pSRNRBuOBi8-eWjpUQpzWKX-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-rEUC186wftQ-val",
-                    children: [
-                      "idY7moseTTD-rEUC186wftQ-val",
-                      "RfqYbGs8Za9-rEUC186wftQ-val",
-                      "pSRNRBuOBi8-rEUC186wftQ-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-ADfCJWnnU2O-val",
-                    children: [
-                      "idY7moseTTD-ADfCJWnnU2O-val",
-                      "RfqYbGs8Za9-ADfCJWnnU2O-val",
-                      "pSRNRBuOBi8-ADfCJWnnU2O-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-IhnQTXo2sCi-val",
-                    children: [
-                      "idY7moseTTD-IhnQTXo2sCi-val",
-                      "RfqYbGs8Za9-IhnQTXo2sCi-val",
-                      "pSRNRBuOBi8-IhnQTXo2sCi-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-bj9TvyIDtwi-val",
-                    children: [
-                      "idY7moseTTD-bj9TvyIDtwi-val",
-                      "RfqYbGs8Za9-bj9TvyIDtwi-val",
-                      "pSRNRBuOBi8-bj9TvyIDtwi-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-lcB0UtS4nuB-val",
-                    children: [
-                      "idY7moseTTD-lcB0UtS4nuB-val",
-                      "RfqYbGs8Za9-lcB0UtS4nuB-val",
-                      "pSRNRBuOBi8-lcB0UtS4nuB-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-P5jMO9Y0SRn-val",
-                    children: [
-                      "idY7moseTTD-P5jMO9Y0SRn-val",
-                      "RfqYbGs8Za9-P5jMO9Y0SRn-val",
-                      "pSRNRBuOBi8-P5jMO9Y0SRn-val"
-                    ]
-                  },
-                  {
-                    id: "fEck0UnAFaV-xgbBSeyiDWp-val",
-                    children: [
-                      "idY7moseTTD-xgbBSeyiDWp-val",
-                      "RfqYbGs8Za9-xgbBSeyiDWp-val",
-                      "pSRNRBuOBi8-xgbBSeyiDWp-val"
-                    ]
-                  },
-                  //2 - Nursing Personnel
-                  {
-                    id: "yrP0fOB2Yxv-LvGn3KFEzvA-val",
-                    children: [
-                      "dutH7uvTAut-LvGn3KFEzvA-val",
-                      "vtidz1k9BOw-LvGn3KFEzvA-val",
-                      "MFUxfSaYW2e-LvGn3KFEzvA-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-MXfWGD11wLh-val",
-                    children: [
-                      "dutH7uvTAut-MXfWGD11wLh-val",
-                      "vtidz1k9BOw-MXfWGD11wLh-val",
-                      "MFUxfSaYW2e-MXfWGD11wLh-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-hC2N9T8F5JD-val",
-                    children: [
-                      "dutH7uvTAut-hC2N9T8F5JD-val",
-                      "vtidz1k9BOw-hC2N9T8F5JD-val",
-                      "MFUxfSaYW2e-hC2N9T8F5JD-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-wcnRf5LJrnK-val",
-                    children: [
-                      "dutH7uvTAut-wcnRf5LJrnK-val",
-                      "vtidz1k9BOw-wcnRf5LJrnK-val",
-                      "MFUxfSaYW2e-wcnRf5LJrnK-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-eWjpUQpzWKX-val",
-                    children: [
-                      "dutH7uvTAut-eWjpUQpzWKX-val",
-                      "vtidz1k9BOw-eWjpUQpzWKX-val",
-                      "MFUxfSaYW2e-eWjpUQpzWKX-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-rEUC186wftQ-val",
-                    children: [
-                      "dutH7uvTAut-rEUC186wftQ-val",
-                      "vtidz1k9BOw-rEUC186wftQ-val",
-                      "MFUxfSaYW2e-rEUC186wftQ-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-ADfCJWnnU2O-val",
-                    children: [
-                      "dutH7uvTAut-ADfCJWnnU2O-val",
-                      "vtidz1k9BOw-ADfCJWnnU2O-val",
-                      "MFUxfSaYW2e-ADfCJWnnU2O-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-IhnQTXo2sCi-val",
-                    children: [
-                      "dutH7uvTAut-IhnQTXo2sCi-val",
-                      "vtidz1k9BOw-IhnQTXo2sCi-val",
-                      "MFUxfSaYW2e-IhnQTXo2sCi-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-bj9TvyIDtwi-val",
-                    children: [
-                      "dutH7uvTAut-bj9TvyIDtwi-val",
-                      "vtidz1k9BOw-bj9TvyIDtwi-val",
-                      "MFUxfSaYW2e-bj9TvyIDtwi-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-lcB0UtS4nuB-val",
-                    children: [
-                      "dutH7uvTAut-lcB0UtS4nuB-val",
-                      "vtidz1k9BOw-lcB0UtS4nuB-val",
-                      "MFUxfSaYW2e-lcB0UtS4nuB-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-P5jMO9Y0SRn-val",
-                    children: [
-                      "dutH7uvTAut-P5jMO9Y0SRn-val",
-                      "vtidz1k9BOw-P5jMO9Y0SRn-val",
-                      "MFUxfSaYW2e-P5jMO9Y0SRn-val"
-                    ]
-                  },
-                  {
-                    id: "yrP0fOB2Yxv-xgbBSeyiDWp-val",
-                    children: [
-                      "dutH7uvTAut-xgbBSeyiDWp-val",
-                      "vtidz1k9BOw-xgbBSeyiDWp-val",
-                      "MFUxfSaYW2e-xgbBSeyiDWp-val"
-                    ]
-                  },
-                  //3 - Midwifery personnel
-                  {
-                    id: "l1mCEuDf2ZI-LvGn3KFEzvA-val",
-                    children: [
-                      "ud6YiQ9ekgi-LvGn3KFEzvA-val",
-                      "LKiTYPmaOhj-LvGn3KFEzvA-val",
-                      "vnulYqEDjxA-LvGn3KFEzvA-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-MXfWGD11wLh-val",
-                    children: [
-                      "ud6YiQ9ekgi-MXfWGD11wLh-val",
-                      "LKiTYPmaOhj-MXfWGD11wLh-val",
-                      "vnulYqEDjxA-MXfWGD11wLh-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-hC2N9T8F5JD-val",
-                    children: [
-                      "ud6YiQ9ekgi-hC2N9T8F5JD-val",
-                      "LKiTYPmaOhj-hC2N9T8F5JD-val",
-                      "vnulYqEDjxA-hC2N9T8F5JD-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-wcnRf5LJrnK-val",
-                    children: [
-                      "ud6YiQ9ekgi-wcnRf5LJrnK-val",
-                      "LKiTYPmaOhj-wcnRf5LJrnK-val",
-                      "vnulYqEDjxA-wcnRf5LJrnK-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-eWjpUQpzWKX-val",
-                    children: [
-                      "ud6YiQ9ekgi-eWjpUQpzWKX-val",
-                      "LKiTYPmaOhj-eWjpUQpzWKX-val",
-                      "vnulYqEDjxA-eWjpUQpzWKX-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-rEUC186wftQ-val",
-                    children: [
-                      "ud6YiQ9ekgi-rEUC186wftQ-val",
-                      "LKiTYPmaOhj-rEUC186wftQ-val",
-                      "vnulYqEDjxA-rEUC186wftQ-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-ADfCJWnnU2O-val",
-                    children: [
-                      "ud6YiQ9ekgi-ADfCJWnnU2O-val",
-                      "LKiTYPmaOhj-ADfCJWnnU2O-val",
-                      "vnulYqEDjxA-ADfCJWnnU2O-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-IhnQTXo2sCi-val",
-                    children: [
-                      "ud6YiQ9ekgi-IhnQTXo2sCi-val",
-                      "LKiTYPmaOhj-IhnQTXo2sCi-val",
-                      "vnulYqEDjxA-IhnQTXo2sCi-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-bj9TvyIDtwi-val",
-                    children: [
-                      "ud6YiQ9ekgi-bj9TvyIDtwi-val",
-                      "LKiTYPmaOhj-bj9TvyIDtwi-val",
-                      "vnulYqEDjxA-bj9TvyIDtwi-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-lcB0UtS4nuB-val",
-                    children: [
-                      "ud6YiQ9ekgi-lcB0UtS4nuB-val",
-                      "LKiTYPmaOhj-lcB0UtS4nuB-val",
-                      "vnulYqEDjxA-lcB0UtS4nuB-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-P5jMO9Y0SRn-val",
-                    children: [
-                      "ud6YiQ9ekgi-P5jMO9Y0SRn-val",
-                      "LKiTYPmaOhj-P5jMO9Y0SRn-val",
-                      "vnulYqEDjxA-P5jMO9Y0SRn-val"
-                    ]
-                  },
-                  {
-                    id: "l1mCEuDf2ZI-xgbBSeyiDWp-val",
-                    children: [
-                      "ud6YiQ9ekgi-xgbBSeyiDWp-val",
-                      "LKiTYPmaOhj-xgbBSeyiDWp-val",
-                      "vnulYqEDjxA-xgbBSeyiDWp-val"
-                    ]
-                  }
-                ];
-                const module1TotalsTable = $("#module1TotalsTable").DataTable({
-                  dom: "Bfrtip",
-                  order: [
-                    [3, "asc"],
-                    [2, "asc"]
-                  ],
-                  rowGroup: {
-                    dataSrc: [3, 2]
-                  },
-                  buttons: {
-                    buttons: [
-                      {
-                        text: "Fix all incorrect values",
-                        action: function(e, dt, node, config) {
-                          if (correctDataValues !== undefined) {
-                            $("#loading").show();
-                            console.log(correctDataValues);
-                            this.disable();
-                            $.ajax({
-                              type: "POST",
-                              url: baseUrl + "/api/dataValueSets",
-                              dataType: "json",
-                              headers: {
-                                Accept: "application/json",
-                                "Content-Type": "application/json"
-                              },
-                              data: JSON.stringify({
-                                dataElementIdScheme: "UID",
-                                dataValues: correctDataValues,
-                                idScheme: "UID",
-                                orgUnitIdScheme: "UID"
-                              }),
-                              xhrFields: {
-                                withCredentials: true
-                              },
-                              crossDomain: isDevelopment,
-                              success: function(response) {
-                                console.log(response);
-                                alert(
-                                  `Status: ${response.status}\n` +
-                                    `Overview: ${response.description}\n` +
-                                    `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                                    `\n${
-                                      response.conflicts
-                                        ? response.conflicts.map(
-                                            e => "CONFLICT: " + e.value + "\n"
-                                          )
-                                        : ""
-                                    }`
-                                );
-                                $("#loading").hide();
-                                location.reload();
-                              }
-                            });
-                            this.disable();
-                          } else {
-                            alert("Still loading data, please wait!");
-                          }
-                        }
-                      }
-                    ]
-                  }
-                });
-
-                $("#loading").show();
-
-                $.ajax({
-                  type: "GET",
-                  dataType: "json",
-                  url:
-                    baseUrl +
-                    "/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits",
-                  xhrFields: {
-                    withCredentials: true
-                  },
-                  crossDomain: isDevelopment,
-                  success: function(data) {
-                    const orgUnits = data.organisationUnits
-                      .map(({ id }) => id)
-                      .join(",");
-
-                    $.ajax({
-                      type: "GET",
-                      dataType: "json",
-                      url:
-                        baseUrl +
-                        "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
-                        orgUnits,
-                      xhrFields: {
-                        withCredentials: true
-                      },
-                      crossDomain: isDevelopment,
-                      success: function(data) {
-                        const promises = _(data.dataValues)
-                          .map(e => [
-                            e.dataElement,
-                            e.categoryOptionCombo,
-                            e.orgUnit
-                          ])
-                          .flatten()
-                          .uniq()
-                          .chunk(250)
-                          .map(e =>
-                            $.get(
-                              baseUrl +
-                                "/api/metadata.json?fields=id,name&filter=id:in:[" +
-                                e.join(",") +
-                                "]"
-                            )
-                          )
-                          .value();
-
-                        Promise.all(promises).then(values => {
-                          const metadata = _(values)
-                            .map(e =>
-                              _(e)
-                                .filter(_.isArray)
-                                .value()
-                            )
-                            .flattenDeep()
-                            .keyBy("id")
-                            .mapValues("name")
-                            .value();
-
-                          const dataValues = _(data.dataValues)
-                            .groupBy(
-                              element =>
-                                `${element.dataElement}-${element.categoryOptionCombo}-val`
-                            )
-                            .value();
-
-                          const result = _(calculatedNumericCells)
-                            .map(total => {
-                              const providedValues = _(dataValues[total.id])
-                                .groupBy(
-                                  element =>
-                                    `${element.period}-${element.orgUnit}-val`
-                                )
-                                .mapValues(values =>
-                                  _.sumBy(values, e => parseFloat(e.value))
-                                )
-                                .value();
-                              const calculatedValues = _(total.children)
-                                .map(e =>
-                                  !!dataValues[e] ? dataValues[e] : []
-                                )
-                                .flatten()
-                                .groupBy(
-                                  element =>
-                                    `${element.period}-${element.orgUnit}-val`
-                                )
-                                .mapValues(values =>
-                                  _.sumBy(values, e => parseFloat(e.value || 0))
-                                )
-                                .value();
-
-                              const result = _(_.keys(providedValues))
-                                .union(_.keys(calculatedValues))
-                                .map(period => {
-                                  const calculatedValue =
-                                    !isNaN(calculatedValues[period]) &&
-                                    calculatedValues[period] !== 0
-                                      ? calculatedValues[period]
-                                      : undefined;
-
-                                  const providedValue =
-                                    !isNaN(providedValues[period]) &&
-                                    providedValues[period] !== 0
-                                      ? providedValues[period]
-                                      : undefined;
-
-                                  if (calculatedValue !== providedValue) {
-                                    return {
-                                      dataElement: total.id.split("-")[0],
-                                      categoryOptionCombo: total.id.split(
-                                        "-"
-                                      )[1],
-                                      period: period.split("-")[0],
-                                      orgUnit: period.split("-")[1],
-                                      value: calculatedValue || 0,
-                                      originalValue: providedValue,
-                                      sum: total.children
-                                        .map(e => {
-                                          const dataValue = _.find(
-                                            dataValues[e],
-                                            {
-                                              dataElement: e.split("-")[0],
-                                              categoryOptionCombo: e.split(
-                                                "-"
-                                              )[1],
-                                              period: period.split("-")[0],
-                                              orgUnit: period.split("-")[1]
-                                            }
-                                          );
-                                          return dataValue && dataValue.value
-                                            ? dataValue.value
-                                            : 0;
-                                        })
-                                        .join(" + ")
-                                    };
-                                  } else {
-                                    return null;
-                                  }
-                                })
-                                .compact()
-                                .value();
-                              return result;
-                            })
-                            .flatten()
-                            .compact()
-                            .value();
-
-                          correctDataValues = result;
-
-                          result.forEach(function(element) {
-                            module1TotalsTable.row.add([
-                              metadata[element.dataElement],
-                              metadata[element.categoryOptionCombo],
-                              element.period,
-                              metadata[element.orgUnit],
-                              `${element.sum} = ${element.value}`,
-                              element.originalValue
-                                ? element.originalValue
-                                : "-"
-                            ]);
-                          });
-                          module1TotalsTable.draw();
-
-                          $("#loading").hide();
-                        });
-                      }
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=ce9c6db"
+        ></script>
+        <script>
+            $.ajaxSetup({
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("X-Requested-With", {
+                        toString: function () {
+                            return "";
+                        },
                     });
-                  }
-                });
-              });
+                },
+            });
+        </script>
+
+        <!-- Menu dependencies -->
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/react-15/react-15.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"
+        ></script>
+        <!-- Menu script is up here due to perceived loading time increase -->
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"
+        ></script>
+        <script>
+            // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
+            jQuery(function () {
+                try {
+                    if ("Dhis2HeaderBar" in window) {
+                        Dhis2HeaderBar.initHeaderBar(document.querySelector("#header"), undefined, {
+                            noLoadingIndicator: true,
+                        });
+                    }
+                } catch (e) {
+                    if ("console" in window) {
+                        console.error(e);
+                    }
+                }
+            });
+        </script>
+        <!-- // End menu -->
+        <!--[if lte IE 8
+            ]><script
+                type="text/javascript"
+                src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"
+            ></script
+        ><![endif]-->
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/filesize.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/commons.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/commons.ajax.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/lists.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/periodType.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/date.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/json2.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/validationRules.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/moment/moment-with-langs.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/select2/select2.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.period.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.picker.min.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.selected.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.comparator.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.availability.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.trigger.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.sharing.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.validation.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ss.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ls.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.idb.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.memory.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.contextmenu.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.appcache.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/javascripts/dhis2/dhis2.translate.js?_rev=ce9c6db"
+        ></script>
+        <script
+            type="text/javascript"
+            src="../dhis-web-commons/i18nJavaScript.action?_rev=ce9c6db"
+        ></script>
+        <script type="text/javascript" src="../main.js?_rev=ce9c6db"></script>
+        <script type="text/javascript" src="../request.js?_rev=ce9c6db"></script>
+
+        <script type="text/javascript" src="../api/files/script?_rev=ce9c6db"></script>
+        <!-- Create global system calendar -->
+        <script>
+            dhis2.period.format = "yyyy-mm-dd";
+            dhis2.period.calendar = $.calendars.instance("gregorian");
+            dhis2.period.generator = new dhis2.period.PeriodGenerator(
+                dhis2.period.calendar,
+                dhis2.period.format
+            );
+            dhis2.period.picker = new dhis2.period.DatePicker(
+                dhis2.period.calendar,
+                dhis2.period.format
+            );
+        </script>
+    </head>
+
+    <body>
+        <div id="header">
+            <img
+                id="headerBanner"
+                src="../api/staticContent/logo_banner"
+                onclick="window.location.href='../dhis-web-commons-about/redirect.action'"
+                style="cursor: pointer"
+                title="View home page"
+            />
+
+            <div id="dhisDropDownMenu"></div>
+        </div>
+        <span id="showLeftBar">
+            <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
+                <i class="fa fa-arrow-right leftBarIcon"></i>
+            </a>
+        </span>
+
+        <style type="text/css">
+            #mainPage {
+                margin-left: 20px;
+            }
+        </style>
+
+        <div id="headerMessage" class="bold"></div>
+
+        <div class="page" id="mainPage">
+            <script type="text/javascript">
+                dhis2.util.namespace("dhis2.report");
+
+                dhis2.report.organisationUnit = {};
+
+                dhis2.report.organisationUnitHierarchy = [];
+
+                dhis2.report.organisationUnitChildren = [];
+
+                dhis2.report.date = "";
+
+                dhis2.report.periods = [];
             </script>
-          </head>
 
-          <body>
-            <div class="gridDiv">
-              <h3>
-                Module 1 totals with missing sum or sum that does not match the
-                auto-calculated
-              </h3>
-              <table class="listTable gridTable" id="module1TotalsTable">
-                <thead>
-                  <tr>
-                    <th>Data element</th>
-                    <th>Category option combo</th>
-                    <th>Period</th>
-                    <th>Organisation unit</th>
-                    <th>Correct value</th>
-                    <th>Current value</th>
-                  </tr>
-                </thead>
-              </table>
+            <div>
+                <html>
+                    <head>
+                        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
+                        />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+                        />
+                        <link
+                            rel="stylesheet"
+                            href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css"
+                        />
+                        <style type="text/css">
+                            .gridDiv {
+                                font-family: sans-serif, arial;
+                            }
+
+                            table.gridTable {
+                                border-collapse: collapse;
+                                font-size: 11pt;
+                            }
+
+                            .gridTable th,
+                            .gridTable td {
+                                padding: 8px 4px 7px 4px;
+                                border: 1px solid #e7e7e7;
+                            }
+
+                            .gridTable th {
+                                background-color: #f3f3f3;
+                                font-weight: bold;
+                            }
+                        </style>
+                        <script
+                            src="https://code.jquery.com/jquery-3.4.1.min.js"
+                            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+                            crossorigin="anonymous"
+                        ></script>
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
+                            integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+                            crossorigin="anonymous"
+                        ></script>
+                        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+                        <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+                        <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
+                        <script type="text/javascript">
+                            var correctDataValues = undefined;
+                            $(document).ready(function () {
+                                const isDevelopment = false;
+                                const baseUrl = isDevelopment
+                                    ? "http://taris.sferadev.com:9004"
+                                    : "..";
+
+                                // Build "totals that do not match" table
+                                const calculatedNumericCells = [
+                                    //Working Details
+
+                                    //1 - Medical Doctors
+                                    {
+                                        id: "h6VJJu0W8U7-Xr12mI7VPn3-val",
+                                        children: [
+                                            "Yxkvq7nmosQ-Xr12mI7VPn3-val",
+                                            "Ta8ifRxwOmP-Xr12mI7VPn3-val",
+                                            "jj5ZtVGdcwd-Xr12mI7VPn3-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "MdkO4mttohH-drJDZnHzeBH-val",
+                                        children: [
+                                            "dFWlhArOcXj-drJDZnHzeBH-val",
+                                            "rjQiZlCjHp6-drJDZnHzeBH-val",
+                                            "J1gsCnLV1C6-drJDZnHzeBH-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "MdkO4mttohH-VPShWMVpQkb-val",
+                                        children: [
+                                            "dFWlhArOcXj-VPShWMVpQkb-val",
+                                            "rjQiZlCjHp6-VPShWMVpQkb-val",
+                                            "J1gsCnLV1C6-VPShWMVpQkb-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "MdkO4mttohH-xcotqxKxwlL-val",
+                                        children: [
+                                            "dFWlhArOcXj-xcotqxKxwlL-val",
+                                            "rjQiZlCjHp6-xcotqxKxwlL-val",
+                                            "J1gsCnLV1C6-xcotqxKxwlL-val",
+                                        ],
+                                    },
+                                    //2 - Nursing Personnel
+                                    {
+                                        id: "sYJkQfzW1BG-Xr12mI7VPn3-val",
+                                        children: [
+                                            "LrG8CqG0mhV-Xr12mI7VPn3-val",
+                                            "eEQkLvHHoSU-Xr12mI7VPn3-val",
+                                            "CpUti69L5aW-Xr12mI7VPn3-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ixpABERkob0-drJDZnHzeBH-val",
+                                        children: [
+                                            "M1ZpUXbo7Ql-drJDZnHzeBH-val",
+                                            "m7MTceflWz3-drJDZnHzeBH-val",
+                                            "Osqz2NJoO0h-drJDZnHzeBH-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ixpABERkob0-VPShWMVpQkb-val",
+                                        children: [
+                                            "M1ZpUXbo7Ql-VPShWMVpQkb-val",
+                                            "m7MTceflWz3-VPShWMVpQkb-val",
+                                            "Osqz2NJoO0h-VPShWMVpQkb-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ixpABERkob0-xcotqxKxwlL-val",
+                                        children: [
+                                            "M1ZpUXbo7Ql-xcotqxKxwlL-val",
+                                            "m7MTceflWz3-xcotqxKxwlL-val",
+                                            "Osqz2NJoO0h-xcotqxKxwlL-val",
+                                        ],
+                                    },
+                                    //3 - Midwifery personnel
+                                    {
+                                        id: "t5jOlOCqSr3-Xr12mI7VPn3-val",
+                                        children: [
+                                            "nBLlavpOdkF-Xr12mI7VPn3-val",
+                                            "uHCDEltKEA6-Xr12mI7VPn3-val",
+                                            "LPTrylkVM4Q-Xr12mI7VPn3-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "U20BELNfToU-drJDZnHzeBH-val",
+                                        children: [
+                                            "Ml6HBooImtM-drJDZnHzeBH-val",
+                                            "wQ1FfvMZU9a-drJDZnHzeBH-val",
+                                            "uTwQaiIEDk6-drJDZnHzeBH-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "U20BELNfToU-VPShWMVpQkb-val",
+                                        children: [
+                                            "Ml6HBooImtM-VPShWMVpQkb-val",
+                                            "wQ1FfvMZU9a-VPShWMVpQkb-val",
+                                            "uTwQaiIEDk6-VPShWMVpQkb-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "U20BELNfToU-xcotqxKxwlL-val",
+                                        children: [
+                                            "Ml6HBooImtM-xcotqxKxwlL-val",
+                                            "wQ1FfvMZU9a-xcotqxKxwlL-val",
+                                            "uTwQaiIEDk6-xcotqxKxwlL-val",
+                                        ],
+                                    },
+                                    //Demographic
+
+                                    //1 - Medical Doctors
+                                    {
+                                        id: "GFfMM55sVzg-sAC6z2IMFrR-val",
+                                        children: [
+                                            "vCOrIolhyxP-sAC6z2IMFrR-val",
+                                            "dxbj7q8MNNf-sAC6z2IMFrR-val",
+                                            "tPCE4uhj0hy-sAC6z2IMFrR-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GFfMM55sVzg-F3kCvhpDnMM-val",
+                                        children: [
+                                            "vCOrIolhyxP-F3kCvhpDnMM-val",
+                                            "dxbj7q8MNNf-F3kCvhpDnMM-val",
+                                            "tPCE4uhj0hy-F3kCvhpDnMM-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-StFfGxHbuDF-val",
+                                        children: [
+                                            "I5EztFwNzC0-StFfGxHbuDF-val",
+                                            "puzqoVkC9bH-StFfGxHbuDF-val",
+                                            "jD7f0DfCi3d-StFfGxHbuDF-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-unqbIiA0uir-val",
+                                        children: [
+                                            "I5EztFwNzC0-unqbIiA0uir-val",
+                                            "puzqoVkC9bH-unqbIiA0uir-val",
+                                            "jD7f0DfCi3d-unqbIiA0uir-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-cMLHJtYTW40-val",
+                                        children: [
+                                            "I5EztFwNzC0-cMLHJtYTW40-val",
+                                            "puzqoVkC9bH-cMLHJtYTW40-val",
+                                            "jD7f0DfCi3d-cMLHJtYTW40-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-VioJV8V3lMO-val",
+                                        children: [
+                                            "I5EztFwNzC0-VioJV8V3lMO-val",
+                                            "puzqoVkC9bH-VioJV8V3lMO-val",
+                                            "jD7f0DfCi3d-VioJV8V3lMO-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-MYvkD09xyeq-val",
+                                        children: [
+                                            "I5EztFwNzC0-MYvkD09xyeq-val",
+                                            "puzqoVkC9bH-MYvkD09xyeq-val",
+                                            "jD7f0DfCi3d-MYvkD09xyeq-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "v2CCdaKGum8-xIJxneZjiWm-val",
+                                        children: [
+                                            "I5EztFwNzC0-xIJxneZjiWm-val",
+                                            "puzqoVkC9bH-xIJxneZjiWm-val",
+                                            "jD7f0DfCi3d-xIJxneZjiWm-val",
+                                        ],
+                                    },
+                                    //2 - Nursing Personnel
+                                    {
+                                        id: "wrceD1un08Y-sAC6z2IMFrR-val",
+                                        children: [
+                                            "ejrzC4bEJ5R-sAC6z2IMFrR-val",
+                                            "oWqVbrpimjf-sAC6z2IMFrR-val",
+                                            "VIWOOPfPUnX-sAC6z2IMFrR-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "wrceD1un08Y-F3kCvhpDnMM-val",
+                                        children: [
+                                            "ejrzC4bEJ5R-F3kCvhpDnMM-val",
+                                            "oWqVbrpimjf-F3kCvhpDnMM-val",
+                                            "VIWOOPfPUnX-F3kCvhpDnMM-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-StFfGxHbuDF-val",
+                                        children: [
+                                            "BrtoXLjA4pi-StFfGxHbuDF-val",
+                                            "NVuew7FtnQS-StFfGxHbuDF-val",
+                                            "xpa2vZRWT7M-StFfGxHbuDF-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-unqbIiA0uir-val",
+                                        children: [
+                                            "BrtoXLjA4pi-unqbIiA0uir-val",
+                                            "NVuew7FtnQS-unqbIiA0uir-val",
+                                            "xpa2vZRWT7M-unqbIiA0uir-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-cMLHJtYTW40-val",
+                                        children: [
+                                            "BrtoXLjA4pi-cMLHJtYTW40-val",
+                                            "NVuew7FtnQS-cMLHJtYTW40-val",
+                                            "xpa2vZRWT7M-cMLHJtYTW40-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-VioJV8V3lMO-val",
+                                        children: [
+                                            "BrtoXLjA4pi-VioJV8V3lMO-val",
+                                            "NVuew7FtnQS-VioJV8V3lMO-val",
+                                            "xpa2vZRWT7M-VioJV8V3lMO-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-MYvkD09xyeq-val",
+                                        children: [
+                                            "BrtoXLjA4pi-MYvkD09xyeq-val",
+                                            "NVuew7FtnQS-MYvkD09xyeq-val",
+                                            "xpa2vZRWT7M-MYvkD09xyeq-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "o1HqfAPcWtK-xIJxneZjiWm-val",
+                                        children: [
+                                            "BrtoXLjA4pi-xIJxneZjiWm-val",
+                                            "NVuew7FtnQS-xIJxneZjiWm-val",
+                                            "xpa2vZRWT7M-xIJxneZjiWm-val",
+                                        ],
+                                    },
+                                    //3 - Midwifery personnel
+                                    {
+                                        id: "MazllecOrQC-sAC6z2IMFrR-val",
+                                        children: [
+                                            "tWbJWEUNu2F-sAC6z2IMFrR-val",
+                                            "Gt3WTdWYUeJ-sAC6z2IMFrR-val",
+                                            "arZWO8Ag3iO-sAC6z2IMFrR-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "MazllecOrQC-F3kCvhpDnMM-val",
+                                        children: [
+                                            "tWbJWEUNu2F-F3kCvhpDnMM-val",
+                                            "Gt3WTdWYUeJ-F3kCvhpDnMM-val",
+                                            "arZWO8Ag3iO-F3kCvhpDnMM-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-StFfGxHbuDF-val",
+                                        children: [
+                                            "aOYOo12rVAs-StFfGxHbuDF-val",
+                                            "uoqUo1n2Bbr-StFfGxHbuDF-val",
+                                            "PRFVamHB0VQ-StFfGxHbuDF-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-unqbIiA0uir-val",
+                                        children: [
+                                            "aOYOo12rVAs-unqbIiA0uir-val",
+                                            "uoqUo1n2Bbr-unqbIiA0uir-val",
+                                            "PRFVamHB0VQ-unqbIiA0uir-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-cMLHJtYTW40-val",
+                                        children: [
+                                            "aOYOo12rVAs-cMLHJtYTW40-val",
+                                            "uoqUo1n2Bbr-cMLHJtYTW40-val",
+                                            "PRFVamHB0VQ-cMLHJtYTW40-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-VioJV8V3lMO-val",
+                                        children: [
+                                            "aOYOo12rVAs-VioJV8V3lMO-val",
+                                            "uoqUo1n2Bbr-VioJV8V3lMO-val",
+                                            "PRFVamHB0VQ-VioJV8V3lMO-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-MYvkD09xyeq-val",
+                                        children: [
+                                            "aOYOo12rVAs-MYvkD09xyeq-val",
+                                            "uoqUo1n2Bbr-MYvkD09xyeq-val",
+                                            "PRFVamHB0VQ-MYvkD09xyeq-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ZPgTreSg9Xd-xIJxneZjiWm-val",
+                                        children: [
+                                            "aOYOo12rVAs-xIJxneZjiWm-val",
+                                            "uoqUo1n2Bbr-xIJxneZjiWm-val",
+                                            "PRFVamHB0VQ-xIJxneZjiWm-val",
+                                        ],
+                                    },
+                                    //Place of Birth and training
+
+                                    //1 - Medical Doctors
+                                    {
+                                        id: "ifKISqV6PJh-XTvbzm2HwCZ-val",
+                                        children: [
+                                            "tjT8FgtoZmV-XTvbzm2HwCZ-val",
+                                            "eWlZ0JPdgiX-XTvbzm2HwCZ-val",
+                                            "JRLY2XBpopS-XTvbzm2HwCZ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "ifKISqV6PJh-uBsAlWtPLFK-val",
+                                        children: [
+                                            "tjT8FgtoZmV-uBsAlWtPLFK-val",
+                                            "eWlZ0JPdgiX-uBsAlWtPLFK-val",
+                                            "JRLY2XBpopS-uBsAlWtPLFK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "P7NeDYkZMDT-VxD9oa7UFFY-val",
+                                        children: [
+                                            "pS9QqWeC7OO-VxD9oa7UFFY-val",
+                                            "cTz9crtzdvU-VxD9oa7UFFY-val",
+                                            "EKWgav1YgFc-VxD9oa7UFFY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "P7NeDYkZMDT-GSHgapGzSnl-val",
+                                        children: [
+                                            "pS9QqWeC7OO-GSHgapGzSnl-val",
+                                            "cTz9crtzdvU-GSHgapGzSnl-val",
+                                            "EKWgav1YgFc-GSHgapGzSnl-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "P7NeDYkZMDT-Ot71GbygcHf-val",
+                                        children: [
+                                            "pS9QqWeC7OO-Ot71GbygcHf-val",
+                                            "cTz9crtzdvU-Ot71GbygcHf-val",
+                                            "EKWgav1YgFc-Ot71GbygcHf-val",
+                                        ],
+                                    },
+                                    //2 - Nursing Personnel
+                                    {
+                                        id: "HmD6AHanlbO-XTvbzm2HwCZ-val",
+                                        children: [
+                                            "oNyG3X3DPbz-XTvbzm2HwCZ-val",
+                                            "ABy98AXLIvi-XTvbzm2HwCZ-val",
+                                            "d3IcPgQbeH5-XTvbzm2HwCZ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "HmD6AHanlbO-uBsAlWtPLFK-val",
+                                        children: [
+                                            "oNyG3X3DPbz-uBsAlWtPLFK-val",
+                                            "ABy98AXLIvi-uBsAlWtPLFK-val",
+                                            "d3IcPgQbeH5-uBsAlWtPLFK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qfVp6vFGOpZ-VxD9oa7UFFY-val",
+                                        children: [
+                                            "aVL32L9ycAJ-VxD9oa7UFFY-val",
+                                            "Xya97JPAwJP-VxD9oa7UFFY-val",
+                                            "lTZshHjGQEe-VxD9oa7UFFY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qfVp6vFGOpZ-GSHgapGzSnl-val",
+                                        children: [
+                                            "aVL32L9ycAJ-GSHgapGzSnl-val",
+                                            "Xya97JPAwJP-GSHgapGzSnl-val",
+                                            "lTZshHjGQEe-GSHgapGzSnl-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qfVp6vFGOpZ-Ot71GbygcHf-val",
+                                        children: [
+                                            "aVL32L9ycAJ-Ot71GbygcHf-val",
+                                            "Xya97JPAwJP-Ot71GbygcHf-val",
+                                            "lTZshHjGQEe-Ot71GbygcHf-val",
+                                        ],
+                                    },
+                                    //3 - Midwifery personnel
+                                    {
+                                        id: "qE7bXo1gdhI-XTvbzm2HwCZ-val",
+                                        children: [
+                                            "EnoivPEWUMM-XTvbzm2HwCZ-val",
+                                            "mEaeC6W4Oga-XTvbzm2HwCZ-val",
+                                            "u1aymSGFTqA-XTvbzm2HwCZ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qE7bXo1gdhI-uBsAlWtPLFK-val",
+                                        children: [
+                                            "EnoivPEWUMM-uBsAlWtPLFK-val",
+                                            "mEaeC6W4Oga-uBsAlWtPLFK-val",
+                                            "u1aymSGFTqA-uBsAlWtPLFK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "Xw3tkU97nlR-VxD9oa7UFFY-val",
+                                        children: [
+                                            "yelUZHtyQ3J-VxD9oa7UFFY-val",
+                                            "UTEeOMyhBoY-VxD9oa7UFFY-val",
+                                            "ChqxKtGrHVA-VxD9oa7UFFY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "Xw3tkU97nlR-GSHgapGzSnl-val",
+                                        children: [
+                                            "yelUZHtyQ3J-GSHgapGzSnl-val",
+                                            "UTEeOMyhBoY-GSHgapGzSnl-val",
+                                            "ChqxKtGrHVA-GSHgapGzSnl-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "Xw3tkU97nlR-Ot71GbygcHf-val",
+                                        children: [
+                                            "yelUZHtyQ3J-Ot71GbygcHf-val",
+                                            "UTEeOMyhBoY-Ot71GbygcHf-val",
+                                            "ChqxKtGrHVA-Ot71GbygcHf-val",
+                                        ],
+                                    },
+                                    //Other indicators in Module 1
+
+                                    //1 - Medical Doctors
+                                    {
+                                        id: "WsVBFxzWhi1-IMqululFzhP-val",
+                                        children: [
+                                            "Q7AJ1ykq09H-IMqululFzhP-val",
+                                            "N6pEEiEpNS1-IMqululFzhP-val",
+                                            "qScWuUGR5yF-IMqululFzhP-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "WsVBFxzWhi1-N3nYJ6ScaYx-val",
+                                        children: [
+                                            "Q7AJ1ykq09H-N3nYJ6ScaYx-val",
+                                            "N6pEEiEpNS1-N3nYJ6ScaYx-val",
+                                            "qScWuUGR5yF-N3nYJ6ScaYx-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "WsVBFxzWhi1-UKbfaRlqkpY-val",
+                                        children: [
+                                            "Q7AJ1ykq09H-UKbfaRlqkpY-val",
+                                            "N6pEEiEpNS1-UKbfaRlqkpY-val",
+                                            "qScWuUGR5yF-UKbfaRlqkpY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-p3raMKTiHsj-val",
+                                        children: [
+                                            "TTLIv7PVhKo-p3raMKTiHsj-val",
+                                            "PDI1LOtG5mD-p3raMKTiHsj-val",
+                                            "tnPO3Tkofqr-p3raMKTiHsj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-DyPeahMx1ww-val",
+                                        children: [
+                                            "TTLIv7PVhKo-DyPeahMx1ww-val",
+                                            "PDI1LOtG5mD-DyPeahMx1ww-val",
+                                            "tnPO3Tkofqr-DyPeahMx1ww-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-fJBWZdiQ1Vj-val",
+                                        children: [
+                                            "TTLIv7PVhKo-fJBWZdiQ1Vj-val",
+                                            "PDI1LOtG5mD-fJBWZdiQ1Vj-val",
+                                            "tnPO3Tkofqr-fJBWZdiQ1Vj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-Vy4zROU78hr-val",
+                                        children: [
+                                            "TTLIv7PVhKo-Vy4zROU78hr-val",
+                                            "PDI1LOtG5mD-Vy4zROU78hr-val",
+                                            "tnPO3Tkofqr-Vy4zROU78hr-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-SbearYuCfX5-val",
+                                        children: [
+                                            "TTLIv7PVhKo-SbearYuCfX5-val",
+                                            "PDI1LOtG5mD-SbearYuCfX5-val",
+                                            "tnPO3Tkofqr-SbearYuCfX5-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "nLbuvx5jioD-TCVfWydCsa4-val",
+                                        children: [
+                                            "TTLIv7PVhKo-TCVfWydCsa4-val",
+                                            "PDI1LOtG5mD-TCVfWydCsa4-val",
+                                            "tnPO3Tkofqr-TCVfWydCsa4-val",
+                                        ],
+                                    },
+                                    //2 - Nursing Personnel
+                                    {
+                                        id: "KGnMzMLw9z0-IMqululFzhP-val",
+                                        children: [
+                                            "HU1QlB34WcG-IMqululFzhP-val",
+                                            "O7xuokSXg4m-IMqululFzhP-val",
+                                            "YvRkyv7LXzq-IMqululFzhP-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "KGnMzMLw9z0-N3nYJ6ScaYx-val",
+                                        children: [
+                                            "HU1QlB34WcG-N3nYJ6ScaYx-val",
+                                            "O7xuokSXg4m-N3nYJ6ScaYx-val",
+                                            "YvRkyv7LXzq-N3nYJ6ScaYx-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "KGnMzMLw9z0-UKbfaRlqkpY-val",
+                                        children: [
+                                            "HU1QlB34WcG-UKbfaRlqkpY-val",
+                                            "O7xuokSXg4m-UKbfaRlqkpY-val",
+                                            "YvRkyv7LXzq-UKbfaRlqkpY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-p3raMKTiHsj-val",
+                                        children: [
+                                            "cROoQk16jlH-p3raMKTiHsj-val",
+                                            "mZVNxEL1OKd-p3raMKTiHsj-val",
+                                            "e7mFNsyiTtQ-p3raMKTiHsj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-DyPeahMx1ww-val",
+                                        children: [
+                                            "cROoQk16jlH-DyPeahMx1ww-val",
+                                            "mZVNxEL1OKd-DyPeahMx1ww-val",
+                                            "e7mFNsyiTtQ-DyPeahMx1ww-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-fJBWZdiQ1Vj-val",
+                                        children: [
+                                            "cROoQk16jlH-fJBWZdiQ1Vj-val",
+                                            "mZVNxEL1OKd-fJBWZdiQ1Vj-val",
+                                            "e7mFNsyiTtQ-fJBWZdiQ1Vj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-Vy4zROU78hr-val",
+                                        children: [
+                                            "cROoQk16jlH-Vy4zROU78hr-val",
+                                            "mZVNxEL1OKd-Vy4zROU78hr-val",
+                                            "e7mFNsyiTtQ-Vy4zROU78hr-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-SbearYuCfX5-val",
+                                        children: [
+                                            "cROoQk16jlH-SbearYuCfX5-val",
+                                            "mZVNxEL1OKd-SbearYuCfX5-val",
+                                            "e7mFNsyiTtQ-SbearYuCfX5-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "GuIr410uu6E-TCVfWydCsa4-val",
+                                        children: [
+                                            "cROoQk16jlH-TCVfWydCsa4-val",
+                                            "mZVNxEL1OKd-TCVfWydCsa4-val",
+                                            "e7mFNsyiTtQ-TCVfWydCsa4-val",
+                                        ],
+                                    },
+                                    //3 - Midwifery personnel
+                                    {
+                                        id: "qCRmLPzIMfA-IMqululFzhP-val",
+                                        children: [
+                                            "i54ywgixjhp-IMqululFzhP-val",
+                                            "O9FGiWCttH4-IMqululFzhP-val",
+                                            "GeB8aO0VMdh-IMqululFzhP-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qCRmLPzIMfA-N3nYJ6ScaYx-val",
+                                        children: [
+                                            "i54ywgixjhp-N3nYJ6ScaYx-val",
+                                            "O9FGiWCttH4-N3nYJ6ScaYx-val",
+                                            "GeB8aO0VMdh-N3nYJ6ScaYx-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "qCRmLPzIMfA-UKbfaRlqkpY-val",
+                                        children: [
+                                            "i54ywgixjhp-UKbfaRlqkpY-val",
+                                            "O9FGiWCttH4-UKbfaRlqkpY-val",
+                                            "GeB8aO0VMdh-UKbfaRlqkpY-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-p3raMKTiHsj-val",
+                                        children: [
+                                            "lguPmuZBWDk-p3raMKTiHsj-val",
+                                            "u7WSQpbLBGs-p3raMKTiHsj-val",
+                                            "ezAgi6u5Qta-p3raMKTiHsj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-DyPeahMx1ww-val",
+                                        children: [
+                                            "lguPmuZBWDk-DyPeahMx1ww-val",
+                                            "u7WSQpbLBGs-DyPeahMx1ww-val",
+                                            "ezAgi6u5Qta-DyPeahMx1ww-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-fJBWZdiQ1Vj-val",
+                                        children: [
+                                            "lguPmuZBWDk-fJBWZdiQ1Vj-val",
+                                            "u7WSQpbLBGs-fJBWZdiQ1Vj-val",
+                                            "ezAgi6u5Qta-fJBWZdiQ1Vj-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-Vy4zROU78hr-val",
+                                        children: [
+                                            "lguPmuZBWDk-Vy4zROU78hr-val",
+                                            "u7WSQpbLBGs-Vy4zROU78hr-val",
+                                            "ezAgi6u5Qta-Vy4zROU78hr-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-SbearYuCfX5-val",
+                                        children: [
+                                            "lguPmuZBWDk-SbearYuCfX5-val",
+                                            "u7WSQpbLBGs-SbearYuCfX5-val",
+                                            "ezAgi6u5Qta-SbearYuCfX5-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "iLowQAmnmZK-TCVfWydCsa4-val",
+                                        children: [
+                                            "lguPmuZBWDk-TCVfWydCsa4-val",
+                                            "u7WSQpbLBGs-TCVfWydCsa4-val",
+                                            "ezAgi6u5Qta-TCVfWydCsa4-val",
+                                        ],
+                                    },
+                                ];
+                                const calculatedCheckboxCells = [
+                                    //Working Details
+                                    //1 - Medical Doctors
+                                    {
+                                        id: "fEck0UnAFaV-LvGn3KFEzvA-val",
+                                        children: [
+                                            "idY7moseTTD-LvGn3KFEzvA-val",
+                                            "RfqYbGs8Za9-LvGn3KFEzvA-val",
+                                            "pSRNRBuOBi8-LvGn3KFEzvA-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-MXfWGD11wLh-val",
+                                        children: [
+                                            "idY7moseTTD-MXfWGD11wLh-val",
+                                            "RfqYbGs8Za9-MXfWGD11wLh-val",
+                                            "pSRNRBuOBi8-MXfWGD11wLh-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-hC2N9T8F5JD-val",
+                                        children: [
+                                            "idY7moseTTD-hC2N9T8F5JD-val",
+                                            "RfqYbGs8Za9-hC2N9T8F5JD-val",
+                                            "pSRNRBuOBi8-hC2N9T8F5JD-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-wcnRf5LJrnK-val",
+                                        children: [
+                                            "idY7moseTTD-wcnRf5LJrnK-val",
+                                            "RfqYbGs8Za9-wcnRf5LJrnK-val",
+                                            "pSRNRBuOBi8-wcnRf5LJrnK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-eWjpUQpzWKX-val",
+                                        children: [
+                                            "idY7moseTTD-eWjpUQpzWKX-val",
+                                            "RfqYbGs8Za9-eWjpUQpzWKX-val",
+                                            "pSRNRBuOBi8-eWjpUQpzWKX-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-rEUC186wftQ-val",
+                                        children: [
+                                            "idY7moseTTD-rEUC186wftQ-val",
+                                            "RfqYbGs8Za9-rEUC186wftQ-val",
+                                            "pSRNRBuOBi8-rEUC186wftQ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-ADfCJWnnU2O-val",
+                                        children: [
+                                            "idY7moseTTD-ADfCJWnnU2O-val",
+                                            "RfqYbGs8Za9-ADfCJWnnU2O-val",
+                                            "pSRNRBuOBi8-ADfCJWnnU2O-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-IhnQTXo2sCi-val",
+                                        children: [
+                                            "idY7moseTTD-IhnQTXo2sCi-val",
+                                            "RfqYbGs8Za9-IhnQTXo2sCi-val",
+                                            "pSRNRBuOBi8-IhnQTXo2sCi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-bj9TvyIDtwi-val",
+                                        children: [
+                                            "idY7moseTTD-bj9TvyIDtwi-val",
+                                            "RfqYbGs8Za9-bj9TvyIDtwi-val",
+                                            "pSRNRBuOBi8-bj9TvyIDtwi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-lcB0UtS4nuB-val",
+                                        children: [
+                                            "idY7moseTTD-lcB0UtS4nuB-val",
+                                            "RfqYbGs8Za9-lcB0UtS4nuB-val",
+                                            "pSRNRBuOBi8-lcB0UtS4nuB-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-P5jMO9Y0SRn-val",
+                                        children: [
+                                            "idY7moseTTD-P5jMO9Y0SRn-val",
+                                            "RfqYbGs8Za9-P5jMO9Y0SRn-val",
+                                            "pSRNRBuOBi8-P5jMO9Y0SRn-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "fEck0UnAFaV-xgbBSeyiDWp-val",
+                                        children: [
+                                            "idY7moseTTD-xgbBSeyiDWp-val",
+                                            "RfqYbGs8Za9-xgbBSeyiDWp-val",
+                                            "pSRNRBuOBi8-xgbBSeyiDWp-val",
+                                        ],
+                                    },
+                                    //2 - Nursing Personnel
+                                    {
+                                        id: "yrP0fOB2Yxv-LvGn3KFEzvA-val",
+                                        children: [
+                                            "dutH7uvTAut-LvGn3KFEzvA-val",
+                                            "vtidz1k9BOw-LvGn3KFEzvA-val",
+                                            "MFUxfSaYW2e-LvGn3KFEzvA-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-MXfWGD11wLh-val",
+                                        children: [
+                                            "dutH7uvTAut-MXfWGD11wLh-val",
+                                            "vtidz1k9BOw-MXfWGD11wLh-val",
+                                            "MFUxfSaYW2e-MXfWGD11wLh-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-hC2N9T8F5JD-val",
+                                        children: [
+                                            "dutH7uvTAut-hC2N9T8F5JD-val",
+                                            "vtidz1k9BOw-hC2N9T8F5JD-val",
+                                            "MFUxfSaYW2e-hC2N9T8F5JD-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-wcnRf5LJrnK-val",
+                                        children: [
+                                            "dutH7uvTAut-wcnRf5LJrnK-val",
+                                            "vtidz1k9BOw-wcnRf5LJrnK-val",
+                                            "MFUxfSaYW2e-wcnRf5LJrnK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-eWjpUQpzWKX-val",
+                                        children: [
+                                            "dutH7uvTAut-eWjpUQpzWKX-val",
+                                            "vtidz1k9BOw-eWjpUQpzWKX-val",
+                                            "MFUxfSaYW2e-eWjpUQpzWKX-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-rEUC186wftQ-val",
+                                        children: [
+                                            "dutH7uvTAut-rEUC186wftQ-val",
+                                            "vtidz1k9BOw-rEUC186wftQ-val",
+                                            "MFUxfSaYW2e-rEUC186wftQ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-ADfCJWnnU2O-val",
+                                        children: [
+                                            "dutH7uvTAut-ADfCJWnnU2O-val",
+                                            "vtidz1k9BOw-ADfCJWnnU2O-val",
+                                            "MFUxfSaYW2e-ADfCJWnnU2O-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-IhnQTXo2sCi-val",
+                                        children: [
+                                            "dutH7uvTAut-IhnQTXo2sCi-val",
+                                            "vtidz1k9BOw-IhnQTXo2sCi-val",
+                                            "MFUxfSaYW2e-IhnQTXo2sCi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-bj9TvyIDtwi-val",
+                                        children: [
+                                            "dutH7uvTAut-bj9TvyIDtwi-val",
+                                            "vtidz1k9BOw-bj9TvyIDtwi-val",
+                                            "MFUxfSaYW2e-bj9TvyIDtwi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-lcB0UtS4nuB-val",
+                                        children: [
+                                            "dutH7uvTAut-lcB0UtS4nuB-val",
+                                            "vtidz1k9BOw-lcB0UtS4nuB-val",
+                                            "MFUxfSaYW2e-lcB0UtS4nuB-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-P5jMO9Y0SRn-val",
+                                        children: [
+                                            "dutH7uvTAut-P5jMO9Y0SRn-val",
+                                            "vtidz1k9BOw-P5jMO9Y0SRn-val",
+                                            "MFUxfSaYW2e-P5jMO9Y0SRn-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "yrP0fOB2Yxv-xgbBSeyiDWp-val",
+                                        children: [
+                                            "dutH7uvTAut-xgbBSeyiDWp-val",
+                                            "vtidz1k9BOw-xgbBSeyiDWp-val",
+                                            "MFUxfSaYW2e-xgbBSeyiDWp-val",
+                                        ],
+                                    },
+                                    //3 - Midwifery personnel
+                                    {
+                                        id: "l1mCEuDf2ZI-LvGn3KFEzvA-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-LvGn3KFEzvA-val",
+                                            "LKiTYPmaOhj-LvGn3KFEzvA-val",
+                                            "vnulYqEDjxA-LvGn3KFEzvA-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-MXfWGD11wLh-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-MXfWGD11wLh-val",
+                                            "LKiTYPmaOhj-MXfWGD11wLh-val",
+                                            "vnulYqEDjxA-MXfWGD11wLh-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-hC2N9T8F5JD-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-hC2N9T8F5JD-val",
+                                            "LKiTYPmaOhj-hC2N9T8F5JD-val",
+                                            "vnulYqEDjxA-hC2N9T8F5JD-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-wcnRf5LJrnK-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-wcnRf5LJrnK-val",
+                                            "LKiTYPmaOhj-wcnRf5LJrnK-val",
+                                            "vnulYqEDjxA-wcnRf5LJrnK-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-eWjpUQpzWKX-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-eWjpUQpzWKX-val",
+                                            "LKiTYPmaOhj-eWjpUQpzWKX-val",
+                                            "vnulYqEDjxA-eWjpUQpzWKX-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-rEUC186wftQ-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-rEUC186wftQ-val",
+                                            "LKiTYPmaOhj-rEUC186wftQ-val",
+                                            "vnulYqEDjxA-rEUC186wftQ-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-ADfCJWnnU2O-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-ADfCJWnnU2O-val",
+                                            "LKiTYPmaOhj-ADfCJWnnU2O-val",
+                                            "vnulYqEDjxA-ADfCJWnnU2O-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-IhnQTXo2sCi-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-IhnQTXo2sCi-val",
+                                            "LKiTYPmaOhj-IhnQTXo2sCi-val",
+                                            "vnulYqEDjxA-IhnQTXo2sCi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-bj9TvyIDtwi-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-bj9TvyIDtwi-val",
+                                            "LKiTYPmaOhj-bj9TvyIDtwi-val",
+                                            "vnulYqEDjxA-bj9TvyIDtwi-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-lcB0UtS4nuB-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-lcB0UtS4nuB-val",
+                                            "LKiTYPmaOhj-lcB0UtS4nuB-val",
+                                            "vnulYqEDjxA-lcB0UtS4nuB-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-P5jMO9Y0SRn-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-P5jMO9Y0SRn-val",
+                                            "LKiTYPmaOhj-P5jMO9Y0SRn-val",
+                                            "vnulYqEDjxA-P5jMO9Y0SRn-val",
+                                        ],
+                                    },
+                                    {
+                                        id: "l1mCEuDf2ZI-xgbBSeyiDWp-val",
+                                        children: [
+                                            "ud6YiQ9ekgi-xgbBSeyiDWp-val",
+                                            "LKiTYPmaOhj-xgbBSeyiDWp-val",
+                                            "vnulYqEDjxA-xgbBSeyiDWp-val",
+                                        ],
+                                    },
+                                ];
+                                const module1TotalsTable = $("#module1TotalsTable").DataTable({
+                                    dom: "Bfrtip",
+                                    order: [
+                                        [3, "asc"],
+                                        [2, "asc"],
+                                    ],
+                                    rowGroup: {
+                                        dataSrc: [3, 2],
+                                    },
+                                    buttons: {
+                                        buttons: [
+                                            {
+                                                text: "Fix all incorrect values",
+                                                action: function (e, dt, node, config) {
+                                                    if (correctDataValues !== undefined) {
+                                                        $("#loading").show();
+                                                        console.log(correctDataValues);
+                                                        this.disable();
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: baseUrl + "/api/dataValueSets",
+                                                            dataType: "json",
+                                                            headers: {
+                                                                Accept: "application/json",
+                                                                "Content-Type": "application/json",
+                                                            },
+                                                            data: JSON.stringify({
+                                                                dataElementIdScheme: "UID",
+                                                                dataValues: correctDataValues,
+                                                                idScheme: "UID",
+                                                                orgUnitIdScheme: "UID",
+                                                            }),
+                                                            xhrFields: {
+                                                                withCredentials: true,
+                                                            },
+                                                            crossDomain: isDevelopment,
+                                                            success: function (response) {
+                                                                console.log(response);
+                                                                alert(
+                                                                    `Status: ${response.status}\n` +
+                                                                        `Overview: ${response.description}\n` +
+                                                                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
+                                                                        `\n${
+                                                                            response.conflicts
+                                                                                ? response.conflicts.map(
+                                                                                      e =>
+                                                                                          "CONFLICT: " +
+                                                                                          e.value +
+                                                                                          "\n"
+                                                                                  )
+                                                                                : ""
+                                                                        }`
+                                                                );
+                                                                $("#loading").hide();
+                                                                location.reload();
+                                                            },
+                                                        });
+                                                        this.disable();
+                                                    } else {
+                                                        alert("Still loading data, please wait!");
+                                                    }
+                                                },
+                                            },
+                                        ],
+                                    },
+                                });
+
+                                $("#loading").show();
+
+                                $.ajax({
+                                    type: "GET",
+                                    dataType: "json",
+                                    url:
+                                        baseUrl +
+                                        "/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits",
+                                    xhrFields: {
+                                        withCredentials: true,
+                                    },
+                                    crossDomain: isDevelopment,
+                                    success: function (data) {
+                                        const orgUnits = data.organisationUnits
+                                            .map(({ id }) => id)
+                                            .join(",");
+
+                                        $.ajax({
+                                            type: "GET",
+                                            dataType: "json",
+                                            url:
+                                                baseUrl +
+                                                "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
+                                                orgUnits,
+                                            xhrFields: {
+                                                withCredentials: true,
+                                            },
+                                            crossDomain: isDevelopment,
+                                            success: function (data) {
+                                                const promises = _(data.dataValues)
+                                                    .map(e => [
+                                                        e.dataElement,
+                                                        e.categoryOptionCombo,
+                                                        e.orgUnit,
+                                                    ])
+                                                    .flatten()
+                                                    .uniq()
+                                                    .chunk(250)
+                                                    .map(e =>
+                                                        $.get(
+                                                            baseUrl +
+                                                                "/api/metadata.json?fields=id,name&filter=id:in:[" +
+                                                                e.join(",") +
+                                                                "]"
+                                                        )
+                                                    )
+                                                    .value();
+
+                                                Promise.all(promises).then(values => {
+                                                    const metadata = _(values)
+                                                        .map(e => _(e).filter(_.isArray).value())
+                                                        .flattenDeep()
+                                                        .keyBy("id")
+                                                        .mapValues("name")
+                                                        .value();
+
+                                                    const dataValues = _(data.dataValues)
+                                                        .groupBy(
+                                                            element =>
+                                                                `${element.dataElement}-${element.categoryOptionCombo}-val`
+                                                        )
+                                                        .value();
+
+                                                    const result = _(calculatedNumericCells)
+                                                        .map(total => {
+                                                            const providedValues = _(
+                                                                dataValues[total.id]
+                                                            )
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value)
+                                                                    )
+                                                                )
+                                                                .value();
+                                                            const calculatedValues = _(
+                                                                total.children
+                                                            )
+                                                                .map(e =>
+                                                                    !!dataValues[e]
+                                                                        ? dataValues[e]
+                                                                        : []
+                                                                )
+                                                                .flatten()
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value || 0)
+                                                                    )
+                                                                )
+                                                                .value();
+
+                                                            const result = _(_.keys(providedValues))
+                                                                .union(_.keys(calculatedValues))
+                                                                .map(period => {
+                                                                    const calculatedValue =
+                                                                        !isNaN(
+                                                                            calculatedValues[period]
+                                                                        ) &&
+                                                                        calculatedValues[period] !==
+                                                                            0
+                                                                            ? calculatedValues[
+                                                                                  period
+                                                                              ]
+                                                                            : undefined;
+
+                                                                    const providedValue =
+                                                                        !isNaN(
+                                                                            providedValues[period]
+                                                                        ) &&
+                                                                        providedValues[period] !== 0
+                                                                            ? providedValues[period]
+                                                                            : undefined;
+
+                                                                    if (
+                                                                        calculatedValue !==
+                                                                        providedValue
+                                                                    ) {
+                                                                        return {
+                                                                            dataElement:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[0],
+                                                                            categoryOptionCombo:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            period: period.split(
+                                                                                "-"
+                                                                            )[0],
+                                                                            orgUnit:
+                                                                                period.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            value:
+                                                                                calculatedValue ||
+                                                                                0,
+                                                                            originalValue:
+                                                                                providedValue,
+                                                                            sum: total.children
+                                                                                .map(e => {
+                                                                                    const dataValue =
+                                                                                        _.find(
+                                                                                            dataValues[
+                                                                                                e
+                                                                                            ],
+                                                                                            {
+                                                                                                dataElement:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[0],
+                                                                                                categoryOptionCombo:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                                period: period.split(
+                                                                                                    "-"
+                                                                                                )[0],
+                                                                                                orgUnit:
+                                                                                                    period.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                            }
+                                                                                        );
+                                                                                    return dataValue &&
+                                                                                        dataValue.value
+                                                                                        ? dataValue.value
+                                                                                        : 0;
+                                                                                })
+                                                                                .join(" + "),
+                                                                        };
+                                                                    } else {
+                                                                        return null;
+                                                                    }
+                                                                })
+                                                                .compact()
+                                                                .value();
+                                                            return result;
+                                                        })
+                                                        .flatten()
+                                                        .compact()
+                                                        .value();
+
+                                                    correctDataValues = result;
+
+                                                    result.forEach(function (element) {
+                                                        module1TotalsTable.row.add([
+                                                            metadata[element.dataElement],
+                                                            metadata[element.categoryOptionCombo],
+                                                            element.period,
+                                                            metadata[element.orgUnit],
+                                                            `${element.sum} = ${element.value}`,
+                                                            element.originalValue
+                                                                ? element.originalValue
+                                                                : "-",
+                                                        ]);
+                                                    });
+                                                    module1TotalsTable.draw();
+
+                                                    $("#loading").hide();
+                                                });
+                                            },
+                                        });
+                                    },
+                                });
+                            });
+                        </script>
+                    </head>
+
+                    <body>
+                        <div class="gridDiv">
+                            <h3>
+                                Module 1 totals with missing sum or sum that does not match the
+                                auto-calculated
+                            </h3>
+                            <table class="listTable gridTable" id="module1TotalsTable">
+                                <thead>
+                                    <tr>
+                                        <th>Data element</th>
+                                        <th>Category option combo</th>
+                                        <th>Period</th>
+                                        <th>Organisation unit</th>
+                                        <th>Correct value</th>
+                                        <th>Current value</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </body>
+                </html>
             </div>
-          </body>
-        </html>
-      </div>
-    </div>
-    <script type="text/javascript"></script>
+        </div>
+        <script type="text/javascript"></script>
 
-    <div id="rightBar">
-      <span id="hideRightBar"
-        ><a href="javascript:hideHelpContent()" title="Close">
-          <i class="fa fa-times leftBarIcon"></i
-        ></a>
-      </span>
-      <div id="rightBarContents"></div>
-    </div>
+        <div id="rightBar">
+            <span id="hideRightBar"
+                ><a href="javascript:hideHelpContent()" title="Close">
+                    <i class="fa fa-times leftBarIcon"></i
+                ></a>
+            </span>
+            <div id="rightBarContents"></div>
+        </div>
 
-    <div id="loading"><div id="spinner"></div></div>
-  </body>
+        <div id="loading"><div id="spinner"></div></div>
+    </body>
 </html>

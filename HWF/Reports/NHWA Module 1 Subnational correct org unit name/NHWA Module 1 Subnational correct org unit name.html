@@ -104,7 +104,10 @@
     }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+/>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
@@ -123,9 +126,9 @@
                     orgUnit,
                     dataElement,
                     categoryOptionCombo,
-                    value
-                }
-            ]
+                    value,
+                },
+            ],
         };
 
         $.ajax({
@@ -153,7 +156,7 @@
         $.ajax({
             url: "../api/sqlViews/buZ8poY0ZzX/data",
             success: response => {
-                response.listGrid.rows.forEach((row) => orgUnitsToFixTable.row.add(row));
+                response.listGrid.rows.forEach(row => orgUnitsToFixTable.row.add(row));
 
                 orgUnitsToFixTable.draw();
 
@@ -165,7 +168,6 @@
                 console.log(xhr);
             },
         });
-
     }
 
     jQuery(document).ready(function () {
@@ -175,24 +177,23 @@
             dom: "Bfrtip",
             columnDefs: [
                 {
-                    "targets": -1,
+                    targets: -1,
                     className: "td-center",
-                    "data": null,
-                    "defaultContent": "<button>Dismiss</button>"
+                    data: null,
+                    defaultContent: "<button>Dismiss</button>",
                 },
             ],
             order: [
                 [0, "asc"],
-                [1, "asc"]
+                [1, "asc"],
             ],
             rowGroup: {
-                dataSrc: [0, 1]
-            }
+                dataSrc: [0, 1],
+            },
         });
 
-
-        $('#orgUnitsToFixTable tbody').on('click', 'button', function () {
-            var data = orgUnitsToFixTable.row($(this).parents('tr')).data();
+        $("#orgUnitsToFixTable tbody").on("click", "button", function () {
+            var data = orgUnitsToFixTable.row($(this).parents("tr")).data();
 
             const period = data[1];
             const value = data[2];
@@ -200,7 +201,7 @@
             const categoryOptionCombo = data[5];
             const orgUnit = data[6];
 
-            saveValue(period, orgUnit, dataElement, categoryOptionCombo, value)
+            saveValue(period, orgUnit, dataElement, categoryOptionCombo, value);
         });
 
         loadData();
@@ -208,10 +209,7 @@
 </script>
 
 <div>
-
-    <h3>
-        Module 1 (subnational) with fixes for organisation unit name
-    </h3>
+    <h3>Module 1 (subnational) with fixes for organisation unit name</h3>
     <table class="listTable gridTable" id="orgUnitsToFixTable">
         <thead>
             <tr>

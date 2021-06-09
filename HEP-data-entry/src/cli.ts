@@ -8,7 +8,12 @@ import { DataStoreClient } from "./data/common/clients/DataStoreClient";
 import { D2DataSetRepository } from "./data/common/repositories/D2DataSetRepository";
 import { DataSetRepository } from "./domain/common/repositories";
 import { D2CustomMetadataRepository } from "./data/snakebite/repositories/D2CustomMetadataRepository";
-import { CustomFormFactory, HepatitisCustomFormFactory, Module1SubnationalSingleEntryCustomFormFactory, SnakeBiteCustomFormFactory } from "./factories/CustomFormFactories";
+import {
+    CustomFormFactory,
+    HepatitisCustomFormFactory,
+    Module1SubnationalSingleEntryCustomFormFactory,
+    SnakeBiteCustomFormFactory,
+} from "./factories/CustomFormFactories";
 import { D2AntivenomEntriesRepository } from "./data/snakebite/repositories/D2AntivenomEntriesRepository";
 import { snakeBiteNamespace } from "./data/snakebite/constants";
 
@@ -42,7 +47,7 @@ function getParser(): ArgumentParser {
 async function getDataSetPayload(
     dataSetRepository: DataSetRepository,
     customFormFactory: CustomFormFactory,
-    dataSetId: string,
+    dataSetId: string
 ): Promise<MetadataPayload> {
     const dataSet = await dataSetRepository.get(dataSetId);
 
@@ -68,17 +73,24 @@ async function getDataSetPayload(
     };
 }
 
-function createFactory(module: Module, dataSetRepository: DataSetRepository, url: string): CustomFormFactory {
+function createFactory(
+    module: Module,
+    dataSetRepository: DataSetRepository,
+    url: string
+): CustomFormFactory {
     if (module === "hepatitis") {
         return new HepatitisCustomFormFactory();
     } else if (module === "snakebite") {
-
         const dataStoreClient = new DataStoreClient(url, snakeBiteNamespace);
 
         const customMetadataRepository = new D2CustomMetadataRepository(dataStoreClient);
         const antivenomEntriesRepository = new D2AntivenomEntriesRepository(dataStoreClient);
 
-        return new SnakeBiteCustomFormFactory(dataSetRepository, customMetadataRepository, antivenomEntriesRepository);
+        return new SnakeBiteCustomFormFactory(
+            dataSetRepository,
+            customMetadataRepository,
+            antivenomEntriesRepository
+        );
     } else if (module === "module1_subnational_single_entry") {
         return new Module1SubnationalSingleEntryCustomFormFactory();
     } else {
@@ -88,7 +100,9 @@ function createFactory(module: Module, dataSetRepository: DataSetRepository, url
 
 async function main(): Promise<void> {
     const args = getParser().parseArgs();
-    const dataSetRepository = new D2DataSetRepository(new Dhis2MetadataClient(args.url, { debug: true }));
+    const dataSetRepository = new D2DataSetRepository(
+        new Dhis2MetadataClient(args.url, { debug: true })
+    );
 
     const dataSetId = args.dataset_id;
 

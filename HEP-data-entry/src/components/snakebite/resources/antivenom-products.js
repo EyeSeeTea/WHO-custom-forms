@@ -4,7 +4,7 @@ var addProductDialog;
 var isAdminUser = undefined;
 
 async function removeAntivenomDataValues($tr) {
-    $tr.find("td").each(function() {
+    $tr.find("td").each(function () {
         const type = this.getAttribute("data-type");
 
         if (type && type === "radio") {
@@ -24,7 +24,7 @@ async function removeAntivenomDataValues($tr) {
     //Manually delete via api because some data values are not removed sometimes
     const idToRemove = [];
 
-    valueIdsToRemove = $tr.find("input[id*=-val]").each(function() {
+    valueIdsToRemove = $tr.find("input[id*=-val]").each(function () {
         idToRemove.push($(this).attr("id"));
     });
 
@@ -45,7 +45,7 @@ async function removeAntivenomDataValues($tr) {
 }
 
 function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
-    $tr.find("td").each(function() {
+    $tr.find("td").each(function () {
         const markRadioInput = index => {
             if (loadingAntivenomProductNames) {
                 $(this)
@@ -55,9 +55,7 @@ function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
                     .trigger("click");
             } else {
                 //Only click  and dhis2 assign checked and class
-                $(this)
-                    .find(`input:nth(${index})`)
-                    .trigger("click");
+                $(this).find(`input:nth(${index})`).trigger("click");
             }
         };
 
@@ -67,14 +65,10 @@ function assignAntivenomDataValuesByProduct($tr, antivenomProduct) {
         if (prop && type && type === "radio") {
             if (antivenomProduct[prop] === true) {
                 markRadioInput(0);
-                $(this)
-                    .find(`input`)
-                    .prop("disabled", true);
+                $(this).find(`input`).prop("disabled", true);
             } else if (antivenomProduct[prop] === false) {
                 markRadioInput(1);
-                $(this)
-                    .find(`input`)
-                    .prop("disabled", true);
+                $(this).find(`input`).prop("disabled", true);
             }
         } else if (prop && type && type === "text" && antivenomProduct[prop]) {
             $(this)
@@ -110,10 +104,8 @@ function assignAntivenomDataValue(dataValue) {
 
 function renameCategoryOptionCombosInInputIds($tr, categoryOptionComboId) {
     const renameValAttribute = att => {
-        $tr.find(`input[${att}*=-val]`).each(function() {
-            const dataElementId = $(this)
-                .attr(att)
-                .split("-")[0];
+        $tr.find(`input[${att}*=-val]`).each(function () {
+            const dataElementId = $(this).attr(att).split("-")[0];
             $(this).attr(att, `${dataElementId}-${categoryOptionComboId}-val`);
         });
     };
@@ -127,7 +119,7 @@ function renameCategoryOptionCombosInInputIds($tr, categoryOptionComboId) {
 }
 
 function disableTrInputs($tr, value) {
-    $tr.find(`input[id*=-val]`).each(function() {
+    $tr.find(`input[id*=-val]`).each(function () {
         $(this).prop("disabled", value);
         $(this).css("background-color", value === true ? "#eeeeee" : "#ffffff");
     });
@@ -186,7 +178,7 @@ async function selectAntivenomProductNames(recommended) {
                         (productNameDEEntry.id === dv.dataElement && !recommended)) &&
                     existsAntivenomProductName(dv.value)
             )
-            .sort(function(a, b) {
+            .sort(function (a, b) {
                 return new Date(a.created) - new Date(b.created);
             });
 
@@ -221,10 +213,8 @@ async function selectAntivenomProductNames(recommended) {
                 $select
                     .closest("tr")
                     .find("td input[id*=-val]")
-                    .each(function() {
-                        const idParts = $(this)
-                            .attr("id")
-                            .split("-");
+                    .each(function () {
+                        const idParts = $(this).attr("id").split("-");
                         const dataElement = idParts[0];
                         const categoryOptionCombo = idParts[1];
 
@@ -248,13 +238,13 @@ function addAntivenomProductsSelectListeners($selects) {
     $selects.off("change");
     $selects.on("change", onChangeAntivenomProduct);
 
-    $selects.each(function() {
+    $selects.each(function () {
         const select2 = $(this).data("select2");
 
         const $self = $(this);
 
-        select2.onSelect = (function(fn) {
-            return function(data, options) {
+        select2.onSelect = (function (fn) {
+            return function (data, options) {
                 var target;
 
                 if (options != null) {
@@ -280,7 +270,7 @@ function addAntivenomProductsSelectListeners($selects) {
 
                     var currentValues = [];
 
-                    $(className).each(function() {
+                    $(className).each(function () {
                         currentValues.push($(this).val());
                     });
 
@@ -344,14 +334,14 @@ async function initializeByAdminUser($container) {
         $container.find('.create-antivenom-product[data-recommended="true"]').hide();
     }
 
-    $container.find(`input:disabled`).each(function() {
+    $container.find(`input:disabled`).each(function () {
         $(this).css("background-color", "#eeeeee");
     });
 
     $container
         .find(".create-antivenom-product")
         .button()
-        .on("click", async function() {
+        .on("click", async function () {
             const dataElementId = $(this).data("dataelement");
             const dataElement = await getDataElement(dataElementId);
             antivenomProducts = await getAntivenomProducts(true);
@@ -380,7 +370,7 @@ async function initializeByAdminUser($container) {
 
 function convertMonovalentPolyvalentToExclusive($tr) {
     $tr.find("input[type=radio]").off("mouseup");
-    $tr.find("input[type=radio]").on("mouseup", function(e) {
+    $tr.find("input[type=radio]").on("mouseup", function (e) {
         if (!loadingAntivenomProductNames) {
             const id = $(this).attr("id");
             const value = $(this).val();
@@ -392,7 +382,7 @@ function convertMonovalentPolyvalentToExclusive($tr) {
             $(this)
                 .closest("tr")
                 .find("input[type=radio]")
-                .each(function() {
+                .each(function () {
                     const opposedValue = value === "true" ? "false" : "true";
 
                     if ($(this).attr("id") !== id && opposedValue === $(this).val()) {
@@ -426,7 +416,7 @@ async function addEntryFieldsTableToGroup($group) {
 
     //Fix multiple listeners with year changes
     $(".remove-entry-fields").off("click");
-    $(".remove-entry-fields").on("click", function(e) {
+    $(".remove-entry-fields").on("click", function (e) {
         e.preventDefault();
         if (confirm("Are you sure? This will delete the reported value for the deleted row")) {
             const $container = $(this).closest(".antivenom-table-container");
@@ -443,12 +433,12 @@ async function addEntryFieldsTableToGroup($group) {
 function initializeAntivenomEntryFields() {
     $(".antivenom-table-container").remove();
 
-    $(`div[id*=-group]`).each(function() {
+    $(`div[id*=-group]`).each(function () {
         addEntryFieldsTableToGroup($(this));
     });
 
     $(".add-entry-fields").off("click");
-    $(".add-entry-fields").on("click", function(e) {
+    $(".add-entry-fields").on("click", function (e) {
         e.preventDefault();
         const $group = $(this).closest("div[id*=-group]");
 
@@ -462,13 +452,13 @@ function initializeAntivenomEntryFields() {
 
 function convertMonovalentPolyvalentFormToExclusive() {
     $("#dialog-form input[type=radio]").off("click");
-    $("#dialog-form input[type=radio]").on("click", function(e) {
+    $("#dialog-form input[type=radio]").on("click", function (e) {
         const name = $(this).attr("name");
         const value = $(this).val();
         $(this)
             .closest("form")
             .find("input[type=radio]")
-            .each(function() {
+            .each(function () {
                 const opposedValue = value === "true" ? "false" : "true";
 
                 if ($(this).attr("name") !== name && opposedValue === $(this).val()) {
@@ -480,9 +470,7 @@ function convertMonovalentPolyvalentFormToExclusive() {
 
 function resetFormMessage() {
     $("input[name=productName]").removeClass("ui-state-error");
-    $("#form-message")
-        .text("")
-        .removeClass("ui-state-highlight");
+    $("#form-message").text("").removeClass("ui-state-highlight");
 }
 
 async function addAntivenomProduct(categoryOptionComboId) {
@@ -523,7 +511,7 @@ function initializeAddProductDialog() {
         modal: true,
         title: "Create Product",
         buttons: {
-            Create: function() {
+            Create: function () {
                 var categoryOptionComboId = $("#dialog-form").data("categoryOptionCombo");
 
                 addAntivenomProduct(categoryOptionComboId).then(result => {
@@ -533,11 +521,11 @@ function initializeAddProductDialog() {
                     }
                 });
             },
-            Cancel: function() {
+            Cancel: function () {
                 addProductDialog.dialog("close");
             },
         },
-        close: function() {
+        close: function () {
             addProductDialog.find("form")[0].reset();
             resetFormMessage();
         },

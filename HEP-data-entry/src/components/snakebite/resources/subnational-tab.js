@@ -10,7 +10,7 @@ class SubnationalTab {
     }
 
     updateSubnationalDataElementTotals(orgUnitDataElementId) {
-        this.$tabContainer.find('input[name="subnationalTotal"]').each(function() {
+        this.$tabContainer.find('input[name="subnationalTotal"]').each(function () {
             const totalId = $(this).attr("subnationaltotalid");
 
             if (!orgUnitDataElementId || orgUnitDataElementId == totalId) {
@@ -139,7 +139,7 @@ class SubnationalTab {
 
                 this.updateSubnationalDataElementTotals();
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the request");
                 console.log(xhr);
             },
@@ -177,9 +177,7 @@ class SubnationalTab {
                 }));
 
                 if (this.orgUnits.length > 0) {
-                    $(`a[href="#${tabId}"]`)
-                        .closest("li")
-                        .show();
+                    $(`a[href="#${tabId}"]`).closest("li").show();
                     //TODO: move this to custom form
                     const tableOptions = {
                         data: this.orgUnits,
@@ -197,12 +195,10 @@ class SubnationalTab {
                     this.$tabContainer.find("#custom-form-loader").hide();
                 } else {
                     const tabId = this.$tabContainer.attr("id");
-                    $(`a[href="#${tabId}"]`)
-                        .closest("li")
-                        .hide();
+                    $(`a[href="#${tabId}"]`).closest("li").hide();
                 }
             },
-            error: function(xhr) {
+            error: function (xhr) {
                 console.log("Error in the request");
                 console.log(xhr);
             },

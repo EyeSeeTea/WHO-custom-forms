@@ -1,403 +1,1524 @@
 <script type="text/javascript">
-  var yespartialno = [];
-  var categoryIssues = [];
-  var yesno = [];
-  var comments = [];
+    var yespartialno = [];
+    var categoryIssues = [];
+    var yesno = [];
+    var comments = [];
 
-  function get_resource_link(element_id, tokens) {
-    $.ajax({
-      url: "../api/documents",
-      type: "get",
-      data: {
-        fields: 'id',
-        filter: 'name:token:'+tokens
-      },
-      success: function(response) {
-        id = response['documents'][0]['id'];
-        document.getElementById(element_id).href= '../api/documents/'+ id + '/data'
-      },
-      error: function(xhr) {
-        console.log("Error in the request");
-        console.log(xhr);
-      }
-    });
-  }
-
-  $(document).ready(function() {
-    $(function() {
-      $("#mod2_tabs").tabs();
-    });
-
-    $(function() {
-      console.log('Updating file resources links')
-      get_resource_link('handbook_link', 'NHWA, Indicator, HandBook');
-      get_resource_link('userguide_link', 'NHWA, User, guide');
-      get_resource_link('occupation_link', 'NHWA, Occupation, Mapping');
-    })
-  });
-  var expanded = false;
-
-  function showCheckboxes(element) {
-    var checkboxes = document.getElementById(element);
-    //var checkboxes = element.id;
-    if (!expanded) {
-      checkboxes.style.display = "block";
-      expanded = true;
-    } else {
-      checkboxes.style.display = "none";
-      expanded = false;
+    function get_resource_link(element_id, tokens) {
+        $.ajax({
+            url: "../api/documents",
+            type: "get",
+            data: {
+                fields: "id",
+                filter: "name:token:" + tokens,
+            },
+            success: function (response) {
+                id = response["documents"][0]["id"];
+                document.getElementById(element_id).href = "../api/documents/" + id + "/data";
+            },
+            error: function (xhr) {
+                console.log("Error in the request");
+                console.log(xhr);
+            },
+        });
     }
-  }
+
+    $(document).ready(function () {
+        $(function () {
+            $("#mod2_tabs").tabs();
+        });
+
+        $(function () {
+            console.log("Updating file resources links");
+            get_resource_link("handbook_link", "NHWA, Indicator, HandBook");
+            get_resource_link("userguide_link", "NHWA, User, guide");
+            get_resource_link("occupation_link", "NHWA, Occupation, Mapping");
+        });
+    });
+    var expanded = false;
+
+    function showCheckboxes(element) {
+        var checkboxes = document.getElementById(element);
+        //var checkboxes = element.id;
+        if (!expanded) {
+            checkboxes.style.display = "block";
+            expanded = true;
+        } else {
+            checkboxes.style.display = "none";
+            expanded = false;
+        }
+    }
 </script>
-<style type="text/css">#cde table {
-    border-collapse: collapse;
-  }
+<style type="text/css">
+    #cde table {
+        border-collapse: collapse;
+    }
 
-  #cde table,
-  #cde th,
-  #cde td {
-    border: 1px solid #c0c0c0;
-  }
+    #cde table,
+    #cde th,
+    #cde td {
+        border: 1px solid #c0c0c0;
+    }
 
-  #cde td,
-  #cde th {
-    height: 30px;
-    padding: 10px;
-    margin: 10px;
-  }
+    #cde td,
+    #cde th {
+        height: 30px;
+        padding: 10px;
+        margin: 10px;
+    }
 
-  .cde-greyfield {
-    background-color: #e0e0e0;
-  }
+    .cde-greyfield {
+        background-color: #e0e0e0;
+    }
 
-  .multiselect {
-    width: 650px;
-  }
+    .multiselect {
+        width: 650px;
+    }
 
-  .selectBox {
-    position: relative;
-  }
+    .selectBox {
+        position: relative;
+    }
 
-  .selectBox select {
-    width: 100%;
-    font-weight: bold;
-  }
+    .selectBox select {
+        width: 100%;
+        font-weight: bold;
+    }
 
-  .overSelect {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-  }
+    .overSelect {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
 
-  .hwf {
-    display: none;
-    border: 1px #dadada solid;
-  }
+    .hwf {
+        display: none;
+        border: 1px #dadada solid;
+    }
 
-  label {
-    display: block;
-    text-align: left;
-  }
+    label {
+        display: block;
+        text-align: left;
+    }
 </style>
-<h3 style="text-align: center;"><strong>Health Workforce Market Flow</strong></h3>
+<h3 style="text-align: center"><strong>Health Workforce Market Flow</strong></h3>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/p6IINqTYv2f/data" id="handbook_link" target="_blank">Access the NHWA HANDBOOK</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times">
+    <a href="../api/documents/p6IINqTYv2f/data" id="handbook_link" target="_blank"
+        >Access the NHWA HANDBOOK</a
+    >
+</h4>
 
-<h4 new="" roman="" style="text-align: right; font-family: times;"><a href="../api/documents/OCoAAGYwapP/data" id="userguide_link" target="_blank">Access the NHWA USER GUIDE</a></h4>
+<h4 new="" roman="" style="text-align: right; font-family: times">
+    <a href="../api/documents/OCoAAGYwapP/data" id="userguide_link" target="_blank"
+        >Access the NHWA USER GUIDE</a
+    >
+</h4>
 
 <div id="mod2_tabs">
-<ul>
-	<li><a href="#tab0">Entry into Labour Market</a></li>
-	<li><a href="#tab1">Exit from Labour Market</a></li>
-	<li><a href="#tab2">Other Resources</a></li>
-</ul>
+    <ul>
+        <li><a href="#tab0">Entry into Labour Market</a></li>
+        <li><a href="#tab1">Exit from Labour Market</a></li>
+        <li><a href="#tab2">Other Resources</a></li>
+    </ul>
 
-<div id="tab0">
-<h2>SECTION 1: Entry into Labour Market</h2>
+    <div id="tab0">
+        <h2>SECTION 1: Entry into Labour Market</h2>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="2">SN</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Occupation</th>
-			<th rowspan="2" style="text-align: center;">Started practicing within<br />
-			one year of graduation (5-01)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;">Started practicing within<br />
-			one year of graduation By Sex&nbsp;(5-01)</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Total &nbsp;newly &nbsp;active domestic<br />
-			trained HWF&nbsp;(5-02)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;">Newly active domestic<br />
-			trained HWF By Sex&nbsp;(5-02)</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Total newly active foreign<br />
-			trained employed&nbsp;(5-03)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;">Newly active foreign<br />
-			trained employed By Sex&nbsp;(5-03)</th>
-		</tr>
-		<tr>
-			<th colspan="1" style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-			<th style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-			<th style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Medical Doctors</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Medical Doctors" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]" /></td>
-		</tr>
-		<tr>
-			<td>1.1</td>
-			<td>
-			<p style="margin-left: 20px; text-align: Left;">General Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>1.2</td>
-			<td>
-			<p style="margin-left: 20px; text-align: Left;">Specialist Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td style="text-align: Left;">Nursing Professional</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Nursing Professional" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td style="text-align: Left;">Midwifery Professional</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Midwifery Professional" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td style="text-align: Left;">Dentist</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Dentist" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Dentist" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Dentist" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Dentist" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Dentist ]" /></td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td style="text-align: Left;">Pharmacist</td>
-			<td style="text-align: center;"><input id="P9FK7e2Ngsz-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist" value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="qNRERx0Icjw-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist" value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="SSzpjcForGt-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist" value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="DwYaOZuilM8-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="gvkPV8aqP39-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="sF1LtVEqk6Y-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="OI5vu4jG4Rf-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="h1S7GCkmvVn-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="ftfTDf31OnN-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Pharmacist" value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Pharmacist ]" /></td>
-		</tr>
-	</thead>
-</table>
-</div>
-</div>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="1" rowspan="2">SN</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">Occupation</th>
+                        <th rowspan="2" style="text-align: center">
+                            Started practicing within<br />
+                            one year of graduation (5-01)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            Started practicing within<br />
+                            one year of graduation By Sex&nbsp;(5-01)
+                        </th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Total &nbsp;newly &nbsp;active domestic<br />
+                            trained HWF&nbsp;(5-02)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            Newly active domestic<br />
+                            trained HWF By Sex&nbsp;(5-02)
+                        </th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Total newly active foreign<br />
+                            trained employed&nbsp;(5-03)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            Newly active foreign<br />
+                            trained employed By Sex&nbsp;(5-03)
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="1" style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                        <th style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                        <th style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: Left">Medical Doctors</td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: Left">
+                                General Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: Left">
+                                Specialist Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td style="text-align: Left">Nursing Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td style="text-align: Left">Midwifery Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td style="text-align: Left">Dentist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Dentist"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Dentist"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Dentist"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Dentist ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td style="text-align: Left">Pharmacist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="P9FK7e2Ngsz-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qNRERx0Icjw-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist"
+                                value="[ NHWA_Male Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="SSzpjcForGt-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist"
+                                value="[ NHWA_Female Health workforce Started practicing within one year of graduation old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="DwYaOZuilM8-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active domestic trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Newly active domestic trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="gvkPV8aqP39-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active domestic trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Male newly active domestic trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sF1LtVEqk6Y-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active domestic trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Female newly active domestic trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="OI5vu4jG4Rf-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Newly active foreign trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Newly active foreign trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="h1S7GCkmvVn-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male newly active foreign trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Male newly active foreign trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="ftfTDf31OnN-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female newly active foreign trained Health Workforce old_NHWA_Pharmacist"
+                                value="[ NHWA_Female newly active foreign trained Health Workforce old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
-<div id="tab1">
-<h2>SECTION 2: Exit from Labour Market&nbsp;</h2>
+    <div id="tab1">
+        <h2>SECTION 2: Exit from Labour Market&nbsp;</h2>
 
-<div id="cde">&nbsp;
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th colspan="1" rowspan="2">SN</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Occupation</th>
-			<th colspan="1" rowspan="2" style="text-align: center;"><b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b">Currently unemployed&nbsp;</b>(5-06)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;"><b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b">Currently unemployed&nbsp;</b>(5-06)</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Vacancy rate<br />
-			(%)&nbsp;(5-07)</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Voluntary exits&nbsp;(5-04)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;">Voluntary exits<br />
-			(5-04)</th>
-			<th colspan="1" rowspan="2" style="text-align: center;">Involuntary exits&nbsp;(5-05)</th>
-			<th colspan="2" rowspan="1" style="text-align: center;">Involuntary exits&nbsp;(5-05)</th>
-		</tr>
-		<tr>
-			<th style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-			<th style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-			<th style="text-align: center;">Male</th>
-			<th style="text-align: center;">Female</th>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Medical Doctors</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Medical Doctors" value="[ NHWA_Health workforce currently unemployed old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Medical Doctors" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Medical Doctors" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Medical Doctors" value="[ NHWA_Vacancy rate for HWF old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-woIm3nuS3mM-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]" /></td>
-		</tr>
-		<tr>
-			<td>1.1</td>
-			<td>
-			<p style="margin-left: 20px; text-align: Left;">General Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce currently unemployed old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_General Medical Practitioner" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_General Medical Practitioner" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_General Medical Practitioner" value="[ NHWA_Vacancy rate for HWF old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-Eh8fZEewQLs-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>1.2</td>
-			<td>
-			<p style="margin-left: 20px; text-align: Left;">Specialist Medical Practitioner</p>
-			</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Vacancy rate for HWF old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-Rr4F4xljMoJ-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]" /></td>
-		</tr>
-		<tr>
-			<td>2</td>
-			<td style="text-align: Left;">Nursing Professional</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Nursing Professional" value="[ NHWA_Health workforce currently unemployed old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Nursing Professional" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Nursing Professional" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Nursing Professional" value="[ NHWA_Vacancy rate for HWF old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-gT8LDQDh2wc-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>3</td>
-			<td style="text-align: Left;">Midwifery Professional</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce currently unemployed old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Midwifery Professional" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Midwifery Professional" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Midwifery Professional" value="[ NHWA_Vacancy rate for HWF old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-GrzcLgIHx9h-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]" /></td>
-		</tr>
-		<tr>
-			<td>4</td>
-			<td style="text-align: Left;">Dentist</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Dentist" value="[ NHWA_Health workforce currently unemployed old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Dentist" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Dentist" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Dentist" value="[ NHWA_Vacancy rate for HWF old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Dentist" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Dentist" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Dentist" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Dentist" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Dentist" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Dentist ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-BUVRp4Q2zi7-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Dentist" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Dentist ]" /></td>
-		</tr>
-		<tr>
-			<td>5</td>
-			<td style="text-align: Left;">Pharmacist</td>
-			<td style="text-align: center;"><input id="sdNHn8qmokO-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce currently unemployed old_NHWA_Pharmacist" value="[ NHWA_Health workforce currently unemployed old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="Xr81a9iOAyC-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce currently unemployed old_NHWA_Pharmacist" value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="kcoQHDRTi4E-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce currently unemployed old_NHWA_Pharmacist" value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="aeGGK8bRvmr-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Vacancy rate for HWF old_NHWA_Pharmacist" value="[ NHWA_Vacancy rate for HWF old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="BOPZbzxOfSA-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="qQBFc1FSZBd-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="sw0lh63wqsA-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="NNQYgAf2Cj8-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="AZqsANkZRnD-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]" /></td>
-			<td style="text-align: center;"><input id="yazrkuSMGHD-UbXO8Hq562j-val" name="entryfield" style="width:3.5em/" title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Pharmacist" value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]" /></td>
-		</tr>
-	</thead>
-</table>
-</div>
-</div>
+        <div id="cde">
+            &nbsp;
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th colspan="1" rowspan="2">SN</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">Occupation</th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            <b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b"
+                                >Currently unemployed&nbsp;</b
+                            >(5-06)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            <b id="docs-internal-guid-e15d3214-c8c2-1417-1ff6-230acf832b8b"
+                                >Currently unemployed&nbsp;</b
+                            >(5-06)
+                        </th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Vacancy rate<br />
+                            (%)&nbsp;(5-07)
+                        </th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Voluntary exits&nbsp;(5-04)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            Voluntary exits<br />
+                            (5-04)
+                        </th>
+                        <th colspan="1" rowspan="2" style="text-align: center">
+                            Involuntary exits&nbsp;(5-05)
+                        </th>
+                        <th colspan="2" rowspan="1" style="text-align: center">
+                            Involuntary exits&nbsp;(5-05)
+                        </th>
+                    </tr>
+                    <tr>
+                        <th style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                        <th style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                        <th style="text-align: center">Male</th>
+                        <th style="text-align: center">Female</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: Left">Medical Doctors</td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Medical Doctors"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-woIm3nuS3mM-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Medical Doctors ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.1</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: Left">
+                                General Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-Eh8fZEewQLs-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_General Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1.2</td>
+                        <td>
+                            <p style="margin-left: 20px; text-align: Left">
+                                Specialist Medical Practitioner
+                            </p>
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-Rr4F4xljMoJ-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Specialist Medical Practitioner ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td style="text-align: Left">Nursing Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Nursing Professional"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-gT8LDQDh2wc-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Nursing Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td style="text-align: Left">Midwifery Professional</td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-GrzcLgIHx9h-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Midwifery Professional ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td style="text-align: Left">Dentist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Dentist"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Dentist"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Dentist"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-BUVRp4Q2zi7-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Dentist"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Dentist ]"
+                            />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td style="text-align: Left">Pharmacist</td>
+                        <td style="text-align: center">
+                            <input
+                                id="sdNHn8qmokO-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce currently unemployed old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce currently unemployed old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="Xr81a9iOAyC-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce currently unemployed old_NHWA_Pharmacist"
+                                value="[ NHWA_Male Health workforce currently unemployed old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="kcoQHDRTi4E-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce currently unemployed old_NHWA_Pharmacist"
+                                value="[ NHWA_Female Health workforce currently unemployed old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="aeGGK8bRvmr-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Vacancy rate for HWF old_NHWA_Pharmacist"
+                                value="[ NHWA_Vacancy rate for HWF old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="BOPZbzxOfSA-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have voluntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="qQBFc1FSZBd-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Male Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="sw0lh63wqsA-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Female Health workforce who have voluntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="NNQYgAf2Cj8-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Health workforce who have involuntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="AZqsANkZRnD-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Male Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                        <td style="text-align: center">
+                            <input
+                                id="yazrkuSMGHD-UbXO8Hq562j-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Pharmacist"
+                                value="[ NHWA_Female Health workforce who have involuntary exit from the force old_NHWA_Pharmacist ]"
+                            />
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
-<div id="tab2">
-<h2>SECTION 3: HWF OTHER RESOURCES</h2>
+    <div id="tab2">
+        <h2>SECTION 3: HWF OTHER RESOURCES</h2>
 
-<div id="cde">
-<table cellpadding="0" cellspacing="0">
-	<thead>
-		<tr>
-			<th>SN</th>
-			<th>Item</th>
-			<th>Value</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>1</td>
-			<td style="text-align: Left;">Upload other resources</td>
-			<td><input id="ek4BsT4iUo8-Xr12mI7VPn3-val" name="entryfield" style="width:3.5em/" title="NHWA_HWF Module 5 File upload" value="[ NHWA_HWF Module 5 File upload ]" /></td>
-		</tr>
-	</tbody>
-</table>
-</div>
-</div>
+        <div id="cde">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>SN</th>
+                        <th>Item</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td style="text-align: Left">Upload other resources</td>
+                        <td>
+                            <input
+                                id="ek4BsT4iUo8-Xr12mI7VPn3-val"
+                                name="entryfield"
+                                style="width: 3.5em/"
+                                title="NHWA_HWF Module 5 File upload"
+                                value="[ NHWA_HWF Module 5 File upload ]"
+                            />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

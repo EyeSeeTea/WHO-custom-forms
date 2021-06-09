@@ -104,20 +104,29 @@
         margin-top: -11px;
         margin-left: -4px;
         text-align: center;
-        text-shadow: rgb(176, 190, 217) 1px 1px, rgb(176, 190, 217) -1px -1px, rgb(176, 190, 217) 1px -1px, rgb(176, 190, 217) -1px 1px;
+        text-shadow: rgb(176, 190, 217) 1px 1px, rgb(176, 190, 217) -1px -1px,
+            rgb(176, 190, 217) 1px -1px, rgb(176, 190, 217) -1px 1px;
     }
 </style>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css" />
-<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css" />
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+/>
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/buttons/1.6.0/css/buttons.dataTables.min.css"
+/>
+<link
+    rel="stylesheet"
+    href="https://cdn.datatables.net/select/1.2.1/css/select.dataTables.min.css"
+/>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
 <script type="text/javascript">
-
     var missingTotalsRows = [];
     var module1TotalsTable;
 
@@ -221,7 +230,8 @@
             licensedToPractice: { id: "m7MTceflWz3-xcotqxKxwlL-val" },
         },
         {
-            occuppation: "2.2.1 - Nursing Associate Professionals (with additional midwifery training)",
+            occuppation:
+                "2.2.1 - Nursing Associate Professionals (with additional midwifery training)",
             total: { id: "KwIlxiiBBjV-Xr12mI7VPn3-val" },
             practising: { id: "c4JWYSERnO2-drJDZnHzeBH-val" },
             professionallyActive: { id: "c4JWYSERnO2-VPShWMVpQkb-val" },
@@ -556,20 +566,19 @@
                 dataElementIdScheme: "UID",
                 dataValues: dataValues,
                 idScheme: "UID",
-                orgUnitIdScheme: "UID"
+                orgUnitIdScheme: "UID",
             }),
             success: function (response) {
                 console.log(response);
                 alert(
                     `Status: ${response.status}\n` +
-                    `Overview: ${response.description}\n` +
-                    `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                    `\n${response.conflicts
-                        ? response.conflicts.map(
-                            e => "CONFLICT: " + e.value + "\n"
-                        )
-                        : ""
-                    }`
+                        `Overview: ${response.description}\n` +
+                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
+                        `\n${
+                            response.conflicts
+                                ? response.conflicts.map(e => "CONFLICT: " + e.value + "\n")
+                                : ""
+                        }`
                 );
                 $("#loading").hide();
                 location.reload();
@@ -578,77 +587,140 @@
                 debugger;
                 $("#loading").hide();
                 console.log({ error });
-            }
+            },
         });
     }
 
     function loadInvalidTotalsByActivityLevel() {
-
         $.ajax({
             type: "GET",
             dataType: "json",
             url: "../api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits[id,shortName]",
             success: function (orgUnitsResponse) {
-                const orgUnitIds = orgUnitsResponse.organisationUnits
-                    .map(({ id }) => id)
-                    .join(",");
+                const orgUnitIds = orgUnitsResponse.organisationUnits.map(({ id }) => id).join(",");
 
-                const periods = dhis2.report.periods.length > 0 ? "period=" + dhis2.report.periods.join(",") :
-                    "startDate=1970-01-01&endDate=2100-01-01";
+                const periods =
+                    dhis2.report.periods.length > 0
+                        ? "period=" + dhis2.report.periods.join(",")
+                        : "startDate=1970-01-01&endDate=2100-01-01";
 
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: "../api/dataValueSets.json?dataSet=Tu81BTLUuCT&" + periods + "&orgUnit=" +
+                    url:
+                        "../api/dataValueSets.json?dataSet=Tu81BTLUuCT&" +
+                        periods +
+                        "&orgUnit=" +
                         orgUnitIds,
                     success: function (response) {
                         const dataEntryRows = _(response.dataValues)
-                            .groupBy((item) => [item['orgUnit'] + "-" + item['period']])
+                            .groupBy(item => [item["orgUnit"] + "-" + item["period"]])
                             .mapValues(values => {
-                                const orgUnit = orgUnitsResponse.organisationUnits.find(orgUnit => orgUnit.id === values[0].orgUnit);
+                                const orgUnit = orgUnitsResponse.organisationUnits.find(
+                                    orgUnit => orgUnit.id === values[0].orgUnit
+                                );
                                 const period = values[0].period;
 
-                                const findValue = (id) => values.find(value => value.dataElement + "-" + value.categoryOptionCombo + "-val" === id)
+                                const findValue = id =>
+                                    values.find(
+                                        value =>
+                                            value.dataElement +
+                                                "-" +
+                                                value.categoryOptionCombo +
+                                                "-val" ===
+                                            id
+                                    );
 
                                 const dataEntryGroupRows = dataEntryTemplate.map(item => {
                                     const totalValue = findValue(item.total.id);
-                                    const practisingValue = findValue(item.practising.id);;
-                                    const professionallyActiveValue = findValue(item.professionallyActive.id);;
-                                    const licensedToPracticeValue = findValue(item.licensedToPractice.id);;
+                                    const practisingValue = findValue(item.practising.id);
+                                    const professionallyActiveValue = findValue(
+                                        item.professionallyActive.id
+                                    );
+                                    const licensedToPracticeValue = findValue(
+                                        item.licensedToPractice.id
+                                    );
 
                                     const dataEntryRow = {
-                                        ...item, orgUnitId: orgUnit.id, orgUnitName: orgUnit.shortName, period,
-                                        total: { ...item.total, value: totalValue && totalValue.value ? +totalValue.value : 0 },
-                                        practising: { ...item.practising, value: practisingValue && practisingValue.value ? +practisingValue.value : 0 },
-                                        professionallyActive: { ...item.professionallyActive, value: professionallyActiveValue && professionallyActiveValue.value ? +professionallyActiveValue.value : 0 },
-                                        licensedToPractice: { ...item.licensedToPractice, value: licensedToPracticeValue && licensedToPracticeValue.value ? +licensedToPracticeValue.value : 0 }
-                                    }
+                                        ...item,
+                                        orgUnitId: orgUnit.id,
+                                        orgUnitName: orgUnit.shortName,
+                                        period,
+                                        total: {
+                                            ...item.total,
+                                            value:
+                                                totalValue && totalValue.value
+                                                    ? +totalValue.value
+                                                    : 0,
+                                        },
+                                        practising: {
+                                            ...item.practising,
+                                            value:
+                                                practisingValue && practisingValue.value
+                                                    ? +practisingValue.value
+                                                    : 0,
+                                        },
+                                        professionallyActive: {
+                                            ...item.professionallyActive,
+                                            value:
+                                                professionallyActiveValue &&
+                                                professionallyActiveValue.value
+                                                    ? +professionallyActiveValue.value
+                                                    : 0,
+                                        },
+                                        licensedToPractice: {
+                                            ...item.licensedToPractice,
+                                            value:
+                                                licensedToPracticeValue &&
+                                                licensedToPracticeValue.value
+                                                    ? +licensedToPracticeValue.value
+                                                    : 0,
+                                        },
+                                    };
 
-                                    const correctTotal = dataEntryRow.practising.value !== 0 ? dataEntryRow.practising.value :
-                                        dataEntryRow.professionallyActive.value !== 0 ? dataEntryRow.professionallyActive.value :
-                                            dataEntryRow.licensedToPractice.value !== 0 ? dataEntryRow.licensedToPractice.value : 0;
+                                    const correctTotal =
+                                        dataEntryRow.practising.value !== 0
+                                            ? dataEntryRow.practising.value
+                                            : dataEntryRow.professionallyActive.value !== 0
+                                            ? dataEntryRow.professionallyActive.value
+                                            : dataEntryRow.licensedToPractice.value !== 0
+                                            ? dataEntryRow.licensedToPractice.value
+                                            : 0;
 
-                                    const comment = correctTotal === dataEntryRow.practising.value ? "Value obtained from Practising" :
-                                        correctTotal === dataEntryRow.professionallyActive.value ? "Value obtained from Professionally Active" :
-                                            correctTotal === dataEntryRow.licensedToPractice.value ? "Value obtained from Licensed to Practice" : "";
+                                    const comment =
+                                        correctTotal === dataEntryRow.practising.value
+                                            ? "Value obtained from Practising"
+                                            : correctTotal ===
+                                              dataEntryRow.professionallyActive.value
+                                            ? "Value obtained from Professionally Active"
+                                            : correctTotal === dataEntryRow.licensedToPractice.value
+                                            ? "Value obtained from Licensed to Practice"
+                                            : "";
 
-                                    const dataEntryRowWithCorrectTotal = { ...dataEntryRow, correctTotal: { id: item.total.id, value: correctTotal, comment } };
+                                    const dataEntryRowWithCorrectTotal = {
+                                        ...dataEntryRow,
+                                        correctTotal: {
+                                            id: item.total.id,
+                                            value: correctTotal,
+                                            comment,
+                                        },
+                                    };
 
                                     return dataEntryRowWithCorrectTotal;
-                                })
+                                });
 
                                 return dataEntryGroupRows;
                             })
                             .values()
                             .flatten()
-                            .value()
+                            .value();
 
                         missingTotalsRows = dataEntryRows.filter(row => {
-                            return row.total.value === 0 && row.correctTotal.value !== 0
+                            return row.total.value === 0 && row.correctTotal.value !== 0;
                         });
 
                         // using array data in table becuase grouping does not work with objects as data
-                        missingTotalsRows.forEach((item) => {
+                        missingTotalsRows.forEach(item => {
                             module1TotalsTable.row.add([
                                 "",
                                 item.orgUnitName,
@@ -656,7 +728,9 @@
                                 item.occuppation,
                                 item.total.value ? item.total.value : "-",
                                 item.practising.value ? item.practising.value : "-",
-                                item.professionallyActive.value ? item.professionallyActive.value : "-",
+                                item.professionallyActive.value
+                                    ? item.professionallyActive.value
+                                    : "-",
                                 item.licensedToPractice.value ? item.licensedToPractice.value : "-",
                                 item.correctTotal.value,
                                 item.correctTotal.comment,
@@ -673,26 +747,26 @@
                         debugger;
                         $("#loading").hide();
                         console.log({ error });
-                    }
+                    },
                 });
             },
             error: function (error) {
                 debugger;
                 $("#loading").hide();
                 console.log({ error });
-            }
+            },
         });
     }
 
     function mapRowDataToDataValue(data) {
         return {
-            dataElement: data[10].split('-')[0],
+            dataElement: data[10].split("-")[0],
             period: data[2],
             orgUnit: data[11],
-            categoryOptionCombo: data[10].split('-')[1],
+            categoryOptionCombo: data[10].split("-")[1],
             value: data[8],
-            comment: data[9]
-        }
+            comment: data[9],
+        };
     }
 
     jQuery(document).ready(function () {
@@ -703,25 +777,25 @@
             columnDefs: [
                 {
                     orderable: false,
-                    className: 'select-checkbox',
-                    targets: 0
+                    className: "select-checkbox",
+                    targets: 0,
                 },
                 {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button>Fix!</button>"
+                    targets: -1,
+                    data: null,
+                    defaultContent: "<button>Fix!</button>",
                 },
             ],
             select: {
-                style: 'multi',
-                selector: 'td:first-child'
+                style: "multi",
+                selector: "td:first-child",
             },
             order: [
                 [1, "asc"],
-                [2, "asc"]
+                [2, "asc"],
             ],
             rowGroup: {
-                dataSrc: [1, 2]
+                dataSrc: [1, 2],
             },
             buttons: {
                 buttons: [
@@ -729,18 +803,18 @@
                         text: "Fix incorrect totals",
                         action: function (e, dt, node, config) {
                             debugger;
-                            const data = dt.rows({ search: 'applied' }).data();
+                            const data = dt.rows({ search: "applied" }).data();
 
                             const dataValues = [];
 
                             // map is not possible becuase is a object with extra props, not array
                             for (var i = 0; i < data.length; i++) {
-                                const dataValue = mapRowDataToDataValue(data[i])
-                                dataValues.push(dataValue)
+                                const dataValue = mapRowDataToDataValue(data[i]);
+                                dataValues.push(dataValue);
                             }
 
                             saveDataValuesSet(dataValues);
-                        }
+                        },
                     },
                     {
                         text: "Fix incorrect totals in selected",
@@ -752,44 +826,50 @@
 
                             // map is not possible becuase is a object with extra props, not array
                             for (var i = 0; i < data.length; i++) {
-                                const dataValue = mapRowDataToDataValue(data[i])
-                                dataValues.push(dataValue)
+                                const dataValue = mapRowDataToDataValue(data[i]);
+                                dataValues.push(dataValue);
                             }
 
                             saveDataValuesSet(dataValues);
-                        }
-                    }
-                ]
-            }
+                        },
+                    },
+                ],
+            },
         });
 
-        module1TotalsTable.on("click", "th.select-checkbox", function () {
+        module1TotalsTable
+            .on("click", "th.select-checkbox", function () {
+                debugger;
+                if ($("th.select-checkbox").hasClass("selected")) {
+                    module1TotalsTable.rows().deselect();
+                    $("th.select-checkbox").removeClass("selected");
+                } else {
+                    module1TotalsTable.rows().select();
+                    $("th.select-checkbox").addClass("selected");
+                }
+            })
+            .on("select deselect", function () {
+                ("Some selection or deselection going on");
+                if (
+                    module1TotalsTable
+                        .rows({
+                            selected: true,
+                        })
+                        .count() !== module1TotalsTable.rows().count()
+                ) {
+                    $("th.select-checkbox").removeClass("selected");
+                } else {
+                    $("th.select-checkbox").addClass("selected");
+                }
+            });
+
+        $("#module1TotalsTable tbody").on("click", "button", function () {
             debugger;
-            if ($("th.select-checkbox").hasClass("selected")) {
-                module1TotalsTable.rows().deselect();
-                $("th.select-checkbox").removeClass("selected");
-            } else {
-                module1TotalsTable.rows().select();
-                $("th.select-checkbox").addClass("selected");
-            }
-        }).on("select deselect", function () {
-            ("Some selection or deselection going on")
-            if (module1TotalsTable.rows({
-                selected: true
-            }).count() !== module1TotalsTable.rows().count()) {
-                $("th.select-checkbox").removeClass("selected");
-            } else {
-                $("th.select-checkbox").addClass("selected");
-            }
-        });
+            var data = module1TotalsTable.row($(this).parents("tr")).data();
 
-        $('#module1TotalsTable tbody').on('click', 'button', function () {
-            debugger;
-            var data = module1TotalsTable.row($(this).parents('tr')).data();
+            const dataValues = [mapRowDataToDataValue(data)];
 
-            const dataValues = [mapRowDataToDataValue(data)]
-
-            saveDataValuesSet(dataValues)
+            saveDataValuesSet(dataValues);
         });
 
         loadInvalidTotalsByActivityLevel();
@@ -797,10 +877,8 @@
 </script>
 
 <div>
-
     <h3>
-        Module 1 totals by Activity Label with missing value that does not match the
-        auto-calculated
+        Module 1 totals by Activity Label with missing value that does not match the auto-calculated
     </h3>
     <table class="listTable gridTable" id="module1TotalsTable">
         <thead>
@@ -823,5 +901,4 @@
     <div id="loading">
         <div id="spinner"></div>
     </div>
-
 </div>

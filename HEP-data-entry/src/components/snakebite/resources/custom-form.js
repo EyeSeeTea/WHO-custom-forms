@@ -5,20 +5,20 @@ async function initializeAndSelectAntivenomEntryFields() {
     await selectAntivenomProductNames(true);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     initializeAddProductDialog();
 
-    dhis2.util.on("dhis2.de.event.dataValuesLoaded", function(event, ds) {
+    dhis2.util.on("dhis2.de.event.dataValuesLoaded", function (event, ds) {
         selectedOrgUnitId = dhis2.de.currentOrganisationUnitId;
         $("#tabs").tabs({ active: 0 });
 
-        $(".read-only").each(function() {
+        $(".read-only").each(function () {
             $(this).prop("readonly", true);
         });
 
         const subnationalTabs = [];
 
-        $(".subnational-tab").each(function() {
+        $(".subnational-tab").each(function () {
             const subnationalDataSetId = $(this).data("dataset");
 
             subnationalTabs.push(

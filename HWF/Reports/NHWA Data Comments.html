@@ -1,307 +1,299 @@
 <!DOCTYPE html>
 <html id="comments" lang="en" ng-app="report">
-  <head>
-    <!-- Basic Page Needs -->
-    <meta charset="utf-8" />
-    <title>NHWA Data Comments</title>
-    <meta name="description" content="" />
-    <meta name="author" content="" />
+    <head>
+        <!-- Basic Page Needs -->
+        <meta charset="utf-8" />
+        <title>NHWA Data Comments</title>
+        <meta name="description" content="" />
+        <meta name="author" content="" />
 
-    <!-- Mobile Specific Metas -->
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <!-- Mobile Specific Metas -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- FONT -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Raleway:400,300,600"
-      rel="stylesheet"
-      type="text/css"
-    />
+        <!-- FONT -->
+        <link
+            href="https://fonts.googleapis.com/css?family=Raleway:400,300,600"
+            rel="stylesheet"
+            type="text/css"
+        />
 
-    <!-- CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    />
+        <!-- CSS -->
+        <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png" />
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="images/favicon.png" />
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js"></script>
 
-    <style>
-      [ng\:cloak],
-      [ng-cloak],
-      [data-ng-cloak],
-      [x-ng-cloak],
-      .ng-cloak,
-      .x-ng-cloak {
-        display: none !important;
-      }
-      .onprint {
-        display: none;
-      }
-      @media print {
-        .navbar {
-          display: block;
-          border-width: 0 !important;
-        }
-
-        .navbar-toggle {
-          display: none;
-        }
-
-        body {
-          margin: 0;
-        }
-
-        .col-sm-4 {
-          width: 400;
-        }
-        .onprint {
-          display: block;
-        }
-        * {
-          font-size: 101%;
-        }
-      }
-      table {
-        table-layout: fixed;
-      }
-    </style>
-    <script>
-      function printDiv(divName) {
-        var printContents = document.getElementById(divName).innerHTML;
-        var originalContents = document.body.innerHTML;
-
-        document.body.innerHTML = printContents;
-
-        window.print();
-
-        document.body.innerHTML = originalContents;
-      }
-      angular
-        .module("report", [])
-        .filter("name", function() {
-          return function(name) {
-            if (name == "name") {
-              return "Data Element Name";
-            } else if (name == "Stored By") {
-              return "User";
-            } else if (name == "comment") {
-              return "Comment";
-            } else if (name == "lastupdated") {
-              return "Updated On";
-            } else {
-              return name;
+        <style>
+            [ng\:cloak],
+            [ng-cloak],
+            [data-ng-cloak],
+            [x-ng-cloak],
+            .ng-cloak,
+            .x-ng-cloak {
+                display: none !important;
             }
-          };
-        })
-        .controller("comments", function($scope, $http) {
-          $scope.todaysDate = new Date();
-          $scope.dhis2 = {
-            report: dhis2.report
-          };
-          $scope.dataSets = [
-            {
-              id: "Tu81BTLUuCT",
-              name: "NHWA Module 1"
-            },
-            {
-              id: "m5MiTPdlK17",
-              name: "NHWA Module 2"
-            },
-            {
-              id: "pZ3XRBi9gYE",
-              name: "NHWA Module 3"
-            },
-            {
-              id: "HtZb6Cg7TXo",
-              name: "NHWA Module 4"
-            },
-            {
-              id: "cxfAcMbSZe1",
-              name: "NHWA Module 5"
-            },
-            {
-              id: "WDyQKfAvY3V",
-              name: "NHWA Module 6"
-            },
-            {
-              id: "ZRsZdd2AvAR",
-              name: "NHWA Module 7"
-            },
-            {
-              id: "p5z7F51v1ag",
-              name: "NHWA Module 8-10"
-            },
-            {
-              id: "yMoTWVrYvwM",
-              name: "NHWA Maturity data collection"
+            .onprint {
+                display: none;
             }
-          ];
-          $scope.update = function(data) {
-            $scope.loading = true;
-            $http
-              .get(
-                "../api/sqlViews/tGbtM7Oxwjk/data?var=ou:" +
-                  dhis2.report.organisationUnit.id +
-                  "&var=pe:" +
-                  dhis2.report.date.substr(0, 4) +
-                  "&var=dataset:" +
-                  data
-              )
-              .then(function(results) {
-                $scope.loading = false;
-                $scope.data = results.data.listGrid;
-              });
-          };
-        });
-    </script>
-  </head>
-  <body>
-    <!-- Primary Page Layout -->
+            @media print {
+                .navbar {
+                    display: block;
+                    border-width: 0 !important;
+                }
 
-    <div class="container-fluid" ng-controller="comments" ng-cloak>
-      <div class="row">
-        <div class="col-sm-12">
-          <h3>
-            Comments made on NHWA for
-            {{ dhis2.report.organisationUnit.name }} on
-            {{ dhis2.report.date.substr(0, 4) }}
-          </h3>
+                .navbar-toggle {
+                    display: none;
+                }
+
+                body {
+                    margin: 0;
+                }
+
+                .col-sm-4 {
+                    width: 400;
+                }
+                .onprint {
+                    display: block;
+                }
+                * {
+                    font-size: 101%;
+                }
+            }
+            table {
+                table-layout: fixed;
+            }
+        </style>
+        <script>
+            function printDiv(divName) {
+                var printContents = document.getElementById(divName).innerHTML;
+                var originalContents = document.body.innerHTML;
+
+                document.body.innerHTML = printContents;
+
+                window.print();
+
+                document.body.innerHTML = originalContents;
+            }
+            angular
+                .module("report", [])
+                .filter("name", function () {
+                    return function (name) {
+                        if (name == "name") {
+                            return "Data Element Name";
+                        } else if (name == "Stored By") {
+                            return "User";
+                        } else if (name == "comment") {
+                            return "Comment";
+                        } else if (name == "lastupdated") {
+                            return "Updated On";
+                        } else {
+                            return name;
+                        }
+                    };
+                })
+                .controller("comments", function ($scope, $http) {
+                    $scope.todaysDate = new Date();
+                    $scope.dhis2 = {
+                        report: dhis2.report,
+                    };
+                    $scope.dataSets = [
+                        {
+                            id: "Tu81BTLUuCT",
+                            name: "NHWA Module 1",
+                        },
+                        {
+                            id: "m5MiTPdlK17",
+                            name: "NHWA Module 2",
+                        },
+                        {
+                            id: "pZ3XRBi9gYE",
+                            name: "NHWA Module 3",
+                        },
+                        {
+                            id: "HtZb6Cg7TXo",
+                            name: "NHWA Module 4",
+                        },
+                        {
+                            id: "cxfAcMbSZe1",
+                            name: "NHWA Module 5",
+                        },
+                        {
+                            id: "WDyQKfAvY3V",
+                            name: "NHWA Module 6",
+                        },
+                        {
+                            id: "ZRsZdd2AvAR",
+                            name: "NHWA Module 7",
+                        },
+                        {
+                            id: "p5z7F51v1ag",
+                            name: "NHWA Module 8-10",
+                        },
+                        {
+                            id: "yMoTWVrYvwM",
+                            name: "NHWA Maturity data collection",
+                        },
+                    ];
+                    $scope.update = function (data) {
+                        $scope.loading = true;
+                        $http
+                            .get(
+                                "../api/sqlViews/tGbtM7Oxwjk/data?var=ou:" +
+                                    dhis2.report.organisationUnit.id +
+                                    "&var=pe:" +
+                                    dhis2.report.date.substr(0, 4) +
+                                    "&var=dataset:" +
+                                    data
+                            )
+                            .then(function (results) {
+                                $scope.loading = false;
+                                $scope.data = results.data.listGrid;
+                            });
+                    };
+                });
+        </script>
+    </head>
+    <body>
+        <!-- Primary Page Layout -->
+
+        <div class="container-fluid" ng-controller="comments" ng-cloak>
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>
+                        Comments made on NHWA for {{ dhis2.report.organisationUnit.name }} on {{
+                        dhis2.report.date.substr(0, 4) }}
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <select
+                        class="form-control"
+                        ng-model="selectedDataSet"
+                        ng-change="update(selectedDataSet)"
+                    >
+                        <option value="">Select Dataset</option>
+                        <option ng-repeat="dataSet in dataSets" value="{{ dataSet.id }}">
+                            {{ dataSet.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div ng-if="!loading && data" class="row">
+                <div class="col-sm-12">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th
+                                ng-if="!(header.name == 'Country' && dhis2.report.organisationUnitHierarchy.length == 3)"
+                                ng-repeat="header in data.headers"
+                            >
+                                {{ header.name | name }}
+                            </th>
+                        </tr>
+                        <tr ng-repeat="row in data.rows">
+                            <td
+                                ng-if="!(header.name == 'Country' && dhis2.report.organisationUnitHierarchy.length == 3)"
+                                ng-repeat="header in data.headers"
+                            >
+                                {{ row[$index] }}
+                            </td>
+                        </tr>
+                        <tr ng-if="data.rows.length == 0">
+                            <td
+                                ng-if="dhis2.report.organisationUnitHierarchy.length < 3"
+                                colspan="{{ data.headers.length }}"
+                            >
+                                There are no comments on the data
+                            </td>
+                            <td
+                                ng-if="dhis2.report.organisationUnitHierarchy.length == 3"
+                                colspan="{{ data.headers.length - 1 }}"
+                            >
+                                There are no comments on the data
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="row" ng-if="loading" style="text-align: center">
+                <svg
+                    width="120px"
+                    height="120px"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 100 100"
+                    preserveAspectRatio="xMidYMid"
+                    class="uil-balls"
+                >
+                    <rect x="0" y="0" width="100" height="100" fill="none" class="bk"></rect>
+                    <g transform="rotate(0 50 50)">
+                        <circle r="5" cx="30" cy="50">
+                            <animateTransform
+                                attributeName="transform"
+                                type="translate"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                dur="0.5s"
+                                values="0 0;29.999999999999996 -17.320508075688775"
+                                keyTimes="0;1"
+                            />
+                            <animate
+                                attributeName="fill"
+                                dur="0.5s"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                keyTimes="0;1"
+                                values="#c5523f;#f2b736"
+                            />
+                        </circle>
+                    </g>
+                    <g transform="rotate(120 50 50)">
+                        <circle r="5" cx="30" cy="50">
+                            <animateTransform
+                                attributeName="transform"
+                                type="translate"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                dur="0.5s"
+                                values="0 0;29.999999999999996 -17.320508075688775"
+                                keyTimes="0;1"
+                            />
+                            <animate
+                                attributeName="fill"
+                                dur="0.5s"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                keyTimes="0;1"
+                                values="#f2b736;#499255"
+                            />
+                        </circle>
+                    </g>
+                    <g transform="rotate(240 50 50)">
+                        <circle r="5" cx="30" cy="50">
+                            <animateTransform
+                                attributeName="transform"
+                                type="translate"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                dur="0.5s"
+                                values="0 0;29.999999999999996 -17.320508075688775"
+                                keyTimes="0;1"
+                            />
+                            <animate
+                                attributeName="fill"
+                                dur="0.5s"
+                                begin="0s"
+                                repeatCount="indefinite"
+                                keyTimes="0;1"
+                                values="#499255;#c5523f"
+                            />
+                        </circle>
+                    </g>
+                </svg>
+            </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-sm-4">
-          <select
-            class="form-control"
-            ng-model="selectedDataSet"
-            ng-change="update(selectedDataSet)"
-          >
-            <option value="">Select Dataset</option>
-            <option ng-repeat="dataSet in dataSets" value="{{ dataSet.id }}">{{
-              dataSet.name
-            }}</option>
-          </select>
-        </div>
-      </div>
-      <div ng-if="!loading && data" class="row">
-        <div class="col-sm-12">
-          <table class="table table-bordered">
-            <tr>
-              <th
-                ng-if="!(header.name == 'Country' && dhis2.report.organisationUnitHierarchy.length == 3)"
-                ng-repeat="header in data.headers"
-              >
-                {{ header.name | name }}
-              </th>
-            </tr>
-            <tr ng-repeat="row in data.rows">
-              <td
-                ng-if="!(header.name == 'Country' && dhis2.report.organisationUnitHierarchy.length == 3)"
-                ng-repeat="header in data.headers"
-              >
-                {{ row[$index] }}
-              </td>
-            </tr>
-            <tr ng-if="data.rows.length == 0">
-              <td
-                ng-if="dhis2.report.organisationUnitHierarchy.length < 3"
-                colspan="{{ data.headers.length }}"
-              >
-                There are no comments on the data
-              </td>
-              <td
-                ng-if="dhis2.report.organisationUnitHierarchy.length == 3"
-                colspan="{{ data.headers.length - 1 }}"
-              >
-                There are no comments on the data
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="row" ng-if="loading" style="text-align: center">
-        <svg
-          width="120px"
-          height="120px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="xMidYMid"
-          class="uil-balls"
-        >
-          <rect
-            x="0"
-            y="0"
-            width="100"
-            height="100"
-            fill="none"
-            class="bk"
-          ></rect>
-          <g transform="rotate(0 50 50)">
-            <circle r="5" cx="30" cy="50">
-              <animateTransform
-                attributeName="transform"
-                type="translate"
-                begin="0s"
-                repeatCount="indefinite"
-                dur="0.5s"
-                values="0 0;29.999999999999996 -17.320508075688775"
-                keyTimes="0;1"
-              />
-              <animate
-                attributeName="fill"
-                dur="0.5s"
-                begin="0s"
-                repeatCount="indefinite"
-                keyTimes="0;1"
-                values="#c5523f;#f2b736"
-              />
-            </circle>
-          </g>
-          <g transform="rotate(120 50 50)">
-            <circle r="5" cx="30" cy="50">
-              <animateTransform
-                attributeName="transform"
-                type="translate"
-                begin="0s"
-                repeatCount="indefinite"
-                dur="0.5s"
-                values="0 0;29.999999999999996 -17.320508075688775"
-                keyTimes="0;1"
-              />
-              <animate
-                attributeName="fill"
-                dur="0.5s"
-                begin="0s"
-                repeatCount="indefinite"
-                keyTimes="0;1"
-                values="#f2b736;#499255"
-              />
-            </circle>
-          </g>
-          <g transform="rotate(240 50 50)">
-            <circle r="5" cx="30" cy="50">
-              <animateTransform
-                attributeName="transform"
-                type="translate"
-                begin="0s"
-                repeatCount="indefinite"
-                dur="0.5s"
-                values="0 0;29.999999999999996 -17.320508075688775"
-                keyTimes="0;1"
-              />
-              <animate
-                attributeName="fill"
-                dur="0.5s"
-                begin="0s"
-                repeatCount="indefinite"
-                keyTimes="0;1"
-                values="#499255;#c5523f"
-              />
-            </circle>
-          </g>
-        </svg>
-      </div>
-    </div>
-  </body>
+    </body>
 </html>
