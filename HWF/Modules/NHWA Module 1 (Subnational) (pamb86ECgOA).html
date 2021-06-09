@@ -383,17 +383,19 @@
     }
 
     function calculateNumericCell(inputId) {
-        var total = 0;
+        var total = "";
 
-        var calculateNumericCell = calculatedNumericCells.find(function (cell) {
+        var parentCell = calculatedNumericCells.find(function (cell) {
             return cell.id == inputId;
         });
 
-        calculateNumericCell.children.forEach(function (childId) {
+        parentCell.children.forEach(function (childId) {
             var value = $("#" + childId).val();
 
             if (value != "" && !isNaN(value)) {
-                total = total + parseInt(value);
+                currentTotal = total === "" ? 0 : total;
+
+                total = currentTotal + parseInt(value);
             }
         });
 
@@ -569,40 +571,66 @@
     #completeButton {
         display: none;
     }
+
     #newCompleteButton {
         display: inline-block !important;
     }
+
     #cde table {
         border-collapse: collapse;
     }
+
     button[disabled],
     html input[disabled] {
         color: graytext !important;
     }
+
     #cde table,
     #cde th,
     #cde td {
         border: 1px solid #c0c0c0;
     }
+
     #cde td,
     #cde th {
         height: 30px;
         padding: 10px;
         margin: 10px;
     }
+
     .cde-greyfield {
         background-color: #e0e0e0;
     }
+
+    .cde table thead tr:nth-child(1) th {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 48px;
+        background: #ffffff;
+        z-index: 50;
+    }
+
+    .cde table thead tr:nth-child(2) th {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 85px;
+        background: #ffffff;
+        z-index: 50;
+    }
+
     .multiselect {
         width: 650px;
     }
+
     .selectBox {
         position: relative;
     }
+
     .selectBox select {
         width: 100%;
         font-weight: bold;
     }
+
     .overSelect {
         position: absolute;
         left: 0;
@@ -610,10 +638,12 @@
         top: 0;
         bottom: 0;
     }
+
     .hwf {
         display: none;
         border: 1px #dadada solid;
     }
+
     #label {
         display: block;
         text-align: left;
