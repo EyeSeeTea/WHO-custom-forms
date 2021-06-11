@@ -1219,7 +1219,6 @@
             }
         });
         var old_value = $("#" + inputId).val();
-
         $("#" + inputId).val(total);
         if (old_value != total){
                     $("#" + inputId).trigger("change");
@@ -1344,9 +1343,7 @@
     }
 
     function append(tab, i, value) {
-        $("#" + tab + " div#cde table tbody tr:nth-child(" + (i + 1) + ") th:nth-child(3)").empty();
-        $("#" + tab + " div#cde table tbody tr:nth-child(" + (i + 1) + ") th:nth-child(3)").append(
-            value
+        $("#" + tab + " div#cde table tbody tr:nth-child(" + (i + 1) + ") th:nth-child(3) input").val(value
         );
     }
 
@@ -1545,6 +1542,12 @@
 <style type="text/css">
     #completeButton {
         display: none;
+    }
+
+    .other_tab_total{
+            text-align: center;
+            height:28px;
+            width:140px;
     }
 
     #newCompleteButton {
@@ -11442,7 +11445,7 @@
                     <tr class="read-only">
                         <th scope="row">1</th>
                         <th colspan="3" scope="row" style="text-align: left">Medical Doctors</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="GFfMM55sVzg-sAC6z2IMFrR-val"
@@ -11515,7 +11518,7 @@
                                 General Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="vCOrIolhyxP-sAC6z2IMFrR-val"
@@ -11588,7 +11591,7 @@
                                 Specialist Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="dxbj7q8MNNf-sAC6z2IMFrR-val"
@@ -11661,7 +11664,7 @@
                                 General paediatricians
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="rhltpqitzC9-sAC6z2IMFrR-val"
@@ -11734,7 +11737,7 @@
                                 Obstetricians and Gynaecologists
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="y44lwVkMgYI-sAC6z2IMFrR-val"
@@ -11807,7 +11810,7 @@
                                 Psychiatrists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="eXmcYNVuuUY-sAC6z2IMFrR-val"
@@ -11880,7 +11883,7 @@
                                 Medical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="olAQlCURSQR-sAC6z2IMFrR-val"
@@ -11953,7 +11956,7 @@
                                 Surgical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="UJw5MYbIpv9-sAC6z2IMFrR-val"
@@ -12026,7 +12029,7 @@
                                 Other Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td rowspan="1" scope="row">
                             <input
                                 id="MaejJOaJVXy-sAC6z2IMFrR-val"
@@ -12099,7 +12102,7 @@
                                 Medical doctors not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="tPCE4uhj0hy-sAC6z2IMFrR-val"
@@ -12168,7 +12171,7 @@
                     <tr class="read-only">
                         <th scope="row">2</th>
                         <th colspan="3" scope="row" style="text-align: left">Nursing Personnel</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wrceD1un08Y-sAC6z2IMFrR-val"
@@ -12239,7 +12242,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             <p style="text-align: left; margin-left: 20px">Nursing Professionals</p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ejrzC4bEJ5R-sAC6z2IMFrR-val"
@@ -12312,7 +12315,7 @@
                                 Nursing Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="HENe5Xv6B7j-sAC6z2IMFrR-val"
@@ -12385,7 +12388,7 @@
                                 Nursing Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="oWqVbrpimjf-sAC6z2IMFrR-val"
@@ -12458,7 +12461,7 @@
                                 Nursing Associate Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="vhjxKd80p4D-sAC6z2IMFrR-val"
@@ -12531,7 +12534,7 @@
                                 Nurses not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="VIWOOPfPUnX-sAC6z2IMFrR-val"
@@ -12602,7 +12605,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Midwifery personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="MazllecOrQC-sAC6z2IMFrR-val"
@@ -12675,7 +12678,7 @@
                                 Midwifery Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="tWbJWEUNu2F-sAC6z2IMFrR-val"
@@ -12748,7 +12751,7 @@
                                 Midwifery Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Gt3WTdWYUeJ-sAC6z2IMFrR-val"
@@ -12821,7 +12824,7 @@
                                 Midwives not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="arZWO8Ag3iO-sAC6z2IMFrR-val"
@@ -12890,7 +12893,7 @@
                     <tr>
                         <th scope="row">4</th>
                         <th colspan="3" scope="row" style="text-align: left">Dentists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ywCZ6qdZsCX-sAC6z2IMFrR-val"
@@ -12961,7 +12964,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dental Assistants and Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="rQbVIOyPNHb-sAC6z2IMFrR-val"
@@ -13032,7 +13035,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dental Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="JXZp3qBlqKP-sAC6z2IMFrR-val"
@@ -13101,7 +13104,7 @@
                     <tr>
                         <th scope="row">7</th>
                         <th colspan="3" scope="row" style="text-align: left">Pharmacists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Et2p1cf7EeZ-sAC6z2IMFrR-val"
@@ -13172,7 +13175,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Pharmaceutical Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="XAFQH7WySNo-sAC6z2IMFrR-val"
@@ -13243,7 +13246,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Paramedical Practitioners
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="weKsEzlw3cl-sAC6z2IMFrR-val"
@@ -13314,7 +13317,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory scientists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="W4IjHlh3nqi-sAC6z2IMFrR-val"
@@ -13385,7 +13388,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Imaging and Therapeutic Equipment Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Qf4UX9h7VHw-sAC6z2IMFrR-val"
@@ -13456,7 +13459,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="TE5sao73qRm-sAC6z2IMFrR-val"
@@ -13527,7 +13530,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Environmental and Occupational Health Professionals&nbsp;
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="WXgZfcbtl5R-sAC6z2IMFrR-val"
@@ -13598,7 +13601,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Environmental and Occupational Health Inspectors/associates
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ksZnJo3iKXT-sAC6z2IMFrR-val"
@@ -13669,7 +13672,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wichhHKwKBi-sAC6z2IMFrR-val"
@@ -13740,7 +13743,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Associate Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="WVEV44P6jtl-sAC6z2IMFrR-val"
@@ -13811,7 +13814,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Community Health Workers
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="e32KJz6JDNr-sAC6z2IMFrR-val"
@@ -13882,7 +13885,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Personal care workers in health services
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="nhAPWwIgUCL-sAC6z2IMFrR-val"
@@ -13955,7 +13958,7 @@
                                 Health Care Assistants
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="FA3nDd4psmk-sAC6z2IMFrR-val"
@@ -14028,7 +14031,7 @@
                                 Home-based Personal Care
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="f75GbjjbQo6-sAC6z2IMFrR-val"
@@ -14099,7 +14102,7 @@
                         <th colspan="3" scope="row" style="text-align: left; margin-left: 20px">
                             Personal care workers in health service n.e.c
                         </th>
-                        <th scope="row" style="text-align: left; margin-left: 20px">&nbsp;</th>
+                        <th scope="row" style="text-align: left; margin-left: 20px"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="aotiqu4EAWq-sAC6z2IMFrR-val"
@@ -14168,7 +14171,7 @@
                     <tr>
                         <th scope="row">19</th>
                         <th colspan="3" scope="row" style="text-align: left">Physiotherapists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Gi5YLztjtyB-sAC6z2IMFrR-val"
@@ -14239,7 +14242,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Physiotherapy Technicians and Assistants
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="fmNedNy1Dz4-sAC6z2IMFrR-val"
@@ -14308,7 +14311,7 @@
                     <tr>
                         <th scope="row">21</th>
                         <th colspan="3" scope="row" style="text-align: left">Dieticians</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ptLuUHEellT-sAC6z2IMFrR-val"
@@ -14377,7 +14380,7 @@
                     <tr>
                         <th scope="row">22</th>
                         <th colspan="3" scope="row" style="text-align: left">Nutritionists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="goxjwhLBh98-sAC6z2IMFrR-val"
@@ -14448,7 +14451,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Audiologists and Speech Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="sW496bvfky8-sAC6z2IMFrR-val"
@@ -14519,7 +14522,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Optometrists and Ophthalmic Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="vCaW1uucv0A-sAC6z2IMFrR-val"
@@ -14590,7 +14593,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dispensing Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ry2NWNkjLq3-sAC6z2IMFrR-val"
@@ -14661,7 +14664,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="jBu0lozRMGR-sAC6z2IMFrR-val"
@@ -14732,7 +14735,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Records Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="H68Cr5CXfUE-sAC6z2IMFrR-val"
@@ -14801,7 +14804,7 @@
                     <tr>
                         <th scope="row">28</th>
                         <th colspan="3" scope="row" style="text-align: left">Medical Assistants</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="cukiq4gvnKu-sAC6z2IMFrR-val"
@@ -14870,7 +14873,7 @@
                     <tr>
                         <th scope="row">29</th>
                         <th colspan="3" scope="row" style="text-align: left">Ambulance Workers</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="yoh1AojJqBm-sAC6z2IMFrR-val"
@@ -14941,7 +14944,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Social work and counselling professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="F8ml1qKvZIY-sAC6z2IMFrR-val"
@@ -15012,7 +15015,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Social work associate professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="kWzye8GtVeb-sAC6z2IMFrR-val"
@@ -15083,7 +15086,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Biomedical engineer
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="KHL0TSASQzg-sAC6z2IMFrR-val"
@@ -15152,7 +15155,7 @@
                     <tr>
                         <th scope="row">33</th>
                         <th colspan="3" scope="row" style="text-align: left">Psychologists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Lbkg2I4JTgG-sAC6z2IMFrR-val"
@@ -15223,7 +15226,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical secretaries
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="DC17owNKnOo-sAC6z2IMFrR-val"
@@ -15292,7 +15295,7 @@
                     <tr>
                         <th scope="row">35</th>
                         <th colspan="3" scope="row" style="text-align: left">Managerial staff</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Pmr5vKV0JhS-sAC6z2IMFrR-val"
@@ -15363,7 +15366,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Administrative staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="srcYifXOgXq-sAC6z2IMFrR-val"
@@ -15434,7 +15437,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Health information systems personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="NI4NAaV0hSh-sAC6z2IMFrR-val"
@@ -15505,7 +15508,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Engineering and maintenance staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="nsI6nzlSumR-sAC6z2IMFrR-val"
@@ -15576,7 +15579,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Other non-medical professional staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="rzOMBqJQhrD-sAC6z2IMFrR-val"
@@ -15647,7 +15650,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Other non-medical support staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="sFlo2nMKUjV-sAC6z2IMFrR-val"
@@ -15749,7 +15752,7 @@
                     <tr class="read-only">
                         <th scope="row">1</th>
                         <th colspan="4" scope="row" style="text-align: left">Medical Doctors</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ifKISqV6PJh-XTvbzm2HwCZ-val"
@@ -15798,7 +15801,7 @@
                                 General Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="tjT8FgtoZmV-XTvbzm2HwCZ-val"
@@ -15847,7 +15850,7 @@
                                 Specialist Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="eWlZ0JPdgiX-XTvbzm2HwCZ-val"
@@ -15896,7 +15899,7 @@
                                 General paediatricians
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="DqCmuPyyEKP-XTvbzm2HwCZ-val"
@@ -15945,7 +15948,7 @@
                                 Obstetricians and Gynaecologists
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="QayMME14lE1-XTvbzm2HwCZ-val"
@@ -15994,7 +15997,7 @@
                                 Psychiatrists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="a5ii3ZTvZJl-XTvbzm2HwCZ-val"
@@ -16043,7 +16046,7 @@
                                 Medical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="ByA5wj8IJyQ-XTvbzm2HwCZ-val"
@@ -16092,7 +16095,7 @@
                                 Surgical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="Izaihcp5imV-XTvbzm2HwCZ-val"
@@ -16141,7 +16144,7 @@
                                 Other Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="M6upUqnFt2Z-XTvbzm2HwCZ-val"
@@ -16190,7 +16193,7 @@
                                 Medical doctors not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="JRLY2XBpopS-XTvbzm2HwCZ-val"
@@ -16235,7 +16238,7 @@
                     <tr class="read-only">
                         <th scope="row">2</th>
                         <th colspan="4" scope="row" style="text-align: left">Nursing Personnel</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="HmD6AHanlbO-XTvbzm2HwCZ-val"
@@ -16282,7 +16285,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             <p style="text-align: left; margin-left: 20px">Nursing Professionals</p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="oNyG3X3DPbz-XTvbzm2HwCZ-val"
@@ -16331,7 +16334,7 @@
                                 Nursing Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="iJzGpY38k41-XTvbzm2HwCZ-val"
@@ -16380,7 +16383,7 @@
                                 Nursing Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ABy98AXLIvi-XTvbzm2HwCZ-val"
@@ -16429,7 +16432,7 @@
                                 Nursing Associate Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="pRrlf6NYYmU-XTvbzm2HwCZ-val"
@@ -16478,7 +16481,7 @@
                                 Nurses not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="d3IcPgQbeH5-XTvbzm2HwCZ-val"
@@ -16525,7 +16528,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Midwifery personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="qE7bXo1gdhI-XTvbzm2HwCZ-val"
@@ -16574,7 +16577,7 @@
                                 Midwifery Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="EnoivPEWUMM-XTvbzm2HwCZ-val"
@@ -16623,7 +16626,7 @@
                                 Midwifery Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="mEaeC6W4Oga-XTvbzm2HwCZ-val"
@@ -16672,7 +16675,7 @@
                                 Midwives not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="u1aymSGFTqA-XTvbzm2HwCZ-val"
@@ -16717,7 +16720,7 @@
                     <tr>
                         <th scope="row">4</th>
                         <th colspan="4" scope="row" style="text-align: left">Dentists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wFsm98Bnf40-XTvbzm2HwCZ-val"
@@ -16764,7 +16767,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Dental Assistants and Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="kkOw6gPK2OK-XTvbzm2HwCZ-val"
@@ -16811,7 +16814,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Dental Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="XOuEbu7a0Fn-XTvbzm2HwCZ-val"
@@ -16856,7 +16859,7 @@
                     <tr>
                         <th scope="row">7</th>
                         <th colspan="4" scope="row" style="text-align: left">Pharmacists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="O3JfrNS9Ewj-XTvbzm2HwCZ-val"
@@ -16903,7 +16906,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Pharmaceutical Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="rRfHbsBLHRx-XTvbzm2HwCZ-val"
@@ -16950,7 +16953,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Paramedical Practitioners
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="D2jYg0gfya0-XTvbzm2HwCZ-val"
@@ -16997,7 +17000,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory scientists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="JPklATr7DCt-XTvbzm2HwCZ-val"
@@ -17044,7 +17047,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical Imaging and Therapeutic Equipment Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="L9jYzVsoc9L-XTvbzm2HwCZ-val"
@@ -17091,7 +17094,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="gLjLQFU5iGR-XTvbzm2HwCZ-val"
@@ -17138,7 +17141,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Environmental and Occupational Health Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="LrDRewV80hv-XTvbzm2HwCZ-val"
@@ -17185,7 +17188,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Environmental and Occupational Health Inspectors/associates
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="PmJk7pg8ZH7-XTvbzm2HwCZ-val"
@@ -17232,7 +17235,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="AVOrdyQXSal-XTvbzm2HwCZ-val"
@@ -17279,7 +17282,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Associate Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="H9tYjJ0nzgU-XTvbzm2HwCZ-val"
@@ -17326,7 +17329,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Community Health Workers
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="C7jmannlc7B-XTvbzm2HwCZ-val"
@@ -17373,7 +17376,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Personal care workers in health services
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="sRfhRRpv2rH-XTvbzm2HwCZ-val"
@@ -17422,7 +17425,7 @@
                                 Health Care Assistants
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="C1oMSkmD5am-XTvbzm2HwCZ-val"
@@ -17471,7 +17474,7 @@
                                 Home-based Personal Care
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="JBCKANhdTX4-XTvbzm2HwCZ-val"
@@ -17520,7 +17523,7 @@
                                 Personal care workers in health services n.e.c
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="ez5XnYzGvay-XTvbzm2HwCZ-val"
@@ -17565,7 +17568,7 @@
                     <tr>
                         <th scope="row">19</th>
                         <th colspan="4" scope="row" style="text-align: left">Physiotherapists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="hTgpqkx2MAb-XTvbzm2HwCZ-val"
@@ -17612,7 +17615,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Physiotherapy Technicians and Assistants
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="EIh0f0A4G1N-XTvbzm2HwCZ-val"
@@ -17657,7 +17660,7 @@
                     <tr>
                         <th scope="row">21</th>
                         <th colspan="4" scope="row" style="text-align: left">Dieticians</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="IT332UM0Eyd-XTvbzm2HwCZ-val"
@@ -17702,7 +17705,7 @@
                     <tr>
                         <th scope="row">22</th>
                         <th colspan="4" scope="row" style="text-align: left">Nutritionists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="s10VCchdlnY-XTvbzm2HwCZ-val"
@@ -17749,7 +17752,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Audiologists and Speech Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="P6Si86K02do-XTvbzm2HwCZ-val"
@@ -17796,7 +17799,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Optometrists and Ophthalmic Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wSbrjoq0URr-XTvbzm2HwCZ-val"
@@ -17843,7 +17846,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Dispensing Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="OpJzru7UHuG-XTvbzm2HwCZ-val"
@@ -17890,7 +17893,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="NxQueFeUfa3-XTvbzm2HwCZ-val"
@@ -17937,7 +17940,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical Records Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Qy71EkOy7om-XTvbzm2HwCZ-val"
@@ -17982,7 +17985,7 @@
                     <tr>
                         <th scope="row">28</th>
                         <th colspan="4" scope="row" style="text-align: left">Medical Assistants</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="klIqXXMQ1AF-XTvbzm2HwCZ-val"
@@ -18027,7 +18030,7 @@
                     <tr>
                         <th scope="row">29</th>
                         <th colspan="4" scope="row" style="text-align: left">Ambulance Workers</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wp6tV9if1us-XTvbzm2HwCZ-val"
@@ -18074,7 +18077,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Social work and counselling professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="MRM0ZIZFfVP-XTvbzm2HwCZ-val"
@@ -18121,7 +18124,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Social work associate professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Y5XqolkuMAw-XTvbzm2HwCZ-val"
@@ -18168,7 +18171,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Biomedical engineer
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="PebkMQ9WtnK-XTvbzm2HwCZ-val"
@@ -18213,7 +18216,7 @@
                     <tr>
                         <th scope="row">33</th>
                         <th colspan="4" scope="row" style="text-align: left">Psychologists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="rsGK1D0Xkfj-XTvbzm2HwCZ-val"
@@ -18260,7 +18263,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Medical secretaries
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="XVRPTXuJBQe-XTvbzm2HwCZ-val"
@@ -18305,7 +18308,7 @@
                     <tr>
                         <th scope="row">35</th>
                         <th colspan="4" scope="row" style="text-align: left">Managerial staff</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="WPM1HkXyf6Z-XTvbzm2HwCZ-val"
@@ -18352,7 +18355,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Administrative staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="MXXzDDuba8n-XTvbzm2HwCZ-val"
@@ -18399,7 +18402,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Health information systems personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="H9hyUA3QPdl-XTvbzm2HwCZ-val"
@@ -18446,7 +18449,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Engineering and maintenance staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="fn91BEPSaGY-XTvbzm2HwCZ-val"
@@ -18493,7 +18496,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Other non-medical professional staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="pl4ewykGEd1-XTvbzm2HwCZ-val"
@@ -18540,7 +18543,7 @@
                         <th colspan="4" scope="row" style="text-align: left">
                             Other non-medical support staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="n7GyaiCn7uH-XTvbzm2HwCZ-val"
@@ -22599,7 +22602,7 @@
                     <tr class="read-only">
                         <th scope="row">1</th>
                         <th colspan="3" scope="row" style="text-align: left">Medical Doctors</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="WsVBFxzWhi1-IMqululFzhP-val"
@@ -22680,7 +22683,7 @@
                                 General Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="Q7AJ1ykq09H-IMqululFzhP-val"
@@ -22761,7 +22764,7 @@
                                 Specialist Medical Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="N6pEEiEpNS1-IMqululFzhP-val"
@@ -22842,7 +22845,7 @@
                                 General paediatricians
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="abfQV1VOf3t-IMqululFzhP-val"
@@ -22923,7 +22926,7 @@
                                 Obstetricians and Gynaecologists
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="gm3SPYN1Kox-IMqululFzhP-val"
@@ -23004,7 +23007,7 @@
                                 Psychiatrists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="yRAQ7e6fhhL-IMqululFzhP-val"
@@ -23085,7 +23088,7 @@
                                 Medical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="ae8CH5krsam-IMqululFzhP-val"
@@ -23166,7 +23169,7 @@
                                 Surgical group of Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="Nv40tdMXtFC-IMqululFzhP-val"
@@ -23247,7 +23250,7 @@
                                 Other Specialists Practitioners
                             </p>
                         </th>
-                        <th rowspan="1" scope="row">&nbsp;</th>
+                        <th rowspan="1" scope="row"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <th rowspan="1" scope="row">
                             <input
                                 id="cDnBDmJhson-IMqululFzhP-val"
@@ -23328,7 +23331,7 @@
                                 Medical doctors not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="qScWuUGR5yF-IMqululFzhP-val"
@@ -23405,7 +23408,7 @@
                     <tr class="read-only">
                         <th scope="row">2</th>
                         <th colspan="3" scope="row" style="text-align: left">Nursing Personnel</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="KGnMzMLw9z0-IMqululFzhP-val"
@@ -23484,7 +23487,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             <p style="text-align: left; margin-left: 20px">Nursing Professionals</p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="HU1QlB34WcG-IMqululFzhP-val"
@@ -23565,7 +23568,7 @@
                                 Nursing Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="GXDCQoGj6T3-IMqululFzhP-val"
@@ -23646,7 +23649,7 @@
                                 Nursing Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="O7xuokSXg4m-IMqululFzhP-val"
@@ -23727,7 +23730,7 @@
                                 Nursing Associate Professionals (with additional midwifery training)
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="a7y6M6RSlfA-IMqululFzhP-val"
@@ -23808,7 +23811,7 @@
                                 Nurses not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="YvRkyv7LXzq-IMqululFzhP-val"
@@ -23887,7 +23890,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Midwifery personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="qCRmLPzIMfA-IMqululFzhP-val"
@@ -23968,7 +23971,7 @@
                                 Midwifery Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="i54ywgixjhp-IMqululFzhP-val"
@@ -24049,7 +24052,7 @@
                                 Midwifery Associate Professionals
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="O9FGiWCttH4-IMqululFzhP-val"
@@ -24130,7 +24133,7 @@
                                 Midwives not further defined
                             </p>
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="GeB8aO0VMdh-IMqululFzhP-val"
@@ -24207,7 +24210,7 @@
                     <tr>
                         <th scope="row">4</th>
                         <th colspan="3" scope="row" style="text-align: left">Dentists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="OJVKXPCUetq-IMqululFzhP-val"
@@ -24286,7 +24289,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dental Assistants and Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="EiN0OWdHFxO-IMqululFzhP-val"
@@ -24365,7 +24368,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dental Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wbE8v4xoinz-IMqululFzhP-val"
@@ -24442,7 +24445,7 @@
                     <tr>
                         <th scope="row">7</th>
                         <th colspan="3" scope="row" style="text-align: left">Pharmacists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="OFsiDpAC34b-IMqululFzhP-val"
@@ -24521,7 +24524,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Pharmaceutical Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="jzhphQ54S88-IMqululFzhP-val"
@@ -24600,7 +24603,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Paramedical Practitioners
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="PUaHSbd6T5T-IMqululFzhP-val"
@@ -24679,7 +24682,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory scientists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="OMS7a4cxTLo-IMqululFzhP-val"
@@ -24758,7 +24761,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Imaging and Therapeutic Equipment Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="hH5gFw01p2g-IMqululFzhP-val"
@@ -24837,7 +24840,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical and Pathology Laboratory Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="QvnSCGMRuiV-IMqululFzhP-val"
@@ -24916,7 +24919,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Environmental and Occupational Health Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="UVmyzENvSiy-IMqululFzhP-val"
@@ -24995,7 +24998,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Environmental and Occupational Health Inspectors/associates
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="hYvVhwa2Frr-IMqululFzhP-val"
@@ -25074,7 +25077,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="CPmuUXWouRA-IMqululFzhP-val"
@@ -25153,7 +25156,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Traditional and Complementary Medicine Associate Professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="h0mNqlvj5B0-IMqululFzhP-val"
@@ -25232,7 +25235,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Community Health Workers
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="blaeng4GF8s-IMqululFzhP-val"
@@ -25311,7 +25314,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Personal care workers in health services
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="wJ4GvUwxS9G-IMqululFzhP-val"
@@ -25392,7 +25395,7 @@
                                 Health Care Assistants
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="BnCaf6ZXM1P-IMqululFzhP-val"
@@ -25473,7 +25476,7 @@
                                 Home-based Personal Care
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="EEZGLQRHQDr-IMqululFzhP-val"
@@ -25554,7 +25557,7 @@
                                 Personal care workers in health services n.e.c
                             </p>
                         </th>
-                        <th scope="row">&nbsp;</th>
+                        <th scope="row"> <input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="j9SOCeGryr9-IMqululFzhP-val"
@@ -25631,7 +25634,7 @@
                     <tr>
                         <th scope="row">19</th>
                         <th colspan="3" scope="row" style="text-align: left">Physiotherapists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="RCcjOgia5lC-IMqululFzhP-val"
@@ -25710,7 +25713,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Physiotherapy Technicians and Assistants
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="bq00aLH9OPk-IMqululFzhP-val"
@@ -25787,7 +25790,7 @@
                     <tr>
                         <th scope="row">21</th>
                         <th colspan="3" scope="row" style="text-align: left">Dieticians</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="J8m9vtLVo2G-IMqululFzhP-val"
@@ -25864,7 +25867,7 @@
                     <tr>
                         <th scope="row">22</th>
                         <th colspan="3" scope="row" style="text-align: left">Nutritionists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="TRB0RlFABNw-IMqululFzhP-val"
@@ -25943,7 +25946,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Audiologists and Speech Therapists
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="m5vdq5UM3B2-IMqululFzhP-val"
@@ -26022,7 +26025,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Optometrists and Ophthalmic Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Zu69ozCInhL-IMqululFzhP-val"
@@ -26101,7 +26104,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Dispensing Opticians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="UcfAgoEEjT2-IMqululFzhP-val"
@@ -26180,7 +26183,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Prosthetic Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="nWqgnOkihzf-IMqululFzhP-val"
@@ -26259,7 +26262,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical Records Technicians
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="Fgp2erpoOMQ-IMqululFzhP-val"
@@ -26336,7 +26339,7 @@
                     <tr>
                         <th scope="row">28</th>
                         <th colspan="3" scope="row" style="text-align: left">Medical Assistants</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="DqZNrSSZ2S0-IMqululFzhP-val"
@@ -26413,7 +26416,7 @@
                     <tr>
                         <th scope="row">29</th>
                         <th colspan="3" scope="row" style="text-align: left">Ambulance Workers</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="WAA3Uun62pk-IMqululFzhP-val"
@@ -26492,7 +26495,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Social work and counselling professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="s92LZ9RuhaG-IMqululFzhP-val"
@@ -26571,7 +26574,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Social work associate professionals
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="viM9AeYtFV6-IMqululFzhP-val"
@@ -26650,7 +26653,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Biomedical engineer
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="PtCFMK7nBkR-IMqululFzhP-val"
@@ -26727,7 +26730,7 @@
                     <tr>
                         <th scope="row">33</th>
                         <th colspan="3" scope="row" style="text-align: left">Psychologists</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="rr5X0uhJKl5-IMqululFzhP-val"
@@ -26806,7 +26809,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Medical secretaries
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="y18n64afzoH-IMqululFzhP-val"
@@ -26883,7 +26886,7 @@
                     <tr>
                         <th scope="row">35</th>
                         <th colspan="3" scope="row" style="text-align: left">Managerial staff</th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="OfROf5GmY2U-IMqululFzhP-val"
@@ -26962,7 +26965,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Administrative staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="uqzqgaYByJq-IMqululFzhP-val"
@@ -27041,7 +27044,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Health information systems personnel
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="bcIh7bdXz7D-IMqululFzhP-val"
@@ -27120,7 +27123,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Engineering and maintenance staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="y2QmWTVJ0F0-IMqululFzhP-val"
@@ -27199,7 +27202,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Other non-medical professional staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="yj5jWkUtBa9-IMqululFzhP-val"
@@ -27278,7 +27281,7 @@
                         <th colspan="3" scope="row" style="text-align: left">
                             Other non-medical support staff
                         </th>
-                        <th scope="row" style="text-align: left">&nbsp;</th>
+                        <th scope="row" style="text-align: left"><input name="entryfield" disabled="disabled"  class="other_tab_total"/></th>
                         <td scope="row" style="text-align: left">
                             <input
                                 id="I5v0SqhcWvK-IMqululFzhP-val"
