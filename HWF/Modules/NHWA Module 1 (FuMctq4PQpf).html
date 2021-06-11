@@ -1395,9 +1395,7 @@
             },
         });
     }
-
-    $(document).ready(function () {
-        $(function () {
+function loadmodule(){
             //alert("Here")
             $("#mod2_tabs").tabs({
                 activate: function (event, ui) {
@@ -1426,6 +1424,15 @@
                     clearComment(e.target.id);
                 }
             });
+}
+$('#selectedPeriodId').change(function() {
+    loadmodule();
+});
+
+
+    $(document).ready(function () {
+        $(function () {
+        loadmodule();
         });
 
         showCalculateTotalsByActivityLevel();
