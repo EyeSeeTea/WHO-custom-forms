@@ -399,8 +399,11 @@
             }
         });
 
+        var old_value = $("#" + inputId).val();
         $("#" + inputId).val(total);
-        $("#" + inputId).trigger("change");
+        if (old_value != total){
+                    $("#" + inputId).trigger("change");
+        }
     }
 
     function calculateCheckboxCell(inputId) {
@@ -461,9 +464,7 @@
             },
         });
     }
-
-    $(document).ready(function () {
-        $(function () {
+function loadmodule(){
             $("#mod2_tabs").tabs();
 
             $(".read-only input").each(function () {
@@ -476,6 +477,13 @@
             $("input[type=checkbox]").on("change", function (e) {
                 onCheckboxInputChange(e.target.id);
             });
+}
+$('#selectedPeriodId').change(function() {
+    loadmodule();
+});
+    $(document).ready(function () {
+        $(function () {
+            loadmodule();
         });
         $(function () {
             console.log("Updating file resources links");
