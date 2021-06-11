@@ -1218,9 +1218,12 @@
                 total = currentTotal + parseInt(value);
             }
         });
+        var old_value = $("#" + inputId).val();
 
         $("#" + inputId).val(total);
-        $("#" + inputId).trigger("change");
+        if (old_value != total){
+                    $("#" + inputId).trigger("change");
+        }
     }
 
     function calculateTotalByActivityLevel(inputId) {
