@@ -1214,10 +1214,10 @@
 
             if (value != "" && !isNaN(value)) {
                 currentTotal = total === "" ? 0 : total;
-
                 total = currentTotal + parseInt(value);
             }
         });
+
         var old_value = $("#" + inputId).val();
         $("#" + inputId).val(total);
         if (old_value != total){
@@ -1322,6 +1322,7 @@
     var calculatingTotalsByActivityLevel = false;
 
     function calculateTotalsByActivityLevel() {
+        calculateParentNumericCells();
         calculatingTotalsByActivityLevel = true;
 
         $(`[${attTotalByActivityLevel}]`).each(function () {
@@ -1395,44 +1396,44 @@
             },
         });
     }
-function loadmodule(){
-            //alert("Here")
-            $("#mod2_tabs").tabs({
-                activate: function (event, ui) {
-                    $("#tab0 div#cde table tbody tr th:nth-child(3) input").each(function (i, row) {
-                        console.log(row.value);
-                        append("tab1", i, row.value);
-                        append("tab2", i, row.value);
-                        append("tab4", i, row.value);
-                    });
-                },
-            });
+    function loadModule(){
+                //alert("Here")
+                $("#mod2_tabs").tabs({
+                    activate: function (event, ui) {
+                        $("#tab0 div#cde table tbody tr th:nth-child(3) input").each(function (i, row) {
+                            console.log(row.value);
+                            append("tab1", i, row.value);
+                            append("tab2", i, row.value);
+                            append("tab4", i, row.value);
+                        });
+                    },
+                });
 
-            $(".read-only input").each(function () {
-                $(this).attr("disabled", "disabled");
-            });
+                $("input[type=text]").on("input", function (e) {
+                    onNumericInputChange(e.target.id);
+                });
+                $("input[type=checkbox]").on("change", function (e) {
+                    onCheckboxInputChange(e.target.id);
+                });
 
-            $("input[type=text]").on("input", function (e) {
-                onNumericInputChange(e.target.id);
-            });
-            $("input[type=checkbox]").on("change", function (e) {
-                onCheckboxInputChange(e.target.id);
-            });
+                $(`[${attTotalByActivityLevel}]`).on("change", function (e) {
+                    if (!calculatingTotalsByActivityLevel) {
+                        clearComment(e.target.id);
+                    }
+                });
 
-            $(`[${attTotalByActivityLevel}]`).on("change", function (e) {
-                if (!calculatingTotalsByActivityLevel) {
-                    clearComment(e.target.id);
-                }
-            });
-}
-$('#selectedPeriodId').change(function() {
-    loadmodule();
-});
+                $(".read-only input").each(function () {
+                    $(this).attr("disabled", "disabled");
+                });
+    }
 
+    $('#selectedPeriodId').change(function() {
+        loadModule();
+    });
 
     $(document).ready(function () {
         $(function () {
-        loadmodule();
+        loadModule();
         });
 
         showCalculateTotalsByActivityLevel();
@@ -1493,7 +1494,6 @@ $('#selectedPeriodId').change(function() {
             }
         }, 100);
 
-        calculateParentNumericCells();
         calculateCheckboxCells();
     });
 
@@ -1555,6 +1555,7 @@ $('#selectedPeriodId').change(function() {
             text-align: center;
             height:28px;
             width:140px;
+            background-color: rgb(204, 204, 204); border: 1px solid rgb(170, 170, 170);
     }
 
     #newCompleteButton {
