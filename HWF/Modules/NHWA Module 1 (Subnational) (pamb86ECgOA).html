@@ -370,12 +370,6 @@
         },
     ];
 
-    function calculateNumericCells() {
-        calculatedNumericCells.forEach(function (calculatedNumericCell) {
-            calculateNumericCell(calculatedNumericCell.id);
-        });
-    }
-
     function calculateCheckboxCells() {
         calculatedCheckboxCells.forEach(function (calculatedCheckboxCell) {
             calculateCheckboxCell(calculatedCheckboxCell.id);
@@ -464,26 +458,29 @@
             },
         });
     }
-function loadmodule(){
-            $("#mod2_tabs").tabs();
 
-            $(".read-only input").each(function () {
-                $(this).attr("disabled", "disabled");
-            });
+    function loadModule(){
+                $("#mod2_tabs").tabs();
 
-            $("input[type=text]").on("input", function (e) {
-                onNumericInputChange(e.target.id);
-            });
-            $("input[type=checkbox]").on("change", function (e) {
-                onCheckboxInputChange(e.target.id);
-            });
-}
-$('#selectedPeriodId').change(function() {
-    loadmodule();
-});
+                $(".read-only input").each(function () {
+                    $(this).attr("disabled", "disabled");
+                });
+
+                $("input[type=text]").on("input", function (e) {
+                    onNumericInputChange(e.target.id);
+                });
+                $("input[type=checkbox]").on("change", function (e) {
+                    onCheckboxInputChange(e.target.id);
+                });
+    }
+
+    $('#selectedPeriodId').change(function() {
+        loadModule();
+    });
+
     $(document).ready(function () {
         $(function () {
-            loadmodule();
+            loadModule();
         });
         $(function () {
             console.log("Updating file resources links");
@@ -540,7 +537,6 @@ $('#selectedPeriodId').change(function() {
             }
         }, 100);
 
-        calculateNumericCells();
         calculateCheckboxCells();
     });
 
