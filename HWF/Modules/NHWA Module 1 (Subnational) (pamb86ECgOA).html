@@ -370,12 +370,6 @@
         },
     ];
 
-    function calculateNumericCells() {
-        calculatedNumericCells.forEach(function (calculatedNumericCell) {
-            calculateNumericCell(calculatedNumericCell.id);
-        });
-    }
-
     function calculateCheckboxCells() {
         calculatedCheckboxCells.forEach(function (calculatedCheckboxCell) {
             calculateCheckboxCell(calculatedCheckboxCell.id);
@@ -399,8 +393,11 @@
             }
         });
 
+        var old_value = $("#" + inputId).val();
         $("#" + inputId).val(total);
-        $("#" + inputId).trigger("change");
+        if (old_value != total){
+                    $("#" + inputId).trigger("change");
+        }
     }
 
     function calculateCheckboxCell(inputId) {
@@ -462,20 +459,28 @@
         });
     }
 
+    function loadModule(){
+                $("#mod2_tabs").tabs();
+
+                $(".read-only input").each(function () {
+                    $(this).attr("disabled", "disabled");
+                });
+
+                $("input[type=text]").on("input", function (e) {
+                    onNumericInputChange(e.target.id);
+                });
+                $("input[type=checkbox]").on("change", function (e) {
+                    onCheckboxInputChange(e.target.id);
+                });
+    }
+
+    $('#selectedPeriodId').change(function() {
+        loadModule();
+    });
+
     $(document).ready(function () {
         $(function () {
-            $("#mod2_tabs").tabs();
-
-            $(".read-only input").each(function () {
-                $(this).attr("disabled", "disabled");
-            });
-
-            $("input[type=text]").on("input", function (e) {
-                onNumericInputChange(e.target.id);
-            });
-            $("input[type=checkbox]").on("change", function (e) {
-                onCheckboxInputChange(e.target.id);
-            });
+            loadModule();
         });
         $(function () {
             console.log("Updating file resources links");
@@ -532,7 +537,6 @@
             }
         }, 100);
 
-        calculateNumericCells();
         calculateCheckboxCells();
     });
 
