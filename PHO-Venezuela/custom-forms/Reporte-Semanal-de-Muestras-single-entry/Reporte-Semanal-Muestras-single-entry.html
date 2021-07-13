@@ -1,0 +1,534 @@
+<div>
+    <style type="text/css">
+        #completeButton {
+            display: none;
+        }
+
+        #newCompleteButton {
+            display: inline-block !important;
+        }
+
+        .cde table {
+            border-collapse: collapse;
+        }
+
+        button[disabled],
+        html input[disabled] {
+            color: grey !important;
+        }
+
+        .cde table,
+        .cde th,
+        .cde td {
+            border: 1px solid #c0c0c0;
+        }
+
+        .cde td,
+        .cde th {
+            height: 30px;
+            padding: 10px;
+            margin: 10px;
+            min-width: 150px;
+        }
+
+        .cde-greyfield {
+            background-color: #e0e0e0;
+        }
+
+        .selectBox {
+            position: relative;
+        }
+
+        .selectBox select {
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .overSelect {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .hwf {
+            display: none;
+            border: 1px #dadada solid;
+            padding: 8px;
+        }
+
+        #label {
+            display: block;
+            text-align: left;
+        }
+
+        .check {
+            display: block;
+        }
+
+        input[type="text"] {
+            text-align: center;
+            width: 80%;
+        }
+
+        textarea {
+            width: 80%;
+        }
+
+        .td-input {
+            text-align: center;
+        }
+
+        .numeric-de {
+            text-align: center;
+            white-space: pre;
+        }
+
+        .simple-de {
+            text-align: center;
+            white-space: pre;
+        }
+
+        .multiselect {
+            width: 250px;
+        }
+
+        #custom-form-loader {
+            color: #1c425c;
+            font-size: 14px;
+            margin: 20px;
+            text-align: center;
+            display: none;
+            border-radius: 3px;
+        }
+
+        .cde table thead tr:nth-child(1) th {
+            position: sticky;
+            position: -webkit-sticky;
+            top: 48px;
+            background: #f5f5f5;
+            z-index: 50;
+        }
+
+        .cde table thead tr:nth-child(2) th {
+            position: sticky;
+            position: -webkit-sticky;
+            top: 99px;
+            background: #f5f5f5;
+            z-index: 50;
+        }
+
+        #leftBar {
+            z-index: 100;
+        }
+
+        #Pagination {
+            margin-top: 16px;
+            font-size: 14px;
+        }
+
+        .pagination-next-orgUnitsTable:hover,
+        .pagination-pre-orgUnitsTable:hover {
+            background: black;
+            color: white;
+            text-decoration: none;
+        }
+
+        .pagination-next-orgUnitsTable,
+        .pagination-pre-orgUnitsTable {
+            box-sizing: border-box;
+            display: inline-block;
+            text-align: center;
+            padding: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            color: #333;
+            border: 1px solid transparent;
+            border-radius: 2px;
+            text-decoration: none;
+        }
+
+        .no-pag {
+            cursor: default;
+            color: #666 !important;
+            border: 1px solid transparent;
+            background: transparent;
+            box-shadow: none;
+            cursor: default;
+        }
+
+        .no-pag:hover {
+            background: transparent;
+        }
+
+        #main {
+            border: 1px solid #cacaca;
+            padding: 10px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+    </style>
+    <script src="https://unpkg.com/mustache@4.0.1"></script>
+    <script id="orgUnitsTable_template" type="x-tmpl-mustache">
+        <table >
+            <thead>
+              <tr>
+                <th>Org unit</th>
+                <th>Láminas Examinadas</th>
+                <th>Pruebas Rápidas</th>
+              </tr>
+            </thead>
+            <tbody>
+            {{#rows}}
+            <tr>
+                <th>{{orgUnitName}}</th>
+                <td class="td-input"><input id="{{orgUnitId}}-DPNsg3wjxGm-HllvX50cXC0-val" type="text"/></td>
+                <td class="td-input"><input id="{{orgUnitId}}-pmRn0GsUfr6-HllvX50cXC0-val" type="text"/></td>
+              </tr>
+              {{/rows}}
+            </tbody>
+            </table>
+    </script>
+    <script>
+        // **** sheetsee-tables ****
+        // https://github.com/jlord/sheetsee-tables/blob/master/index.js
+        // I have not found a cdn to download by scrript link
+        // I try https://cdn.rawgit.com/jlord/sheetsee.js/master/js/sheetsee.js but fail sometimes
+        var tblOpts = {};
+
+        // Only called the very first time
+        function makeTable(data) {
+            tblOpts = data;
+            tblOpts.sortMeta = {};
+            tblOpts.pgnMta = {};
+
+            if (!tblOpts.templateID) {
+                tblOpts.templateID = tblOpts.tableDiv.replace("#", "") + "_template";
+            }
+
+            buildPaginationMeta(data.data, data.pagination);
+
+            prepTable();
+            initiateTableSorter();
+        }
+
+        // SORTING
+
+        // Called once to listen for clicks on table headers
+        function initiateTableSorter() {
+            document.body.addEventListener("click", function (event) {
+                if (event.target.classList.contains("tHeader")) {
+                    perpareSort(event);
+                }
+            });
+        }
+
+        // Prepare to be sorted
+        function perpareSort(event) {
+            if (!tblOpts.sortMeta.sorted || tblOpts.sortMeta.sorted === "descending") {
+                tblOpts.sortMeta.sorted = "ascending";
+            } else if (tblOpts.sortMeta.sorted === "ascending")
+                tblOpts.sortMeta.sorted = "descending";
+            // TODO maybe make all keys in data lowercase...
+            tblOpts.sortMeta.sortBy = event.target.innerHTML.replace(/\s/g, "").replace(/\W/g, "");
+            tblOpts.tableDiv = "#" + event.target.closest("div").getAttribute("id");
+            sortData();
+        }
+
+        // Sort the data
+        function sortData() {
+            var sortGroup;
+            if (tblOpts.filtering) sortGroup = tblOpts.pgnMta.allRows;
+            else sortGroup = tblOpts.data;
+
+            sortGroup.sort(function (a, b) {
+                var aa = a[tblOpts.sortMeta.sortBy].toLowerCase();
+                var bb = b[tblOpts.sortMeta.sortBy].toLowerCase();
+                aa = aa.match(/^[\d,]$/) ? Number(aa) : aa;
+                bb = bb.match(/^[\d,]$/) ? Number(bb) : bb;
+
+                if (aa < bb) return -1;
+                if (aa > bb) return 1;
+                return 0;
+            });
+            if (tblOpts.sortMeta.sorted === "descending") sortGroup.reverse();
+            // This table update doesn't change pagination; reset direction
+            if (tblOpts.pgnMta.dir) tblOpts.pgnMta.dir = Number(0);
+            // If the table has been filtered, just sort those
+            if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
+            else prepTable();
+        }
+
+        // FITERING
+
+        // Set up listeners for clear and input
+        function initiateTableFilter(options) {
+            // If things are missing, return
+            if (document.querySelector(".clear") === null) return;
+            if (!options.filterDiv) return;
+            if (document.getElementById(options.filterDiv.replace("#", "")) === null) return;
+
+            tblOpts.filtering = true;
+            var filterInput = document.getElementById(options.filterDiv.replace("#", ""));
+
+            // listen for clicks on clear button
+            document.querySelector(".clear").addEventListener("click", function () {
+                filterInput.value = "";
+                // This resets the table to initial direction
+                if (tblOpts.pgnMta.dir) tblOpts.pgnMta.dir = Number(0);
+                // TODO should it reset to page 1
+                prepTable();
+            });
+            // Listen for input in the serach field
+            filterInput.addEventListener("keyup", function (e) {
+                searchTable(e.target.value);
+            });
+        }
+
+        // Search the table with input
+        function searchTable(searchTerm) {
+            var filteredList = [];
+            tblOpts.data.forEach(function (object) {
+                var stringObject = JSON.stringify(object).toLowerCase();
+                if (stringObject.match(searchTerm.toLowerCase())) filteredList.push(object);
+            });
+            // Clear direction and page
+            if (tblOpts.pgnMta.dir) tblOpts.pgnMta.dir = Number(0);
+            if (tblOpts.pgnMta.crntPage) tblOpts.pgnMta.crntPage = Number(1);
+            prepTable(filteredList);
+        }
+
+        // TABLE MAKING
+
+        // Prep the data and pagination for the table
+        function prepTable(filteredList) {
+            var data = filteredList || tblOpts.data;
+
+            // If they don't specifiy pagination, draw table with everything
+            if (!tblOpts.pagination) return updateTable(data);
+
+            // Create Pagination Metadata
+            buildPaginationMeta(data);
+            // Build the table with paginated data
+            updateTable(tblOpts.pgnMta.crntRows);
+            // Append pagination DOM elements
+            // If there is no data, don't paginate
+            if (data.length === 0) addPaginationDOM(true);
+            else addPaginationDOM();
+        }
+
+        function updateTable(data) {
+            var rawTemplate = document.getElementById(tblOpts.templateID).innerHTML;
+            var content = Mustache.render(rawTemplate, { rows: data });
+            document.getElementById(tblOpts.tableDiv.replace("#", "")).innerHTML = content;
+        }
+
+        // PAGINATION
+
+        // Create the metadata used in pagination
+        function buildPaginationMeta(data) {
+            var dir = tblOpts.pgnMta.dir || 0;
+            var current = tblOpts.pgnMta.crntPage || 1;
+            tblOpts.pgnMta.allRows = data;
+            tblOpts.pgnMta.allRowsLen = data.length;
+            tblOpts.pgnMta.totalPages = Math.ceil(tblOpts.pgnMta.allRowsLen / tblOpts.pagination);
+            tblOpts.pgnMta.crntPage = current + dir;
+            tblOpts.pgnMta.nextPage = tblOpts.pgnMta.crntPage - 1;
+            tblOpts.pgnMta.crntStart =
+                tblOpts.pgnMta.crntPage * tblOpts.pagination - tblOpts.pagination;
+            tblOpts.pgnMta.crntEnd = tblOpts.pgnMta.crntPage * tblOpts.pagination;
+            tblOpts.pgnMta.crntRows = data.slice(tblOpts.pgnMta.crntStart, tblOpts.pgnMta.crntEnd);
+            return;
+        }
+
+        // Add pagination elements and listeners to the DOM
+        function addPaginationDOM(nopages) {
+            var tblId = tblOpts.tableDiv.slice(1);
+            var el = document.createElement("div");
+            el.setAttribute("id", "Pagination");
+            el.setAttribute("pageno", tblOpts.pgnMta.crntPage);
+            el.classList.add("table-pagination");
+            if (nopages) {
+                el.innerHTML = "No results</div>";
+            } else if (tblOpts.pgnMta.allRowsLen <= tblOpts.pagination) {
+                el.innerHTML = "Page 1 of 1</div>";
+            } else {
+                el.innerHTML =
+                    "Showing page " +
+                    tblOpts.pgnMta.crntPage +
+                    " of " +
+                    tblOpts.pgnMta.totalPages +
+                    " <a class='pagination-pre-" +
+                    tblId +
+                    "'>Previous</a>" +
+                    " <a class='pagination-next-" +
+                    tblId +
+                    "'>Next</a></div>";
+            }
+            document.getElementById(tblId).append(el);
+            // Don't show pagination in these cases TODO clean up
+            if (nopages) return;
+            if (tblOpts.pgnMta.allRowsLen <= tblOpts.pagination) return;
+
+            // On the last page
+            if (tblOpts.pgnMta.crntPage >= tblOpts.pgnMta.totalPages) {
+                document.querySelector(".pagination-next-" + tblId).classList.add("no-pag");
+                document.querySelector(".pagination-pre-" + tblId).classList.remove("no-pag");
+            }
+            // On the first page
+            if (tblOpts.pgnMta.crntPage === 1) {
+                document.querySelector(".pagination-pre-" + tblId).classList.add("no-pag");
+                document.querySelector(".pagination-next-" + tblId).classList.remove("no-pag");
+            }
+            // Listen for next clicks
+            document
+                .querySelector(".pagination-next-" + tblId)
+                .addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+                    tblOpts.pgnMta.dir = Number(1);
+                    // if there is text in the search and you are paginating
+                    // through filtered data, build table with what is in paginationmeta data
+                    if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
+                    else prepTable();
+                });
+            // Listen for previous clicks
+            document
+                .querySelector(".pagination-pre-" + tblId)
+                .addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+                    tblOpts.pgnMta.dir = Number(-1);
+                    // if there is text in the search and you are paginating
+                    // through filtered data, build table with what is in paginationmeta data
+                    if (tblOpts.filtering) prepTable(tblOpts.pgnMta.allRows);
+                    else prepTable();
+                });
+        }
+    </script>
+    <script>
+        var dataSetId = "PYihxaOo0D8";
+
+        function onInputChange(id) {
+            const organisationUnitId = id.split("-")[0];
+            const dataElementId = id.split("-")[1];
+            const optionComboId = id.split("-")[2];
+
+            saveVal(dataElementId, optionComboId, id);
+        }
+
+        function loadValues() {
+            const $nextPageButton = document.querySelector(".pagination-next-orgUnitsTable");
+
+            if ($nextPageButton) {
+                $nextPageButton.addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+
+                    loadValues();
+                });
+            }
+
+            const $previousPageButton = document.querySelector(".pagination-pre-orgUnitsTable");
+
+            if ($previousPageButton) {
+                $previousPageButton.addEventListener("click", function (e) {
+                    if (e.target.classList.contains("no-pag")) return;
+
+                    loadValues();
+                });
+            }
+
+            var periodId = $("#selectedPeriodId").val();
+
+            var params = {
+                period: periodId,
+                dataSet: dataSetId,
+                orgUnit: dhis2.de.getCurrentOrganisationUnit(),
+                children: true,
+            };
+
+            $.ajax({
+                url: "../api/dataValueSets",
+                data: params,
+                dataType: "json",
+                success: json => {
+                    $.safeEach(json.dataValues, function (i, dataValue) {
+                        var fieldId = `#${dataValue.orgUnit}-${dataValue.dataElement}-${dataValue.categoryOptionCombo}-val`;
+                        if ($(fieldId).length > 0) {
+                            var entryField = $(fieldId);
+                            if (
+                                "true" == dataValue.value &&
+                                entryField.attr("type") == "checkbox"
+                            ) {
+                                $(fieldId).prop("checked", true);
+                            } else {
+                                $(fieldId).val(dataValue.value);
+                            }
+                        }
+                    });
+
+                    $("input[type=text]").on("change", function (e) {
+                        onInputChange(e.target.id);
+                    });
+                },
+                error: function (xhr) {
+                    console.log("Error in the request");
+                    console.log(xhr);
+                },
+            });
+        }
+
+        function renderCustomForm() {
+            $(".cde table tbody").empty();
+            $("#custom-form-loader").show();
+
+            const filter = `paging=false&var=dataSet:${dataSetId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
+
+            $.ajax({
+                url: `../api/sqlViews/XeKzy3BM1cW/data?${filter}`,
+                type: "get",
+                success: function (response) {
+                    const orgUnits = response.listGrid.rows.map(row => ({
+                        orgUnitId: row[0],
+                        orgUnitName: row[1],
+                    })).filter(ou => ou.orgUnitId !== dhis2.de.currentOrganisationUnitId);
+
+                    var tableOptions = {
+                        data: orgUnits,
+                        pagination: 10,
+                        tableDiv: "#orgUnitsTable",
+                        templateID: "orgUnitsTable_template",
+                    };
+
+                    makeTable(tableOptions);
+
+                    $("#custom-form-loader").hide();
+
+                    loadValues();
+                },
+                error: function (xhr) {
+                    console.log("Error in the request");
+                    console.log(xhr);
+                },
+            });
+        }
+
+        $(document).ready(function () {
+            $(function () {
+                dhis2.util.on("dhis2.de.event.dataValuesLoaded", function (event, ds) {
+                    renderCustomForm();
+                });
+            });
+        });
+    </script>
+
+    <div id="main">
+        <h2>Reporte Semanal de Muestras - single entry</h2>
+
+        <div class="cde" id="orgUnitsTable">&nbsp;</div>
+
+        <div id="custom-form-loader">
+            <img id="loader" src="../images/ajax-loader-circle.gif" />
+            <p>Please wait while the system is loading the custom form...</p>
+        </div>
+    </div>
+</div>
