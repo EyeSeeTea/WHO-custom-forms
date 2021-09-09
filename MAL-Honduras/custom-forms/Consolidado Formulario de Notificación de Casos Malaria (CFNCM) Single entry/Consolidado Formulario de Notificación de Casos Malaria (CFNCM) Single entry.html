@@ -1,11 +1,8 @@
 <div>
     <style type="text/css">
-        #completeButton {
-            display: none;
-        }
-
-        #newCompleteButton {
-            display: inline-block !important;
+        #cascade-completeness {
+            width: 265px;
+            margin-top: 16px;
         }
 
         .cde table {
@@ -412,7 +409,8 @@
         }
     </script>
     <script>
-        var subnationalDataSetId = "DdIVZcGE77H";
+        var dataSetId = "DdIVZcGE77H";
+        var singleEntryOrgUnits = []
 
         function onInputChange(id) {
             const organisationUnitId = id.split("-")[0];
@@ -420,6 +418,98 @@
             const optionComboId = id.split("-")[2];
 
             saveVal(dataElementId, optionComboId, id);
+        }
+
+        function registerCascadeCompleteDataSet(completedStatus) {
+            if (!confirm(completedStatus ?
+                "Are you sure this data set is complete for all org units?" :
+                "Are you sure you to want to remove this data set's completion status for all org units?")) {
+                return false;
+            }
+
+            var params = dhis2.de.storageManager.getCurrentCompleteDataSetParams();
+
+            var cc = dhis2.de.getCurrentCategoryCombo();
+            var cp = dhis2.de.getCurrentCategoryOptionsQueryValue();
+
+            params.isCompleted = completedStatus;
+
+            if (cc && cp) {
+                params.cc = cc;
+                params.cp = cp;
+            }
+
+            dhis2.de.storageManager.saveCompleteDataSet(params);
+
+            var cdsr = { completeDataSetRegistrations: [] };
+
+            $.each(singleEntryOrgUnits, function (idx, orgUnit) {
+                if (orgUnit.orgUnitId) {
+                    cdsr.completeDataSetRegistrations.push({ cc: params.cc, cp: params.cp, dataSet: dataSetId, period: params.pe, organisationUnit: orgUnit.orgUnitId, completed: params.isCompleted });
+                }
+            });
+
+            $.ajax({
+                url: '../api/completeDataSetRegistrations',
+                data: JSON.stringify(cdsr),
+                contentType: "application/json; charset=utf-8",
+                dataType: 'json',
+                type: 'post',
+                success: function (data, textStatus, xhr) {
+                    dhis2.de.storageManager.clearCompleteDataSet(params);
+                    if (data && data.status == 'SUCCESS') {
+                        //$(document).trigger(dhis2.de.event.completed, [dhis2.de.currentDataSetId, params]);
+                        disableCompleteButton(params.isCompleted);
+                    }
+                    // else if (data && data.status == 'ERROR') {
+                    //     handleDataSetCompletenessResponse(data);
+                    // }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    if (403 == xhr.status || 409 == xhr.status || 500 == xhr.status) // Invalid value or locked
+                    {
+                        setHeaderMessage(xhr.responseText);
+                    }
+                    else // Offline, keep local value
+                    {
+                        //$(document).trigger(dhis2.de.event.completed, [dhis2.de.currentDataSetId, params]);
+                        disableCompleteButton(params.isCompleted);
+                        setHeaderMessage(i18n_offline_notification);
+                    }
+                }
+            });
+        }
+
+        // function handleDataSetCompletenessResponse(data) {
+        //     var html = '<h3>' + i18n_dataset_completeness_error + ' &nbsp;<img src="../images/warning_small.png"></h3>';
+
+        //     if (data && data.conflicts && data.conflicts.length > 0) {
+        //         html += '<table class="listTable" style="width:300px;">';
+        //         var alternate = false;
+        //         data.conflicts.forEach(function (conflict) {
+        //             var style = alternate ? 'class="listAlternateRow"' : '';
+        //             html += '<tr><td ' + style + '>' + conflict.value + '</td></tr>';
+        //             alternate = !alternate;
+        //         });
+        //         html += '</table>';
+        //     }
+
+        //     dhis2.de.displayValidationDialog(html, 400);
+        // }
+
+        function disableUndoButton() {
+            $('#cascadeCompleteButton').removeAttr('disabled');
+            $('#cascadeUndoButton').attr('disabled', 'disabled');
+        }
+
+        function disableCompleteButton(status) {
+            if (status == true) {
+                $('#cascadeCompleteButton').attr('disabled', 'disabled');
+                $('#cascadeUndoButton').removeAttr('disabled');
+            }
+            else {
+                disableUndoButton();
+            }
         }
 
         function loadValues() {
@@ -447,7 +537,7 @@
 
             var params = {
                 period: periodId,
-                dataSet: subnationalDataSetId,
+                dataSet: dataSetId,
                 orgUnit: dhis2.de.getCurrentOrganisationUnit(),
                 children: true,
             };
@@ -483,11 +573,41 @@
             });
         }
 
+        function loadCompleteDatasetRegistrations() {
+            var periodId = $("#selectedPeriodId").val();
+
+            var params = {
+                period: periodId,
+                dataSet: dataSetId,
+                orgUnit: dhis2.de.getCurrentOrganisationUnit(),
+                children: true,
+            };
+
+            $.ajax({
+                url: "../api/completeDataSetRegistrations",
+                data: params,
+                dataType: "json",
+                success: json => {
+                    const allCompleted = json.completeDataSetRegistrations.every(reg => reg.completed);
+
+                    if (allCompleted) {
+                        disableCompleteButton(true);
+                    }
+                },
+                error: function (xhr) {
+                    console.log("Error in the request");
+                    console.log(xhr);
+                },
+            });
+        }
+
         function renderCustomForm() {
             $(".cde table tbody").empty();
             $("#custom-form-loader").show();
+            $("#cascadeCompleteButton").val("Cascade Complete");
+            $("#cascadeUndoButton").val("Cascade Incomplete");
 
-            const filter = `paging=false&var=dataSet:${subnationalDataSetId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
+            const filter = `paging=false&var=dataSet:${dataSetId}&var=orgUnit:${dhis2.de.currentOrganisationUnitId}`;
 
             $.ajax({
                 url: `../api/sqlViews/K1h8Dw6hOEp/data?${filter}`,
@@ -497,6 +617,8 @@
                         orgUnitId: row[0],
                         orgUnitName: row[1],
                     }));
+
+                    singleEntryOrgUnits = orgUnits;
 
                     var tableOptions = {
                         data: orgUnits,
@@ -510,6 +632,7 @@
                     $("#custom-form-loader").hide();
 
                     loadValues();
+                    loadCompleteDatasetRegistrations();
                 },
                 error: function (xhr) {
                     console.log("Error in the request");
@@ -535,6 +658,13 @@
         <div id="custom-form-loader">
             <img id="loader" src="../images/ajax-loader-circle.gif" />
             <p>Please wait while the system is loading the custom form...</p>
+        </div>
+
+        <div id="cascade-completeness" class="page inputCriteria" style="display: block;">
+            <input type="button" id="cascadeCompleteButton" name="cascadeCompleteButton" value="Cascade Complete"
+                onclick="registerCascadeCompleteDataSet(true)" />
+            <input type="button" id="cascadeUndoButton" name="cascadeUndoButton" value="Cascade Incomplete"
+                onclick="registerCascadeCompleteDataSet(false)" disabled="disabled" />
         </div>
     </div>
 </div>
