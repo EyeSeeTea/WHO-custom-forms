@@ -1,0 +1,672 @@
+
+<!DOCTYPE HTML>
+<!--[if IE 7]><html lang="en"  class="ie7"><![endif]-->
+<!--[if IE 8]><html lang="en"  class="ie8"><![endif]-->
+<!--[if IE 9]><html lang="en"  class="ie9"><![endif]-->
+<![if !IE]><html dir="ltr" lang="en"   ><![endif]>
+  <head>
+    <title>- DEVELOPMENT - WHO Integrated data platform</title>
+    <meta name="description" content="DHIS 2">
+    <meta name="keywords" content="DHIS 2">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="screen,print" href="../dhis-web-commons/css/light_blue/light_blue.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="screen,print" href="../dhis-web-commons/css/widgets.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="print" href="../dhis-web-commons/css/print.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=ce9c6db" />
+    <link type="text/css" rel="stylesheet" media="screen" href="../dhis-web-commons/select2/select2.css?_rev=ce9c6db" />
+        <link type="text/css" rel="stylesheet" href="../api/files/style?_rev=ce9c6db" />
+    <link rel="shortcut icon" href="../favicon.ico" />
+    <!-- Material UI fonts -->
+    <link href="../dhis-web-commons/fonts/roboto.css" rel="stylesheet" type="text/css">
+    <link href="../dhis-web-commons/material-design-icons/material-icons.css" rel="stylesheet" type="text/css">
+    <style>
+        html {
+            font-size: 14px;
+        }
+
+        #header * {
+            font-family: 'Roboto';
+        }
+    </style>
+
+    <script type="text/javascript">
+      var dateFormat = 'yy-mm-dd';
+    </script>
+
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/ext/ext-all.js"></script>
+
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=ce9c6db"></script>
+    <script>
+      $.ajaxSetup( {
+        beforeSend: function(xhr) {
+          xhr.setRequestHeader(
+              'X-Requested-With',
+              {
+                toString: function() {
+                  return '';
+                }
+              }
+          );
+        }
+      } );
+    </script>
+
+    <!-- Menu dependencies -->
+    <script type="text/javascript" src="../dhis-web-core-resource/react-15/react-15.min.js"></script>
+    <script type="text/javascript" src="../dhis-web-core-resource/rxjs/4.1.0/rx.lite.min.js"></script>
+    <script type="text/javascript" src="../dhis-web-core-resource/lodash/4.15.0/lodash.min.js"></script>
+    <script type="text/javascript" src="../dhis-web-core-resource/lodash-functional/lodash-functional.js"></script>
+    <!-- Menu script is up here due to perceived loading time increase -->
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"></script>
+    <script>
+        // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
+        jQuery(function () {
+            try {
+                if ('Dhis2HeaderBar' in window) {
+                    Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), undefined, {noLoadingIndicator: true});
+                }
+            } catch (e) {
+                if ('console' in window ) {
+                    console.error(e);
+                }
+            }
+        });
+    </script>
+    <!-- // End menu -->
+    <!--[if lte IE 8]><script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"></script><![endif]-->
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/underscore.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/filesize.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/commons.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/commons.ajax.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/lists.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/periodType.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/date.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/json2.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/validationRules.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/moment/moment-with-langs.min.js?_rev=ce9c6db"></script>
+	<script type="text/javascript" src="../dhis-web-commons/select2/select2.min.js?_rev=ce9c6db"></script>
+        <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.period.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.picker.min.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.selected.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.comparator.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.availability.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.trigger.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.sharing.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.validation.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ss.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.ls.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.idb.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.memory.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.storage.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.contextmenu.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.appcache.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/javascripts/dhis2/dhis2.translate.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../dhis-web-commons/i18nJavaScript.action?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../main.js?_rev=ce9c6db"></script>
+    <script type="text/javascript" src="../request.js?_rev=ce9c6db"></script>
+
+        <script type="text/javascript" src="../api/files/script?_rev=ce9c6db"></script>
+    <!-- Create global system calendar -->
+    <script>
+      dhis2.period.format = 'yyyy-mm-dd';
+            dhis2.period.calendar = $.calendars.instance('gregorian');
+            dhis2.period.generator = new dhis2.period.PeriodGenerator( dhis2.period.calendar, dhis2.period.format );
+      dhis2.period.picker = new dhis2.period.DatePicker( dhis2.period.calendar, dhis2.period.format );
+
+    </script>
+  </head>
+
+  
+  <body>
+    
+    <div id="header">
+      <img id="headerBanner" src="../api/staticContent/logo_banner" onclick="window.location.href='../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="View home page">
+
+      <div id="dhisDropDownMenu"></div>
+    </div>
+    <span id="showLeftBar">
+      <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
+        <i class="fa fa-arrow-right leftBarIcon"></i>
+      </a>
+    </span>
+
+        <style type="text/css">
+      #mainPage { margin-left: 20px; }
+    </style>
+    
+    <div id="headerMessage" class="bold"></div>
+
+    <div class="page" id="mainPage"> <!-- Do not set style attr -->
+              <div style="margin-bottom:16px" class="hideInPrint">
+<input type="button" value="Print" onclick="window.print()" id="printButton" style="width:140px">
+<input type="button" value="Back" onclick="javascript:window.location.href='displayViewReportForm.action'" style="width:140px">
+</div>
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.min.js"
+integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+crossorigin="anonymous"
+></script>
+<script
+src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"
+integrity="sha256-VeNaFBVDhoX3H+gJ37DpT/nTuZTdjYro9yBruHjVmoQ="
+crossorigin="anonymous"
+></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/rowgroup/1.1.0/js/dataTables.rowGroup.min.js"></script>
+<script type="text/javascript">
+
+dhis2.util.namespace( 'dhis2.report' );
+
+dhis2.report.organisationUnit = {
+};
+
+dhis2.report.organisationUnitHierarchy = [
+];
+
+dhis2.report.organisationUnitChildren = [
+];
+
+dhis2.report.date = "";
+
+dhis2.report.periods = [
+];
+function updateTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url,
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            _(data)
+			  .omit(removeDataSharingTypes ? ["programs", "dataSets", "categoryOptions", "trackedEntityTypes", "relationshipTypes", "programStages", ] : [])
+              .mapValues(function(array, key) {
+                return Array.isArray(array)
+                  ? _.map(array, function(element) {
+                      element.metadataType = key;
+                      return element;
+                    })
+                  : [];
+              })
+              .values()
+              .flatten()
+              .forEach(function(element) {
+                const method = updateRow
+                  ? table.row(`#${element.id}`).data
+                  : table.row.add;
+                  method([
+                    element.metadataType,
+                    element.id,
+                    element.name ? element.name : "-",
+                    element.publicAccess ? element.publicAccess : "-",
+                    element.user ? element.user.displayName : "-",
+                    element.lastUpdatedBy ? element.lastUpdatedBy.displayName : "-",
+                    element.userGroupAccesses.length > 0
+                      ? `<ul>
+                                      ${element.userGroupAccesses
+                                        .map(function(access) {
+                                          return `<li>${access.displayName} (${access.access})</li>`;
+                                        })
+                                        .join("")}</ul>`
+                      : "NONE"
+                  ]);
+              });
+            table.draw();
+            nextCall();
+          }
+        });
+      }
+      function done(){
+          console.log("Done");
+      };
+      function start(){
+          console.log("Starting...");
+      };
+      //{"programStages":[{"name":"Clinical examination","id":"gESnmSpQq3g","dataEntryForm":{"id":"pyZxv2ORTh4","name":"Clinical examination","format":0},
+      //"program":{"name":"Cutaneous leishmaniasis cases - Tracker","id":"uGCVVme3C4e"}}
+      function updateEmptyCustomFormsTable(table, url, updateRow, isDevelopment, removeDataSharingTypes, nextCall) {
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: url,
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            _(data)
+            .omit([])
+              .mapValues(function(array, key) {
+                      console.log("array "+array);
+                return Array.isArray(array)
+                  ? _.map(array, function(element) {
+                      element.metadataType = key;
+                      console.log("key "+key);
+                      console.log("element "+element);
+                      return element;
+                    })
+                  : [];
+              })
+              .values()
+              .flatten()
+              .forEach(function(element) {
+                console.log("element" + element);
+                const method = updateRow
+                  ? table.row(`#${element.id}`).data
+                  : table.row.add;
+				  if (element.metadataType == "programStages"){
+					  method([
+						element.metadataType,
+						element.program ? element.program.id : "-",
+						element.program ? element.program.name : "-",
+						element.id,
+						element.name ? element.name : "-",
+						element.dataEntryForm ? element.dataEntryForm.id : "-",
+						element.dataEntryForm ? element.dataEntryForm.name : "-"
+					  ]);
+				  }
+				  else if (element.metadataType == "programs"){
+					  method([
+						element.metadataType,
+						element.id,
+						element.name ? element.name : "-",
+					  ]);
+				  }
+              });
+            table.draw();
+            nextCall();
+          }
+        });
+      }
+
+      $(document).ready(function() {
+        const isDevelopment = window.location.protocol === "file:";
+		    const baseUrl = "..";
+		
+		    // BUILD TABLES
+        // Build "Invalid sharing settings" table
+        const invalidSharingSettingsTable = $(
+          "#invalid_sharing_settings"
+        ).DataTable({
+          order: [[4, "asc"]],
+          rowGroup: {
+            dataSrc: 4
+          }
+        });
+
+        // Build "Public Objects" table
+        const publicObjectsTable = $("#public_objects").DataTable({
+          order: [[4, "asc"]],
+          rowGroup: {
+            dataSrc: 4
+          }
+        });
+
+        // Build "Recently edited metadata" table
+        const changedMetadataTable = $("#changed_metadata").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+        // Build "Generic elements that are not public" table
+        const genericNotPublicTable = $("#generic_not_public").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+        // Build "Public elements that are not generic" table
+        const publicNotGenericTable = $("#public_not_generic").DataTable({
+          order: [[5, "asc"]],
+          rowGroup: {
+            dataSrc: 5
+          }
+        });
+
+
+        // Build "Programs with empty custom forms" table
+        const emptyCustomFormTable = $("#empty_custom_form").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
+        // Build "Programs with empty custom forms" table
+        const programWithoutProgramStageTable = $("#program_without_programstages").DataTable({
+          order: [[2, "asc"]],
+          rowGroup: {
+            dataSrc: 2
+          }
+        });
+
+		// Update tabble from sqlview
+        $.ajax({
+          type: "GET",
+          dataType: "json",
+          url:
+            baseUrl + "/api/sqlViews/RIw9kc7N4g4/data?paging=false",
+          xhrFields: {
+            withCredentials: true
+          },
+          crossDomain: isDevelopment,
+          success: function(data) {
+            // Quick load of SQL View
+            _.forEach(data.listGrid.rows, function(row) {
+              publicObjectsTable.row.add([...row, "-", "-", "-"]).node().id =
+                row[1];
+            });
+
+            publicObjectsTable
+              .rowGroup()
+              .disable()
+              .draw();
+
+            // Advanced load
+            _(data.listGrid.rows)
+              .map(1)
+              .chunk(500)
+              .forEach(function(ids) {
+                updateTable(
+                  publicObjectsTable,
+                  baseUrl + "/api/metadata.json?fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=id:in:[" +
+                    ids.join(",") +
+                    "]",
+                  true,
+                  isDevelopment,
+                  false,
+                  start
+                );
+                publicObjectsTable
+                  .rowGroup()
+                  .enable()
+                  .draw();
+              });
+          }
+        });
+		//UPDATE TABLES FUNCTIONS
+        function updateGenericNotPublicTable(){
+          console.log("table: updateGenericNotPublicTable");
+            updateTable(
+              genericNotPublicTable,
+              baseUrl + "/api/metadata.json?filter=code:$ilike:ALL\\_&filter=publicAccess:!in:[r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              updateInvalidSharingSettingsTable
+            );
+        };
+
+        function updateInvalidSharingSettingsTable(){
+          console.log("table: updateInvalidSharingSettingsTable");
+            updateTable(
+              invalidSharingSettingsTable,
+              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              true,
+              updateInvalidSharingSettingsUserGroupsTable
+            );
+        }
+
+        function updateInvalidSharingSettingsUserGroupsTable(){
+          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
+				updateTable(
+				  invalidSharingSettingsTable,
+				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
+				  false,
+				  isDevelopment,
+				  true,
+				  updateChangedMetadataTable
+				);
+
+        }
+
+        function updateChangedMetadataTable(){
+          console.log("table: updateChangedMetadataTable");
+            let date = new Date();
+            date.setDate(date.getDate() - 14);
+            const queryDate = date.toISOString().split("T")[0];
+            updateTable(
+              changedMetadataTable,
+              baseUrl + "/api/metadata.json?users=false&messageConversations=false&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses&filter=lastUpdated:ge:" +
+                queryDate,
+              false,
+              isDevelopment,
+              false,
+              updateEmptyCustomForms
+            );
+        };
+
+        function updateEmptyCustomForms(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              emptyCustomFormTable,
+              baseUrl + "/api/programStages.json?fields=id,name,program[id,name],dataEntryForm[name,id,htmlCode,format]&paging=false&filter=dataEntryForm.htmlCode:null&filter=dataEntryForm.id:!null",
+              false,
+              isDevelopment,
+              false,
+              programWithoutProgramStage
+            ); 
+        };
+		
+		
+        function programWithoutProgramStage(){
+          console.log("table: updateEmptyCustomForms");
+             updateEmptyCustomFormsTable(
+              programWithoutProgramStageTable,
+              baseUrl + "/api/programs.json?paging=false&fields=id,name,userGroupAccesses,programStages~size&filter=programStages:eq:0",
+              false,
+              isDevelopment,
+              false,
+              updatePublicNotGenericTable
+            ); 
+        };
+		
+        function updatePublicNotGenericTable(){
+          console.log("table: updatePublicNotGenericTable");
+            updateTable(
+              publicNotGenericTable,
+              baseUrl + "/api/metadata.json?filter=code:!$ilike:ALL\\_&filter=publicAccess:in:[rw------,rwr-----,rwrw----,r-------,r-rw----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name, displayName],userGroupAccesses",
+              false,
+              isDevelopment,
+              false,
+              done
+            );
+        };
+        
+        console.log("Start");
+		    //START UPDATE TABLES
+        updateGenericNotPublicTable();
+        console.log("executed");
+      });
+</script>
+
+<div>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/rowgroup/1.1.0/css/rowGroup.dataTables.min.css"
+    />
+    <style type="text/css">
+      .gridDiv {
+        font-family: sans-serif, arial;
+      }
+
+      table.gridTable {
+        border-collapse: collapse;
+        font-size: 11pt;
+      }
+
+      .gridTable th,
+      .gridTable td {
+        padding: 8px 4px 7px 4px;
+        border: 1px solid #e7e7e7;
+      }
+
+      .gridTable th {
+        background-color: #f3f3f3;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gridDiv">
+	  
+      <h3>Public Objects</h3>
+      <table class="listTable gridTable" id="public_objects">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+
+      <h3>Objects with invalid sharing settings (data reporting in metadata that is not data shareable)</h3>
+      <table class="listTable gridTable" id="invalid_sharing_settings">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+
+      <h3>Recently edited metadata (Two weeks)</h3>
+      <table class="listTable gridTable" id="changed_metadata">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  <h3>Generic elements that are not public or invalid public permissions</h3>
+      <table class="listTable gridTable" id="generic_not_public">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  <h3>Public elements that are not generic</h3>
+      <table class="listTable gridTable" id="public_not_generic">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Public access</th>
+            <th>Created by</th>
+            <th>Last updated by</th>
+            <th>User group accesses</th>
+          </tr>
+        </thead>
+      </table>
+
+      <h3>Empty custom forms</h3>
+      <table class="listTable gridTable" id="empty_custom_form">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
+            <th>Program Stage id</th>
+            <th>Program Stage name</th>
+            <th>Data entry form id</th>
+            <th>Data entry form name</th>
+          </tr>
+        </thead>
+      </table>
+	  
+	  
+      <h3>Programs without programStages</h3>
+      <table class="listTable gridTable" id="program_without_programstages">
+        <thead>
+          <tr>
+            <th>Metadata type</th>
+            <th>Program id</th>
+            <th>Program name</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+  </body>
+</html>
+
+</div>          </div>
+    <script type="text/javascript">
+        </script>
+
+    <div id="rightBar">
+      <span id="hideRightBar"><a href="javascript:hideHelpContent()" title="Close">
+        <i class="fa fa-times leftBarIcon"></i></a>
+      </span>
+      <div id="rightBarContents"></div>
+    </div>
+
+    
+
+
+  </body>
+</html>
