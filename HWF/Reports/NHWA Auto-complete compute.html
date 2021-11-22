@@ -524,14 +524,76 @@
                         <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
                         <script type="text/javascript">
                             var correctDataValues = undefined;
+                            var removeDataValues = undefined;
+							var deleted = 0;
+							const pagesize=500;
+														var getAllObjects = function (removeDataValues) {
+														var start = 0,
+														totalObjects = removeDataValues.length,
+														pushedObjects = 0,
+														chunkSize = pagesize,
+														dfd = $.Deferred(),
+														getChunk = function (start, chunkSize, pushedObjects, deleted) {
+														return $.ajax({
+                                                            url: ".." + "/api/dataValueSets?importStrategy=DELETE",
+															type: 'POST',
+															dataType: 'json',
+															data: JSON.stringify({
+																		dataElementIdScheme: "UID",
+																		dataValues: removeDataValues.slice(start, chunkSize),
+																		idScheme: "UID",
+																		orgUnitIdScheme: "UID",
+																	}),
+															xhrFields: {
+																		withCredentials: true,
+																	},
+															crossDomain: false,
+															contentType: 'application/json; charset=utf-8',
+															success: function (response){
+																		console.log(response);
+																		return response;
+																		},
+															error: function (e){
+															console.log(e);
+															return e;
+															}
+														});
+														},
+														recursiveGet = function () {
+															getChunk(start, chunkSize, pushedObjects, deleted).done(function (retVal) {
+																console.log(retVal);
+																if (retVal.status !== 'ERROR') {
+																		pushedObjects += pagesize;
+																		if (retVal.importCount && retVal.importCount.deleted){
+																			deleted = deleted + retVal.importCount.deleted;
+																		}
+																	if (totalObjects > pushedObjects) {
+																		start = start + pagesize;
+																		chunkSize = chunkSize + pagesize;
+																		recursiveGet();
+																	}
+																	else {
+																	console.log("finished: "+deleted);
+																		dfd.resolve();
+																	}
+																}
+																else {
+																	console.log("error: "+deleted);
+																	dfd.resolve();
+																}
+															});
+														};
+														recursiveGet();
+														return dfd;
+													};
                             $(document).ready(function () {
                                 const isDevelopment = false;
                                 const baseUrl = isDevelopment
                                     ? "http://taris.sferadev.com:9004"
                                     : "..";
 
-                                // Build "totals that do not match" table
-                                const calculatedNumericCells = [
+                                // Build "totals that do not match" table 
+								const calculatedNumericCells = [
                                     //Working Details
 
                                     //1 - Medical Doctors
@@ -1485,10 +1547,60 @@
                                             {
                                                 text: "Fix all incorrect values",
                                                 action: function (e, dt, node, config) {
-                                                    if (correctDataValues !== undefined) {
-                                                        $("#loading").show();
-                                                        console.log(correctDataValues);
-                                                        this.disable();
+												if(removeDataValues !==undefined){
+												
+                                                $("#loading").show();
+												this.disable();
+												var removevaluescount = removeDataValues.length;
+															getAllObjects(removeDataValues).then(function () { 
+															if (correctDataValues !== undefined) {
+																	
+																$.ajax({
+																	type: "POST",
+																	url: baseUrl + "/api/dataValueSets",
+																	dataType: "json",
+																	headers: {
+																		Accept: "application/json",
+																		"Content-Type": "application/json",
+																	},
+																	data: JSON.stringify({
+																		dataElementIdScheme: "UID",
+																		dataValues: correctDataValues,
+																		idScheme: "UID",
+																		orgUnitIdScheme: "UID",
+																	}),
+																	xhrFields: {
+																		withCredentials: true,
+																	},
+																	crossDomain: isDevelopment,
+																	success: function (response) {
+																		console.log(response);
+																		alert(
+																			`Status: ${response.status}\n` +
+																				`Overview: ${response.description}\n` +
+																				`Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated, ${response.importCount.ignored} ignored and  ${deleted} deleted` +
+																				`\n${
+																					response.conflicts
+																						? response.conflicts.map(
+																							  e =>
+																								  "CONFLICT: " +
+																								  e.value +
+																								  "\n"
+																						  )
+																						: ""
+																				}`
+																		);
+																		$("#loading").hide();
+																		location.reload();
+																	},
+																});
+																this.disable();
+															}else{
+																		alert("Removed:  0's values" );
+																		this.disable();
+															}							
+															});
+                                                    } else if (correctDataValues !== undefined){
                                                         $.ajax({
                                                             type: "POST",
                                                             url: baseUrl + "/api/dataValueSets",
@@ -1512,7 +1624,7 @@
                                                                 alert(
                                                                     `Status: ${response.status}\n` +
                                                                         `Overview: ${response.description}\n` +
-                                                                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
+                                                                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated, ${response.importCount.ignored} ignored and ${deleted} deleted\\n` +
                                                                         `\n${
                                                                             response.conflicts
                                                                                 ? response.conflicts.map(
@@ -1529,7 +1641,8 @@
                                                             },
                                                         });
                                                         this.disable();
-                                                    } else {
+													}
+													else {
                                                         alert("Still loading data, please wait!");
                                                     }
                                                 },
@@ -1560,8 +1673,8 @@
                                             dataType: "json",
                                             url:
                                                 baseUrl +
-                                                "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
-                                                orgUnits,
+                                                //"/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=2010-01-01&endDate=2021-01-01&orgUnit=zFInPJBZVbN",
+                                                "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" + orgUnits,
                                             xhrFields: {
                                                 withCredentials: true,
                                             },
@@ -1599,6 +1712,146 @@
                                                             element =>
                                                                 `${element.dataElement}-${element.categoryOptionCombo}-val`
                                                         )
+                                                        .value();
+
+                                                    const result_remove = _(calculatedNumericCells)
+                                                        .map(total => {
+                                                            var providedValues = _(
+                                                                dataValues[total.id]
+                                                            )
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value)
+                                                                    )
+                                                                )
+                                                                .value();
+                                                            const calculatedValues2 = _(
+                                                                total.children
+                                                            )
+                                                                .map(e =>
+                                                                    !!dataValues[e]
+                                                                        ? dataValues[e]
+                                                                        : []
+                                                                )
+                                                                .flatten()
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value)
+                                                                    )
+                                                                )
+                                                                .value();
+
+                                                            const calculatedValues = _(
+                                                                total.children
+                                                            )
+                                                                .map(e =>
+                                                                    !!dataValues[e]
+                                                                        ? dataValues[e]
+                                                                        : []
+                                                                )
+                                                                .flatten()
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value || 0)
+                                                                    )
+                                                                )
+                                                                .value();
+                                                            const result_remove = _(_.keys(providedValues))
+                                                                .union(_.keys(calculatedValues))
+                                                                .map(period => {
+                                                                    const calculatedValue =
+                                                                        !isNaN(
+                                                                            calculatedValues[period]
+                                                                        ) &&
+                                                                        calculatedValues[period] ===
+                                                                            0
+                                                                            ? calculatedValues[
+                                                                                  period
+                                                                              ]
+                                                                            : undefined;
+
+                                                                    var providedValue =""
+																	if  (!isNaN(
+                                                                            providedValues[period]
+                                                                        )){
+																		providedValue = providedValues[period];
+																		}
+
+                                                                    if (calculatedValue === undefined && providedValue === 0  ) {
+                                                                        return {
+                                                                            dataElement:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[0],
+                                                                            categoryOptionCombo:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            period: period.split(
+                                                                                "-"
+                                                                            )[0],
+                                                                            orgUnit:
+                                                                                period.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            value:
+                                                                                0,
+                                                                            originalValue:
+                                                                                providedValue,
+                                                                            sum: total.children
+                                                                                .map(e => {
+                                                                                    const dataValue =
+                                                                                        _.find(
+                                                                                            dataValues[
+                                                                                                e
+                                                                                            ],
+                                                                                            {
+                                                                                                dataElement:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[0],
+                                                                                                categoryOptionCombo:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                                period: period.split(
+                                                                                                    "-"
+                                                                                                )[0],
+                                                                                                orgUnit:
+                                                                                                    period.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                            }
+                                                                                        );
+                                                                                    return dataValue &&
+                                                                                        dataValue.value
+                                                                                        ? dataValue.value
+                                                                                        : 0;
+                                                                                })
+                                                                                .join(" + "),
+                                                                        };
+                                                                    } else {
+                                                                        return null;
+                                                                    }
+                                                                })
+                                                                .compact()
+                                                                .value();
+                                                            return result_remove;
+                                                        })
+                                                        .flatten()
+                                                        .compact()
                                                         .value();
 
                                                     const result = _(calculatedNumericCells)
@@ -1649,6 +1902,7 @@
                                                                                   period
                                                                               ]
                                                                             : undefined;
+
 
                                                                     const providedValue =
                                                                         !isNaN(
@@ -1728,8 +1982,20 @@
                                                         .value();
 
                                                     correctDataValues = result;
-
-                                                    result.forEach(function (element) {
+                                                    removeDataValues = result_remove;
+													if ( result_remove.length > 0 ){
+													result_remove.forEach(function (element) {
+                                                        module1TotalsTable.row.add([
+                                                            metadata[element.dataElement],
+                                                            metadata[element.categoryOptionCombo],
+                                                            element.period,
+                                                            metadata[element.orgUnit],
+                                                            `${element.sum} = ${element.value}`,
+															element.originalValue + "",
+                                                        ]);
+                                                    });
+													}
+													result.forEach(function (element) {
                                                         module1TotalsTable.row.add([
                                                             metadata[element.dataElement],
                                                             metadata[element.categoryOptionCombo],
