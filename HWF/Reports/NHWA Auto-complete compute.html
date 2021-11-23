@@ -63,8 +63,8 @@
             type="text/css"
         />
         <style type="text/css">
-		#mainPage {
-				margin: 5px 10px 10px 20px!important;
+            #mainPage {
+                margin: 5px 10px 10px 20px !important;
             }
         </style>
         <style>
@@ -421,7 +421,6 @@
     </head>
 
     <body>
-
         <div class="page" id="mainPage">
             <script type="text/javascript">
                 dhis2.util.namespace("dhis2.report");
@@ -493,68 +492,64 @@
                             var deleted = 0;
                             const pagesize = 500;
                             var getAllObjects = function (removeDataValues) {
-                                var start = 0,
-                                    totalObjects = removeDataValues.length,
-                                    pushedObjects = 0,
-                                    chunkSize = pagesize,
-                                    dfd = $.Deferred(),
-                                    getChunk = function (start, chunkSize, pushedObjects, deleted) {
-                                        return $.ajax({
-                                            url: ".." + "/api/dataValueSets?importStrategy=DELETE",
-                                            type: "POST",
-                                            dataType: "json",
-                                            data: JSON.stringify({
-                                                dataElementIdScheme: "UID",
-                                                dataValues: removeDataValues.slice(
-                                                    start,
-                                                    chunkSize
-                                                ),
-                                                idScheme: "UID",
-                                                orgUnitIdScheme: "UID",
-                                            }),
-                                            xhrFields: {
-                                                withCredentials: true,
-                                            },
-                                            crossDomain: false,
-                                            contentType: "application/json; charset=utf-8",
-                                            success: function (response) {
-                                                console.log(response);
-                                                return response;
-                                            },
-                                            error: function (e) {
-                                                console.log(e);
-                                                return e;
-                                            },
-                                        });
-                                    },
-                                    recursiveGet = function () {
-                                        getChunk(start, chunkSize, pushedObjects, deleted).done(
-                                            function (retVal) {
-                                                console.log(retVal);
-                                                if (retVal.status !== "ERROR") {
-                                                    pushedObjects += pagesize;
-                                                    if (
-                                                        retVal.importCount &&
-                                                        retVal.importCount.deleted
-                                                    ) {
-                                                        deleted =
-                                                            deleted + retVal.importCount.deleted;
-                                                    }
-                                                    if (totalObjects > pushedObjects) {
-                                                        start = start + pagesize;
-                                                        chunkSize = chunkSize + pagesize;
-                                                        recursiveGet();
-                                                    } else {
-                                                        console.log("finished: " + deleted);
-                                                        dfd.resolve();
-                                                    }
+                                var start = 0;
+                                var totalObjects = removeDataValues.length;
+                                var pushedObjects = 0;
+                                var chunkSize = pagesize;
+                                var dfd = $.Deferred();
+                                var getChunk = function (start, chunkSize, pushedObjects, deleted) {
+                                    return $.ajax({
+                                        url: "../api/dataValueSets?importStrategy=DELETE",
+                                        type: "POST",
+                                        dataType: "json",
+                                        data: JSON.stringify({
+                                            dataElementIdScheme: "UID",
+                                            dataValues: removeDataValues.slice(start, chunkSize),
+                                            idScheme: "UID",
+                                            orgUnitIdScheme: "UID",
+                                        }),
+                                        xhrFields: {
+                                            withCredentials: true,
+                                        },
+                                        crossDomain: false,
+                                        contentType: "application/json; charset=utf-8",
+                                        success: function (response) {
+                                            console.log(response);
+                                            return response;
+                                        },
+                                        error: function (e) {
+                                            console.log(e);
+                                            return e;
+                                        },
+                                    });
+                                };
+                                var recursiveGet = function () {
+                                    getChunk(start, chunkSize, pushedObjects, deleted).done(
+                                        function (retVal) {
+                                            console.log(retVal);
+                                            if (retVal.status !== "ERROR") {
+                                                pushedObjects += pagesize;
+                                                if (
+                                                    retVal.importCount &&
+                                                    retVal.importCount.deleted
+                                                ) {
+                                                    deleted = deleted + retVal.importCount.deleted;
+                                                }
+                                                if (totalObjects > pushedObjects) {
+                                                    start = start + pagesize;
+                                                    chunkSize = chunkSize + pagesize;
+                                                    recursiveGet();
                                                 } else {
-                                                    console.log("error: " + deleted);
+                                                    console.log("finished: " + deleted);
                                                     dfd.resolve();
                                                 }
+                                            } else {
+                                                console.log("error: " + deleted);
+                                                dfd.resolve();
                                             }
-                                        );
-                                    };
+                                        }
+                                    );
+                                };
                                 recursiveGet();
                                 return dfd;
                             };
