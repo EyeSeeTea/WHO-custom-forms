@@ -1517,7 +1517,9 @@
 
                                                     $.when(updates, removals).then(
                                                         (...results) => {
-                                                            const result = results.reduce(
+                                                            const result = _.compact(
+                                                                results
+                                                            ).reduce(
                                                                 (acc, cur) => ({
                                                                     imported:
                                                                         acc.imported +
@@ -1554,6 +1556,13 @@
                                                                             "\n"
                                                                     )}`
                                                             );
+
+                                                            console.log({
+                                                                updates,
+                                                                removals,
+                                                                results,
+                                                            });
+                                                            
                                                             $("#loading").hide();
                                                             location.reload();
                                                         },
