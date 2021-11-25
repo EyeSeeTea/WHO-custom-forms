@@ -288,15 +288,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 		    const baseUrl = "..";
 		
 		    // BUILD TABLES
-        // Build "Invalid sharing settings" table
-        const invalidSharingSettingsTable = $(
-          "#invalid_sharing_settings"
-        ).DataTable({
-          order: [[4, "asc"]],
-          rowGroup: {
-            dataSrc: 4
-          }
-        });
+			
 
         // Build "Public Objects" table
         const publicObjectsTable = $("#public_objects").DataTable({
@@ -402,55 +394,6 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               updateChangedMetadataTable
             );
         };
-
-        function updateInvalidSharingSettingsTable(){
-          console.log("table: updateInvalidSharingSettingsTable");
-            updateTable(
-              invalidSharingSettingsTable,
-              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-              false,
-              isDevelopment,
-              true,
-              updateInvalidSharingSettingsTable2
-            );
-        }
-
-        function updateInvalidSharingSettingsTable2(){
-          console.log("table: updateInvalidSharingSettingsTable");
-            updateTable(
-              invalidSharingSettingsTable,
-              baseUrl + "/api/metadata.json?filter=publicAccess:in:[r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-              false,
-              isDevelopment,
-              true,
-              updateChangedMetadataTable
-            );
-        }
-
-        function updateInvalidSharingSettingsUserGroupsTable(){
-          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
-				updateTable(
-				  invalidSharingSettingsTable,
-				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-				  false,
-				  isDevelopment,
-				  true,
-				  updateInvalidSharingSettingsUserGroupsTable2
-				);
-
-        }
-        function updateInvalidSharingSettingsUserGroupsTable2(){
-          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
-				updateTable(
-				  invalidSharingSettingsTable,
-				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-				  false,
-				  isDevelopment,
-				  true,
-				  done
-				);
-
-        }
 
         function updateChangedMetadataTable(){
           console.log("table: updateChangedMetadataTable");
@@ -563,22 +506,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             <th>User group accesses</th>
           </tr>
         </thead>
-      </table>
-
-      <h3>Objects with invalid sharing settings (data reporting in metadata that is not data shareable)</h3>
-      <table class="listTable gridTable" id="invalid_sharing_settings">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Public access</th>
-            <th>Created by</th>
-            <th>Last updated by</th>
-            <th>User group accesses</th>
-          </tr>
-        </thead>
-      </table>
+      </table>	
 
       <h3>Recently edited metadata (Two weeks)</h3>
       <table class="listTable gridTable" id="changed_metadata">
