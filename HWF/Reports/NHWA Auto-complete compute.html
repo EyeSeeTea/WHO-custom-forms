@@ -489,75 +489,57 @@
                         <script type="text/javascript">
                             var correctDataValues = undefined;
                             var removeDataValues = undefined;
-                            var deleted = 0;
-                            const pagesize = 500;
-                            var getAllObjects = function (removeDataValues) {
-                                var start = 0;
-                                var totalObjects = removeDataValues.length;
-                                var pushedObjects = 0;
-                                var chunkSize = pagesize;
-                                var dfd = $.Deferred();
-                                var getChunk = function (start, chunkSize, pushedObjects, deleted) {
-                                    return $.ajax({
-                                        url: "../api/dataValueSets?importStrategy=DELETE",
-                                        type: "POST",
-                                        dataType: "json",
-                                        data: JSON.stringify({
-                                            dataElementIdScheme: "UID",
-                                            dataValues: removeDataValues.slice(start, chunkSize),
-                                            idScheme: "UID",
-                                            orgUnitIdScheme: "UID",
-                                        }),
-                                        xhrFields: {
-                                            withCredentials: true,
-                                        },
-                                        crossDomain: false,
-                                        contentType: "application/json; charset=utf-8",
-                                        success: function (response) {
-                                            console.log(response);
-                                            return response;
-                                        },
-                                        error: function (e) {
-                                            console.log(e);
-                                            return e;
-                                        },
-                                    });
-                                };
-                                var recursiveGet = function () {
-                                    getChunk(start, chunkSize, pushedObjects, deleted).done(
-                                        function (retVal) {
-                                            console.log(retVal);
-                                            if (retVal.status !== "ERROR") {
-                                                pushedObjects += pagesize;
-                                                if (
-                                                    retVal.importCount &&
-                                                    retVal.importCount.deleted
-                                                ) {
-                                                    deleted = deleted + retVal.importCount.deleted;
-                                                }
-                                                if (totalObjects > pushedObjects) {
-                                                    start = start + pagesize;
-                                                    chunkSize = chunkSize + pagesize;
-                                                    recursiveGet();
-                                                } else {
-                                                    console.log("finished: " + deleted);
-                                                    dfd.resolve();
-                                                }
-                                            } else {
-                                                console.log("error: " + deleted);
-                                                dfd.resolve();
-                                            }
-                                        }
+
+                            $(document).ready(function () {
+                                const baseUrl = "..";
+
+                                const updateDataValues = function (
+                                    update,
+                                    strategy = "CREATE_AND_UPDATE"
+                                ) {
+                                    const request = dataValues => {
+                                        const deferred = $.Deferred();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: `${baseUrl}/api/dataValueSets?importStrategy=${strategy}`,
+                                            dataType: "json",
+                                            headers: {
+                                                Accept: "application/json",
+                                                "Content-Type": "application/json",
+                                            },
+                                            data: JSON.stringify({
+                                                dataValues,
+                                                dataElementIdScheme: "UID",
+                                                idScheme: "UID",
+                                                orgUnitIdScheme: "UID",
+                                            }),
+                                            xhrFields: { withCredentials: true },
+                                            success: function (data) {
+                                                deferred.resolve(data);
+                                            },
+                                            error: function (error) {
+                                                deferred.reject(error);
+                                            },
+                                        });
+
+                                        return deferred.promise();
+                                    };
+
+                                    const items = _.chunk(update, 5000);
+                                    let looper = $.Deferred().resolve();
+
+                                    return $.when.apply(
+                                        $,
+                                        $.map(items, function (dataValues, i) {
+                                            looper = looper.then(function () {
+                                                return request(dataValues);
+                                            });
+
+                                            return looper;
+                                        })
                                     );
                                 };
-                                recursiveGet();
-                                return dfd;
-                            };
-                            $(document).ready(function () {
-                                const isDevelopment = false;
-                                const baseUrl = isDevelopment
-                                    ? "http://taris.sferadev.com:9004"
-                                    : "..";
 
                                 // Build "totals that do not match" table
                                 const calculatedNumericCells = [
@@ -1514,113 +1496,71 @@
                                             {
                                                 text: "Fix all incorrect values",
                                                 action: function (e, dt, node, config) {
-                                                    if (removeDataValues !== undefined) {
-                                                        $("#loading").show();
-                                                        this.disable();
-                                                        var removevaluescount =
-                                                            removeDataValues.length;
-                                                        getAllObjects(removeDataValues).then(
-                                                            function () {
-                                                                if (
-                                                                    correctDataValues !== undefined
-                                                                ) {
-                                                                    $.ajax({
-                                                                        type: "POST",
-                                                                        url:
-                                                                            baseUrl +
-                                                                            "/api/dataValueSets",
-                                                                        dataType: "json",
-                                                                        headers: {
-                                                                            Accept: "application/json",
-                                                                            "Content-Type":
-                                                                                "application/json",
-                                                                        },
-                                                                        data: JSON.stringify({
-                                                                            dataElementIdScheme:
-                                                                                "UID",
-                                                                            dataValues:
-                                                                                correctDataValues,
-                                                                            idScheme: "UID",
-                                                                            orgUnitIdScheme: "UID",
-                                                                        }),
-                                                                        xhrFields: {
-                                                                            withCredentials: true,
-                                                                        },
-                                                                        crossDomain: isDevelopment,
-                                                                        success: function (
-                                                                            response
-                                                                        ) {
-                                                                            console.log(response);
-                                                                            alert(
-                                                                                `Status: ${response.status}\n` +
-                                                                                    `Overview: ${response.description}\n` +
-                                                                                    `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated, ${response.importCount.ignored} ignored and  ${deleted} deleted` +
-                                                                                    `\n${
-                                                                                        response.conflicts
-                                                                                            ? response.conflicts.map(
-                                                                                                  e =>
-                                                                                                      "CONFLICT: " +
-                                                                                                      e.value +
-                                                                                                      "\n"
-                                                                                              )
-                                                                                            : ""
-                                                                                    }`
-                                                                            );
-                                                                            $("#loading").hide();
-                                                                            location.reload();
-                                                                        },
-                                                                    });
-                                                                    this.disable();
-                                                                } else {
-                                                                    alert("Removed:  0's values");
-                                                                    this.disable();
-                                                                }
-                                                            }
-                                                        );
-                                                    } else if (correctDataValues !== undefined) {
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: baseUrl + "/api/dataValueSets",
-                                                            dataType: "json",
-                                                            headers: {
-                                                                Accept: "application/json",
-                                                                "Content-Type": "application/json",
-                                                            },
-                                                            data: JSON.stringify({
-                                                                dataElementIdScheme: "UID",
-                                                                dataValues: correctDataValues,
-                                                                idScheme: "UID",
-                                                                orgUnitIdScheme: "UID",
-                                                            }),
-                                                            xhrFields: {
-                                                                withCredentials: true,
-                                                            },
-                                                            crossDomain: isDevelopment,
-                                                            success: function (response) {
-                                                                console.log(response);
-                                                                alert(
-                                                                    `Status: ${response.status}\n` +
-                                                                        `Overview: ${response.description}\n` +
-                                                                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated, ${response.importCount.ignored} ignored and ${deleted} deleted\\n` +
-                                                                        `\n${
-                                                                            response.conflicts
-                                                                                ? response.conflicts.map(
-                                                                                      e =>
-                                                                                          "CONFLICT: " +
-                                                                                          e.value +
-                                                                                          "\n"
-                                                                                  )
-                                                                                : ""
-                                                                        }`
-                                                                );
-                                                                $("#loading").hide();
-                                                                location.reload();
-                                                            },
-                                                        });
-                                                        this.disable();
-                                                    } else {
+                                                    if (
+                                                        removeDataValues === undefined ||
+                                                        correctDataValues === undefined
+                                                    ) {
                                                         alert("Still loading data, please wait!");
+                                                        return;
                                                     }
+
+                                                    this.disable();
+                                                    $("#loading").show();
+
+                                                    const updates =
+                                                        updateDataValues(correctDataValues);
+
+                                                    const removals = updateDataValues(
+                                                        removeDataValues,
+                                                        "DELETE"
+                                                    );
+
+                                                    $.when(updates, removals).then(
+                                                        (...results) => {
+                                                            const result = results.reduce(
+                                                                (acc, cur) => ({
+                                                                    imported:
+                                                                        acc.imported +
+                                                                        cur.importCount.imported,
+                                                                    updated:
+                                                                        acc.updated +
+                                                                        cur.importCount.updated,
+                                                                    deleted:
+                                                                        acc.deleted +
+                                                                        cur.importCount.deleted,
+                                                                    ignored:
+                                                                        acc.ignored +
+                                                                        cur.importCount.ignored,
+                                                                    conflicts: [
+                                                                        ...acc.conflicts,
+                                                                        ...cur.conflicts,
+                                                                    ],
+                                                                }),
+                                                                {
+                                                                    imported: 0,
+                                                                    updated: 0,
+                                                                    deleted: 0,
+                                                                    ignored: 0,
+                                                                    conflicts: [],
+                                                                }
+                                                            );
+
+                                                            alert(
+                                                                `Import count: ${result.imported} imported, ${result.updated} updated, ${result.ignored} ignored and ${result.deleted} deleted\\n` +
+                                                                    `\n${result.conflicts.map(
+                                                                        e =>
+                                                                            "CONFLICT: " +
+                                                                            e.value +
+                                                                            "\n"
+                                                                    )}`
+                                                            );
+                                                            $("#loading").hide();
+                                                            location.reload();
+                                                        },
+                                                        () => {
+                                                            alert("Error fixing data values");
+                                                        }
+                                                    );
                                                 },
                                             },
                                         ],
@@ -1632,13 +1572,10 @@
                                 $.ajax({
                                     type: "GET",
                                     dataType: "json",
-                                    url:
-                                        baseUrl +
-                                        "/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits",
+                                    url: `${baseUrl}/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits`,
                                     xhrFields: {
                                         withCredentials: true,
                                     },
-                                    crossDomain: isDevelopment,
                                     success: function (data) {
                                         const orgUnits = data.organisationUnits
                                             .map(({ id }) => id)
@@ -1647,14 +1584,10 @@
                                         $.ajax({
                                             type: "GET",
                                             dataType: "json",
-                                            url:
-                                                baseUrl +
-                                                "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
-                                                orgUnits,
+                                            url: `${baseUrl}/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=${orgUnits}`,
                                             xhrFields: {
                                                 withCredentials: true,
                                             },
-                                            crossDomain: isDevelopment,
                                             success: function (data) {
                                                 const promises = _(data.dataValues)
                                                     .map(e => [
@@ -1667,10 +1600,9 @@
                                                     .chunk(250)
                                                     .map(e =>
                                                         $.get(
-                                                            baseUrl +
-                                                                "/api/metadata.json?fields=id,name&filter=id:in:[" +
-                                                                e.join(",") +
-                                                                "]"
+                                                            `${baseUrl}/api/metadata.json?fields=id,name&filter=id:in:[${e.join(
+                                                                ","
+                                                            )}]`
                                                         )
                                                     )
                                                     .value();
@@ -1725,6 +1657,7 @@
                                                                     )
                                                                 )
                                                                 .value();
+
                                                             const result_remove = _(
                                                                 _.keys(providedValues)
                                                             )
@@ -1772,7 +1705,7 @@
                                                                                 period.split(
                                                                                     "-"
                                                                                 )[1],
-                                                                            value: "undefined",
+                                                                            value: "Empty",
                                                                             originalValue:
                                                                                 providedValue,
                                                                             sum: total.children
@@ -1803,7 +1736,7 @@
                                                                                     return dataValue &&
                                                                                         dataValue.value
                                                                                         ? dataValue.value
-                                                                                        : "undefined";
+                                                                                        : "Empty";
                                                                                 })
                                                                                 .join(" + "),
                                                                         };
@@ -1813,6 +1746,7 @@
                                                                 })
                                                                 .compact()
                                                                 .value();
+
                                                             return result_remove;
                                                         })
                                                         .flatten()
@@ -1946,23 +1880,19 @@
                                                         .value();
 
                                                     correctDataValues = result;
-                                                    removeDataValues = result_remove;
-                                                    if (result_remove.length > 0) {
-                                                        result_remove.forEach(function (element) {
-                                                            module1TotalsTable.row.add([
-                                                                metadata[element.dataElement],
-                                                                metadata[
-                                                                    element.categoryOptionCombo
-                                                                ],
-                                                                element.period,
-                                                                metadata[element.orgUnit],
-                                                                `${element.sum} = ${element.value}`,
-                                                                element.originalValue + "",
-                                                            ]);
-                                                        });
-                                                    }
-                                                    result.forEach(function (element) {
-                                                        module1TotalsTable.row.add([
+                                                    removeDataValues = result_remove.map(
+                                                        element => ({
+                                                            dataElement: element.dataElement,
+                                                            categoryOptionCombo:
+                                                                element.categoryOptionCombo,
+                                                            period: element.period,
+                                                            orgUnit: element.orgUnit,
+                                                            value: 0,
+                                                        })
+                                                    );
+
+                                                    const rows = [...result, ...result_remove].map(
+                                                        element => [
                                                             metadata[element.dataElement],
                                                             metadata[element.categoryOptionCombo],
                                                             element.period,
@@ -1970,11 +1900,12 @@
                                                             `${element.sum} = ${element.value}`,
                                                             element.originalValue
                                                                 ? element.originalValue
-                                                                : "-",
-                                                        ]);
-                                                    });
-                                                    module1TotalsTable.draw();
+                                                                : "Empty",
+                                                        ]
+                                                    );
 
+                                                    module1TotalsTable.rows.add(rows);
+                                                    module1TotalsTable.draw();
                                                     $("#loading").hide();
                                                 });
                                             },
