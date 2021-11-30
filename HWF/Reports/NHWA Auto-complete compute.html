@@ -526,7 +526,7 @@
                                         return deferred.promise();
                                     };
 
-                                    const items = _.chunk(update, 5000);
+                                    const items = _.chunk(update, 500);
                                     let looper = $.Deferred().resolve();
 
                                     return $.when.apply(
