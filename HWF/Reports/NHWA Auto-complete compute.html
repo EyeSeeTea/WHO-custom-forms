@@ -1517,35 +1517,38 @@
 
                                                     $.when(updates, removals).then(
                                                         (...results) => {
-                                                            const result = _.compact(
-                                                                results
-                                                            ).reduce(
-                                                                (acc, cur) => ({
-                                                                    imported:
-                                                                        acc.imported +
-                                                                        cur.importCount.imported,
-                                                                    updated:
-                                                                        acc.updated +
-                                                                        cur.importCount.updated,
-                                                                    deleted:
-                                                                        acc.deleted +
-                                                                        cur.importCount.deleted,
-                                                                    ignored:
-                                                                        acc.ignored +
-                                                                        cur.importCount.ignored,
-                                                                    conflicts: [
-                                                                        ...acc.conflicts,
-                                                                        ...cur.conflicts,
-                                                                    ],
-                                                                }),
-                                                                {
-                                                                    imported: 0,
-                                                                    updated: 0,
-                                                                    deleted: 0,
-                                                                    ignored: 0,
-                                                                    conflicts: [],
-                                                                }
-                                                            );
+                                                            const result = _(results)
+                                                                .flatten()
+                                                                .compact()
+                                                                .reduce(
+                                                                    (acc, cur) => ({
+                                                                        imported:
+                                                                            acc.imported +
+                                                                            cur.importCount
+                                                                                .imported,
+                                                                        updated:
+                                                                            acc.updated +
+                                                                            cur.importCount.updated,
+                                                                        deleted:
+                                                                            acc.deleted +
+                                                                            cur.importCount.deleted,
+                                                                        ignored:
+                                                                            acc.ignored +
+                                                                            cur.importCount.ignored,
+                                                                        conflicts: [
+                                                                            ...acc.conflicts,
+                                                                            ...cur.conflicts,
+                                                                        ],
+                                                                    }),
+                                                                    {
+                                                                        imported: 0,
+                                                                        updated: 0,
+                                                                        deleted: 0,
+                                                                        ignored: 0,
+                                                                        conflicts: [],
+                                                                    }
+                                                                )
+                                                                .value();
 
                                                             alert(
                                                                 `Import count: ${result.imported} imported, ${result.updated} updated, ${result.ignored} ignored and ${result.deleted} deleted\\n` +
@@ -1562,7 +1565,7 @@
                                                                 removals,
                                                                 results,
                                                             });
-                                                            
+
                                                             $("#loading").hide();
                                                             location.reload();
                                                         },
