@@ -488,6 +488,10 @@
             get_resource_link("userguide_link", "NHWA, User, guide");
             get_resource_link("occupation_link", "NHWA, Occupation, Mapping");
         });
+
+        if($("#currentSelection").length > 0) {
+          $("#currentSelection").wrap("<div class=\"currentSelectionContainer\"></div>");
+        }
     });
     var expanded = false;
 
@@ -613,7 +617,7 @@
     .cde table thead tr:nth-child(1) th {
         position: sticky;
         position: -webkit-sticky;
-        top: 48px;
+        top: 90px;
         background: #ffffff;
         z-index: 50;
     }
@@ -621,7 +625,7 @@
     .cde table thead tr:nth-child(2) th {
         position: sticky;
         position: -webkit-sticky;
-        top: 85px;
+        top: 127px;
         background: #ffffff;
         z-index: 50;
     }
@@ -655,6 +659,15 @@
     #label {
         display: block;
         text-align: left;
+    }
+
+    .currentSelectionContainer {
+      background: #fff;
+      width: 100%;
+      height: 42px;
+      position: fixed;
+      top: 48px;
+      z-index: 10;
     }
 </style>
 <link
