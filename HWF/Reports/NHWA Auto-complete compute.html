@@ -62,6 +62,11 @@
             rel="stylesheet"
             type="text/css"
         />
+        <style type="text/css">
+            #mainPage {
+                margin: 5px 10px 10px 20px !important;
+            }
+        </style>
         <style>
             html {
                 font-size: 14px;
@@ -197,22 +202,6 @@
             type="text/javascript"
             src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"
         ></script>
-        <script>
-            // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
-            jQuery(function () {
-                try {
-                    if ("Dhis2HeaderBar" in window) {
-                        Dhis2HeaderBar.initHeaderBar(document.querySelector("#header"), undefined, {
-                            noLoadingIndicator: true,
-                        });
-                    }
-                } catch (e) {
-                    if ("console" in window) {
-                        console.error(e);
-                    }
-                }
-            });
-        </script>
         <!-- // End menu -->
         <!--[if lte IE 8
             ]><script
@@ -432,31 +421,6 @@
     </head>
 
     <body>
-        <div id="header">
-            <img
-                id="headerBanner"
-                src="../api/staticContent/logo_banner"
-                onclick="window.location.href='../dhis-web-commons-about/redirect.action'"
-                style="cursor: pointer"
-                title="View home page"
-            />
-
-            <div id="dhisDropDownMenu"></div>
-        </div>
-        <span id="showLeftBar">
-            <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
-                <i class="fa fa-arrow-right leftBarIcon"></i>
-            </a>
-        </span>
-
-        <style type="text/css">
-            #mainPage {
-                margin-left: 20px;
-            }
-        </style>
-
-        <div id="headerMessage" class="bold"></div>
-
         <div class="page" id="mainPage">
             <script type="text/javascript">
                 dhis2.util.namespace("dhis2.report");
@@ -524,11 +488,58 @@
                         <script src="https://cdn.datatables.net/buttons/1.6.0/js/dataTables.buttons.min.js"></script>
                         <script type="text/javascript">
                             var correctDataValues = undefined;
+                            var removeDataValues = undefined;
+
                             $(document).ready(function () {
-                                const isDevelopment = false;
-                                const baseUrl = isDevelopment
-                                    ? "http://taris.sferadev.com:9004"
-                                    : "..";
+                                const baseUrl = "..";
+
+                                const updateDataValues = function (
+                                    update,
+                                    strategy = "CREATE_AND_UPDATE"
+                                ) {
+                                    const request = dataValues => {
+                                        const deferred = $.Deferred();
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: `${baseUrl}/api/dataValueSets?importStrategy=${strategy}`,
+                                            dataType: "json",
+                                            headers: {
+                                                Accept: "application/json",
+                                                "Content-Type": "application/json",
+                                            },
+                                            data: JSON.stringify({
+                                                dataValues,
+                                                dataElementIdScheme: "UID",
+                                                idScheme: "UID",
+                                                orgUnitIdScheme: "UID",
+                                            }),
+                                            xhrFields: { withCredentials: true },
+                                            success: function (data) {
+                                                deferred.resolve(data);
+                                            },
+                                            error: function (error) {
+                                                deferred.reject(error);
+                                            },
+                                        });
+
+                                        return deferred.promise();
+                                    };
+
+                                    const items = _.chunk(update, 5000);
+                                    let looper = $.Deferred().resolve();
+
+                                    return $.when.apply(
+                                        $,
+                                        $.map(items, function (dataValues, i) {
+                                            looper = looper.then(function () {
+                                                return request(dataValues);
+                                            });
+
+                                            return looper;
+                                        })
+                                    );
+                                };
 
                                 // Build "totals that do not match" table
                                 const calculatedNumericCells = [
@@ -1485,53 +1496,83 @@
                                             {
                                                 text: "Fix all incorrect values",
                                                 action: function (e, dt, node, config) {
-                                                    if (correctDataValues !== undefined) {
-                                                        $("#loading").show();
-                                                        console.log(correctDataValues);
-                                                        this.disable();
-                                                        $.ajax({
-                                                            type: "POST",
-                                                            url: baseUrl + "/api/dataValueSets",
-                                                            dataType: "json",
-                                                            headers: {
-                                                                Accept: "application/json",
-                                                                "Content-Type": "application/json",
-                                                            },
-                                                            data: JSON.stringify({
-                                                                dataElementIdScheme: "UID",
-                                                                dataValues: correctDataValues,
-                                                                idScheme: "UID",
-                                                                orgUnitIdScheme: "UID",
-                                                            }),
-                                                            xhrFields: {
-                                                                withCredentials: true,
-                                                            },
-                                                            crossDomain: isDevelopment,
-                                                            success: function (response) {
-                                                                console.log(response);
-                                                                alert(
-                                                                    `Status: ${response.status}\n` +
-                                                                        `Overview: ${response.description}\n` +
-                                                                        `Import count: ${response.importCount.imported} imported, ${response.importCount.updated} updated and ${response.importCount.ignored} ignored\n` +
-                                                                        `\n${
-                                                                            response.conflicts
-                                                                                ? response.conflicts.map(
-                                                                                      e =>
-                                                                                          "CONFLICT: " +
-                                                                                          e.value +
-                                                                                          "\n"
-                                                                                  )
-                                                                                : ""
-                                                                        }`
-                                                                );
-                                                                $("#loading").hide();
-                                                                location.reload();
-                                                            },
-                                                        });
-                                                        this.disable();
-                                                    } else {
+                                                    if (
+                                                        removeDataValues === undefined ||
+                                                        correctDataValues === undefined
+                                                    ) {
                                                         alert("Still loading data, please wait!");
+                                                        return;
                                                     }
+
+                                                    this.disable();
+                                                    $("#loading").show();
+
+                                                    const updates =
+                                                        updateDataValues(correctDataValues);
+
+                                                    const removals = updateDataValues(
+                                                        removeDataValues,
+                                                        "DELETE"
+                                                    );
+
+                                                    $.when(updates, removals).then(
+                                                        (...results) => {
+                                                            const result = _(results)
+                                                                .flatten()
+                                                                .compact()
+                                                                .reduce(
+                                                                    (acc, cur) => ({
+                                                                        imported:
+                                                                            acc.imported +
+                                                                            cur.importCount
+                                                                                .imported,
+                                                                        updated:
+                                                                            acc.updated +
+                                                                            cur.importCount.updated,
+                                                                        deleted:
+                                                                            acc.deleted +
+                                                                            cur.importCount.deleted,
+                                                                        ignored:
+                                                                            acc.ignored +
+                                                                            cur.importCount.ignored,
+                                                                        conflicts: [
+                                                                            ...acc.conflicts,
+                                                                            ...cur.conflicts,
+                                                                        ],
+                                                                    }),
+                                                                    {
+                                                                        imported: 0,
+                                                                        updated: 0,
+                                                                        deleted: 0,
+                                                                        ignored: 0,
+                                                                        conflicts: [],
+                                                                    }
+                                                                )
+                                                                .value();
+
+                                                            alert(
+                                                                `Import count: ${result.imported} imported, ${result.updated} updated, ${result.ignored} ignored and ${result.deleted} deleted\\n` +
+                                                                    `\n${result.conflicts.map(
+                                                                        e =>
+                                                                            "CONFLICT: " +
+                                                                            e.value +
+                                                                            "\n"
+                                                                    )}`
+                                                            );
+
+                                                            console.log({
+                                                                updates,
+                                                                removals,
+                                                                results,
+                                                            });
+
+                                                            $("#loading").hide();
+                                                            location.reload();
+                                                        },
+                                                        () => {
+                                                            alert("Error fixing data values");
+                                                        }
+                                                    );
                                                 },
                                             },
                                         ],
@@ -1543,13 +1584,10 @@
                                 $.ajax({
                                     type: "GET",
                                     dataType: "json",
-                                    url:
-                                        baseUrl +
-                                        "/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits",
+                                    url: `${baseUrl}/api/dataSets/Tu81BTLUuCT.json?fields=organisationUnits`,
                                     xhrFields: {
                                         withCredentials: true,
                                     },
-                                    crossDomain: isDevelopment,
                                     success: function (data) {
                                         const orgUnits = data.organisationUnits
                                             .map(({ id }) => id)
@@ -1558,14 +1596,10 @@
                                         $.ajax({
                                             type: "GET",
                                             dataType: "json",
-                                            url:
-                                                baseUrl +
-                                                "/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=" +
-                                                orgUnits,
+                                            url: `${baseUrl}/api/dataValueSets.json?dataSet=Tu81BTLUuCT&startDate=1970-01-01&endDate=2100-01-01&orgUnit=${orgUnits}`,
                                             xhrFields: {
                                                 withCredentials: true,
                                             },
-                                            crossDomain: isDevelopment,
                                             success: function (data) {
                                                 const promises = _(data.dataValues)
                                                     .map(e => [
@@ -1578,10 +1612,9 @@
                                                     .chunk(250)
                                                     .map(e =>
                                                         $.get(
-                                                            baseUrl +
-                                                                "/api/metadata.json?fields=id,name&filter=id:in:[" +
-                                                                e.join(",") +
-                                                                "]"
+                                                            `${baseUrl}/api/metadata.json?fields=id,name&filter=id:in:[${e.join(
+                                                                ","
+                                                            )}]`
                                                         )
                                                     )
                                                     .value();
@@ -1599,6 +1632,137 @@
                                                             element =>
                                                                 `${element.dataElement}-${element.categoryOptionCombo}-val`
                                                         )
+                                                        .value();
+
+                                                    const result_remove = _(calculatedNumericCells)
+                                                        .map(total => {
+                                                            var providedValues = _(
+                                                                dataValues[total.id]
+                                                            )
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value)
+                                                                    )
+                                                                )
+                                                                .value();
+
+                                                            const calculatedValues = _(
+                                                                total.children
+                                                            )
+                                                                .map(e =>
+                                                                    !!dataValues[e]
+                                                                        ? dataValues[e]
+                                                                        : []
+                                                                )
+                                                                .flatten()
+                                                                .groupBy(
+                                                                    element =>
+                                                                        `${element.period}-${element.orgUnit}-val`
+                                                                )
+                                                                .mapValues(values =>
+                                                                    _.sumBy(values, e =>
+                                                                        parseFloat(e.value || 0)
+                                                                    )
+                                                                )
+                                                                .value();
+
+                                                            const result_remove = _(
+                                                                _.keys(providedValues)
+                                                            )
+                                                                .union(_.keys(calculatedValues))
+                                                                .map(period => {
+                                                                    const calculatedValue =
+                                                                        !isNaN(
+                                                                            calculatedValues[period]
+                                                                        ) &&
+                                                                        calculatedValues[period] ===
+                                                                            0
+                                                                            ? calculatedValues[
+                                                                                  period
+                                                                              ]
+                                                                            : undefined;
+
+                                                                    var providedValue = "";
+                                                                    if (
+                                                                        !isNaN(
+                                                                            providedValues[period]
+                                                                        )
+                                                                    ) {
+                                                                        providedValue =
+                                                                            providedValues[period];
+                                                                    }
+
+                                                                    if (
+                                                                        calculatedValue ===
+                                                                            undefined &&
+                                                                        providedValue === 0
+                                                                    ) {
+                                                                        return {
+                                                                            dataElement:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[0],
+                                                                            categoryOptionCombo:
+                                                                                total.id.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            period: period.split(
+                                                                                "-"
+                                                                            )[0],
+                                                                            orgUnit:
+                                                                                period.split(
+                                                                                    "-"
+                                                                                )[1],
+                                                                            value: "Empty",
+                                                                            originalValue:
+                                                                                providedValue,
+                                                                            sum: total.children
+                                                                                .map(e => {
+                                                                                    const dataValue =
+                                                                                        _.find(
+                                                                                            dataValues[
+                                                                                                e
+                                                                                            ],
+                                                                                            {
+                                                                                                dataElement:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[0],
+                                                                                                categoryOptionCombo:
+                                                                                                    e.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                                period: period.split(
+                                                                                                    "-"
+                                                                                                )[0],
+                                                                                                orgUnit:
+                                                                                                    period.split(
+                                                                                                        "-"
+                                                                                                    )[1],
+                                                                                            }
+                                                                                        );
+                                                                                    return dataValue &&
+                                                                                        dataValue.value
+                                                                                        ? dataValue.value
+                                                                                        : "Empty";
+                                                                                })
+                                                                                .join(" + "),
+                                                                        };
+                                                                    } else {
+                                                                        return null;
+                                                                    }
+                                                                })
+                                                                .compact()
+                                                                .value();
+
+                                                            return result_remove;
+                                                        })
+                                                        .flatten()
+                                                        .compact()
                                                         .value();
 
                                                     const result = _(calculatedNumericCells)
@@ -1728,9 +1892,19 @@
                                                         .value();
 
                                                     correctDataValues = result;
+                                                    removeDataValues = result_remove.map(
+                                                        element => ({
+                                                            dataElement: element.dataElement,
+                                                            categoryOptionCombo:
+                                                                element.categoryOptionCombo,
+                                                            period: element.period,
+                                                            orgUnit: element.orgUnit,
+                                                            value: 0,
+                                                        })
+                                                    );
 
-                                                    result.forEach(function (element) {
-                                                        module1TotalsTable.row.add([
+                                                    const rows = [...result, ...result_remove].map(
+                                                        element => [
                                                             metadata[element.dataElement],
                                                             metadata[element.categoryOptionCombo],
                                                             element.period,
@@ -1738,11 +1912,12 @@
                                                             `${element.sum} = ${element.value}`,
                                                             element.originalValue
                                                                 ? element.originalValue
-                                                                : "-",
-                                                        ]);
-                                                    });
-                                                    module1TotalsTable.draw();
+                                                                : "0",
+                                                        ]
+                                                    );
 
+                                                    module1TotalsTable.rows.add(rows);
+                                                    module1TotalsTable.draw();
                                                     $("#loading").hide();
                                                 });
                                             },
