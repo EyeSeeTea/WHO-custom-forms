@@ -219,4 +219,8 @@ $(document).ready(function () {
         get_resource_link("userguide_link", "NHWA, User, guide");
         get_resource_link("occupation_link", "NHWA, Occupation, Mapping");
     });
+
+    if ($("#currentSelection").length > 0) {
+        $("#currentSelection").wrap('<div class="currentSelectionContainer"></div>');
+    }
 });
