@@ -77,6 +77,30 @@ input.cmn-toggle-round-flat:checked + label:after {
 *[hidden] {
     display: none;
 }
+
+/* ============================================================
+  TOOLTIP
+============================================================ */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
 <!-- javascript translate function --><script type="text/javascript">
 ! function(t) {
@@ -108,81 +132,103 @@ input.cmn-toggle-round-flat:checked + label:after {
 }(jQuery);
 </script><script type="text/javascript">
 
+function addCheckboxTooltip($otherDiv)
+{
+  $otherDiv.addClass("tooltip");
+  if ( $otherDiv.find('.tooltiptext').length === 0 ) {
+    $otherDiv.find('img').after("<span class=\"tooltiptext\">Fields \"implemented this year\" and \"Discontinued\" are mutually exclusive.</span>");
+  }
+}
+
+function removeCheckboxTooltip($otherDiv)
+{
+  $otherDiv.removeClass("tooltip");
+  $otherDiv.find('.tooltiptext').remove();
+}
+
 function disableConflictingCheckboxes() 
 { 
-    $(document).ready( function() {
-      $("div[id$='_NOW']").each(function() {
-        var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
-        var $otherDiv = $('#' + $$otherDivId);
-        var $yesLabel = $(this).find("label:contains('Yes')")
-        if ($yesLabel.find("input").is(':checked')) {
-          $otherDiv.find("input").each(function(i){
-            $(this).attr('disabled', true);
-            $(this).prop('checked', false);
-            $(this).parent().parent().parent().css( "background-color", "grey" );
-          });
-        } else {
-          $otherDiv.find("input").each(function(i){
-            $(this).attr('disabled', false);
-            $(this).parent().parent().parent().css( "background-color", "white" );
-          });
-        }
-      });
-
-      $("div[id$='_DISC']").each(function() {
-        var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
-        var $otherDiv = $('#' + $$otherDivId);
-        var $yesLabel = $(this).find("label:contains('Yes')")
-        if ($yesLabel.find("input").is(':checked')) {
-          $otherDiv.find("input").each(function(i){
-            $(this).attr('disabled', true);
-            $(this).prop('checked', false);
-            $(this).parent().parent().parent().css( "background-color", "grey" );
-          });
-        } else {
-          $otherDiv.find("input").each(function(i){
-            $(this).attr('disabled', false);
-            $(this).parent().parent().parent().css( "background-color", "white" );
-          });
-        }
-      });
-    });
-    
-    $("div[id$='_NOW']").click(function() {
+  $(document).ready(function() {
+    $("div[id$='_NOW']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
       var $otherDiv = $('#' + $$otherDivId);
       var $yesLabel = $(this).find("label:contains('Yes')")
-            if ($yesLabel.find("input").is(':checked')) {
+      if ($yesLabel.find("input").is(':checked')) {
         $otherDiv.find("input").each(function(i){
           $(this).attr('disabled', true);
           $(this).prop('checked', false);
-          $(this).parent().parent().parent().css( "background-color", "grey" );
         });
+        $otherDiv.parent().css( "background-color", "grey" );
+        addCheckboxTooltip($otherDiv);
       } else {
         $otherDiv.find("input").each(function(i){
           $(this).attr('disabled', false);
-          $(this).parent().parent().parent().css( "background-color", "white" );
         });
+        $otherDiv.parent().css( "background-color", "white" );
+        removeCheckboxTooltip($otherDiv);
       }
     });
 
-    $("div[id$='_DISC']").click(function() {
+    $("div[id$='_DISC']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
       var $otherDiv = $('#' + $$otherDivId);
       var $yesLabel = $(this).find("label:contains('Yes')")
-            if ($yesLabel.find("input").is(':checked')) {
+      if ($yesLabel.find("input").is(':checked')) {
         $otherDiv.find("input").each(function(i){
           $(this).attr('disabled', true);
           $(this).prop('checked', false);
-          $(this).parent().parent().parent().css( "background-color", "grey" );
         });
+        $otherDiv.parent().css( "background-color", "grey" );
+        addCheckboxTooltip($otherDiv);
       } else {
         $otherDiv.find("input").each(function(i){
           $(this).attr('disabled', false);
-          $(this).parent().parent().parent().css( "background-color", "white" );
         });
+        $otherDiv.parent().css( "background-color", "white" );
+        removeCheckboxTooltip($otherDiv);
       }
     });
+  });
+  
+  $("div[id$='_NOW']").click(function() {
+    var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
+    var $otherDiv = $('#' + $$otherDivId);
+    var $yesLabel = $(this).find("label:contains('Yes')")
+    if ($yesLabel.find("input").is(':checked')) {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', true);
+        $(this).prop('checked', false);
+      });
+      $otherDiv.parent().css( "background-color", "grey" );
+      addCheckboxTooltip($otherDiv);
+    } else {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', false);
+      });
+      $otherDiv.parent().css( "background-color", "white" );
+      removeCheckboxTooltip($otherDiv);
+    }
+  });
+
+  $("div[id$='_DISC']").click(function() {
+    var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
+    var $otherDiv = $('#' + $$otherDivId);
+    var $yesLabel = $(this).find("label:contains('Yes')")
+    if ($yesLabel.find("input").is(':checked')) {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', true);
+        $(this).prop('checked', false);
+      });
+      $otherDiv.parent().css( "background-color", "grey" );
+      addCheckboxTooltip($otherDiv);
+    } else {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', false);
+      });
+      $otherDiv.parent().css( "background-color", "white" );
+      removeCheckboxTooltip($otherDiv);
+    }
+  });
 }
 
 //Shared variables
