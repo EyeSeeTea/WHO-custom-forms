@@ -1,0 +1,2799 @@
+<style type="text/css">.fullscreenDiv {
+    width: 100%;
+    height: auto;
+}
+
+
+.td .SectionTitle{
+  background-color:#EBEFFF;
+  font-weight: bold;
+  text-align: left;
+}
+
+/* ============================================================
+  SWITCH 2 - ROUND FLAT
+============================================================ */
+input.cmn-toggle-round-flat + label {
+  padding: 2px;
+  width: 60px;
+  height: 30px;
+  background-color: #dddddd;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round-flat + label:before, input.cmn-toggle-round-flat + label:after {
+  display: block;
+  position: absolute;
+  content: "";
+}
+input.cmn-toggle-round-flat + label:before {
+  top: 2px;
+  left: 2px;
+  bottom: 2px;
+  right: 2px;
+  background-color: #fff;
+  -webkit-border-radius: 30px;
+  -moz-border-radius: 30px;
+  -ms-border-radius: 30px;
+  -o-border-radius: 30px;
+  border-radius: 30px;
+  -webkit-transition: background 0.4s;
+  -moz-transition: background 0.4s;
+  -o-transition: background 0.4s;
+  transition: background 0.4s;
+}
+input.cmn-toggle-round-flat + label:after {
+  top: 4px;
+  left: 4px;
+  bottom: 4px;
+  width: 25px;
+  background-color: #dddddd;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  -ms-border-radius: 25px;
+  -o-border-radius: 25px;
+  border-radius: 25px;
+  -webkit-transition: margin 0.4s, background 0.4s;
+  -moz-transition: margin 0.4s, background 0.4s;
+  -o-transition: margin 0.4s, background 0.4s;
+  transition: margin 0.4s, background 0.4s;
+}
+input.cmn-toggle-round-flat:checked + label {
+  background-color: #8ce196;
+}
+input.cmn-toggle-round-flat:checked + label:after {
+  margin-left: 30px;
+  background-color: #8ce196;
+}
+
+
+*[hidden] {
+    display: none;
+}
+
+/* ============================================================
+  TOOLTIP
+============================================================ */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 100%;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+</style>
+<!-- javascript translate function --><script type="text/javascript">
+! function(t) {
+    t.fn.translate = function(n) {
+        var s = this;
+        console.log("inside trans");
+        var r = {
+            css: "trn",
+            lang: "en"
+        };
+        0 !== (r = t.extend(r, n || {})).css.lastIndexOf(".", 0) && (r.css = "." + r.css);
+        var a = r.t;
+        return this.lang = function(t) {
+            return t && (r.lang = t, this.translate(r)), r.lang
+        }, this.get = function(t) {
+            var n = t;
+            try {
+                n = a[t][r.lang]
+            } catch (n) {
+                return t
+            }
+            return n || t
+        }, this.g = this.get, this.find(r.css).each(function(n) {
+            var r = t(this),
+                a = r.attr("data-trn-key");
+            console.log(""), a || (a = r.html(), r.attr("data-trn-key", a)), r.html(s.get(a))
+        }), this
+    }
+}(jQuery);
+</script><script type="text/javascript">
+
+function addCheckboxTooltip($otherDiv)
+{
+  $otherDiv.addClass("tooltip");
+  if ( $otherDiv.find('.tooltiptext').length === 0 ) {
+    $otherDiv.find('img').after("<span class=\"tooltiptext\">Fields \"implemented this year\" and \"Discontinued\" are mutually exclusive.</span>");
+  }
+}
+
+function removeCheckboxTooltip($otherDiv)
+{
+  $otherDiv.removeClass("tooltip");
+  $otherDiv.find('.tooltiptext').remove();
+}
+
+function disableConflictingCheckboxes() 
+{ 
+  $(document).ready(function() {
+    $("div[id$='_NOW']").each(function() {
+      var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
+      var $otherDiv = $('#' + $$otherDivId);
+      var $yesLabel = $(this).find("label:contains('Yes')")
+      if ($yesLabel.find("input").is(':checked')) {
+        $otherDiv.find("input").each(function(i){
+          $(this).attr('disabled', true);
+          $(this).prop('checked', false);
+        });
+        $otherDiv.parent().css( "background-color", "grey" );
+        addCheckboxTooltip($otherDiv);
+      } else {
+        $otherDiv.find("input").each(function(i){
+          $(this).attr('disabled', false);
+        });
+        $otherDiv.parent().css( "background-color", "white" );
+        removeCheckboxTooltip($otherDiv);
+      }
+    });
+
+    $("div[id$='_DISC']").each(function() {
+      var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
+      var $otherDiv = $('#' + $$otherDivId);
+      var $yesLabel = $(this).find("label:contains('Yes')")
+      if ($yesLabel.find("input").is(':checked')) {
+        $otherDiv.find("input").each(function(i){
+          $(this).attr('disabled', true);
+          $(this).prop('checked', false);
+        });
+        $otherDiv.parent().css( "background-color", "grey" );
+        addCheckboxTooltip($otherDiv);
+      } else {
+        $otherDiv.find("input").each(function(i){
+          $(this).attr('disabled', false);
+        });
+        $otherDiv.parent().css( "background-color", "white" );
+        removeCheckboxTooltip($otherDiv);
+      }
+    });
+  });
+  
+  $("div[id$='_NOW']").click(function() {
+    var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
+    var $otherDiv = $('#' + $$otherDivId);
+    var $yesLabel = $(this).find("label:contains('Yes')")
+    if ($yesLabel.find("input").is(':checked')) {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', true);
+        $(this).prop('checked', false);
+      });
+      $otherDiv.parent().css( "background-color", "grey" );
+      addCheckboxTooltip($otherDiv);
+    } else {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', false);
+      });
+      $otherDiv.parent().css( "background-color", "white" );
+      removeCheckboxTooltip($otherDiv);
+    }
+  });
+
+  $("div[id$='_DISC']").click(function() {
+    var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
+    var $otherDiv = $('#' + $$otherDivId);
+    var $yesLabel = $(this).find("label:contains('Yes')")
+    if ($yesLabel.find("input").is(':checked')) {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', true);
+        $(this).prop('checked', false);
+      });
+      $otherDiv.parent().css( "background-color", "grey" );
+      addCheckboxTooltip($otherDiv);
+    } else {
+      $otherDiv.find("input").each(function(i){
+        $(this).attr('disabled', false);
+      });
+      $otherDiv.parent().css( "background-color", "white" );
+      removeCheckboxTooltip($otherDiv);
+    }
+  });
+}
+
+//Shared variables
+
+var global = {
+  relativeURL: "/dhis/",
+  currentUILanguage: "en",
+  CalculationInProcess  :false,
+  admin : false,
+  logLevel : 2,
+  AdminUserGroup : false,
+  RetroDataEditUserGroup : false
+};
+  
+  //All translation including mark-up
+var dict = {
+  "LBL_FORM_TITLE": {
+    en: "World Malaria Report",
+    fr: "Rapport sur le paludisme modiale",
+    es: "Informe Mundial del Paludismo",
+    pt: "Relatório Mundial de Malária"
+  },
+  "LLINS": {
+    en: "ITNs (All ITNs, ,LLINs, PBOs)",
+    fr: "MII (tous les MIIs, MILDs, MILDs PBO)",
+    es: "MTIs (todas los MTIs, MTILDs, PBO MTILDs)",
+    pt: "MILDs (Todos MILDs, MILDS BOP)"
+  },
+  "MAL_ITN_LLIN_DISTR_FREE": {
+     en: "ITNs/ LLINs are distributed for free",
+    fr: "Les MII/MILD sont distribuées gratuitement",
+    es: "Los MTI/MTILDs se distribuyen gratuitamente",
+    pt: "MILDs distribuídos gratuitamente"
+
+  },
+  "MAL_ITN_LLIN_DISTR_FREE_ALL_AGES": {
+   en: "ITNs/LLINs are distributed for free - for all ages groups",
+  fr: "Les MII/MILD sont distribués gratuitement - pour tous les groupes d'âge",
+  es: "Los MTI/MTILDs se distribuyen gratuitamente - para todos los grupos de edad",
+  pt: "MILDs distribuídos gratuitamente - para todos os grupos de idade"
+  },
+  "MAL_ITN_LLIN_DISTR_FREE_CHILDREN": {
+   en: "ITNs/LLINs are distributed for free - for children",
+  fr: "Les MII/MILD sont distribués gratuitement - pour les enfants",
+  es: "Los MTI/MTILDs se distribuyen gratuitamente - para los niños",
+  pt: "MILDs distribuídos gratuitamente - para crianças"
+  },
+  "MAL_ITN_LLIN_DISTR_FREE_PW": {
+   en: "ITNs/LLINs are distributed for free - for pregnant women",
+  fr: "Les MII/MILD sont distribués gratuitement - pour les femmes enceintes",
+  es: "Los MTI/MTILDs se distribuyen gratuitamente - para las mujeres embarazadas",
+  pt: "MILDs distribuídos gratuitamente para gestantes"
+  },
+  "MAL_ITN_LLIN_DISTR_FREE_OTHER": {
+   en: "ITNs/LLINs are distributed for free - other at risk populations e.g forest workers",
+  fr: "Les MII/MILD sont distribuées gratuitement - autres populations à risque, ar exemple les travailleurs forestiers",
+  es: "Los MTI/MTILDs se distribuyen gratuitamente - otras poblaciones en riesgo, por ejemplo, los trabajadores forestales",
+  pt: "MILDs distribuídos gratuitamente - para outras populações sob risco (ex. trabalhadores florestais)"
+  },
+  "LLIN_DISTRIBUTION_CHANNELS": {
+   en: "ITN distribution channels (ITNs, LLINs, PBOs)",
+  fr: "Distribution des MILD (MIIs, MILDs, MILDs PBOs)",
+  es: "Distribución de las MTIs (MTIs, MTILDs, PBO MTILDs)",
+  pt: "Canais de distribioção de MILD (MILD, BOP)"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_ANC": {
+   en: "ITNs/ LLINs are distributed through antenatal clinics",
+  fr: "Les MII/MILD sont distribuées par les cliniques prénatales",
+  es: "Los MTI/MTILDs se distribuyen a través de las clínicas prenatales.",
+  pt: "MILDs distribuídos em clínicas pré-natais"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_EPI": {
+   en: "ITNs/ LLINs are distributed through EPI clinics",
+  fr: "Les MII/MILD sont distribuées par les cliniques du PEV",
+  es: "Los MTI/MTILDs son distribuídos por las clínicas EPI.",
+  pt: "MILDs distribuídos em postos de vacinação"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_MASS_CAMP": {
+   en: "ITNs/ LLINs distributed through mass campaigns to all age groups",
+  fr: "Distribution de MII/MILD par des campagnes de masse à tous les groupes d'âge",
+  es: "Distribución de MTI/MTILDs a través de campañas masivas a todos los grupos de edad",
+  pt: "MILDs distribuídos gratuitamente através de campanhas em massa para todos os grupos de idade"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_SCHOOLS": {
+   en: "ITNs/LLINs distributed through schools, faith- and community-based networks, and agricultural and food-security support schemes",
+  fr: "MII/MILD distribués par l'intermédiaire des écoles, des réseaux religieux et communautaires, et des programmes de soutien à l'agriculture et à la sécurité alimentaire",
+  es: "MTI/MTILDs distribuídos a través de escuelas, redes religiosas y comunitarias y planes de apoyo a la agricultura y la seguridad alimentaria",
+  pt: "MILDs distribuídos nas escolas, estabelecimentos religiosos, comunidades, planos de apoio à agricultura e segurança alimentar"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_WORK": {
+   en: "ITNs/LLINs distributed through occupation-related distribution channels",
+  fr: "MII/MILD distribuées par les canaux de distribution liés à la profession",
+  es: "MTI/MTILDs distribuídos a través de canales de distribución relacionados con la profesión",
+  pt: "MILDs distribuídos através de canais relacionados com a profissão"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_PRIV": {
+   en: "ITNs/LLINs distributed through private or commercial sector channels",
+  fr: "MII/MILD distribués par des canaux du secteur privé ou commercial",
+  es: "MTI/MTILDs distribuídos a través de canales del sector privado o comercial",
+  pt: "MILDs distribuídos através de canais do setor privado ou comercial"
+  },
+  "IRS": {
+   en: "IRS",
+  fr: "PID",
+  es: "RIR",
+  pt: "BRI"
+  },
+  "MAL_IRS_RECOM": {
+   en: "IRS is recommended by malaria control program",
+  fr: "Le PID est recommandée par le programme de lutte contre le paludisme",
+  es: "El RIR está recomendado por el Programa de Control de la Malaria.",
+  pt: "BRI é recomendada pelo programa de controle de malária"
+  },
+  "MAL_IRS_PRIMARY_VC": {
+   en: "IRS is the primary vector control intervention",
+  fr: "Le PID est la principale intervention de lutte contre les vecteurs",
+  es: "La RIR es la principal intervención de control de vectores.",
+  pt: "BRI é a principal intervenção de controle vetorial"
+  },
+  "MAL_IRS_USED_PREVENT_EPIDEMICS": {
+   en: "IRS is used for prevention and control of epidemics",
+  fr: "Le PID sont utilisés pour la prévention et le contrôle des épidémies",
+  es: "Las RIR se utilizan para la prevención y el control de epidemias",
+  pt: "BRI é usada para prevenção e controle de epidemias"
+  },
+  "MAL_DDT_USED_IRS": {
+   en: "DDT is used for IRS",
+  fr: "Le DDT est utilisé pour Le PID",
+  es: "El DDT se usa para la RIR.",
+  pt: "DDT é utilizado para a BRI"
+  },
+  "LARVAL_CONTROL": {
+   en: "Larval control",
+  fr: "Lutte contre les larves",
+  es: "Control de larvas",
+  pt: "Controle larvário"
+  },
+  "MAL_USE_LARVAL_CONTROL": {
+   en: "Use of larval source management",
+  fr: "Utilisation de la gestion des sources larvaires",
+  es: "UUtilización de la gestión de la fuente de las larvas",
+  pt: "Uso do manejo dos criadouros"
+  },
+  "MAL_LARVAL_CONTROL_SRC_MGMT": {
+   en: "larval source management in foci response",
+  fr: "gestion des sources larvaires dans les foyers de réaction",
+  es: "gestión de las fuentes de larvas en los focos de reacción",
+  pt: "Manejo dos criadouros em resposta ao foco"
+  },
+  "TESTING": {
+   en: "Testing",
+  fr: "Test",
+  es: "Prueba",
+  pt: "Teste"
+  },
+  "DIAG_RDT_FREE": {
+   en: "Malaria diagnosis using RDT is free of charge in the public sector",
+  fr: "Le diagnostic du paludisme à l'aide de la TDR est gratuit dans le secteur public",
+  es: "El diagnóstico del paludismo mediante los PDR es gratuito en el sector público",
+  pt: "Diagnóstico de malária por TDR gratuito no setor público"
+  },
+  "DIAG_MICR_FREE": {
+   en: "Malaria diagnosis using microscopy is free of charge in the public sector",
+  fr: "Le diagnostic du paludisme par microscopie est gratuit dans le secteur public",
+  es: "El diagnóstico del paludismo por microscopía es gratuito en el sector público",
+  pt: "Diagnóstico de malária por microscopia gratuito no setor público"
+  },
+  "DIAG_FREE_PRIV_SECTOR": {
+   en: "Malaria diagnosis is free in the private sector",
+  fr: "Le diagnostic du paludisme est gratuit dans le secteur privé",
+  es: "El diagnóstico de la malaria es gratuito en el sector privado",
+  pt: "Diagnóstico de malária gratuito no setor privado"
+  },
+  "MAL_RDTS_USED_PUB_SECTOR": {
+   en: "RDTS are used in the public sector",
+  fr: "Les TDRs sont utilisés dans le secteur public",
+  es: "Los PDR se utilizan en el sector público",
+  pt: "TDR utilizado no setor público"
+  },
+  "MAL_RDTS_USED_PRIV_SECTOR": {
+   en: "RDTS are used in the private sector",
+  fr: "Les TDRs sont utilisés dans le secteur privé",
+  es: "Los PDR se utilizan en el sector privado",
+  pt: "TDR utilizado no setor privado"
+  },
+  "MAL_RDTS_USED_COMM_SECTOR": {
+   en: "RDTS are used in the community",
+  fr: "Les RDTS sont utilisés dans la communauté",
+  es: "Los RDTS se usan en la comunidad",
+  pt: "TDR utilizado nas comunidades"
+  },
+  "TREATMENT": {
+   en: "Treatment",
+  fr: "Traitement",
+  es: "Tratamiento",
+  pt: "Tratamento"
+  },
+  "MAL_ACT_USED_TRT_PF": {
+   en: "ACT is used for treatment <i>P. falciparum</i>",
+  fr: "le CTA est utilisé pour le traitement <i>P. falciparum</i>",
+  es: "La TCA se utiliza para el tratamiento de la fibrilación auricular",
+  pt: "ACT é utilizado para tratamento de  <i>P. falciparum</i>"
+  },
+  "MAL_ACT_FREE_OF_CHARGE": {
+   en: "ACT is free of charge for all age groups in public sector",
+  fr: "Les CTAs est gratuit pour toutes les tranches d'âge dans le secteur public",
+  es: "Los TCA son gratuitos para todos los grupos de edad del sector público",
+  pt: "ACT é gratuito para todos os grupos de idade no setor público"
+  },
+  "MAL_ACT_COMM_LEVEL": {
+   en: "ACT is delivered at community level through community agents (beyond the health facilities)",
+  fr: "Les CTAs sont dispensés au niveau communautaire par des agents communautaires (au-delà des établissements de santé)",
+  es: "Los TCA son administrados a nivel comunitario por trabajadores de la comunidad (más allá de los centros de salud).",
+  pt: "ACT é administrado nas comunidades por trabalhadores da comunidade (além das unidades de saúde)"
+  },
+  "MAL_TRT_PERMITTED_PRIV_SECTOR": {
+   en: "Malaria treatment is permitted in the private sector",
+  fr: "Le traitement du paludisme est autorisé dans le secteur privé",
+  es: "El tratamiento del paludismo está permitido en el sector privado",
+  pt: "Tratamento de malária é permitido no setor privado"
+  },
+  "MAL_TRT_FREE": {
+   en: "Malaria treatment is free of charge in the private sector",
+  fr: "Le traitement du paludisme est gratuit dans le secteur privé",
+  es: "El tratamiento del paludismo es gratuito en el sector privado",
+  pt: "Tratamento da malária é gratuito no setor privado"
+  },
+  "MAL_SALE_ORAL_MONO_THERAP_POLICY_IMPL": {
+   en: "The sale of oral artemisinin-based monotherapy drugs",
+  fr: "La vente de médicaments oraux en monothérapie à base d'artémisinine",
+  es: "La venta de medicamentos de monoterapia con artemisinina oral",
+  pt: "A venda de medicamentos de monoterapia à base de artemisinina"
+  },
+  "MAL_PREREF_QN_ART_IM_OR_SUPP": {
+   en: "Pre-referral treatment with quinine or artemether IM or artesunate suppositories",
+  fr: "Traitement de pré-référence avec des suppositoires de quinine ou d'artéméther IM ou d'artésunate",
+  es: "Tratamiento previo a la remisión con quinina o artemetero IM o supositorios de artesunato",
+  pt: "Tratamento prévio com quinino ou artemeter IM ou supositório de artesunato"
+  },
+  "MAL_SINGLE_DOSE_PQ_USED": {
+   en: "Single low dose of primaquine with ACT to reduce transmissibility of <i>P. falciparum</i>",
+  fr: "Une faible dose unique de primaquine avec CTA utilisée pour réduire la transmissibilité de <i>P. falciparum</i>",
+  es: "Una única dosis baja de primaquina con ACT para reducir la transmisibilidad de <i>P. falciparum</i>.",
+  pt: "Dose única baixa de primaquina com ACT para reduzir a transmissibilidade de <i>P. falciparum</i>"
+  },
+  "MAL_PQ_USED_RADICAL_TRT_PV": {
+   en: "Primaquine is used for radical treatment of <i>P. vivax</i> cases",
+  fr: "La primaquine est utilisée pour le traitement radical des cas de <i>P. vivax</i>",
+  es: "La primaquina se utiliza para el tratamiento radical de los casos de <i>P. vivax</i>.",
+  pt: "Primaquina é utilizada para o tratamento de cura radical de casos de <i>P. vivax</i>"
+  },
+  "MAL_G6PD_TEST_B4_PQ_TRT_RECOM": {
+   en: "G6PD test is recommended before treatment with primaquine",
+  fr: "Le test G6PD est recommandé avant le traitement par la primaquine",
+  es: "Se recomienda la prueba de G6PD antes del tratamiento con primaquina.",
+  pt: "Teste de G6PD é recomendado antes do tratamento com primaquina"
+  },
+  "MAL_DOT_PQ": {
+   en: "Directly observed treatment with primaquine is undertaken",
+  fr: "Un traitement sous observation directe avec la primaquine est entrepris",
+  es: "Se realiza un tratamiento con primaquina bajo observación directa.",
+  pt: "Tratamento observado com primaquina é realizado"
+  },
+  "IPT": {
+   en: "IPT",
+  fr: "TPI",
+  es: "IPT",
+  pt: "Tratamento Preventivo Intermitente (TPI)"
+  },
+  "MAL_IPTI_USED": {
+   en: "IPTi is used",
+  fr: "L'TPIi est utilisé",
+  es: "El IPTi se utiliza",
+  pt: "TPIi é utilizado"
+  },
+  "MAL_IPTP_POLICY_2012_UPDATE": {
+   en: "IPTp policy has been updated following the WHO policy recommendation",
+  fr: "La politique IPTp a été mise à jour suite à la recommandation de l'OMS",
+  es: "La política del IPTp ha sido actualizada siguiendo la recomendación de la OMS",
+  pt: "A política de TPIp foi atualizada de acordo com a recomendação da OMS"
+  },
+  "MAL_IPTP_USED_TO_PREVENT": {
+   en: "IPTp used to prevent malaria during pregnancy",
+  fr: "Le TPIp utilisé pour prévenir le paludisme pendant la grossesse",
+  es: "El IPTp utilizado para prevenir la paludismo en el embarazo",
+  pt: "TPIp é usado para prevenção de malária durante a gravidez"
+  },
+  "MAL_SMC_USED": {
+   en: "Seasonal malaria chemoprevention (SMC or IPTc) is used",
+  fr: "La chimioprévention du paludisme saisonnier (SMC ou TPIc) est utilisée",
+  es: "Se utiliza la quimioprevención de la paludismo estacional (SMC o IPTc)",
+  pt: "Quimioprofilaxia (QPX ou TPIc) sazonal de malária é realizada"
+  },
+  "SURVEILLANCE": {
+   en: "Surveillance",
+  fr: "Surveillance",
+  es: "Monitoreo",
+  pt: "Vigilância"
+  },
+  "MAL_NOTIFIABLE": {
+   en: "Malaria is notifiable disease",
+  fr: "Le paludisme est une maladie à déclaration obligatoire",
+  es: "El paludismo es una enfermedad de declaración obligatoria",
+  pt: "Malária é uma doença de notificação compulsória"
+  },
+  "MAL_RPRT_CASE_BASED": {
+   en: "Reporting of cases to the national level is aggregate",
+  fr: "La déclaration des cas au niveau national est agrégée",
+  es: "La notificación de casos a nivel nacional se agrega",
+  pt: "A notificação de casos a nível nacional é agregada"
+  },
+  "MAL_RPRT_AGGREGATE": {
+   en: "Reporting of cases to the national level case based",
+  fr: "Signalement des cas au niveau national sur la base des cas",
+  es: "Notificación de casos nacionales",
+  pt: "Notificação de casos nacionais "
+  },
+  "MAL_CASES_RPRT_MANDATORY": {
+   en: "Case reporting from private sector is mandatory",
+  fr: "La déclaration des cas par le secteur privé est obligatoire",
+  es: "La notificación de los casos por parte del sector privado es obligatoria.",
+  pt: "Notificação de casos do setor privado é obrigatória"
+  },
+  "MAL_UNCOMP_PF_ADMITTED": {
+   en: "Uncomplicated <i>P. falciparum</i> cases are routinely admitted",
+  fr: "Les cas de <i>P. falciparum</i> non compliqués sont couramment admis",
+  es: "Los casos no complicados de <i>P. falciparum</i> son admitidos rutinariamente.",
+  pt: "Casos não complicados de <i>P. falciparum</i>  são admitidos rotineiramente"
+  },
+  "MAL_UNCOMP_PV_ADMITTED": {
+   en: "Uncomplicated <i>P. vivax</i> cases are routinely admitted",
+  fr: "Les cas de <i>P. vivax</i> non compliqués sont systématiquement admis",
+  es: "Los casos no complicados de <i>P. vivax</i> son admitidos rutinariamente",
+  pt: "Casos não complicados de <i>P. vivax</i> são admitidos rotineiramente"
+  },
+  "MAL_INSECTICIDE_RESIST_MONIT": {
+   en: "Insecticide resistance monitoring is undertaken",
+  fr: "La surveillance de la résistance aux insecticides est entreprise",
+  es: "Se está llevando a cabo una vigilancia de la resistencia a los insecticidas.",
+  pt: "É realizado o monitoramento da resistência"
+  },
+  "MAL_LLIN_DURABILITY_MON": {
+   en: "LLIN durability is regularly monitored",
+  fr: "La durabilité des MILD est régulièrement contrôlée",
+  es: "La durabilidad de las MTILDs se monitoriza regularmente",
+  pt: "Durabilidade dos MILDs monitorada regularmente"
+  },
+  "MAL_IRS_RESID_EFFIC_MON": {
+   en: "IRS residual efficacy is regularly monitored",
+  fr: "L'efficacité résiduelle des PID est régulièrement contrôlée",
+  es: "La eficacia residual de las EPI se vigila periódicamente.",
+  pt: "Eficácia residual é monitorada regularmente"
+  },
+  "MAL_NAT_IR_MON_MGMT_PLAN": {
+   en: "National Insecticide Resistance Monitoring and Management Plan",
+  fr: "Plan national de surveillance et de gestion de la résistance aux insecticides",
+  es: "Plan Nacional de Vigilancia y Gestión de la Resistencia a los Insecticidas",
+  pt: "Plano Nacional de Manejo e Monitoramento da Resistência aos Inseticidas"
+  },
+  "MAL_TES_MONIT_UNDERTAKEN": {
+   en: "Therapeutic efficacy monitoring is undertaken",
+  fr: "La surveillance de l'efficacité thérapeutique est entreprise",
+  es: "Se realiza la supervisión de la eficacia terapéutica",
+  pt: "Monitoramento da eficácia terapêutica é realizada"
+  },
+  "MAL_SYS_MONIT_ADVERSE_REACTIONS": {
+   en: "System for monitoring of adverse reaction to antimalarials exists",
+  fr: "Il existe un système de surveillance des effets indésirables des antipaludiques",
+  es: "Existe un sistema de vigilancia de los efectos adversos de los medicamentos antipalúdicos.",
+  pt: "Existe um sistema de vigilância dos efeitos adversos aos medicamentos antimaláricos"
+  },
+  "MAL_MASS_SCRNG": {
+   en: "ACD for mass screening (including non-febrile)",
+  fr: "DAC pour le dépistage de masse (y compris les personnes non fébriles)",
+  es: "DAC para la detección masiva (incluyendo las no febriles)",
+  pt: "DAC para a detecção em massa (incluindo os não febris)"
+  },
+  "MAL_ACD_REACTIV_RESPONSE": {
+   en: "ACD in response to passively detected case (reactive)",
+  fr: "DAC en réponse à un cas détecté passivement (réactif)",
+  es: "DAC en respuesta a un caso detectado pasivamente (reactivo)",
+  pt: "DAC em resposta s um caso detectado de forma passiva (reativa)"
+  },
+  "MAL_ACD_FEBR_COMM": {
+   en: "ACD of febrile cases at community level (pro-active)",
+  fr: "DAC des cas fébriles au niveau communautaire (pro-actif)",
+  es: "DAC de casos febriles a nivel comunitario (pro-activo)",
+  pt: "DAC de casos febris a nível comunitário (pró-ativa)"
+  },
+  "MAL_FOCI_INVEST_UNDERTAKEN": {
+   en: "Foci investigation undertaken",
+  fr: "Enquête sur les foyers entreprise",
+  es: "Encuesta de hogares realizada",
+  pt: "Investigação de focos é realizada"
+  },
+  "MAL_CASE_INVEST_UNDERTAKEN": {
+   en: "Case investigation undertaken",
+  fr: "Enquête sur les cas entreprise",
+  es: "Investigación del caso emprendida",
+  pt: "Investigação de casos é realizada"
+  },
+  "MAL_CASE_CLASS_UNDERTAKE": {
+   en: "Case classification undertaken",
+  fr: "Classification des cas entreprise",
+  es: "Clasificación de los casos realizados",
+  pt: "Classificação do caso é realizada"
+  },
+  "MAL_FOCI_CLASS_UNDERTAKE": {
+   en: "Foci classification undertaken",
+  fr: "Classification des foyers entreprise",
+  es: "Clasificación de los hogares de la empresa",
+  pt: "Classificação do foco é realizada"
+  },
+  "MAL_NAT_REF_LABS": {
+   en: "National reference laboratory is internationally certified",
+  fr: "Le laboratoire national de référence est certifié au niveau international",
+  es: "El laboratorio nacional de referencia está certificado internacionalmente.",
+  pt: "O laboratório nacional de referência está certificado internacionalmente"
+  },
+  "MAL_NAT_QUALITY_ASSURANCE_LABS": {
+   en: "Quality assurance oversight by national reference laboratory",
+  fr: "Surveillance de l'assurance qualité par le laboratoire national de référence",
+  es: "Vigilancia de la garantía de calidad por el laboratorio nacional de referencia",
+  pt: "Supervisão da garantia de qualidade pelo laboratório nacional de referência"
+  },
+  "MAL_RESPONSE_TEAMS_EXISTS": {
+   en: "Response teams exist, or are formed when needed, to respond to malaria cases",
+  fr: "Des équipes d'intervention existent, ou sont formées si nécessaire, pour répondre aux cas de paludisme",
+  es: "Existen equipos de respuesta, o se les capacita si es necesario, para responder a los casos de paludismo",
+  pt: "Existe equipes de resposta, ou é formada, em resposta à um caso de malária"
+  },
+  "POLICY": {
+   en: "Policy",
+  fr: "Politique",
+  es: "Política",
+  pt: "Políticas implementadas nacionalmente"
+  },
+  "POLICY_ADOPTED": {
+   en: "Written policy exists",
+  fr: "Politique écrite existante",
+  es: "Existe una política escrita",
+  pt: "Existe uma política escrita"
+  },
+  "IMPLEMENTED": {
+   en: "Implemented this year",
+  fr: "Mis en œuvre cette année",
+  es: "Implementado este año",
+  pt: "Implementado este ano"
+  },
+  "IMPLEMENTED": {
+   en: "Policy implemented (please tick yes if 'ever' implemented)",
+  fr: "Politique mise en œuvre (veuillez cocher oui si elle a déjà été mise en œuvre par le passé)",
+  es: "Policía implementada (por favor marque sí si 'alguna vez' se implementó)",
+  pt: "Política implementada (marque sim se 'alguma vez' implementada)"
+  },
+  "POLICY_SINCE": {
+   en: "<b>Year</b> the policy was implemented for the first time)",
+  fr: "<b>Année</b> où la politique a été mise en œuvre pour la première fois",
+  es: "La política del <b>año</b> se aplicó por primera vez",
+  pt: "<b> Ano </b> em que a política foi implementada pela primeira vez)"
+  },
+  "IMPLEMENTED_THIS_YEAR": {
+   en: "Implemented this year",
+  fr: "Mis en œuvre cette année",
+  es: "Implementado este año",
+  pt: "implementado este ano"
+  },
+  "POLICY_DISCONTINUED": {
+   en: "Policy discontinued",
+  fr: "Politique abandonnée",
+  es: "Política descontinuada",
+  pt: "Política descontinuada"
+  },
+  "REMARKS": {
+   en: "Remarks",
+  fr: "Commentaires",
+  es: "Comentarios",
+  pt: "Comentários"
+  },
+  "IRS": {
+   en: "<b>IRS</b>",
+  fr: "<b>PID</b>",
+  es: "<b>RIR</b>",
+  pt: "<b>BRI</b>"
+  },
+  "DIAGNOSIS": {
+   en: "<b>Diagnosis</b>",
+  fr: "<b>Diagnostic</b>",
+  es: "<b>Diagnóstico</b>",
+  pt: "<b>Diagnóstico</b>"
+  },
+  "TREATMENT": {
+   en: "<b>Treatment</b>",
+  fr: "<b>Traitement</b>",
+  es: "<b>Tratamiento</b>",
+  pt: "<b>Tratmento</b>"
+  },
+  "SURVEILLANCE": {
+   en: "<b>Surveillance</b>",
+  fr: "<b>Surveillance</b>",
+  es: "<b>Vigilancia</b>",
+  pt: "<b>Vigilância</b>"
+  },
+  "OTHER_POLICIES_RELATED_TO_ELIMINATION": {
+   en: "<b>Other policies related to elimination phase</b>",
+  fr: "<b>Autres politiques liées à la phase d'élimination</b>",
+  es: "<b>Otras políticas relacionadas con la fase de eliminación</b>",
+  pt: "<b>Outras políticas relacionadas com a fase de eliminação</b>"
+  },
+  "QUESTION_ON_MAIN_FORM": {
+   en: "This question is also asked in the main form",
+  fr: "Cette question est également posée dans le formulaire principal",
+  es: "Esta pregunta también se hace en el formulario principal",
+  pt: "Esta pergunta também é realizada no formulário principal"
+  },
+  "LBL_SPECIFY_OTHER_GROUPS": {
+   en: "Please specify other distribution group selected above",
+  fr: "Veuillez préciser l'autre groupe de distribution sélectionné ci-dessus",
+  es: "Sírvase especificar otro grupo de distribución seleccionado anteriormente",
+  pt: "Por favor, especifique outro grupo de distribuição selecionado acima"
+  },
+  "LBL_TESTING": {
+   en: "Testing",
+  fr: "Test",
+  es: "Prueba",
+  pt: "Teste"
+  },
+  "LBL_LARVAL_SOUREC_MGMT": {
+   en: "Larval source management",
+  fr: "Gestion des sources larvaires",
+  es: "Manejo de la fuente larvaria",
+  pt: "Manejo de criadouros"
+  },
+  "LBL_IPT": {
+   en: "IPT",
+  fr: "TPI",
+  es: "TPI",
+  pt: "TPI"
+  },
+  "LBL_TREATMENT": {
+   en: "Treatment",
+  fr: "Traitement",
+  es: "Tratamiento",
+  pt: "Tratamento"
+  },
+  "LBL_SURVEILLANCE": {
+   en: "Surveillance",
+  fr: "Surveillance",
+  es: "Vigilancia",
+  pt: "Vigilância"
+  },
+  "LBL_IRS": {
+   en: "IRS",
+  fr: "PID",
+  es: "RRI",
+  pt: "BRI"
+  },
+  "LLIN_DISTR_CHANNELS": {
+   en: "LLIN distribution channels",
+  fr: "Canaux de distribution des MILD",
+  es: "Canales de distribución de MTILDs",
+  pt: "Canais de distribioção de MILD"
+  },
+  "PREREFERRAL_ART_SUPP_COMM": {
+   en: "Pre-referral Rx with artesunate suppositories at community level",
+  fr: "Réception pré-référence avec des suppositoires d'artésunate au niveau de la communauté",
+  es: "Pre-referencia Rx con supositorios de artesunato a nivel comunitario.",
+  pt: "Supositório retal de artesunato pré-transferência em nível comunitário"
+  },
+  "PREREFERRAL_PAR_ARTEMISININ_QN_HF": {
+   en: "Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities",
+  fr: "Réception pré-référence avec des dérivés d'artémisinine / quinine parentral dans les établissements de santé",
+  es: "Pre-referencia Rx con derivados de artemisinina / quinina parenteral en instalaciones de salud",
+  pt: "Derivados de artemisinina / quinina parenteral pré-transferiencia nos estabelecimentos de saúde"
+  },
+  "PREREFERRAL_PAR_QN_ART_INJ_SUPP": {
+   en: "Pre-referral treatment with quinine or artemether IM or artesunate suppositories",
+  fr: "Traitement préalable à la référence avec de la quinine ou de l'artéméther IM ou des suppositoires d'artésunate",
+  es: "Tratamiento previo a la derivación con quinina o artemeter IM o supositorios de artesunato.",
+  pt: "Tratamento pré-encaminhamento com quinino ou artemeter IM ou supositórios de artesunato"
+  },
+  "DOSAGE_PQ_RADICAL_TRT_PV": {
+   en: "Dosage of primaquine for radical treatment of P. vivax",
+  fr: "Posologie de la primaquine pour le traitement radical de P. vivax",
+  es: "Dosificación de primaquina para el tratamiento radical de P. vivax",
+  pt: "Dosagem de primaquina para tratamento radical de P. vivax"
+  },
+  "LBL_IS_HOUSE_SCREENING_USED_MAL_CONTROL": {
+    en: "Is untreated screening of residential houses used for the prevention and control of malaria?",
+    fr: "Le dépistage non traité des habitations est-il utilisé pour la prévention et le contrôle du paludisme?",
+    es: "¿Se utiliza el cribado de viviendas sin tratamiento para la prevención y el control del paludismo?",
+    pt: "É o rastreio não tratado das casas residenciais utilizadas para a prevenção e controlo da malária"
+  },
+  "LBL_HOUSE_SCREENING": {
+    en: "House screening",
+    fr: "Criblage des maisons",
+    es: "Cribado de casas",
+    pt: "Rastreio domiciliário"
+  },
+  "MAL_LARVICIDING_USED_FOR_MAL_CONTROL": {
+    en: "Larviciding used for malaria control",
+    fr: "Larvicide utilisé pour la lutte contre le paludisme",
+    es: "Uso de larvicidas para el control del paludismo",
+    pt: "Larvicida utilizada para o controlo da malária"
+  },
+  "MAL_LARVICIDING_USED_FOR_FOCI_RESPONSE": {
+    en: "Larviciding used for foci response",
+    fr: "Larvicide utilisé pour la lutte contre les foyers",
+    es: "El larvicida se utiliza para responder a los focos",
+    pt: "Larvicida utilizada para resposta de focos"
+  },
+  "MAL_ITN_LLIN_DISTR_VIA_OTHER_CHANNELS": {
+    en: "ITNs/LLINs distributed through other channels<BR><small>(e.g. schools, faith- and community-based networks, agricultural and food-security support schemes, occupation-related distribution channels and private or commercial sector channels)</small>",
+    fr: "MII/MILD distribuées par d'autres canaux <BR><small>(par exemple, les écoles, les réseaux confessionnels et communautaires, les programmes d'aide à l'agriculture et à la sécurité alimentaire, les canaux de distribution liés à la profession et les canaux du secteur privé ou commercial).</small>",
+    es: "MTI/MTILDs distribuidos a través de otros canales <BR><small>(por ejemplo, escuelas, redes religiosas y comunitarias, planes de apoyo a la seguridad agrícola y alimentaria, canales de distribución relacionados con la ocupación y canales del sector privado o comercial)</small>",
+    pt: "MILDs distribuídos através de outros canais <BR><small>(por exemplo, escolas, redes baseadas na fé e comunitárias, esquemas de apoio à agricultura e à segurança alimentar, canais de distribuição relacionados com a ocupação e canais do sector privado ou comercial)</small>"
+  },
+  "MAL_IRS_ITN_USED_TOGETHER": {
+    en: "IRS and ITNs are deployed together in some areas",
+    fr: "Le PID et MII/MILD sont déployés ensemble dans certaines zones.",
+    es: "La RIR y MTI/MTILDs se despliegan juntos en algunas zonas.",
+    pt: "BRI e MILDs estão implantados em conjunto em algumas áreas"
+    }
+}
+
+  var translator = $('body').translate({lang: global.UILanguage, t: dict}); //use English
+
+
+  function Policy() {
+      this.impl_Code = '';
+      this.since_code = '';
+    this.implNow_code = '';
+         
+  }
+  var ObjArr = new Array();
+  
+  ObjArr.push('rZWKpbFRNCU');
+  ObjArr['rZWKpbFRNCU'] = new Policy();
+  ObjArr['rZWKpbFRNCU'].imp_Code = 'OUjryjwW8WN';
+  ObjArr['rZWKpbFRNCU'].since_Code = 'SRaBwrvxVIb';
+  ObjArr['rZWKpbFRNCU'].implNow_Code = 'H3LCc4WIDsB';
+  ObjArr['rZWKpbFRNCU'].disc_Code = 'SiSRJevJZ4T';
+
+  ObjArr.push('yDjBgnk5zGo');
+  ObjArr['yDjBgnk5zGo'] = new Policy();
+  ObjArr['yDjBgnk5zGo'].imp_Code = 'uGGIB4kUBmQ';
+  ObjArr['yDjBgnk5zGo'].since_Code = 'HUB9PZj8tyX';
+  ObjArr['yDjBgnk5zGo'].implNow_Code = 'RHBES4RE2O9';
+  ObjArr['yDjBgnk5zGo'].disc_Code = 'JdlSOTAegA1';
+  ObjArr.push('FYDXDlWDj9q');
+  ObjArr['FYDXDlWDj9q'] = new Policy();
+  ObjArr['FYDXDlWDj9q'].imp_Code = 'NcKys1jDcLe';
+  ObjArr['FYDXDlWDj9q'].since_Code = 'OXpRtOaN1Be';
+  ObjArr['FYDXDlWDj9q'].implNow_Code = 'UtiOr1tVoZ0';
+  ObjArr['FYDXDlWDj9q'].disc_Code = 'G5346yuPsAT';
+  ObjArr.push('BKboGW8jXHq');
+  ObjArr['BKboGW8jXHq'] = new Policy();
+  ObjArr['BKboGW8jXHq'].imp_Code = 'Xp7l9g3LV1R';
+  ObjArr['BKboGW8jXHq'].since_Code = 'xbY1MDRHSMT';
+  ObjArr['BKboGW8jXHq'].implNow_Code = 'm4d4wrtNHJB';
+  ObjArr['BKboGW8jXHq'].disc_Code = 'axC7rVVOY2a';
+  ObjArr.push('bDbY6XRrJSe');
+  ObjArr['bDbY6XRrJSe'] = new Policy();
+  ObjArr['bDbY6XRrJSe'].imp_Code = 'kAKCTb87ipF';
+  ObjArr['bDbY6XRrJSe'].since_Code = 'NiJYnuPWdxd';
+  ObjArr['bDbY6XRrJSe'].implNow_Code = 'BFaFQnCLmXA';
+  ObjArr['bDbY6XRrJSe'].disc_Code = 'uhkoNUfG241';
+  ObjArr.push('sFMFEBTMPXc');
+  ObjArr['sFMFEBTMPXc'] = new Policy();
+  ObjArr['sFMFEBTMPXc'].imp_Code = 'rt9hmeObLjT';
+  ObjArr['sFMFEBTMPXc'].since_Code = 'U3jTvbMNbhw';
+  ObjArr['sFMFEBTMPXc'].implNow_Code = 'irqN8OmIXac';
+  ObjArr['sFMFEBTMPXc'].disc_Code = 'yueUKrDt7Ah';
+  ObjArr.push('ZM8A8AX9Uqm');
+  ObjArr['ZM8A8AX9Uqm'] = new Policy();
+  ObjArr['ZM8A8AX9Uqm'].imp_Code = 'JNCgQR1p3qg';
+  ObjArr['ZM8A8AX9Uqm'].since_Code = 'P3d0Pl4huHd';
+  ObjArr['ZM8A8AX9Uqm'].implNow_Code = 'D4A8YcaqjeU';
+  ObjArr['ZM8A8AX9Uqm'].disc_Code = 'QWzYONBamuO';
+  ObjArr.push('RTQVnaIWlV7');
+  ObjArr['RTQVnaIWlV7'] = new Policy();
+  ObjArr['RTQVnaIWlV7'].imp_Code = 'kWumx3IhOdf';
+  ObjArr['RTQVnaIWlV7'].since_Code = 'wgwQAH2zsxI';
+  ObjArr['RTQVnaIWlV7'].implNow_Code = 'G09VqCTjEkB';
+  ObjArr['RTQVnaIWlV7'].disc_Code = 'gwTbg0RjYNE';
+  ObjArr.push('U53ltdOJwGr');
+  ObjArr['U53ltdOJwGr'] = new Policy();
+  ObjArr['U53ltdOJwGr'].imp_Code = 'P1hh3NtXPhC';
+  ObjArr['U53ltdOJwGr'].since_Code = 'bCAwiQMRC0c';
+  ObjArr['U53ltdOJwGr'].implNow_Code = 'SBhEVrMFoir';
+  ObjArr['U53ltdOJwGr'].disc_Code = 'GtHRqwzbI90';
+  ObjArr.push('UEI17GN1tET');
+  ObjArr['UEI17GN1tET'] = new Policy();
+  ObjArr['UEI17GN1tET'].imp_Code = 'PaAVAOVW7Gb';
+  ObjArr['UEI17GN1tET'].since_Code = 'IK7g1GVqiX4';
+  ObjArr['UEI17GN1tET'].implNow_Code = 'JlsDrFROFRO';
+  ObjArr['UEI17GN1tET'].disc_Code = 'EupH4G8cgY7';
+  ObjArr.push('ZRka5cXrk8P');
+  ObjArr['ZRka5cXrk8P'] = new Policy();
+  ObjArr['ZRka5cXrk8P'].imp_Code = 'mjTD406azlx';
+  ObjArr['ZRka5cXrk8P'].since_Code = 'VqejpNrDAmu';
+  ObjArr['ZRka5cXrk8P'].implNow_Code = 'Y03Ulmb5ltG';
+  ObjArr['ZRka5cXrk8P'].disc_Code = 'tcAlZmlC66o';
+  ObjArr.push('naWHvRDZaWO');
+  ObjArr['naWHvRDZaWO'] = new Policy();
+  ObjArr['naWHvRDZaWO'].imp_Code = 'up7awAqkJcb';
+  ObjArr['naWHvRDZaWO'].since_Code = 'lZHkoFkBLRe';
+  ObjArr['naWHvRDZaWO'].implNow_Code = 'DhFZK3yA1zo';
+  ObjArr['naWHvRDZaWO'].disc_Code = 'acR3jZoBx8F';
+
+  ObjArr.push('lP4Pu1doSyB');
+  ObjArr['lP4Pu1doSyB'] = new Policy();
+  ObjArr['lP4Pu1doSyB'].imp_Code = 'rE9UeQDPVOP';
+  ObjArr['lP4Pu1doSyB'].since_Code = 'rz15cZmfmCL';
+  ObjArr['lP4Pu1doSyB'].implNow_Code = 'v60Na7P1hIQ';
+  ObjArr['lP4Pu1doSyB'].disc_Code = 'jY2M20OmVR0';
+  ObjArr.push('jvvwOFoTKGu');
+  ObjArr['jvvwOFoTKGu'] = new Policy();
+  ObjArr['jvvwOFoTKGu'].imp_Code = 'mjsfzGpCjmd';
+  ObjArr['jvvwOFoTKGu'].since_Code = 'r5mG7cGdlkH';
+  ObjArr['jvvwOFoTKGu'].implNow_Code = 'Xnye2KDG6EP';
+  ObjArr['jvvwOFoTKGu'].disc_Code = 'SQKO1XRqSCp';
+
+  ObjArr.push('TVhY0NY6D3R');
+  ObjArr['TVhY0NY6D3R'] = new Policy();
+  ObjArr['TVhY0NY6D3R'].imp_Code = 'Kya2L5AqV5E';
+  ObjArr['TVhY0NY6D3R'].since_Code = 'RXLvZ9aXDS9';
+  ObjArr['TVhY0NY6D3R'].implNow_Code = 'DYLCyyGwEQx';
+  ObjArr['TVhY0NY6D3R'].disc_Code = 'Qv9tOpR58eZ';
+  ObjArr.push('p9s4Xz11r8m');
+  ObjArr['p9s4Xz11r8m'] = new Policy();
+  ObjArr['p9s4Xz11r8m'].imp_Code = 'FVD0jjcn4nP';
+  ObjArr['p9s4Xz11r8m'].since_Code = 'o7MInLdf5Z2';
+  ObjArr['p9s4Xz11r8m'].implNow_Code = 'JUiGpi5P8ju';
+  ObjArr['p9s4Xz11r8m'].disc_Code = 'kio4hrSj8pf';
+  ObjArr.push('s66uz2mlZOX');
+  ObjArr['s66uz2mlZOX'] = new Policy();
+  ObjArr['s66uz2mlZOX'].imp_Code = 'j52Vpz7UDOt';
+  ObjArr['s66uz2mlZOX'].since_Code = 'hRiivp9odhv';
+  ObjArr['s66uz2mlZOX'].implNow_Code = 'TLTUPA1kcDj';
+  ObjArr['s66uz2mlZOX'].disc_Code = 'SjsxYzWMUCA';
+  ObjArr.push('a5rxNWDu6ND');
+  ObjArr['a5rxNWDu6ND'] = new Policy();
+  ObjArr['a5rxNWDu6ND'].imp_Code = 'q9Ccf2WXiAO';
+  ObjArr['a5rxNWDu6ND'].since_Code = 'XJTekRKtQGK';
+  ObjArr['a5rxNWDu6ND'].implNow_Code = 'O5ZYeFhyYEt';
+  ObjArr['a5rxNWDu6ND'].disc_Code = 'qORp1JfpH2d';
+  ObjArr.push('mKG75pqVpXg');
+  ObjArr['mKG75pqVpXg'] = new Policy();
+  ObjArr['mKG75pqVpXg'].imp_Code = 'ZcUXrzCAIB9';
+  ObjArr['mKG75pqVpXg'].since_Code = 'VTAYPeVkcBF';
+  ObjArr['mKG75pqVpXg'].implNow_Code = 'Jxh9MbkARxC';
+  ObjArr['mKG75pqVpXg'].disc_Code = 'trwVQRFP8vj';
+  ObjArr.push('AUjiOdwT8Wn');
+  ObjArr['AUjiOdwT8Wn'] = new Policy();
+  ObjArr['AUjiOdwT8Wn'].imp_Code = 'BNa9heCe1Nl';
+  ObjArr['AUjiOdwT8Wn'].since_Code = 'ONjIkPH2myF';
+  ObjArr['AUjiOdwT8Wn'].implNow_Code = 'LheiO0tMDog';
+  ObjArr['AUjiOdwT8Wn'].disc_Code = 'XlhCNzaxtrw';
+  ObjArr.push('ploO0YNKd5a');
+  ObjArr['ploO0YNKd5a'] = new Policy();
+  ObjArr['ploO0YNKd5a'].imp_Code = 'w9qztWYO5i0';
+  ObjArr['ploO0YNKd5a'].since_Code = 'FCCr4AinirM';
+  ObjArr['ploO0YNKd5a'].implNow_Code = 'gZgNSaKXmzk';
+  ObjArr['ploO0YNKd5a'].disc_Code = 'fnaxnk7DWfF';
+  ObjArr.push('eOyht8mse92');
+  ObjArr['eOyht8mse92'] = new Policy();
+  ObjArr['eOyht8mse92'].imp_Code = 'pchgYl0bzmn';
+  ObjArr['eOyht8mse92'].since_Code = 'Y13HDxQTlWx';
+  ObjArr['eOyht8mse92'].implNow_Code = 'xFt2hUzfEuP';
+  ObjArr['eOyht8mse92'].disc_Code = 'GF9Ng0ViLaG';
+  ObjArr.push('ZQOHdFNywH6');
+  ObjArr['ZQOHdFNywH6'] = new Policy();
+  ObjArr['ZQOHdFNywH6'].imp_Code = 'Vupf1GerGAd';
+  ObjArr['ZQOHdFNywH6'].since_Code = 'ndcOkUcvcU9';
+  ObjArr['ZQOHdFNywH6'].implNow_Code = 'C8nzpEz8XUl';
+  ObjArr['ZQOHdFNywH6'].disc_Code = 'xM7utsu6NiL';
+  ObjArr.push('QnYNFyu8N2y');
+  ObjArr['QnYNFyu8N2y'] = new Policy();
+  ObjArr['QnYNFyu8N2y'].imp_Code = 'tgs8KfBR1bF';
+  ObjArr['QnYNFyu8N2y'].since_Code = 'rUHuR8yXOYk';
+  ObjArr['QnYNFyu8N2y'].implNow_Code = 'c6gaOWkexnq';
+  ObjArr['QnYNFyu8N2y'].disc_Code = 'yMwlzzsKUGq';
+
+  ObjArr.push('UhAKHOuMN7L');
+  ObjArr['UhAKHOuMN7L'] = new Policy();
+  ObjArr['UhAKHOuMN7L'].imp_Code = 'vlNUHPFeRFQ';
+  ObjArr['UhAKHOuMN7L'].since_Code = 'y03sk9sWPXL';
+  ObjArr['UhAKHOuMN7L'].implNow_Code = 'zRD4cL6vGUi';
+  ObjArr['UhAKHOuMN7L'].disc_Code = 'WdDZzb20o0u';
+
+  ObjArr.push('oRom00n1H7Y');
+  ObjArr['oRom00n1H7Y'] = new Policy();
+  ObjArr['oRom00n1H7Y'].imp_Code = 'z0il90UtnBs';
+  ObjArr['oRom00n1H7Y'].since_Code = 'MguPqQxoBat';
+  ObjArr['oRom00n1H7Y'].implNow_Code = 'WSgsAIjCquS';
+  ObjArr['oRom00n1H7Y'].disc_Code = 'kDFQMzj0fkn';
+  ObjArr.push('GjESfWGoBeN');
+  ObjArr['GjESfWGoBeN'] = new Policy();
+  ObjArr['GjESfWGoBeN'].imp_Code = 'A05QQoopq4G';
+  ObjArr['GjESfWGoBeN'].since_Code = 'bkWLd6lJpS2';
+  ObjArr['GjESfWGoBeN'].implNow_Code = 'UOYnjeA1lGY';
+  ObjArr['GjESfWGoBeN'].disc_Code = 'XjfeTCqtg0D';
+  ObjArr.push('sYyikWmeUw9');
+  ObjArr['sYyikWmeUw9'] = new Policy();
+  ObjArr['sYyikWmeUw9'].imp_Code = 'xh8QNPzoqmD';
+  ObjArr['sYyikWmeUw9'].since_Code = 'aVStylHJZmn';
+  ObjArr['sYyikWmeUw9'].implNow_Code = 'O3FeNUyyjfy';
+  ObjArr['sYyikWmeUw9'].disc_Code = 'qIwGXEjB56Z';
+  ObjArr.push('b8dAN9UE8sb');
+  ObjArr['b8dAN9UE8sb'] = new Policy();
+  ObjArr['b8dAN9UE8sb'].imp_Code = 'TiMPVn8ICcJ';
+  ObjArr['b8dAN9UE8sb'].since_Code = 'VDC37sLx5oP';
+  ObjArr['b8dAN9UE8sb'].implNow_Code = 'qvK2yZgZgof';
+  ObjArr['b8dAN9UE8sb'].disc_Code = 'wNQpGDUlJS1';
+  ObjArr.push('UlpO1TVOJtp');
+  ObjArr['UlpO1TVOJtp'] = new Policy();
+  ObjArr['UlpO1TVOJtp'].imp_Code = 'euLvYczDAP7';
+  ObjArr['UlpO1TVOJtp'].since_Code = 'gOsKbAAEDQr';
+  ObjArr['UlpO1TVOJtp'].implNow_Code = 'HJ8ExjnHoVH';
+  ObjArr['UlpO1TVOJtp'].disc_Code = 'TGwYfwhhuC2';
+  ObjArr.push('jexXrz9Cxbu');
+  ObjArr['jexXrz9Cxbu'] = new Policy();
+  ObjArr['jexXrz9Cxbu'].imp_Code = 'KDpQmYQYlsW';
+  ObjArr['jexXrz9Cxbu'].since_Code = 'Ayy9KULbWGx';
+  ObjArr['jexXrz9Cxbu'].implNow_Code = 'U0SLFojXPO4';
+  ObjArr['jexXrz9Cxbu'].disc_Code = 'gSpeOhdDBak';
+  ObjArr.push('K7ahxoNzbs5');
+  ObjArr['K7ahxoNzbs5'] = new Policy();
+  ObjArr['K7ahxoNzbs5'].imp_Code = 'Q5U5qOGMFC0';
+  ObjArr['K7ahxoNzbs5'].since_Code = 'hHjcjfipjW4';
+  ObjArr['K7ahxoNzbs5'].implNow_Code = 'Uu8jN9vG1nO';
+  ObjArr['K7ahxoNzbs5'].disc_Code = 'syFnfDC7nlJ';
+  ObjArr.push('JmT6tIkb1Zh');
+  ObjArr['JmT6tIkb1Zh'] = new Policy();
+  ObjArr['JmT6tIkb1Zh'].imp_Code = 'bHxX9jUArH5';
+  ObjArr['JmT6tIkb1Zh'].since_Code = 'GiNL3Qt3zX5';
+  ObjArr['JmT6tIkb1Zh'].implNow_Code = 'PO8P5dcPXFm';
+  ObjArr['JmT6tIkb1Zh'].disc_Code = 'XIG2vUYtyQx';
+  ObjArr.push('bAJHvHwOiBs');
+  ObjArr['bAJHvHwOiBs'] = new Policy();
+  ObjArr['bAJHvHwOiBs'].imp_Code = 'tOgKq4RmnBg';
+  ObjArr['bAJHvHwOiBs'].since_Code = 'ovcCvwQdfiL';
+  ObjArr['bAJHvHwOiBs'].implNow_Code = 'eh8XQ7NgmWO';
+  ObjArr['bAJHvHwOiBs'].disc_Code = 'XBJBXPZ9WlF';
+  ObjArr.push('HBn02tSFqfN');
+  ObjArr['HBn02tSFqfN'] = new Policy();
+  ObjArr['HBn02tSFqfN'].imp_Code = 'zhXjM9t5VMr';
+  ObjArr['HBn02tSFqfN'].since_Code = 't4oRh6EB4S8';
+  ObjArr['HBn02tSFqfN'].implNow_Code = 'mPVnnGMTNs2';
+  ObjArr['HBn02tSFqfN'].disc_Code = 'OShPwoZP6il';
+  ObjArr.push('Xj8nWX2HkQG');
+  ObjArr['Xj8nWX2HkQG'] = new Policy();
+  ObjArr['Xj8nWX2HkQG'].imp_Code = 'fap0UwYTAjU';
+  ObjArr['Xj8nWX2HkQG'].since_Code = 'oh5Qxv9TYsx';
+  ObjArr['Xj8nWX2HkQG'].implNow_Code = 'Q5xzplqImL1';
+  ObjArr['Xj8nWX2HkQG'].disc_Code = 'FsmAYoRmbEH';
+  ObjArr.push('VVOq1qQRozh');
+  ObjArr['VVOq1qQRozh'] = new Policy();
+  ObjArr['VVOq1qQRozh'].imp_Code = 'Mf3ICRzjDyw';
+  ObjArr['VVOq1qQRozh'].since_Code = 'PYZSNnU6Gph';
+  ObjArr['VVOq1qQRozh'].implNow_Code = 'xBs136rXfwY';
+  ObjArr['VVOq1qQRozh'].disc_Code = 'tXPZLuXEFsq';
+  ObjArr.push('jnVcCWGqihW');
+  ObjArr['jnVcCWGqihW'] = new Policy();
+  ObjArr['jnVcCWGqihW'].imp_Code = 'ZHeALbJT1tu';
+  ObjArr['jnVcCWGqihW'].since_Code = 'dZI3r5zehOg';
+  ObjArr['jnVcCWGqihW'].implNow_Code = 'haNA2i5YxvN';
+  ObjArr['jnVcCWGqihW'].disc_Code = 'qujudta3Pex';
+  ObjArr.push('vkMV2g3kJ1g');
+  ObjArr['vkMV2g3kJ1g'] = new Policy();
+  ObjArr['vkMV2g3kJ1g'].imp_Code = 'm8eKnjxlGJL';
+  ObjArr['vkMV2g3kJ1g'].since_Code = 'bf1dYW0jOSM';
+  ObjArr['vkMV2g3kJ1g'].implNow_Code = 'jJjiDnAXoxY';
+  ObjArr['vkMV2g3kJ1g'].disc_Code = 'Ah1iagfLmQb';
+  ObjArr.push('cmV3wJcGs4I');
+  ObjArr['cmV3wJcGs4I'] = new Policy();
+  ObjArr['cmV3wJcGs4I'].imp_Code = 'sLQSqJnsRdQ';
+  ObjArr['cmV3wJcGs4I'].since_Code = 'ttkWtog3tiR';
+  ObjArr['cmV3wJcGs4I'].implNow_Code = 'NcnExR16cUV';
+  ObjArr['cmV3wJcGs4I'].disc_Code = 'EWyubrRmYrE';
+  ObjArr.push('nCI8KywrLcd');
+  ObjArr['nCI8KywrLcd'] = new Policy();
+  ObjArr['nCI8KywrLcd'].imp_Code = 'df6ccB8aaZ3';
+  ObjArr['nCI8KywrLcd'].since_Code = 'rrOg5YMCsxE';
+  ObjArr['nCI8KywrLcd'].implNow_Code = 'CGcFRpi7mvP';
+  ObjArr['nCI8KywrLcd'].disc_Code = 'kqukN1EWgxf';
+  ObjArr.push('NPr5Na7DcQz');
+  ObjArr['NPr5Na7DcQz'] = new Policy();
+  ObjArr['NPr5Na7DcQz'].imp_Code = 'crrBdyuqVrg';
+  ObjArr['NPr5Na7DcQz'].since_Code = 'AInD4zCo4zR';
+  ObjArr['NPr5Na7DcQz'].implNow_Code = 'tDnZGTBHnKz';
+  ObjArr['NPr5Na7DcQz'].disc_Code = 'qUWxy2cDMgk';
+  ObjArr.push('OH42ETptS96');
+  ObjArr['OH42ETptS96'] = new Policy();
+  ObjArr['OH42ETptS96'].imp_Code = 'dA9AshgLjjH';
+  ObjArr['OH42ETptS96'].since_Code = 'i5bcGsyGIzL';
+  ObjArr['OH42ETptS96'].implNow_Code = 'hX5kxI4Mkb4';
+  ObjArr['OH42ETptS96'].disc_Code = 'sqikPX7vTE4';
+  ObjArr.push('cO6vnCdT4tj');
+  ObjArr['cO6vnCdT4tj'] = new Policy();
+  ObjArr['cO6vnCdT4tj'].imp_Code = 'e8A8G6KNWmM';
+  ObjArr['cO6vnCdT4tj'].since_Code = 'KHmyC20WcAr';
+  ObjArr['cO6vnCdT4tj'].implNow_Code = 'kuZSCCSMMVB';
+  ObjArr['cO6vnCdT4tj'].disc_Code = 'EHwRPdPkIHT';
+  ObjArr.push('lD0hUkeSlE6');
+  ObjArr['lD0hUkeSlE6'] = new Policy();
+  ObjArr['lD0hUkeSlE6'].imp_Code = 'jH3PQmQbIw0';
+  ObjArr['lD0hUkeSlE6'].since_Code = 'NZvyh0q8gjy';
+  ObjArr['lD0hUkeSlE6'].implNow_Code = 'oziRqANbkVS';
+  ObjArr['lD0hUkeSlE6'].disc_Code = 'zLVFuDdBxTP';
+  ObjArr.push('P3RE2qDiS7n');
+  ObjArr['P3RE2qDiS7n'] = new Policy();
+  ObjArr['P3RE2qDiS7n'].imp_Code = 'M3XOHsKwjxJ';
+  ObjArr['P3RE2qDiS7n'].since_Code = 'SbbEta60oWB';
+  ObjArr['P3RE2qDiS7n'].implNow_Code = 't471xne4uE1';
+  ObjArr['P3RE2qDiS7n'].disc_Code = 'Fj5HRjN9aA3';
+  ObjArr.push('m4bkYxbSCED');
+  ObjArr['m4bkYxbSCED'] = new Policy();
+  ObjArr['m4bkYxbSCED'].imp_Code = 'yQnhJmEzuJw';
+  ObjArr['m4bkYxbSCED'].since_Code = 'uHOog71dclE';
+  ObjArr['m4bkYxbSCED'].implNow_Code = 'QMPIKtBjTwP';
+  ObjArr['m4bkYxbSCED'].disc_Code = 'yQ0n2kVLXiH';
+  ObjArr.push('RYq4k5pS1hg');
+  ObjArr['RYq4k5pS1hg'] = new Policy();
+  ObjArr['RYq4k5pS1hg'].imp_Code = 'sMF7QOp27QY';
+  ObjArr['RYq4k5pS1hg'].since_Code = 'btpgTyr6xfj';
+  ObjArr['RYq4k5pS1hg'].implNow_Code = 'fvELUayURNw';
+  ObjArr['RYq4k5pS1hg'].disc_Code = 'hYHBA09jBG2';
+  ObjArr.push('JdiTRWo6M4J');
+  ObjArr['JdiTRWo6M4J'] = new Policy();
+  ObjArr['JdiTRWo6M4J'].imp_Code = 'g8esBUsVl2g';
+  ObjArr['JdiTRWo6M4J'].since_Code = 'q2DWg3hYm9Q';
+  ObjArr['JdiTRWo6M4J'].implNow_Code = 'CccLkBGvsCd';
+  ObjArr['JdiTRWo6M4J'].disc_Code = 'gx42GBTDMyK';
+  ObjArr.push('XrnPNV1b70D');
+  ObjArr['XrnPNV1b70D'] = new Policy();
+  ObjArr['XrnPNV1b70D'].imp_Code = 'eWjwshZorEK';
+  ObjArr['XrnPNV1b70D'].since_Code = 'qCLFL3NxBQT';
+  ObjArr['XrnPNV1b70D'].implNow_Code = 'MvaM8cvWzho';
+  ObjArr['XrnPNV1b70D'].disc_Code = 'vBR2G1D4upc';
+  ObjArr.push('IcAzwmTb76p');
+  ObjArr['IcAzwmTb76p'] = new Policy();
+  ObjArr['IcAzwmTb76p'].imp_Code = 'AC9S95GmtOO';
+  ObjArr['IcAzwmTb76p'].since_Code = 'yCTGT2evVYr';
+  ObjArr['IcAzwmTb76p'].implNow_Code = 'kjPMBhJL0Cj';
+  ObjArr['IcAzwmTb76p'].disc_Code = 'G0K6VV33VDe';
+  ObjArr.push('YVHoYyOh65u');
+  ObjArr['YVHoYyOh65u'] = new Policy();
+  ObjArr['YVHoYyOh65u'].imp_Code = 't7abky7P2vW';
+  ObjArr['YVHoYyOh65u'].since_Code = 'hW9fBorFC8F';
+  ObjArr['YVHoYyOh65u'].implNow_Code = 'yftwRrUC8Ls';
+  ObjArr['YVHoYyOh65u'].disc_Code = 'LUCrwuDHFmZ';
+  ObjArr.push('c0kojhDq27P');
+  ObjArr['c0kojhDq27P'] = new Policy();
+  ObjArr['c0kojhDq27P'].imp_Code = 'Nkv7Wacx0jR';
+  ObjArr['c0kojhDq27P'].since_Code = 'qJdINzqpp2n';
+  ObjArr['c0kojhDq27P'].implNow_Code = 'JmTQMI5kx9u';
+  ObjArr['c0kojhDq27P'].disc_Code = 'ooqolQKMQDd';
+  ObjArr.push('qd7Gk3XiUZb');
+  ObjArr['qd7Gk3XiUZb'] = new Policy();
+  ObjArr['qd7Gk3XiUZb'].imp_Code = 'rTDNngUcDnd';
+  ObjArr['qd7Gk3XiUZb'].since_Code = 'h3A7CjBzIfs';
+  ObjArr['qd7Gk3XiUZb'].implNow_Code = 'fvGcXcgMPZY';
+  ObjArr['qd7Gk3XiUZb'].disc_Code = 'GwLGbdLCN0q';
+  ObjArr.push('WlinYsETMHm');
+  ObjArr['WlinYsETMHm'] = new Policy();
+  ObjArr['WlinYsETMHm'].imp_Code = 'ResSID6ylaB';
+  ObjArr['WlinYsETMHm'].since_Code = 'vK6l48R26nF';
+  ObjArr['WlinYsETMHm'].implNow_Code = 'PX06zlhP72R';
+  ObjArr['WlinYsETMHm'].disc_Code = 'iULVtIg5elG';
+  ObjArr.push('tjHjmTfEGNl');
+  ObjArr['tjHjmTfEGNl'] = new Policy();
+  ObjArr['tjHjmTfEGNl'].imp_Code = 'O81a2TpBWau';
+  ObjArr['tjHjmTfEGNl'].since_Code = 'uBPnlwBtl7r';
+  ObjArr['tjHjmTfEGNl'].implNow_Code = 'toNku6ySXk4';
+  ObjArr['tjHjmTfEGNl'].disc_Code = 'BKFcemI9hjS';
+  ObjArr.push('TNVYRWpQGjW');
+  ObjArr['TNVYRWpQGjW'] = new Policy();
+  ObjArr['TNVYRWpQGjW'].imp_Code = 'QdEWfZIaXhO';
+  ObjArr['TNVYRWpQGjW'].since_Code = 'qxwTiXmIuXe';
+  ObjArr['TNVYRWpQGjW'].implNow_Code = 'dhTtzvnNgnZ';
+  ObjArr['TNVYRWpQGjW'].disc_Code = 'yUQHQdfOXHC';
+  ObjArr.push('nTnYdwVIxuA');
+  ObjArr['nTnYdwVIxuA'] = new Policy();
+  ObjArr['nTnYdwVIxuA'].imp_Code = 'Hd46aPFN7yJ';
+  ObjArr['nTnYdwVIxuA'].since_Code = 'NilcuvQ9TBJ';
+  ObjArr['nTnYdwVIxuA'].implNow_Code = 'mRpS6mENbUw';
+  ObjArr['nTnYdwVIxuA'].disc_Code = 'u1RRAbdCErK';
+  ObjArr.push('yGBVWQvROG5');
+  ObjArr['yGBVWQvROG5'] = new Policy();
+  ObjArr['yGBVWQvROG5'].imp_Code = 'qWsWn7M1bPN';
+  ObjArr['yGBVWQvROG5'].since_Code = 'vavn59onPeR';
+  ObjArr['yGBVWQvROG5'].implNow_Code = 'oBKJW2ep82G';
+  ObjArr['yGBVWQvROG5'].disc_Code = 'zjp7fQjwWaa';
+  ObjArr.push('daprCGceyb0');
+  ObjArr['daprCGceyb0'] = new Policy();
+  ObjArr['daprCGceyb0'].imp_Code = 'GFANFeQJ9yV';
+  ObjArr['daprCGceyb0'].since_Code = 'HIbMBtGuSPG';
+  ObjArr['daprCGceyb0'].implNow_Code = 'GD4BwWpzr8E';
+  ObjArr['daprCGceyb0'].disc_Code = 'mJP8CaKiGlM';
+  ObjArr.push('ZqsaRcmfIVh');
+  ObjArr['ZqsaRcmfIVh'] = new Policy();
+  ObjArr['ZqsaRcmfIVh'].imp_Code = 'q0xSOb0q81g';
+  ObjArr['ZqsaRcmfIVh'].since_Code = 'fcRi61ExG13';
+  ObjArr['ZqsaRcmfIVh'].implNow_Code = 'NiH7engQGKs';
+  ObjArr['ZqsaRcmfIVh'].disc_Code = 'GeDjXzvcjFj';
+
+
+  ObjArr.push('BnSv3InXqSU');
+  ObjArr['BnSv3InXqSU'] = new Policy();
+  ObjArr['BnSv3InXqSU'].imp_Code = 'Mf7j5h89Z3u';
+  ObjArr['BnSv3InXqSU'].since_Code = 'gcXYyqBzxXA';
+  ObjArr['BnSv3InXqSU'].implNow_Code = 'pZrVqaLVInj';
+  ObjArr['BnSv3InXqSU'].disc_Code = 'az7lVJr7Hn8';
+
+  ObjArr.push('BdlwSOrt2j0');
+  ObjArr['BdlwSOrt2j0'] = new Policy();
+  ObjArr['BdlwSOrt2j0'].imp_Code = 'Fz7XhBUa7ds';
+  ObjArr['BdlwSOrt2j0'].since_Code = 'R08gGkc5zLn';
+  ObjArr['BdlwSOrt2j0'].implNow_Code = 'sb6bb6GF5W6';
+  ObjArr['BdlwSOrt2j0'].disc_Code = 'sYET0lb1o1m';
+
+  ObjArr.push('P57IhSzj7km');
+  ObjArr['P57IhSzj7km'] = new Policy();
+  ObjArr['P57IhSzj7km'].imp_Code = 'Hy1AQWovlxz';
+  ObjArr['P57IhSzj7km'].since_Code = 'RULLIaynN1Q';
+  ObjArr['P57IhSzj7km'].implNow_Code = 'K1g1zaHASzN';
+  ObjArr['P57IhSzj7km'].disc_Code = 'WSC53dMWAi3';
+
+  ObjArr.push('d1Jj5KYeiSk');
+  ObjArr['d1Jj5KYeiSk'] = new Policy();
+  ObjArr['d1Jj5KYeiSk'].imp_Code = 'SMQowsiY96W';
+  ObjArr['d1Jj5KYeiSk'].since_Code = 'yn3k3IBwGxP';
+  ObjArr['d1Jj5KYeiSk'].implNow_Code = 'qOtvhEvWWW8';
+  ObjArr['d1Jj5KYeiSk'].disc_Code = 'NrFg1C5fHcF';
+
+function lockDownReportingYear(){
+    //Force to latest reporting year and lock
+    if ($('#selectedPeriodId').val() !== "2020" && !global.AdminUserGroup && !global.RetroDataEditUserGroup) {
+        alert("Only reporting for 2020 allowed.");
+        $('#selectedPeriodId').val("2020").change();
+        return;
+    }else{
+      if (!global.AdminUserGroup && !global.RetroDataEditUserGroup) 
+        $('#selectedPeriodId').prop("disabled", true);  
+    }
+}
+
+function checkUserGroups() {
+  
+  var allGroups = null;
+  var usersGroups = null;
+  
+  requestURL = '../api/me.json?fields=userGroups';
+
+  $.getJSON( requestURL, function(json) {
+     for (var i = 0; i < json.userGroups.length; i++) {
+        var userGroupId=json.userGroups[i].id;
+        if (userGroupId === 'suMb19wGXPR') //Malaria_Admin
+          global.AdminUserGroup=true;
+        else if (userGroupId === 'O6ScHX08bL5') //MAL_Retro Data
+          global.RetroDataEditUserGroup=true;
+    }
+  })
+  .done(function() {
+      lockDownReportingYear();
+  });  
+}
+
+
+function getCurrentRegion() {
+    console.log ("Get region");
+    var organisationUnitId = dhis2.de.getCurrentOrganisationUnit();
+    var requestURL = "../api/organisationUnits/"+organisationUnitId+".json";
+    
+    
+    $.getJSON( requestURL, function(json) {
+      currentRegion =json.parent.id; //AFRO="usJTFPDCYmY"
+      if (currentRegion=="usJTFPDCYmY")
+        currentRegion="AFRO";
+      else if (currentRegion=="dLSl9jpqxTC")
+        currentRegion="PAHO";
+      else
+        currentRegion="Other";
+    })
+    .done(function() {
+      console.log( "Get region success achieved" );
+      showHiddenQuestions(); //Used to show/hide questions by region or phase
+     
+    })
+    .fail(function() {
+    console.log( "error" );
+    })
+    .always(function() {
+    console.log( "Get region complete" );
+    });
+  }
+
+  function showHiddenQuestions(){ //NEW
+    console.log("Show hidden questions for region:" + currentRegion);
+    console.log ("currentRegion " + currentRegion);
+
+    if (currentRegion=='AFRO'){
+      $("#IPT").hide();
+    }else{
+      $("#IPT").show();
+    }
+  }
+
+  
+  //Get user UI locale
+  function getUserSetting() {
+    var requestURL = "../api/userSettings";
+
+    $.getJSON( requestURL, function(json) {
+    global.currentUILanguage = json.keyUiLocale;
+    translator.lang(global.currentUILanguage);
+    })
+    .done(function() {
+    console.log( "Get UILanguage success achieved" + global.currentUILanguage);
+    })
+    .fail(function() {
+    console.log( "Get UILanguage error" );
+    })
+    .always(function() {
+    console.log( "Get UILanguage complete " + global.currentUILanguage );
+      });
+  }
+  
+  function addChangeListener(){
+    $(":input").each(function() {
+      str=this.id;
+      
+      if (this.name=="entryfield_impl" ){    
+        $(this).change(function(event, who){calculateThis(this,who);});
+        }
+    });
+
+    //setTimeout( function(){provokeChanges();}, 3*1000 ); ***``
+  }
+
+function refreshLinkQuestions(){
+  ToggleITNSubQuestions();
+  ToggleOtherGroupsQuestion();
+  ToggleMAL_PQUsedQuestion();
+}
+
+  dhis2.util.on( 'dhis2.de.event.formReady', function( event, ds ) {
+    //addChangeListener(); ***
+
+    $('input[id=OUjryjwW8WN-Xr12mI7VPn3-val]').change(function(){ //ITNS DISTR FREE
+          ToggleITNSubQuestions(); 
+        });
+    $('input[id=kAKCTb87ipF-Xr12mI7VPn3-val]').change(function(){ //OTHER GROUPS for ITN
+          ToggleOtherGroupsQuestion(); 
+        });
+        $('input[id=bHxX9jUArH5-Xr12mI7VPn3-val]').change(function(){ //Radical PQ
+          ToggleMAL_PQUsedQuestion(); 
+        });
+        
+    getCurrentRegion();
+    getUserSetting();
+    checkUserGroups();
+    
+    //showHideRowsOnLoad();
+    //hideBisRowCells(); ***
+    setTimeout( function(){refreshLinkQuestions();}, 2000 ); ///***
+      console.log ("formReady");
+     }
+   );
+
+  dhis2.util.on( 'dhis2.de.event.dataValuesLoaded', function( event, ds ) {
+    //provoke change on all fields
+    console.log ("dataValuesLoaded"); 
+    disableConflictingCheckboxes();
+     }
+  );
+
+  function provokeChanges(){
+    console.log ("provoke changes");
+    $(":input").each(function() {
+        str=this.id;
+        if (this.name=="entryfield_impl"){     
+          //$('#'+this.id).change();
+          $('#'+this.id).trigger("change", ["machine"]);
+      }
+      });
+  }
+  function hideBisRowCells(){
+    console.log ("hideBisRowCells");
+    $(":input").each(function() {
+        if (this.name=="entryfield"){
+          var str=this.id;
+          var o = str.substring(0,11);
+        $('#' + o +'_SINCE').hide();
+        $('#' + o +'_NOW').hide();
+        $('#' + o +'_DISC').hide();     }
+      });
+  }
+
+  var ObjId = {
+    LLIN_DISTR_FREE_ALL_AGES    : 'yDjBgnk5zGo-Xr12mI7VPn3-val',
+    LLIN_OTHER_GROUP_IMPL       : 'kAKCTb87ipF-Xr12mI7VPn3-val',
+    LLIN_DISTRIB_FREE       : 'rZWKpbFRNCU-Xr12mI7VPn3-val',
+    LLIN_DISTRIB_FREE_IMPL        : 'OUjryjwW8WN-Xr12mI7VPn3-val',
+    MAL_PQ_USED_RADICAL_TRT_PV_IMPL : 'bHxX9jUArH5-Xr12mI7VPn3-val'
+  };
+
+  function ToggleITNSubQuestions(){
+
+    var LLIN_DISTRIB_FREE_IMPL = $('#'+ObjId.LLIN_DISTRIB_FREE_IMPL).val();
+    var LLIN_OTHER_GROUP_IMPL = $('#'+ObjId.LLIN_OTHER_GROUP_IMPL).val();
+
+
+    if(LLIN_DISTRIB_FREE_IMPL == "Yes"){
+      var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+        var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+        var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+        var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+        
+        result_tr1.display = 'table-row';
+        result_tr2.display = 'table-row';
+        result_tr3.display = 'table-row';
+        result_tr4.display = 'table-row';
+    }else{
+      var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+        var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+        var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+        var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+        result_tr1.display = 'none';
+        result_tr2.display = 'none';
+        result_tr3.display = 'none';
+        result_tr4.display = 'none';
+    }
+  }
+
+  function ToggleOtherGroupsQuestion(){
+
+    var LLIN_OTHER_GROUP_IMPL = $('#'+ObjId.LLIN_OTHER_GROUP_IMPL).val();
+
+    if(LLIN_OTHER_GROUP_IMPL ==  "Yes"){
+      var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+        result_tr.display = 'table-row';
+    }else{
+      var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+        result_tr.display = 'none';
+    }
+
+  }
+
+
+  function ToggleMAL_PQUsedQuestion(){
+
+    var MAL_PQ_USED_RADICAL_TRT_PV_IMPL = $('#'+ObjId.MAL_PQ_USED_RADICAL_TRT_PV_IMPL).val();
+
+    if(MAL_PQ_USED_RADICAL_TRT_PV_IMPL==  "Yes"){
+      var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+        result_tr.display = 'table-row';
+    }else{
+      var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+        result_tr.display = 'none';
+    }
+  }
+
+  function ToggleData(v){
+
+      if(v=='true')
+          $('#DOSAGE_PQ_PV').show();
+        else
+          $('#DOSAGE_PQ_PV').hide();
+    
+  } 
+
+  function calculateThis(me,who){
+    if (!global.CalculationInProcess)
+      calculatedValues(me,who);        
+  }
+
+
+  function processRowCells(oo,who){
+    var adopted = $('#' + oo).val();
+
+    var o = oo.substring(0,11);
+
+    //var impl  = $('#' + ObjArr[o].imp_Code +'-Xr12mI7VPn3-val').val();
+    var impl = $('#' + ObjArr[o].imp_Code +'-Xr12mI7VPn3-val').val();
+
+    var implNow   =$('input[name="'+ObjArr[o].implNow_Code +'-Xr12mI7VPn3-val'+'"]:checked').val();
+    var disc_Code   =$('input[name="'+ObjArr[o].disc_Code +'-Xr12mI7VPn3-val'+'"]:checked').val();
+    var since = $('#' + ObjArr[o].since_Code +'-Xr12mI7VPn3-val').val();
+
+
+    
+    var sQuestion='You selected "No" for policy adoption. By clicking the "OK" button, you will reset the associated fields in the same row:\n- Ever implemented\n- Policy since\n- Implemented this year\n- Policy discontinued\n\nContinue?';
+    
+
+    switch (global.currentUILanguage){
+      case 'fr':
+        sQuestion="Vous avez choisi 'Non' pour l'adoption de la politique. En cliquant sur le bouton 'OK', vous réinitialiserez les champs associés dans la même ligne :    \n- mise en œuvre jamais \n- Mis en œuvre depuis\n- Mis en œuvre cette année\n- Politique abandonnée\n\nContinuer.";
+        break;
+      case 'es':  
+        sQuestion="Usted seleccionó 'No' para la adopción de políticas. Al hacer clic en el botón 'OK', restablecerá los campos asociados en la misma fila: \n- implementado alguna vez\n- Política desde\n- Implementado este año\n- Política descontinuada\n\n¿Continuar?";
+        break;
+      default:
+        sQuestion='You selected "No" for policy adoption. By clicking the "OK" button, you will reset the associated fields in the same row:\n-  Ever implemented\n- Policy since\n- Implemented this year\n- Policy discontinued\n\nContinue?';
+    }
+
+
+    if (impl=='Yes'){
+      $('#' + o +'_IMPL').show();
+      if (impl=="Yes"){
+        $('#' + o +'_SINCE').show();
+        $('#' + o +'_NOW').show();
+        $('#' + o +'_DISC').show();
+      }else{
+        if (  !($('#' + o +'_SINCE').css('display') == 'none' ||  $('#' + o +'_SINCE').css("visibility") == "hidden")){
+            if (who != 'machine'){          
+            if (confirm(sQuestion)){
+              $('input[name='+ ObjArr[o].implNow_Code +'-Xr12mI7VPn3-val]').prop('checked',false);
+              $('#'+ ObjArr[o].since_Code +'-Xr12mI7VPn3-val').val(null)
+              $('input[name='+ ObjArr[o].disc_Code +'-Xr12mI7VPn3-val]').prop('checked',false);
+
+              $('input[name="'+ ObjArr[o].since_Code +'"]').change();
+              $('input[name="'+ ObjArr[o].implNow_Code +'"]').change();
+              $('input[name="'+ ObjArr[o].disc_Code +'"]').change();
+
+              $('#' + o +'_SINCE').hide();
+              $('#' + o +'_NOW').hide();
+              $('#' + o +'_DISC').hide();
+            }else
+              $('#' + ObjArr[o].imp_Code +'-Xr12mI7VPn3-val').val("Yes");
+          }
+        }       
+      }
+    }else{
+        if (  !($('#' + o +'_SINCE').css('display') == 'none' ||  $('#' + o +'_IMPL').css("visibility") == "hidden")){
+            if (who != 'machine'){          
+          if (confirm(sQuestion)){
+            $('#'+ ObjArr[o].imp_Code +'-Xr12mI7VPn3-val').val(null).trigger('change');
+            $('input[name='+ ObjArr[o].implNow_Code +'-Xr12mI7VPn3-val]').prop('checked',false);
+            $('#'+ ObjArr[o].since_Code +'-Xr12mI7VPn3-val').val(null)
+            $('input[name='+ ObjArr[o].disc_Code +'-Xr12mI7VPn3-val]').prop('checked',false);
+
+            //$('input[name=JdlSOTAegA1-Xr12mI7VPn3-val]').prop('checked',false);
+
+            $('input[name="'+ ObjArr[o].imp_Code +'"]').change();
+            $('input[name="'+ ObjArr[o].since_Code +'"]').change();
+            $('input[name="'+ ObjArr[o].implNow_Code +'"]').change();
+            $('input[name="'+ ObjArr[o].disc_Code +'"]').change();
+
+            $('#' + o +'_SINCE').hide();
+            $('#' + o +'_NOW').hide();
+            $('#' + o +'_DISC').hide();
+          }else
+            $('#' + oo).val("Yes");
+        }
+      }
+    }
+
+  }
+    function findImplCode(implCode){
+      var result=-1;
+      ObjArr.forEach(function (item, index) {
+        if((ObjArr[item].imp_Code)== implCode){
+          result = item;
+        }
+    });
+    return result;
+    }
+
+    function showHideRowsOnLoad(){
+    //$("#contentdiv div.span2:last input").attr("id");
+    //$("#contentdiv div.span2:last input[name=description0]").attr("id");
+    global.CalculationInProcess =true;
+    var LLIN_DISTRIB_FREE_IMPL = $('#'+ObjId.LLIN_DISTRIB_FREE_IMPL).val();
+    var LLIN_OTHER_GROUP_IMPL = $('#'+ObjId.LLIN_OTHER_GROUP_IMPL).val();
+    var MAL_PQ_USED_RADICAL_TRT_PV_IMPL = $('#'+ObjId.MAL_PQ_USED_RADICAL_TRT_PV_IMPL).val();
+               
+
+    if(LLIN_DISTRIB_FREE_IMPL == "Yes"){
+      var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+        var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+        var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+        var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+        
+        result_tr1.display = 'table-row';
+        result_tr2.display = 'table-row';
+        result_tr3.display = 'table-row';
+        result_tr4.display = 'table-row';
+    }else{
+      var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+        var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+        var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+        var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+        result_tr1.display = 'none';
+        result_tr2.display = 'none';
+        result_tr3.display = 'none';
+        result_tr4.display = 'none';
+    }
+  
+    if(LLIN_OTHER_GROUP_IMPL ==  "Yes"){
+      var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+        result_tr.display = 'table-row';
+    }else{
+      var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+        result_tr.display = 'none';
+    }
+
+    if(MAL_PQ_USED_RADICAL_TRT_PV_IMPL==  "Yes"){
+      var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+        result_tr.display = 'table-row';
+    }else{
+      var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+        result_tr.display = 'none';
+    }
+    global.CalculationInProcess =false;
+
+      
+  }
+
+  function calculatedValues(me,who){
+    //$("#contentdiv div.span2:last input").attr("id");
+    //$("#contentdiv div.span2:last input[name=description0]").attr("id");
+    global.CalculationInProcess =true;
+    var LLIN_DISTRIB_FREE_IMPL = $('#'+ObjId.LLIN_DISTRIB_FREE_IMPL).val();
+    var LLIN_OTHER_GROUP_IMPL = $('#'+ObjId.LLIN_OTHER_GROUP_IMPL).val();
+    var MAL_PQ_USED_RADICAL_TRT_PV_IMPL = $('#'+ObjId.MAL_PQ_USED_RADICAL_TRT_PV_IMPL).val();
+                
+    //if (me.name=="entryfield")
+      //processRowCells(me.id, who);
+    //else if 
+    if (me.name=="entryfield_impl"){
+      var s=me.id;
+      s=s.substring(0,11);
+
+      var adoptId=findImplCode(s);
+      processRowCells(adoptId.toString()+'-Xr12mI7VPn3-val',who);
+
+      if(me.id == ObjId.LLIN_DISTRIB_FREE_IMPL){
+        if(me.value == "Yes"){
+          var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+            var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+            var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+            var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+            
+            result_tr1.display = 'table-row';
+            result_tr2.display = 'table-row';
+            result_tr3.display = 'table-row';
+            result_tr4.display = 'table-row';
+        }else{
+          var result_tr1 = document.getElementById('ITN_FREE_ALL_AGES').style;  
+            var result_tr2 = document.getElementById('ITN_FREE_CHILDREN').style;  
+            var result_tr3 = document.getElementById('ITN_FREE_PW').style;  
+            var result_tr4 = document.getElementById('ITN_FREE_OTHER').style;  
+            result_tr1.display = 'none';
+            result_tr2.display = 'none';
+            result_tr3.display = 'none';
+            result_tr4.display = 'none';
+        }
+      }else if(me.id == ObjId.LLIN_OTHER_GROUP_IMPL){
+        if(me.value ==  "Yes"){
+          var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+            result_tr.display = 'table-row';
+        }else{
+          var result_tr = document.getElementById('SPECIFY_ITN_FREE_OTHER').style;  
+            result_tr.display = 'none';
+        }
+
+      }else if(me.id == ObjId.MAL_PQ_USED_RADICAL_TRT_PV_IMPL){
+        if(me.value ==  "Yes"){
+          var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+            result_tr.display = 'table-row';
+        }else{
+          var result_tr = document.getElementById('DOSAGE_PQ_PV').style;  
+            result_tr.display = 'none';
+        }
+
+      }
+    }
+
+    global.CalculationInProcess =false;
+
+  }
+  </script>
+<div class="content">
+<table border="0" cellpadding="0" cellspacing="0" witdh="1000px"><!---bgcolor="#EBEFFF" -->
+	<thead>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LLINS</td>
+		</tr>
+		<tr>
+			<td class="trn" width="350px">MAL_ITN_LLIN_DISTR_FREE</td>
+			<td width="110px"><input id="rZWKpbFRNCU-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed for free - adopt" value="[ MAL - ITNs/ LLINs are distributed for free - adopt ]" /></td>
+			<td width="110px">
+			<div id="rZWKpbFRNCU_IMPL"><input id="OUjryjwW8WN-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed for free - policy implemented this year" value="[ MAL - ITNs/ LLINs are distributed for free - policy implemented this year ]" /></div>
+			</td>
+			<td width="50px">
+			<div id="rZWKpbFRNCU_SINCE"><input id="SRaBwrvxVIb-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed for free - policy since" value="[ MAL - ITNs/ LLINs are distributed for free - policy since ]" /></div>
+			</td>
+			<td width="110px">
+			<div id="rZWKpbFRNCU_NOW"><input id="H3LCc4WIDsB-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed for free - policy implemented now" value="[ MAL - ITNs/ LLINs are distributed for free - policy implemented now ]" /></div>
+			</td>
+			<td width="110px">
+			<div id="rZWKpbFRNCU_DISC"><input id="SiSRJevJZ4T-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed for free - policy discontinued" value="[ MAL - ITNs/ LLINs are distributed for free - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr id="ITN_FREE_ALL_AGES" style="display:none;">
+			<td class="trn">MAL_ITN_LLIN_DISTR_FREE_ALL_AGES</td>
+			<td><input id="yDjBgnk5zGo-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for all ages groups - adopt" value="[ MAL - ITNs/LLINs are distributed for free - for all ages groups - adopt ]" /></td>
+			<td>
+			<div id="yDjBgnk5zGo_IMPL"><input id="uGGIB4kUBmQ-Xr12mI7VPn3-val" name="entryfield" title="MAL- ITNs/LLINs are distributed for free - for all ages groups - policy implemented" value="[ MAL- ITNs/LLINs are distributed for free - for all ages groups - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="yDjBgnk5zGo_SINCE"><input id="HUB9PZj8tyX-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for all ages groups - policy since" value="[ MAL - ITNs/LLINs are distributed for free - for all ages groups - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="yDjBgnk5zGo_NOW"><input id="RHBES4RE2O9-Xr12mI7VPn3-val" name="entryfield" title="MAL- ITNs/LLINs are distributed for free - for all ages groups - policy implemented now" value="[ MAL- ITNs/LLINs are distributed for free - for all ages groups - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="yDjBgnk5zGo_DISC"><input id="JdlSOTAegA1-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for all ages groups - policy disc" value="[ MAL - ITNs/LLINs are distributed for free - for all ages groups - policy disc ]" /></div>
+			</td>
+		</tr>
+		<tr id="ITN_FREE_CHILDREN" style="display:none;">
+			<td class="trn">MAL_ITN_LLIN_DISTR_FREE_CHILDREN</td>
+			<td><input id="FYDXDlWDj9q-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for children  - adopt" value="[ MAL - ITNs/LLINs are distributed for free - for children  - adopt ]" /></td>
+			<td>
+			<div id="FYDXDlWDj9q_IMPL"><input id="NcKys1jDcLe-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for children  - policy implemented" value="[ MAL - ITNs/LLINs are distributed for free - for children  - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="FYDXDlWDj9q_SINCE"><input id="OXpRtOaN1Be-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for children  - policy since" value="[ MAL - ITNs/LLINs are distributed for free - for children  - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="FYDXDlWDj9q_NOW"><input id="UtiOr1tVoZ0-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for children  - policy implemented now" value="[ MAL - ITNs/LLINs are distributed for free - for children  - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="FYDXDlWDj9q_DISC"><input id="G5346yuPsAT-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for children  - policy discontinued" value="[ MAL - ITNs/LLINs are distributed for free - for children  - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr id="ITN_FREE_PW" style="display:none;">
+			<td class="trn">MAL_ITN_LLIN_DISTR_FREE_PW</td>
+			<td><input id="BKboGW8jXHq-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for pregnant women - adopt" value="[ MAL - ITNs/LLINs are distributed for free - for pregnant women - adopt ]" /></td>
+			<td>
+			<div id="BKboGW8jXHq_IMPL"><input id="Xp7l9g3LV1R-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for pregnant women - policy implemented" value="[ MAL - ITNs/LLINs are distributed for free - for pregnant women - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="BKboGW8jXHq_SINCE"><input id="xbY1MDRHSMT-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for pregnant women - policy since" value="[ MAL - ITNs/LLINs are distributed for free - for pregnant women - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="BKboGW8jXHq_NOW"><input id="m4d4wrtNHJB-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for pregnant women - policy implemented now" value="[ MAL - ITNs/LLINs are distributed for free - for pregnant women - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="BKboGW8jXHq_DISC"><input id="axC7rVVOY2a-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - for pregnant women - policy discontinued" value="[ MAL - ITNs/LLINs are distributed for free - for pregnant women - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr id="ITN_FREE_OTHER" style="display:none;">
+			<td class="trn">MAL_ITN_LLIN_DISTR_FREE_OTHER</td>
+			<td><input id="bDbY6XRrJSe-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - adopt" value="[ MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - adopt ]" /></td>
+			<td>
+			<div id="bDbY6XRrJSe_IMPL"><input id="kAKCTb87ipF-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy implemented" value="[ MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="bDbY6XRrJSe_SINCE"><input id="NiJYnuPWdxd-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy since" value="[ MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="bDbY6XRrJSe_NOW"><input id="BFaFQnCLmXA-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy implemented now" value="[ MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="bDbY6XRrJSe_DISC"><input id="uhkoNUfG241-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy discontinued" value="[ MAL - ITNs/LLINs are distributed for free - other at risk populations e.g forest workers - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr id="SPECIFY_ITN_FREE_OTHER" style="display:none;">
+			<td class="trn" colspan="2">LBL_SPECIFY_OTHER_GROUPS</td>
+			<td colspan="4"><input id="MwhoTZsoZxq-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/LLINs distributed to - please specify" value="[ MAL - ITNs/LLINs distributed to - please specify ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LLIN_DISTR_CHANNELS</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ITN_LLIN_DISTR_VIA_MASS_CAMP</td>
+			<td><input id="RTQVnaIWlV7-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - adopt" value="[ MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - adopt ]" /></td>
+			<td>
+			<div id="RTQVnaIWlV7_IMPL"><input id="kWumx3IhOdf-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy implemented this year" value="[ MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="RTQVnaIWlV7_SINCE"><input id="wgwQAH2zsxI-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy since" value="[ MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="RTQVnaIWlV7_NOW"><input id="G09VqCTjEkB-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy implemented now" value="[ MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="RTQVnaIWlV7_DISC"><input id="gwTbg0RjYNE-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy discontinued" value="[ MAL - ITNs/ LLINs distributed through mass campaigns to all age groups - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ITN_LLIN_DISTR_VIA_ANC</td>
+			<td><input id="sFMFEBTMPXc-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through antenatal clinics - adopt" value="[ MAL - ITNs/ LLINs are distributed through antenatal clinics - adopt ]" /></td>
+			<td>
+			<div id="sFMFEBTMPXc_IMPL"><input id="rt9hmeObLjT-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through antenatal clinics - policy implemented this year" value="[ MAL - ITNs/ LLINs are distributed through antenatal clinics - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="sFMFEBTMPXc_SINCE"><input id="U3jTvbMNbhw-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through antenatal clinics - policy since" value="[ MAL - ITNs/ LLINs are distributed through antenatal clinics - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="sFMFEBTMPXc_NOW"><input id="irqN8OmIXac-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through antenatal clinics - policy implemented now" value="[ MAL - ITNs/ LLINs are distributed through antenatal clinics - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="sFMFEBTMPXc_DISC"><input id="yueUKrDt7Ah-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through antenatal clinics - policy discontinued" value="[ MAL - ITNs/ LLINs are distributed through antenatal clinics - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ITN_LLIN_DISTR_VIA_EPI</td>
+			<td><input id="ZM8A8AX9Uqm-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through EPI clinics - adopt" value="[ MAL - ITNs/ LLINs are distributed through EPI clinics - adopt ]" /></td>
+			<td>
+			<div id="ZM8A8AX9Uqm_IMPL"><input id="JNCgQR1p3qg-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through EPI clinics - policy implemented this year" value="[ MAL - ITNs/ LLINs are distributed through EPI clinics - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="ZM8A8AX9Uqm_SINCE"><input id="P3d0Pl4huHd-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through EPI clinics - policy since" value="[ MAL - ITNs/ LLINs are distributed through EPI clinics - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="ZM8A8AX9Uqm_NOW"><input id="D4A8YcaqjeU-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through EPI clinics - policy implemented now" value="[ MAL - ITNs/ LLINs are distributed through EPI clinics - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="ZM8A8AX9Uqm_DISC"><input id="QWzYONBamuO-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs are distributed through EPI clinics - policy discontinued" value="[ MAL - ITNs/ LLINs are distributed through EPI clinics - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ITN_LLIN_DISTR_VIA_OTHER_CHANNELS</td>
+			<td><input id="UhAKHOuMN7L-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through other channels - adopt" value="[ MAL - ITNs/ LLINs distributed through other channels - adopt ]" /></td>
+			<td>
+			<div id="UhAKHOuMN7L_IMPL"><input id="vlNUHPFeRFQ-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through other channels - policy implemented this year" value="[ MAL - ITNs/ LLINs distributed through other channels - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="UhAKHOuMN7L_SINCE"><input id="y03sk9sWPXL-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through other channels - policy since" value="[ MAL - ITNs/ LLINs distributed through other channels - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="UhAKHOuMN7L_NOW"><input id="zRD4cL6vGUi-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through other channels - policy implemented now" value="[ MAL - ITNs/ LLINs distributed through other channels - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="UhAKHOuMN7L_DISC"><input id="WdDZzb20o0u-Xr12mI7VPn3-val" name="entryfield" title="MAL - ITNs/ LLINs distributed through other channels - policy discontinued" value="[ MAL - ITNs/ LLINs distributed through other channels - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_IRS</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IRS_RECOM</td>
+			<td><input id="naWHvRDZaWO-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is recommended by malaria control program - adopt" value="[ MAL - IRS is recommended by malaria control program - adopt ]" /></td>
+			<td>
+			<div id="naWHvRDZaWO_IMPL"><input id="up7awAqkJcb-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is recommended by malaria control program - policy implemented this year" value="[ MAL - IRS is recommended by malaria control program - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="naWHvRDZaWO_SINCE"><input id="lZHkoFkBLRe-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is recommended by malaria control program - policy since" value="[ MAL - IRS is recommended by malaria control program - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="naWHvRDZaWO_NOW"><input id="DhFZK3yA1zo-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is recommended by malaria control program - policy implemented now" value="[ MAL - IRS is recommended by malaria control program - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="naWHvRDZaWO_DISC"><input id="acR3jZoBx8F-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is recommended by malaria control program - policy discontinued" value="[ MAL - IRS is recommended by malaria control program - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IRS_USED_PREVENT_EPIDEMICS</td>
+			<td><input id="lP4Pu1doSyB-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is used for prevention and control of epidemics - adopt" value="[ MAL - IRS is used for prevention and control of epidemics - adopt ]" /></td>
+			<td>
+			<div id="lP4Pu1doSyB_IMPL"><input id="rE9UeQDPVOP-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is used for prevention and control of epidemics - policy implemented this year" value="[ MAL - IRS is used for prevention and control of epidemics - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="lP4Pu1doSyB_SINCE"><input id="rz15cZmfmCL-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is used for prevention and control of epidemics - policy since" value="[ MAL - IRS is used for prevention and control of epidemics - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="lP4Pu1doSyB_NOW"><input id="v60Na7P1hIQ-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is used for prevention and control of epidemics - policy implemented now" value="[ MAL - IRS is used for prevention and control of epidemics - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="lP4Pu1doSyB_DISC"><input id="jY2M20OmVR0-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS is used for prevention and control of epidemics - policy discontinued" value="[ MAL - IRS is used for prevention and control of epidemics - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_DDT_USED_IRS</td>
+			<td><input id="jvvwOFoTKGu-Xr12mI7VPn3-val" name="entryfield" title="MAL - DDT is used for IRS - adopt" value="[ MAL - DDT is used for IRS - adopt ]" /></td>
+			<td>
+			<div id="jvvwOFoTKGu_IMPL"><input id="mjsfzGpCjmd-Xr12mI7VPn3-val" name="entryfield" title="MAL - DDT is used for IRS - policy implemented this year" value="[ MAL - DDT is used for IRS - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="jvvwOFoTKGu_SINCE"><input id="r5mG7cGdlkH-Xr12mI7VPn3-val" name="entryfield" title="MAL - DDT is used for IRS - policy since" value="[ MAL - DDT is used for IRS - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="jvvwOFoTKGu_NOW"><input id="Xnye2KDG6EP-Xr12mI7VPn3-val" name="entryfield" title="MAL - DDT is used for IRS - policy implemented now" value="[ MAL - DDT is used for IRS - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="jvvwOFoTKGu_DISC"><input id="SQKO1XRqSCp-Xr12mI7VPn3-val" name="entryfield" title="MAL - DDT is used for IRS - policy discontinued" value="[ MAL - DDT is used for IRS - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IRS_ITN_USED_TOGETHER</td>
+			<td><input id="d1Jj5KYeiSk-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS and ITNs used together for malaria control in at least some areas - adopt" value="[ MAL - IRS and ITNs used together for malaria control in at least some areas - adopt ]" /></td>
+			<td>
+			<div id="d1Jj5KYeiSk_IMPL"><input id="SMQowsiY96W-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS and ITNs used together for malaria control in at least some areas - policy implemented this year" value="[ MAL - IRS and ITNs used together for malaria control in at least some areas - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="d1Jj5KYeiSk_IMPL"><input id="yn3k3IBwGxP-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS and ITNs used together for malaria control in at least some areas - policy since" value="[ MAL - IRS and ITNs used together for malaria control in at least some areas - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="d1Jj5KYeiSk_IMPL"><input id="qOtvhEvWWW8-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS and ITNs used together for malaria control in at least some areas - policy implemented now" value="[ MAL - IRS and ITNs used together for malaria control in at least some areas - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="d1Jj5KYeiSk_IMPL"><input id="NrFg1C5fHcF-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS and ITNs used together for malaria control in at least some areas - policy discontinued" value="[ MAL - IRS and ITNs used together for malaria control in at least some areas - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_LARVAL_SOUREC_MGMT</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_LARVAL_CONTROL_SRC_MGMT</td>
+			<td><input id="TVhY0NY6D3R-Xr12mI7VPn3-val" name="entryfield" title="MAL - Use of larval source management in foci response - adopt" value="[ MAL - Use of larval source management in foci response - adopt ]" /></td>
+			<td>
+			<div id="TVhY0NY6D3R_IMPL"><input id="Kya2L5AqV5E-Xr12mI7VPn3-val" name="entryfield" title="MAL - Use of larval source management in foci response - policy implemented" value="[ MAL - Use of larval source management in foci response - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="TVhY0NY6D3R_SINCE"><input id="RXLvZ9aXDS9-Xr12mI7VPn3-val" name="entryfield" title="MAL - Use of larval source management in foci response - policy since" value="[ MAL - Use of larval source management in foci response - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="TVhY0NY6D3R_NOW"><input id="DYLCyyGwEQx-Xr12mI7VPn3-val" name="entryfield" title="MAL - Use of larval source management in foci response - policy implemented now" value="[ MAL - Use of larval source management in foci response - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="TVhY0NY6D3R_DISC"><input id="Qv9tOpR58eZ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Use of larval source management in foci response - policy discontinued" value="[ MAL - Use of larval source management in foci response - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_LARVICIDING_USED_FOR_MAL_CONTROL</td>
+			<td><input id="BnSv3InXqSU-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for malaria control -  adopt" value="[ MAL - Larviciding used for malaria control -  adopt ]" /></td>
+			<td>
+			<div id="BnSv3InXqSU_IMPL"><input id="zDZ7WJse1dx-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for malaria control - policy implemented this year" value="[ MAL - Larviciding used for malaria control - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="BnSv3InXqSU_SINCE"><input id="CuXCkUlAWB6-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for malaria control - policy since" value="[ MAL - Larviciding used for malaria control - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="BnSv3InXqSU_NOW"><input id="R0yyPe7HPvH-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for malaria control - policy implemented now" value="[ MAL - Larviciding used for malaria control - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="BnSv3InXqSU_DISC"><input id="NA9eHTm7psf-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for malaria control - policy discontinued" value="[ MAL - Larviciding used for malaria control - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_LARVICIDING_USED_FOR_FOCI_RESPONSE</td>
+			<td><input id="BdlwSOrt2j0-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for foci response -  adopt" value="[ MAL - Larviciding used for foci response -  adopt ]" /></td>
+			<td>
+			<div id="BdlwSOrt2j0_IMPL"><input id="Fz7XhBUa7ds-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for foci response - policy implemented this year" value="[ MAL - Larviciding used for foci response - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="BdlwSOrt2j0_SINCE"><input id="R08gGkc5zLn-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for foci response - policy since" value="[ MAL - Larviciding used for foci response - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="BdlwSOrt2j0_NOW"><input id="sb6bb6GF5W6-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for foci response - policy implemented now" value="[ MAL - Larviciding used for foci response - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="BdlwSOrt2j0_DISC"><input id="sYET0lb1o1m-Xr12mI7VPn3-val" name="entryfield" title="MAL - Larviciding used for foci response - policy discontinued" value="[ MAL - Larviciding used for foci response - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_HOUSE_SCREENING</td>
+		</tr>
+		<tr>
+			<td class="trn">LBL_IS_HOUSE_SCREENING_USED_MAL_CONTROL</td>
+			<td><input id="P57IhSzj7km-Xr12mI7VPn3-val" name="entryfield" title="MAL - Untreated screening of residential houses used for the prevention and control of malaria -  adopt" value="[ MAL - Untreated screening of residential houses used for the prevention and control of malaria -  adopt ]" /></td>
+			<td>
+			<div id="P57IhSzj7km_IMPL"><input id="Hy1AQWovlxz-Xr12mI7VPn3-val" name="entryfield" title="MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy implemented this year" value="[ MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="P57IhSzj7km_SINCE"><input id="RULLIaynN1Q-Xr12mI7VPn3-val" name="entryfield" title="MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy since" value="[ MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="P57IhSzj7km_NOW"><input id="K1g1zaHASzN-Xr12mI7VPn3-val" name="entryfield" title="MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy implemented now" value="[ MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="P57IhSzj7km_DISC"><input id="WSC53dMWAi3-Xr12mI7VPn3-val" name="entryfield" title="MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy discontinued" value="[ MAL - Untreated screening of residential houses used for the prevention and control of malaria - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_TESTING/td&gt;</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_G6PD_TEST_B4_PQ_TRT_RECOM</td>
+			<td><input id="bAJHvHwOiBs-Xr12mI7VPn3-val" name="entryfield" title="MAL - G6PD test is recommened before treatment with primaquine - adopt" value="[ MAL - G6PD test is recommened before treatment with primaquine - adopt ]" /></td>
+			<td>
+			<div id="bAJHvHwOiBs_IMPL"><input id="tOgKq4RmnBg-Xr12mI7VPn3-val" name="entryfield" title="MAL - G6PD test is recommened before treatment with primaquine - policy implemented this year" value="[ MAL - G6PD test is recommened before treatment with primaquine - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="bAJHvHwOiBs_SINCE"><input id="ovcCvwQdfiL-Xr12mI7VPn3-val" name="entryfield" title="MAL - G6PD test is recommened before treatment with primaquine - policy since" value="[ MAL - G6PD test is recommened before treatment with primaquine - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="bAJHvHwOiBs_NOW"><input id="eh8XQ7NgmWO-Xr12mI7VPn3-val" name="entryfield" title="MAL - G6PD test is recommened before treatment with primaquine - policy implemented now" value="[ MAL - G6PD test is recommened before treatment with primaquine - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="bAJHvHwOiBs_DISC"><input id="XBJBXPZ9WlF-Xr12mI7VPn3-val" name="entryfield" title="MAL - G6PD test is recommened before treatment with primaquine - policy discontinued" value="[ MAL - G6PD test is recommened before treatment with primaquine - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">DIAG_RDT_FREE</td>
+			<td><input id="p9s4Xz11r8m-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using RDT is free of charge in the public sector  - adopt" value="[ MAL - Malaria diagnosis using RDT is free of charge in the public sector  - adopt ]" /></td>
+			<td>
+			<div id="p9s4Xz11r8m_IMPL"><input id="FVD0jjcn4nP-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using RDT is free of charge in the public sector  - policy implemented this year" value="[ MAL - Malaria diagnosis using RDT is free of charge in the public sector  - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="p9s4Xz11r8m_SINCE"><input id="o7MInLdf5Z2-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using RDT is free of charge in the public sector  - policy since" value="[ MAL - Malaria diagnosis using RDT is free of charge in the public sector  - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="p9s4Xz11r8m_NOW"><input id="JUiGpi5P8ju-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using RDT is free of charge in the public sector - policy implemented now" value="[ MAL - Malaria diagnosis using RDT is free of charge in the public sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="p9s4Xz11r8m_DISC"><input id="kio4hrSj8pf-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using RDT is free of charge in the public sector - policy discontinued" value="[ MAL - Malaria diagnosis using RDT is free of charge in the public sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">DIAG_MICR_FREE</td>
+			<td><input id="s66uz2mlZOX-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - adopt" value="[ MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - adopt ]" /></td>
+			<td>
+			<div id="s66uz2mlZOX_IMPL"><input id="j52Vpz7UDOt-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - policy implemented this year" value="[ MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="s66uz2mlZOX_SINCE"><input id="hRiivp9odhv-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - policy since" value="[ MAL - Malaria diagnosis using microscopy is free of charge in the public sector  - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="s66uz2mlZOX_NOW"><input id="TLTUPA1kcDj-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using microscopy is free of charge in the public sector - policy implemented now" value="[ MAL - Malaria diagnosis using microscopy is free of charge in the public sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="s66uz2mlZOX_DISC"><input id="SjsxYzWMUCA-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis using microscopy is free of charge in the public sector - policy discontinued" value="[ MAL - Malaria diagnosis using microscopy is free of charge in the public sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">DIAG_FREE_PRIV_SECTOR</td>
+			<td><input id="a5rxNWDu6ND-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis is free in the private sector  - adopt" value="[ MAL - Malaria diagnosis is free in the private sector  - adopt ]" /></td>
+			<td>
+			<div id="a5rxNWDu6ND_IMPL"><input id="q9Ccf2WXiAO-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis is free in the private sector  - policy implemented this year" value="[ MAL - Malaria diagnosis is free in the private sector  - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="a5rxNWDu6ND_SINCE"><input id="XJTekRKtQGK-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis is free in the private sector  - policy since" value="[ MAL - Malaria diagnosis is free in the private sector  - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="a5rxNWDu6ND_NOW"><input id="O5ZYeFhyYEt-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis is free in the private sector - policy implemented now" value="[ MAL - Malaria diagnosis is free in the private sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="a5rxNWDu6ND_DISC"><input id="qORp1JfpH2d-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria diagnosis is free in the private sector - policy discontinued" value="[ MAL - Malaria diagnosis is free in the private sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RDTS_USED_PUB_SECTOR</td>
+			<td><input id="mKG75pqVpXg-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the public sector - adopt" value="[ MAL - RDTS are used in the public sector - adopt ]" /></td>
+			<td>
+			<div id="mKG75pqVpXg_IMPL"><input id="ZcUXrzCAIB9-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the public sector - policy implemented" value="[ MAL - RDTS are used in the public sector - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="mKG75pqVpXg_SINCE"><input id="VTAYPeVkcBF-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the public sector - policy since" value="[ MAL - RDTS are used in the public sector - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="mKG75pqVpXg_NOW"><input id="Jxh9MbkARxC-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the public sector - policy implemented now" value="[ MAL - RDTS are used in the public sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="mKG75pqVpXg_DISC"><input id="trwVQRFP8vj-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the public sector - policy discontinued" value="[ MAL - RDTS are used in the public sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RDTS_USED_PRIV_SECTOR</td>
+			<td><input id="AUjiOdwT8Wn-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the private sector - adopt" value="[ MAL - RDTS are used in the private sector - adopt ]" /></td>
+			<td>
+			<div id="AUjiOdwT8Wn_IMPL"><input id="BNa9heCe1Nl-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the private sector - policy implemented" value="[ MAL - RDTS are used in the private sector - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="AUjiOdwT8Wn_SINCE"><input id="ONjIkPH2myF-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the private sector - policy since" value="[ MAL - RDTS are used in the private sector - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="AUjiOdwT8Wn_NOW"><input id="LheiO0tMDog-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the private sector - policy implemented now" value="[ MAL - RDTS are used in the private sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="AUjiOdwT8Wn_DISC"><input id="XlhCNzaxtrw-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the private sector - policy discontinued" value="[ MAL - RDTS are used in the private sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RDTS_USED_COMM_SECTOR</td>
+			<td><input id="ploO0YNKd5a-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the community - adopt" value="[ MAL - RDTS are used in the community - adopt ]" /></td>
+			<td>
+			<div id="ploO0YNKd5a_IMPL"><input id="w9qztWYO5i0-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the community - policy implemented" value="[ MAL - RDTS are used in the community - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="ploO0YNKd5a_SINCE"><input id="FCCr4AinirM-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the community - policy since" value="[ MAL - RDTS are used in the community - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="ploO0YNKd5a_NOW"><input id="gZgNSaKXmzk-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the community - policy implemented now" value="[ MAL - RDTS are used in the community - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="ploO0YNKd5a_DISC"><input id="fnaxnk7DWfF-Xr12mI7VPn3-val" name="entryfield" title="MAL - RDTS are used in the community - policy discontinued" value="[ MAL - RDTS are used in the community - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_TREATMENT</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ACT_USED_TRT_PF</td>
+			<td><input id="eOyht8mse92-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is used for treatment P.f - adopt" value="[ MAL - ACT is used for treatment P.f - adopt ]" /></td>
+			<td>
+			<div id="eOyht8mse92_IMPL"><input id="pchgYl0bzmn-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is used for treatment P.f - implemented this year" value="[ MAL - ACT is used for treatment P.f - implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="eOyht8mse92_SINCE"><input id="Y13HDxQTlWx-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is used for treatment P.f - policy since" value="[ MAL - ACT is used for treatment P.f - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="eOyht8mse92_NOW"><input id="xFt2hUzfEuP-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is used for treatment P.f - policy implemented now" value="[ MAL - ACT is used for treatment P.f - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="eOyht8mse92_DISC"><input id="GF9Ng0ViLaG-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is used for treatment P.f - policy discontinued" value="[ MAL - ACT is used for treatment P.f - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ACT_FREE_OF_CHARGE</td>
+			<td><input id="ZQOHdFNywH6-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is free of charge for all age groups in public sector - adopt" value="[ MAL - ACT is free of charge for all age groups in public sector - adopt ]" /></td>
+			<td>
+			<div id="ZQOHdFNywH6_IMPL"><input id="Vupf1GerGAd-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is free of charge for all age groups in public sector - policy implemented this year" value="[ MAL - ACT is free of charge for all age groups in public sector - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="ZQOHdFNywH6_SINCE"><input id="ndcOkUcvcU9-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is free of charge for all age groups in public sector - policy since" value="[ MAL - ACT is free of charge for all age groups in public sector - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="ZQOHdFNywH6_NOW"><input id="C8nzpEz8XUl-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is free of charge for all age groups in public sector - policy implemented now" value="[ MAL - ACT is free of charge for all age groups in public sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="ZQOHdFNywH6_DISC"><input id="xM7utsu6NiL-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is free of charge for all age groups in public sector - policy discontinued" value="[ MAL - ACT is free of charge for all age groups in public sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ACT_COMM_LEVEL</td>
+			<td><input id="QnYNFyu8N2y-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is delivered at community level through community agents (beyond the health facilities) - adopt" value="[ MAL - ACT is delivered at community level through community agents (beyond the health facilities) - adopt ]" /></td>
+			<td>
+			<div id="QnYNFyu8N2y_IMPL"><input id="tgs8KfBR1bF-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy implemented this year" value="[ MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="QnYNFyu8N2y_SINCE"><input id="rUHuR8yXOYk-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy since" value="[ MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="QnYNFyu8N2y_NOW"><input id="c6gaOWkexnq-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy implemented now" value="[ MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="QnYNFyu8N2y_DISC"><input id="yMwlzzsKUGq-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy discontinued" value="[ MAL - ACT is delivered at community level through community agents (beyond the health facilities) - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_TRT_PERMITTED_PRIV_SECTOR</td>
+			<td><input id="oRom00n1H7Y-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is permitted in the private sector - adopt" value="[ MAL - Malaria treatment is permitted in the private sector - adopt ]" /></td>
+			<td>
+			<div id="oRom00n1H7Y_IMPL"><input id="z0il90UtnBs-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is permitted in the private sector - policy implemented this year" value="[ MAL - Malaria treatment is permitted in the private sector - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="oRom00n1H7Y_SINCE"><input id="MguPqQxoBat-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is permitted in the private sector - policy since" value="[ MAL - Malaria treatment is permitted in the private sector - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="oRom00n1H7Y_NOW"><input id="WSgsAIjCquS-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is permitted in the private sector - policy implemented now" value="[ MAL - Malaria treatment is permitted in the private sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="oRom00n1H7Y_DISC"><input id="kDFQMzj0fkn-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is permitted in the private sector - policy discontinued" value="[ MAL - Malaria treatment is permitted in the private sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_TRT_FREE</td>
+			<td><input id="GjESfWGoBeN-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is free of charge in the private sector - adopt" value="[ MAL - Malaria treatment is free of charge in the private sector - adopt ]" /></td>
+			<td>
+			<div id="GjESfWGoBeN_IMPL"><input id="A05QQoopq4G-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is free of charge in the private sector - policy implemented this year" value="[ MAL - Malaria treatment is free of charge in the private sector - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="GjESfWGoBeN_SINCE"><input id="bkWLd6lJpS2-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is free of charge in the private sector - policy since" value="[ MAL - Malaria treatment is free of charge in the private sector - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="GjESfWGoBeN_NOW"><input id="UOYnjeA1lGY-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is free of charge in the private sector - policy implemented now" value="[ MAL - Malaria treatment is free of charge in the private sector - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="GjESfWGoBeN_DISC"><input id="XjfeTCqtg0D-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria treatment is free of charge in the private sector - policy discontinued" value="[ MAL - Malaria treatment is free of charge in the private sector - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_SALE_ORAL_MONO_THERAP_POLICY_IMPL</td>
+			<td><input id="xh8QNPzoqmD-Xr12mI7VPn3-val" name="entryfield" title="MAL - The sale of oral artemisinin-based monotherapy drugs - adopt" value="[ MAL - The sale of oral artemisinin-based monotherapy drugs - adopt ]" /></td>
+			<td>
+			<div id="sYyikWmeUw9_IMPL"><input id="sYyikWmeUw9-Xr12mI7VPn3-val" name="entryfield" title="MAL - The sale of oral artemisinin-based monotherapy drugs - policy implemented" value="[ MAL - The sale of oral artemisinin-based monotherapy drugs - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="sYyikWmeUw9_SINCE"><input id="aVStylHJZmn-Xr12mI7VPn3-val" name="entryfield" title="MAL - The sale of oral artemisinin-based monotherapy drugs - policy since" value="[ MAL - The sale of oral artemisinin-based monotherapy drugs - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="sYyikWmeUw9_NOW"><input id="O3FeNUyyjfy-Xr12mI7VPn3-val" name="entryfield" title="MAL - The sale of oral artemisinin-based monotherapy drugs - policy implemented now" value="[ MAL - The sale of oral artemisinin-based monotherapy drugs - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="sYyikWmeUw9_DISC"><input id="qIwGXEjB56Z-Xr12mI7VPn3-val" name="entryfield" title="MAL - The sale of oral artemisinin-based monotherapy drugs - policy discontinued" value="[ MAL - The sale of oral artemisinin-based monotherapy drugs - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_SINGLE_DOSE_PQ_USED</td>
+			<td><input id="K7ahxoNzbs5-Xr12mI7VPn3-val" name="entryfield" title="MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - adopt" value="[ MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - adopt ]" /></td>
+			<td>
+			<div id="K7ahxoNzbs5_IMPL"><input id="Q5U5qOGMFC0-Xr12mI7VPn3-val" name="entryfield" title="MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy implemented this year" value="[ MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="K7ahxoNzbs5_SINCE"><input id="hHjcjfipjW4-Xr12mI7VPn3-val" name="entryfield" title="MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy since" value="[ MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="K7ahxoNzbs5_NOW"><input id="Uu8jN9vG1nO-Xr12mI7VPn3-val" name="entryfield" title="MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy implemented now" value="[ MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="K7ahxoNzbs5_DISC"><input id="syFnfDC7nlJ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy discontinued" value="[ MAL - Single dose of primaquine is used as gametocidal medicine for P. falciparum - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_PQ_USED_RADICAL_TRT_PV</td>
+			<td><input id="JmT6tIkb1Zh-Xr12mI7VPn3-val" name="entryfield" title="MAL - Primaquine is used for radical treatment of P. vivax cases - adopt" value="[ MAL - Primaquine is used for radical treatment of P. vivax cases - adopt ]" /></td>
+			<td>
+			<div id="JmT6tIkb1Zh_IMPL"><input id="bHxX9jUArH5-Xr12mI7VPn3-val" name="entryfield" title="MAL - Primaquine is used for radical treatment of P. vivax cases - policy implemented this year" value="[ MAL - Primaquine is used for radical treatment of P. vivax cases - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="JmT6tIkb1Zh_SINCE"><input id="GiNL3Qt3zX5-Xr12mI7VPn3-val" name="entryfield" title="MAL - Primaquine is used for radical treatment of P. vivax cases - policy since" value="[ MAL - Primaquine is used for radical treatment of P. vivax cases - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="JmT6tIkb1Zh_NOW"><input id="PO8P5dcPXFm-Xr12mI7VPn3-val" name="entryfield" title="MAL - Primaquine is used for radical treatment of P. vivax cases - policy implemented now" value="[ MAL - Primaquine is used for radical treatment of P. vivax cases - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="JmT6tIkb1Zh_DISC"><input id="XIG2vUYtyQx-Xr12mI7VPn3-val" name="entryfield" title="MAL - Primaquine is used for radical treatment of P. vivax cases - policy discontinued" value="[ MAL - Primaquine is used for radical treatment of P. vivax cases - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+		<tr id="DOSAGE_PQ_PV">
+			<td class="trn" colspan="2">DOSAGE_PQ_RADICAL_TRT_PV</td>
+			<td colspan="4"><input id="aLWOXICfAbR-Xr12mI7VPn3-val" name="entryfield" title="MAL - Dosage of primaquine used for radical treatment of P. vivax " value="[ MAL - Dosage of primaquine used for radical treatment of P. vivax  ]" /></td>
+		</tr>
+		<tr>
+			<td class="trn">PREREFERRAL_ART_SUPP_COMM</td>
+			<td><input id="b8dAN9UE8sb-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with artesunate suppositories at community level - adopt" value="[ MAL - Pre-referral Rx with artesunate suppositories at community level - adopt ]" /></td>
+			<td>
+			<div id="b8dAN9UE8sb_IMPL"><input id="TiMPVn8ICcJ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with artesunate suppositories at community level - policy implemented this year" value="[ MAL - Pre-referral Rx with artesunate suppositories at community level - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="b8dAN9UE8sb_SINCE"><input id="VDC37sLx5oP-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with artesunate suppositories at community level - policy since" value="[ MAL - Pre-referral Rx with artesunate suppositories at community level - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="b8dAN9UE8sb_NOW"><input id="qvK2yZgZgof-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with artesunate suppositories at community level - policy implemented now" value="[ MAL - Pre-referral Rx with artesunate suppositories at community level - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="b8dAN9UE8sb_DISC"><input id="wNQpGDUlJS1-Xr12mI7VPn3-val" name="entryfield" title=" MAL - Pre-referral Rx with artesunate suppositories at community level - policy discontinued" value="[  MAL - Pre-referral Rx with artesunate suppositories at community level - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">PREREFERRAL_PAR_ARTEMISININ_QN_HF</td>
+			<td><input id="UlpO1TVOJtp-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - adopt" value="[ MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - adopt ]" /></td>
+			<td>
+			<div id="UlpO1TVOJtp_IMPL"><input id="euLvYczDAP7-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy implemented this year" value="[ MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="UlpO1TVOJtp_SINCE"><input id="gOsKbAAEDQr-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy since" value="[ MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="UlpO1TVOJtp_NOW"><input id="HJ8ExjnHoVH-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy implemented now" value="[ MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="UlpO1TVOJtp_DISC"><input id="TGwYfwhhuC2-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy discontinued" value="[ MAL - Pre-referral Rx with parentral artemisinin/ quinine derivatives at health facilities - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">PREREFERRAL_PAR_QN_ART_INJ_SUPP</td>
+			<td><input id="jexXrz9Cxbu-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - adopt" value="[ MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - adopt ]" /></td>
+			<td>
+			<div id="jexXrz9Cxbu_IMPL"><input id="KDpQmYQYlsW-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy implemented this year" value="[ MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="jexXrz9Cxbu_SINCE"><input id="Ayy9KULbWGx-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy since" value="[ MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="jexXrz9Cxbu_NOW"><input id="U0SLFojXPO4-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy implemented now" value="[ MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="jexXrz9Cxbu_DISC"><input id="gSpeOhdDBak-Xr12mI7VPn3-val" name="entryfield" title="MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy discontinued" value="[ MAL - Pre-referral treatment with quinine or artemether IM or artesunate suppositories - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_DOT_PQ</td>
+			<td><input id="HBn02tSFqfN-Xr12mI7VPn3-val" name="entryfield" title="MAL - Directly observed treatment with primaquine is undertaken - adopt" value="[ MAL - Directly observed treatment with primaquine is undertaken - adopt ]" /></td>
+			<td>
+			<div id="HBn02tSFqfN_IMPL"><input id="zhXjM9t5VMr-Xr12mI7VPn3-val" name="entryfield" title="MAL - Directly observed treatment with primaquine is undertaken - policy implemented this year" value="[ MAL - Directly observed treatment with primaquine is undertaken - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="HBn02tSFqfN_SINCE"><input id="t4oRh6EB4S8-Xr12mI7VPn3-val" name="entryfield" title="MAL - Directly observed treatment with primaquine is undertaken - policy since" value="[ MAL - Directly observed treatment with primaquine is undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="HBn02tSFqfN_NOW"><input id="mPVnnGMTNs2-Xr12mI7VPn3-val" name="entryfield" title="MAL - Directly observed treatment with primaquine is undertaken - policy implemented now" value="[ MAL - Directly observed treatment with primaquine is undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="HBn02tSFqfN_DISC"><input id="OShPwoZP6il-Xr12mI7VPn3-val" name="entryfield" title="MAL - Directly observed treatment with primaquine is undertaken - policy discontinued" value="[ MAL - Directly observed treatment with primaquine is undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_IPT</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IPTI_USED</td>
+			<td><input id="Xj8nWX2HkQG-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTi is used - adopt" value="[ MAL - IPTi is used - adopt ]" /></td>
+			<td>
+			<div id="Xj8nWX2HkQG_IMPL"><input id="fap0UwYTAjU-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTi is used - policy implemented this year" value="[ MAL - IPTi is used - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="Xj8nWX2HkQG_SINCE"><input id="oh5Qxv9TYsx-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTi is used - policy since" value="[ MAL - IPTi is used - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="Xj8nWX2HkQG_NOW"><input id="Q5xzplqImL1-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTi is used - policy implemented now" value="[ MAL - IPTi is used - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="Xj8nWX2HkQG_DISC"><input id="FsmAYoRmbEH-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTi is used - policy discontinued" value="[ MAL - IPTi is used - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IPTP_POLICY_2012_UPDATE</td>
+			<td><input id="VVOq1qQRozh-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - adopt" value="[ MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - adopt ]" /></td>
+			<td>
+			<div id="VVOq1qQRozh_IMPL"><input id="Mf3ICRzjDyw-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp policy has been updated following WHO‚Äôs IPTp policy recommendation - policy implemented this year" value="[ MAL - IPTp policy has been updated following WHO‚Äôs IPTp policy recommendation - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="VVOq1qQRozh_SINCE"><input id="PYZSNnU6Gph-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp policy has been updated following WHO‚Äôs IPTp policy recommendation - policy since" value="[ MAL - IPTp policy has been updated following WHO‚Äôs IPTp policy recommendation - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="VVOq1qQRozh_NOW"><input id="xBs136rXfwY-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - policy implemented now" value="[ MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="VVOq1qQRozh_DISC"><input id="tXPZLuXEFsq-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - policy discontinued" value="[ MAL - IPTp policy has been updated following WHO‚Äö√Ñ√¥s IPTp policy recommendation - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IPTP_USED_TO_PREVENT</td>
+			<td><input id="jnVcCWGqihW-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp used to prevent malaria during pregnancy - adopt" value="[ MAL - IPTp used to prevent malaria during pregnancy - adopt ]" /></td>
+			<td>
+			<div id="jnVcCWGqihW_IMPL"><input id="ZHeALbJT1tu-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp used to prevent malaria during pregnancy - policy implemented this year" value="[ MAL - IPTp used to prevent malaria during pregnancy - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="jnVcCWGqihW_SINCE"><input id="dZI3r5zehOg-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp used to prevent malaria during pregnancy - policy since" value="[ MAL - IPTp used to prevent malaria during pregnancy - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="jnVcCWGqihW_NOW"><input id="haNA2i5YxvN-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp used to prevent malaria during pregnancy - policy implemented now" value="[ MAL - IPTp used to prevent malaria during pregnancy - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="jnVcCWGqihW_DISC"><input id="qujudta3Pex-Xr12mI7VPn3-val" name="entryfield" title="MAL - IPTp used to prevent malaria during pregnancy - policy discontinued" value="[ MAL - IPTp used to prevent malaria during pregnancy - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_SMC_USED</td>
+			<td><input id="vkMV2g3kJ1g-Xr12mI7VPn3-val" name="entryfield" title="MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - adopt" value="[ MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - adopt ]" /></td>
+			<td>
+			<div id="vkMV2g3kJ1g_IMPL"><input id="m8eKnjxlGJL-Xr12mI7VPn3-val" name="entryfield" title="MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy implemented this year" value="[ MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="vkMV2g3kJ1g_SINCE"><input id="bf1dYW0jOSM-Xr12mI7VPn3-val" name="entryfield" title="MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy since" value="[ MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="vkMV2g3kJ1g_NOW"><input id="jJjiDnAXoxY-Xr12mI7VPn3-val" name="entryfield" title="MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy implemented now" value="[ MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="vkMV2g3kJ1g_DISC"><input id="Ah1iagfLmQb-Xr12mI7VPn3-val" name="entryfield" title="MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy discontinued" value="[ MAL - Seasonal malaria chemoprevention (SMC or IPTc) is used - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+		<tr>
+			<td class="trn" colspan="6" style="text-align: left; font-weight: bold;">LBL_SURVEILLANCE</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_NOTIFIABLE</td>
+			<td><input id="cmV3wJcGs4I-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria is a notifiable disease - adopt" value="[ MAL - Malaria is a notifiable disease - adopt ]" /></td>
+			<td>
+			<div id="cmV3wJcGs4I_IMPL"><input id="sLQSqJnsRdQ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria is a notifiable disease - policy implemented this year" value="[ MAL - Malaria is a notifiable disease - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="cmV3wJcGs4I_SINCE"><input id="ttkWtog3tiR-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria is a notifiable disease - policy since" value="[ MAL - Malaria is a notifiable disease - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="cmV3wJcGs4I_NOW"><input id="NcnExR16cUV-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria is a notifiable disease - policy implemented now" value="[ MAL - Malaria is a notifiable disease - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="cmV3wJcGs4I_DISC"><input id="EWyubrRmYrE-Xr12mI7VPn3-val" name="entryfield" title="MAL - Malaria is a notifiable disease - policy discontinued" value="[ MAL - Malaria is a notifiable disease - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RPRT_CASE_BASED</td>
+			<td><input id="nCI8KywrLcd-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level is aggregate - adopt" value="[ MAL - Reporting of cases to the national level is aggregate - adopt ]" /></td>
+			<td>
+			<div id="nCI8KywrLcd_IMPL"><input id="df6ccB8aaZ3-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level is aggregate - policy implemented" value="[ MAL - Reporting of cases to the national level is aggregate - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="nCI8KywrLcd_SINCE"><input id="rrOg5YMCsxE-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level is aggregate - policy since" value="[ MAL - Reporting of cases to the national level is aggregate - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="nCI8KywrLcd_NOW"><input id="CGcFRpi7mvP-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level is aggregate - policy implemented now" value="[ MAL - Reporting of cases to the national level is aggregate - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="nCI8KywrLcd_DISC"><input id="kqukN1EWgxf-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level is aggregate - policy discontinued" value="[ MAL - Reporting of cases to the national level is aggregate - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RPRT_AGGREGATE</td>
+			<td><input id="NPr5Na7DcQz-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level case based - adopt" value="[ MAL - Reporting of cases to the national level case based - adopt ]" /></td>
+			<td>
+			<div id="NPr5Na7DcQz_IMPL"><input id="crrBdyuqVrg-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level case based - policy implemented" value="[ MAL - Reporting of cases to the national level case based - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="NPr5Na7DcQz_SINCE"><input id="AInD4zCo4zR-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level case based - policy since" value="[ MAL - Reporting of cases to the national level case based - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="NPr5Na7DcQz_NOW"><input id="tDnZGTBHnKz-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level case based - policy implemented now" value="[ MAL - Reporting of cases to the national level case based - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="NPr5Na7DcQz_DISC"><input id="qUWxy2cDMgk-Xr12mI7VPn3-val" name="entryfield" title="MAL - Reporting of cases to the national level case based - policy discontinued" value="[ MAL - Reporting of cases to the national level case based - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_CASES_RPRT_MANDATORY</td>
+			<td><input id="OH42ETptS96-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case reporting from private sector is mandatory - adopt" value="[ MAL - Case reporting from private sector is mandatory - adopt ]" /></td>
+			<td>
+			<div id="OH42ETptS96_IMPL"><input id="dA9AshgLjjH-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case reporting from private sector is mandatory - policy implemented this year" value="[ MAL - Case reporting from private sector is mandatory - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="OH42ETptS96_SINCE"><input id="i5bcGsyGIzL-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case reporting from private sector is mandatory - policy since" value="[ MAL - Case reporting from private sector is mandatory - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="OH42ETptS96_NOW"><input id="hX5kxI4Mkb4-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case reporting from private sector is mandatory - policy implemented now" value="[ MAL - Case reporting from private sector is mandatory - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="OH42ETptS96_DISC"><input id="sqikPX7vTE4-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case reporting from private sector is mandatory - policy discontinued" value="[ MAL - Case reporting from private sector is mandatory - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_UNCOMP_PF_ADMITTED</td>
+			<td><input id="cO6vnCdT4tj-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. falciparum cases are routinely admitted - adopt" value="[ MAL - Uncomplicated P. falciparum cases are routinely admitted - adopt ]" /></td>
+			<td>
+			<div id="cO6vnCdT4tj_IMPL"><input id="e8A8G6KNWmM-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. falciparum cases are routinely admitted - policy implemented this year" value="[ MAL - Uncomplicated P. falciparum cases are routinely admitted - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="cO6vnCdT4tj_SINCE"><input id="KHmyC20WcAr-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. falciparum cases are routinely admitted - policy since" value="[ MAL - Uncomplicated P. falciparum cases are routinely admitted - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="cO6vnCdT4tj_NOW"><input id="kuZSCCSMMVB-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. falciparum cases are routinely admitted - policy implemented now" value="[ MAL - Uncomplicated P. falciparum cases are routinely admitted - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="cO6vnCdT4tj_DISC"><input id="EHwRPdPkIHT-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. falciparum cases are routinely admitted - policy discontinued" value="[ MAL - Uncomplicated P. falciparum cases are routinely admitted - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_UNCOMP_PV_ADMITTED</td>
+			<td><input id="lD0hUkeSlE6-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. vivax cases are routinely admitted - adopt" value="[ MAL - Uncomplicated P. vivax cases are routinely admitted - adopt ]" /></td>
+			<td>
+			<div id="lD0hUkeSlE6_IMPL"><input id="jH3PQmQbIw0-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. vivax cases are routinely admitted - policy implemented this year" value="[ MAL - Uncomplicated P. vivax cases are routinely admitted - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="lD0hUkeSlE6_SINCE"><input id="NZvyh0q8gjy-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. vivax cases are routinely admitted - policy since" value="[ MAL - Uncomplicated P. vivax cases are routinely admitted - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="lD0hUkeSlE6_NOW"><input id="oziRqANbkVS-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. vivax cases are routinely admitted - policy implemented now" value="[ MAL - Uncomplicated P. vivax cases are routinely admitted - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="lD0hUkeSlE6_DISC"><input id="zLVFuDdBxTP-Xr12mI7VPn3-val" name="entryfield" title="MAL - Uncomplicated P. vivax cases are routinely admitted - policy discontinued" value="[ MAL - Uncomplicated P. vivax cases are routinely admitted - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_INSECTICIDE_RESIST_MONIT</td>
+			<td><input id="P3RE2qDiS7n-Xr12mI7VPn3-val" name="entryfield" title="MAL - Insecticide resistance monitoring is undertaken  - adopt" value="[ MAL - Insecticide resistance monitoring is undertaken  - adopt ]" /></td>
+			<td>
+			<div id="P3RE2qDiS7n_IMPL"><input id="M3XOHsKwjxJ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Insecticide resistance monitoring is undertaken  - policy implemented this year" value="[ MAL - Insecticide resistance monitoring is undertaken  - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="P3RE2qDiS7n_SINCE"><input id="SbbEta60oWB-Xr12mI7VPn3-val" name="entryfield" title="MAL - Insecticide resistance monitoring is undertaken  - policy since" value="[ MAL - Insecticide resistance monitoring is undertaken  - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="P3RE2qDiS7n_NOW"><input id="t471xne4uE1-Xr12mI7VPn3-val" name="entryfield" title="MAL - Insecticide resistance monitoring is undertaken  - policy implemented now" value="[ MAL - Insecticide resistance monitoring is undertaken  - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="P3RE2qDiS7n_DISC"><input id="Fj5HRjN9aA3-Xr12mI7VPn3-val" name="entryfield" title="MAL - Insecticide resistance monitoring is undertaken  - policy discontinued" value="[ MAL - Insecticide resistance monitoring is undertaken  - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_LLIN_DURABILITY_MON</td>
+			<td><input id="m4bkYxbSCED-Xr12mI7VPn3-val" name="entryfield" title="MAL - LLIN durability is regularly monitored - adopt" value="[ MAL - LLIN durability is regularly monitored - adopt ]" /></td>
+			<td>
+			<div id="m4bkYxbSCED_IMPL"><input id="yQnhJmEzuJw-Xr12mI7VPn3-val" name="entryfield" title="MAL - LLIN durability is regularly monitored - policy implemented this year" value="[ MAL - LLIN durability is regularly monitored - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="m4bkYxbSCED_SINCE"><input id="uHOog71dclE-Xr12mI7VPn3-val" name="entryfield" title="MAL - LLIN durability is regularly monitored - policy since" value="[ MAL - LLIN durability is regularly monitored - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="m4bkYxbSCED_NOW"><input id="QMPIKtBjTwP-Xr12mI7VPn3-val" name="entryfield" title="MAL - LLIN durability is regularly monitored - policy implemented now" value="[ MAL - LLIN durability is regularly monitored - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="m4bkYxbSCED_DISC"><input id="yQ0n2kVLXiH-Xr12mI7VPn3-val" name="entryfield" title="MAL - LLIN durability is regularly monitored - policy discontinued" value="[ MAL - LLIN durability is regularly monitored - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_IRS_RESID_EFFIC_MON</td>
+			<td><input id="RYq4k5pS1hg-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS residual efficacy is regularly monitored - adopt" value="[ MAL - IRS residual efficacy is regularly monitored - adopt ]" /></td>
+			<td>
+			<div id="RYq4k5pS1hg_IMPL"><input id="sMF7QOp27QY-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS residual efficacy is regularly monitored - policy implemented this year" value="[ MAL - IRS residual efficacy is regularly monitored - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="RYq4k5pS1hg_SINCE"><input id="btpgTyr6xfj-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS residual efficacy is regularly monitored - policy since" value="[ MAL - IRS residual efficacy is regularly monitored - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="RYq4k5pS1hg_NOW"><input id="fvELUayURNw-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS residual efficacy is regularly monitored - policy implemented now" value="[ MAL - IRS residual efficacy is regularly monitored - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="RYq4k5pS1hg_DISC"><input id="hYHBA09jBG2-Xr12mI7VPn3-val" name="entryfield" title="MAL - IRS residual efficacy is regularly monitored - policy discontinued" value="[ MAL - IRS residual efficacy is regularly monitored - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="350px">POLICY</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_ADOPTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="50px">POLICY_SINCE</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">IMPLEMENTED_THIS_YEAR</td>
+			<td class="trn" style="text-align: center; font-weight: bold;" width="150px">POLICY_DISCONTINUED</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_NAT_IR_MON_MGMT_PLAN</td>
+			<td><input id="JdiTRWo6M4J-Xr12mI7VPn3-val" name="entryfield" title="MAL - National Insecticide Resistance Monitoring and Management Plan - adopt" value="[ MAL - National Insecticide Resistance Monitoring and Management Plan - adopt ]" /></td>
+			<td>
+			<div id="JdiTRWo6M4J_IMPL"><input id="g8esBUsVl2g-Xr12mI7VPn3-val" name="entryfield" title="MAL - National Insecticide Resistance Monitoring and Management Plan - policy implemented this year" value="[ MAL - National Insecticide Resistance Monitoring and Management Plan - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="JdiTRWo6M4J_SINCE"><input id="q2DWg3hYm9Q-Xr12mI7VPn3-val" name="entryfield" title="MAL - National Insecticide Resistance Monitoring and Management Plan - policy since" value="[ MAL - National Insecticide Resistance Monitoring and Management Plan - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="JdiTRWo6M4J_NOW"><input id="CccLkBGvsCd-Xr12mI7VPn3-val" name="entryfield" title="MAL - National Insecticide Resistance Monitoring and Management Plan - policy implemented now" value="[ MAL - National Insecticide Resistance Monitoring and Management Plan - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="JdiTRWo6M4J_DISC"><input id="gx42GBTDMyK-Xr12mI7VPn3-val" name="entryfield" title="MAL - National Insecticide Resistance Monitoring and Management Plan - policy discontinued" value="[ MAL - National Insecticide Resistance Monitoring and Management Plan - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_TES_MONIT_UNDERTAKEN</td>
+			<td><input id="XrnPNV1b70D-Xr12mI7VPn3-val" name="entryfield" title="MAL - Therapeutic efficacy monitoring is undertaken - adopt" value="[ MAL - Therapeutic efficacy monitoring is undertaken - adopt ]" /></td>
+			<td>
+			<div id="XrnPNV1b70D_IMPL"><input id="eWjwshZorEK-Xr12mI7VPn3-val" name="entryfield" title="MAL - Therapeutic efficacy monitoring is undertaken - policy implemented this year" value="[ MAL - Therapeutic efficacy monitoring is undertaken - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="XrnPNV1b70D_SINCE"><input id="qCLFL3NxBQT-Xr12mI7VPn3-val" name="entryfield" title="MAL - Therapeutic efficacy monitoring is undertaken - policy since" value="[ MAL - Therapeutic efficacy monitoring is undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="XrnPNV1b70D_NOW"><input id="MvaM8cvWzho-Xr12mI7VPn3-val" name="entryfield" title="MAL - Therapeutic efficacy monitoring is undertaken - policy implemented now" value="[ MAL - Therapeutic efficacy monitoring is undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="XrnPNV1b70D_DISC"><input id="vBR2G1D4upc-Xr12mI7VPn3-val" name="entryfield" title="MAL - Therapeutic efficacy monitoring is undertaken - policy discontinued" value="[ MAL - Therapeutic efficacy monitoring is undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_SYS_MONIT_ADVERSE_REACTIONS</td>
+			<td><input id="IcAzwmTb76p-Xr12mI7VPn3-val" name="entryfield" title="MAL - System for monitoring of adverse reaction to antimalarials exists - adopt" value="[ MAL - System for monitoring of adverse reaction to antimalarials exists - adopt ]" /></td>
+			<td>
+			<div id="IcAzwmTb76p_IMPL"><input id="AC9S95GmtOO-Xr12mI7VPn3-val" name="entryfield" title="MAL - System for monitoring of adverse reaction to antimalarials exists - policy implemented this year" value="[ MAL - System for monitoring of adverse reaction to antimalarials exists - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="IcAzwmTb76p_SINCE"><input id="yCTGT2evVYr-Xr12mI7VPn3-val" name="entryfield" title="MAL - System for monitoring of adverse reaction to antimalarials exists - policy since" value="[ MAL - System for monitoring of adverse reaction to antimalarials exists - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="IcAzwmTb76p_NOW"><input id="kjPMBhJL0Cj-Xr12mI7VPn3-val" name="entryfield" title="MAL - System for monitoring of adverse reaction to antimalarials exists - policy implemented now" value="[ MAL - System for monitoring of adverse reaction to antimalarials exists - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="IcAzwmTb76p_DISC"><input id="G0K6VV33VDe-Xr12mI7VPn3-val" name="entryfield" title="MAL - System for monitoring of adverse reaction to antimalarials exists - policy discontinued" value="[ MAL - System for monitoring of adverse reaction to antimalarials exists - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_MASS_SCRNG</td>
+			<td><input id="YVHoYyOh65u-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD for mass screening (including non-febrile) - adopt" value="[ MAL - ACD for mass screening (including non-febrile) - adopt ]" /></td>
+			<td>
+			<div id="YVHoYyOh65u_IMPL"><input id="t7abky7P2vW-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD for mass screening (including non-febrile) - policy implemented this year" value="[ MAL - ACD for mass screening (including non-febrile) - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="YVHoYyOh65u_SINCE"><input id="hW9fBorFC8F-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD for mass screening (including non-febrile) - policy since" value="[ MAL - ACD for mass screening (including non-febrile) - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="YVHoYyOh65u_NOW"><input id="yftwRrUC8Ls-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD for mass screening (including non-febrile) - policy implemented now" value="[ MAL - ACD for mass screening (including non-febrile) - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="YVHoYyOh65u_DISC"><input id="LUCrwuDHFmZ-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD for mass screening (including non-febrile) - policy discontinued" value="[ MAL - ACD for mass screening (including non-febrile) - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ACD_REACTIV_RESPONSE</td>
+			<td><input id="c0kojhDq27P-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD in response to passively detected case (reactive) - adopt" value="[ MAL - ACD in response to passively detected case (reactive) - adopt ]" /></td>
+			<td>
+			<div id="c0kojhDq27P_IMPL"><input id="Nkv7Wacx0jR-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD in response to passively detected case (reactive) - policy implemented this year" value="[ MAL - ACD in response to passively detected case (reactive) - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="c0kojhDq27P_SINCE"><input id="qJdINzqpp2n-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD in response to passively detected case (reactive) - policy since" value="[ MAL - ACD in response to passively detected case (reactive) - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="c0kojhDq27P_NOW"><input id="JmTQMI5kx9u-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD in response to passively detected case (reactive) - policy implemented now" value="[ MAL - ACD in response to passively detected case (reactive) - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="c0kojhDq27P_DISC"><input id="ooqolQKMQDd-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD in response to passively detected case (reactive) - policy discontinued" value="[ MAL - ACD in response to passively detected case (reactive) - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_ACD_FEBR_COMM</td>
+			<td><input id="qd7Gk3XiUZb-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD of febrile cases at community level (pro-active) - adopt" value="[ MAL - ACD of febrile cases at community level (pro-active) - adopt ]" /></td>
+			<td>
+			<div id="qd7Gk3XiUZb_IMPL"><input id="rTDNngUcDnd-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="qd7Gk3XiUZb_SINCE"><input id="h3A7CjBzIfs-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD of febrile cases at community level (pro-active) - policy since" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="qd7Gk3XiUZb_NOW"><input id="fvGcXcgMPZY-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD of febrile cases at community level (pro-active) - policy implemented now" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="qd7Gk3XiUZb_DISC"><input id="GwLGbdLCN0q-Xr12mI7VPn3-val" name="entryfield" title="MAL - ACD of febrile cases at community level (pro-active) - policy discontinued" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_FOCI_INVEST_UNDERTAKEN</td>
+			<td><input id="WlinYsETMHm-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci investigation undertaken - adopt" value="[ MAL - Foci investigation undertaken - adopt ]" /></td>
+			<td>
+			<div id="WlinYsETMHm_IMPL"><input id="ResSID6ylaB-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci investigation undertaken - policy implemented" value="[ MAL - Foci investigation undertaken - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="WlinYsETMHm_SINCE"><input id="vK6l48R26nF-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci investigation undertaken - policy since" value="[ MAL - Foci investigation undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="WlinYsETMHm_NOW"><input id="PX06zlhP72R-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci investigation undertaken - policy implemented now" value="[ MAL - Foci investigation undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="WlinYsETMHm_DISC"><input id="iULVtIg5elG-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci investigation undertaken - policy discontinued" value="[ MAL - Foci investigation undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_CASE_INVEST_UNDERTAKEN</td>
+			<td><input id="tjHjmTfEGNl-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case investigation undertaken - adopt" value="[ MAL - Case investigation undertaken - adopt ]" /></td>
+			<td>
+			<div id="tjHjmTfEGNl_IMPL"><input id="O81a2TpBWau-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case investigation undertaken - policy implemented" value="[ MAL - Case investigation undertaken - policy implemented ]" /></div>
+			</td>
+			<td>
+			<div id="tjHjmTfEGNl_SINCE"><input id="uBPnlwBtl7r-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case investigation undertaken - policy since" value="[ MAL - Case investigation undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="tjHjmTfEGNl_NOW"><input id="toNku6ySXk4-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case investigation undertaken - policy implemented now" value="[ MAL - Case investigation undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="tjHjmTfEGNl_DISC"><input id="BKFcemI9hjS-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case investigation undertaken - policy discontinued" value="[ MAL - Case investigation undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_CASE_CLASS_UNDERTAKE</td>
+			<td><input id="TNVYRWpQGjW-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case classification undertaken - adopt" value="[ MAL - Case classification undertaken - adopt ]" /></td>
+			<td>
+			<div id="TNVYRWpQGjW_IMPL"><input id="QdEWfZIaXhO-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case classification undertaken - policy implemented this year" value="[ MAL - Case classification undertaken - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="TNVYRWpQGjW_SINCE"><input id="qxwTiXmIuXe-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case classification undertaken - policy since" value="[ MAL - Case classification undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="TNVYRWpQGjW_NOW"><input id="dhTtzvnNgnZ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case classification undertaken - policy implemented now" value="[ MAL - Case classification undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="TNVYRWpQGjW_DISC"><input id="yUQHQdfOXHC-Xr12mI7VPn3-val" name="entryfield" title="MAL - Case classification undertaken - policy discontinued" value="[ MAL - Case classification undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_FOCI_CLASS_UNDERTAKE</td>
+			<td><input id="nTnYdwVIxuA-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci classification undertaken - adopt" value="[ MAL - Foci classification undertaken - adopt ]" /></td>
+			<td>
+			<div id="nTnYdwVIxuA_IMPL"><input id="Hd46aPFN7yJ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci classification undertaken - policy implemented this year" value="[ MAL - Foci classification undertaken - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="nTnYdwVIxuA_SINCE"><input id="NilcuvQ9TBJ-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci classification undertaken - policy since" value="[ MAL - Foci classification undertaken - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="nTnYdwVIxuA_NOW"><input id="mRpS6mENbUw-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci classification undertaken - policy implemented now" value="[ MAL - Foci classification undertaken - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="nTnYdwVIxuA_DISC"><input id="u1RRAbdCErK-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci classification undertaken - policy discontinued" value="[ MAL - Foci classification undertaken - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_NAT_REF_LABS</td>
+			<td><input id="yGBVWQvROG5-Xr12mI7VPn3-val" name="entryfield" title="National reference laboratory is internationally certified - adopt" value="[ National reference laboratory is internationally certified - adopt ]" /></td>
+			<td>
+			<div id="yGBVWQvROG5_IMPL"><input id="qWsWn7M1bPN-Xr12mI7VPn3-val" name="entryfield" title="MAL - National reference laboratory is internationally certified - policy implemented this year" value="[ MAL - National reference laboratory is internationally certified - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="yGBVWQvROG5_SINCE"><input id="vavn59onPeR-Xr12mI7VPn3-val" name="entryfield" title="MAL - National reference laboratory is internationally certified - policy since" value="[ MAL - National reference laboratory is internationally certified - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="yGBVWQvROG5_NOW"><input id="oBKJW2ep82G-Xr12mI7VPn3-val" name="entryfield" title="National reference laboratory is internationally certified - policy implemented now" value="[ National reference laboratory is internationally certified - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="yGBVWQvROG5_DISC"><input id="zjp7fQjwWaa-Xr12mI7VPn3-val" name="entryfield" title="National reference laboratory is internationally certified - policy discontinued" value="[ National reference laboratory is internationally certified - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_NAT_QUALITY_ASSURANCE_LABS</td>
+			<td><input id="daprCGceyb0-Xr12mI7VPn3-val" name="entryfield" title="MAL - Quality assurance oversight by national reference laboratory - adopt" value="[ MAL - Quality assurance oversight by national reference laboratory - adopt ]" /></td>
+			<td>
+			<div id="daprCGceyb0_IMPL"><input id="GFANFeQJ9yV-Xr12mI7VPn3-val" name="entryfield" title="MAL - Quality assurance oversight by national reference laboratory - policy implemented this year" value="[ MAL - Quality assurance oversight by national reference laboratory - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="daprCGceyb0_SINCE"><input id="HIbMBtGuSPG-Xr12mI7VPn3-val" name="entryfield" title="MAL - Quality assurance oversight by national reference laboratory - policy since" value="[ MAL - Quality assurance oversight by national reference laboratory - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="daprCGceyb0_NOW"><input id="GD4BwWpzr8E-Xr12mI7VPn3-val" name="entryfield" title="MAL - Quality assurance oversight by national reference laboratory - policy implemented now" value="[ MAL - Quality assurance oversight by national reference laboratory - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="daprCGceyb0_DISC"><input id="mJP8CaKiGlM-Xr12mI7VPn3-val" name="entryfield" title="MAL - Quality assurance oversight by national reference laboratory - policy discontinued" value="[ MAL - Quality assurance oversight by national reference laboratory - policy discontinued ]" /></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="trn">MAL_RESPONSE_TEAMS_EXISTS</td>
+			<td><input id="ZqsaRcmfIVh-Xr12mI7VPn3-val" name="entryfield" title="MAL - Response teams exist, or are formed when needed, to respond to malaria cases - adopt" value="[ MAL - Response teams exist, or are formed when needed, to respond to malaria cases - adopt ]" /></td>
+			<td>
+			<div id="ZqsaRcmfIVh_IMPL"><input id="q0xSOb0q81g-Xr12mI7VPn3-val" name="entryfield" title="MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy implemented this year" value="[ MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy implemented this year ]" /></div>
+			</td>
+			<td>
+			<div id="ZqsaRcmfIVh_SINCE"><input id="fcRi61ExG13-Xr12mI7VPn3-val" name="entryfield" title="MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy since" value="[ MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy since ]" /></div>
+			</td>
+			<td>
+			<div id="ZqsaRcmfIVh_NOW"><input id="NiH7engQGKs-Xr12mI7VPn3-val" name="entryfield" title="MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy implemented now" value="[ MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy implemented now ]" /></div>
+			</td>
+			<td>
+			<div id="ZqsaRcmfIVh_DISC"><input id="GeDjXzvcjFj-Xr12mI7VPn3-val" name="entryfield" title="MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy discontinued" value="[ MAL - Response teams exist, or are formed when needed, to respond to malaria cases - policy discontinued ]" /></div>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</div>
