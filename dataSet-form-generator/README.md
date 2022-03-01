@@ -1,4 +1,4 @@
-Generate custom forms for DHIS2 WHO Hepatitis data sets.
+Generate custom forms for DHIS2 WHO Hepatitis and subnational single entry data sets.
 
 ## Setup
 
@@ -14,6 +14,7 @@ Example:
 ```
 $ node lib/cli.js --url='https://admin:district@play.dhis2.org/2.30' --dataset-id='id' --module='hepatitis'
 $ node lib/cli.js --url='https://admin:district@play.dhis2.org/2.30' --dataset-id='id' --module='snakebite'
+$ node lib/cli.js --url=‘https://admin:district@play.dhis2.org/2.30’ --dataset-id=‘id’ --module=‘module1_subnational_single_entry’
 ```
 
 You can also run code directly from sources using [ts-node](https://www.npmjs.com/package/ts-node):
