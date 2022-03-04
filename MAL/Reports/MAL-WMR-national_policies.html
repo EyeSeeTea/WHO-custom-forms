@@ -136,7 +136,8 @@ function addCheckboxTooltip($otherDiv)
 {
   $otherDiv.addClass("tooltip");
   if ( $otherDiv.find('.tooltiptext').length === 0 ) {
-    $otherDiv.find('img').after("<span class=\"tooltiptext\">Fields \"implemented this year\" and \"Discontinued\" are mutually exclusive.</span>");
+    $otherDiv.find('img').after("<span class=\"trn tooltiptext\">ITY_AND_PD_TOOLTIP</span>");
+    translator.lang(global.currentUILanguage);
   }
 }
 
@@ -851,7 +852,13 @@ var dict = {
     fr: "Le PID et MII/MILD sont déployés ensemble dans certaines zones.",
     es: "La RIR y MTI/MTILDs se despliegan juntos en algunas zonas.",
     pt: "BRI e MILDs estão implantados em conjunto em algumas áreas"
-    }
+  },
+  "ITY_AND_PD_TOOLTIP": {
+    en: "Fields \"Implemented this year\" and \"Policy discontinued\" are mutually exclusive.",
+    fr: "Les champs \"Mise en œuvre cette année\" et \"Politique abandonnée\" s'excluent mutuellement.",
+    es: "Los campos \"Implementado este año\" y \"Política descontinuada\" son mutuamente excluyentes.",
+    pt: "Os campos \"Implementado este ano\" e \"Política Descontinuada\" são mutuamente exclusivos."
+  }
 }
 
   var translator = $('body').translate({lang: global.UILanguage, t: dict}); //use English
