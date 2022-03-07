@@ -136,7 +136,8 @@ function addCheckboxTooltip($otherDiv)
 {
   $otherDiv.addClass("tooltip");
   if ( $otherDiv.find('.tooltiptext').length === 0 ) {
-    $otherDiv.find('img').after("<span class=\"tooltiptext\">Fields \"implemented this year\" and \"Discontinued\" are mutually exclusive.</span>");
+    $otherDiv.find('img').after("<span class=\"trn tooltiptext\">ITY_AND_PD_TOOLTIP</span>");
+    translator.lang(global.currentUILanguage);
   }
 }
 
@@ -152,11 +153,10 @@ function disableConflictingCheckboxes()
     $("div[id$='_NOW']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
       var $otherDiv = $('#' + $$otherDivId);
-      var $yesLabel = $(this).find("label:contains('Yes')")
-      if ($yesLabel.find("input").is(':checked')) {
+      if ($(this).find("input[value='true']").is(':checked')) {
         $otherDiv.find("input").each(function(i){
-          $(this).attr('disabled', true);
           $(this).prop('checked', false);
+          $(this).attr('disabled', true);
         });
         $otherDiv.parent().css( "background-color", "grey" );
         addCheckboxTooltip($otherDiv);
@@ -172,11 +172,10 @@ function disableConflictingCheckboxes()
     $("div[id$='_DISC']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
       var $otherDiv = $('#' + $$otherDivId);
-      var $yesLabel = $(this).find("label:contains('Yes')")
-      if ($yesLabel.find("input").is(':checked')) {
+      if ($(this).find("input[value='true']").is(':checked')) {
         $otherDiv.find("input").each(function(i){
-          $(this).attr('disabled', true);
           $(this).prop('checked', false);
+          $(this).attr('disabled', true);
         });
         $otherDiv.parent().css( "background-color", "grey" );
         addCheckboxTooltip($otherDiv);
@@ -193,11 +192,10 @@ function disableConflictingCheckboxes()
   $("div[id$='_NOW']").click(function() {
     var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
     var $otherDiv = $('#' + $$otherDivId);
-    var $yesLabel = $(this).find("label:contains('Yes')")
-    if ($yesLabel.find("input").is(':checked')) {
+    if ($(this).find("input[value='true']").is(':checked')) {
       $otherDiv.find("input").each(function(i){
-        $(this).attr('disabled', true);
         $(this).prop('checked', false);
+        $(this).attr('disabled', true);
       });
       $otherDiv.parent().css( "background-color", "grey" );
       addCheckboxTooltip($otherDiv);
@@ -213,11 +211,10 @@ function disableConflictingCheckboxes()
   $("div[id$='_DISC']").click(function() {
     var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
     var $otherDiv = $('#' + $$otherDivId);
-    var $yesLabel = $(this).find("label:contains('Yes')")
-    if ($yesLabel.find("input").is(':checked')) {
+    if ($(this).find("input[value='true']").is(':checked')) {
       $otherDiv.find("input").each(function(i){
-        $(this).attr('disabled', true);
         $(this).prop('checked', false);
+        $(this).attr('disabled', true);
       });
       $otherDiv.parent().css( "background-color", "grey" );
       addCheckboxTooltip($otherDiv);
@@ -851,7 +848,13 @@ var dict = {
     fr: "Le PID et MII/MILD sont déployés ensemble dans certaines zones.",
     es: "La RIR y MTI/MTILDs se despliegan juntos en algunas zonas.",
     pt: "BRI e MILDs estão implantados em conjunto em algumas áreas"
-    }
+  },
+  "ITY_AND_PD_TOOLTIP": {
+    en: "Fields \"Implemented this year\" and \"Policy discontinued\" are mutually exclusive.",
+    fr: "Les champs \"Mise en œuvre cette année\" et \"Politique abandonnée\" s'excluent mutuellement.",
+    es: "Los campos \"Implementado este año\" y \"Política descontinuada\" son mutuamente excluyentes.",
+    pt: "Os campos \"Implementado este ano\" e \"Política Descontinuada\" são mutuamente exclusivos."
+  }
 }
 
   var translator = $('body').translate({lang: global.UILanguage, t: dict}); //use English
