@@ -153,11 +153,10 @@ function disableConflictingCheckboxes()
     $("div[id$='_NOW']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
       var $otherDiv = $('#' + $$otherDivId);
-      var $yesLabel = $(this).find("label:contains('Yes')")
-      if ($yesLabel.find("input").is(':checked')) {
+      if ($(this).find("input[value='true']").is(':checked')) {
         $otherDiv.find("input").each(function(i){
-          $(this).attr('disabled', true);
           $(this).prop('checked', false);
+          $(this).attr('disabled', true);
         });
         $otherDiv.parent().css( "background-color", "grey" );
         addCheckboxTooltip($otherDiv);
@@ -173,11 +172,10 @@ function disableConflictingCheckboxes()
     $("div[id$='_DISC']").each(function() {
       var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
       var $otherDiv = $('#' + $$otherDivId);
-      var $yesLabel = $(this).find("label:contains('Yes')")
-      if ($yesLabel.find("input").is(':checked')) {
+      if ($(this).find("input[value='true']").is(':checked')) {
         $otherDiv.find("input").each(function(i){
-          $(this).attr('disabled', true);
           $(this).prop('checked', false);
+          $(this).attr('disabled', true);
         });
         $otherDiv.parent().css( "background-color", "grey" );
         addCheckboxTooltip($otherDiv);
@@ -194,11 +192,10 @@ function disableConflictingCheckboxes()
   $("div[id$='_NOW']").click(function() {
     var $$otherDivId = $(this).attr('id').replace("_NOW", "_DISC");
     var $otherDiv = $('#' + $$otherDivId);
-    var $yesLabel = $(this).find("label:contains('Yes')")
-    if ($yesLabel.find("input").is(':checked')) {
+    if ($(this).find("input[value='true']").is(':checked')) {
       $otherDiv.find("input").each(function(i){
-        $(this).attr('disabled', true);
         $(this).prop('checked', false);
+        $(this).attr('disabled', true);
       });
       $otherDiv.parent().css( "background-color", "grey" );
       addCheckboxTooltip($otherDiv);
@@ -214,11 +211,10 @@ function disableConflictingCheckboxes()
   $("div[id$='_DISC']").click(function() {
     var $$otherDivId = $(this).attr('id').replace("_DISC", "_NOW");
     var $otherDiv = $('#' + $$otherDivId);
-    var $yesLabel = $(this).find("label:contains('Yes')")
-    if ($yesLabel.find("input").is(':checked')) {
+    if ($(this).find("input[value='true']").is(':checked')) {
       $otherDiv.find("input").each(function(i){
-        $(this).attr('disabled', true);
         $(this).prop('checked', false);
+        $(this).attr('disabled', true);
       });
       $otherDiv.parent().css( "background-color", "grey" );
       addCheckboxTooltip($otherDiv);
