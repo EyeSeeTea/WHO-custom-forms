@@ -4507,18 +4507,18 @@
     function getSectorReportingVar() {
         var orgUnitID = dhis2.de.getCurrentOrganisationUnit();
         var period = $('#selectedPeriodId').val();
-        var dataIDs = "g9uodNzwyRp";
+        var dataSetID = $('#selectedDataSetId').val();
+        var dataID = "g9uodNzwyRp";
         var s;
-        $.getJSON(global.relativeURL + "/analytics?dimension=dx:" + dataIDs + "&dimension=pe:" + period + "&filter=ou:" + orgUnitID + "&skipRounding=true", function (json) {
-            for (var i = 0; i < json.rows.length; i++) {
-                dataValueID = json.rows[i][0];
-                dataValue = json.rows[i][2];
-                s = dataValue;
+
+        $.getJSON(global.relativeURL + `/dataValueSets?orgUnit=${orgUnitID}&period=${period}&dataSet=${dataSetID}`, function (json) {
+            const dataValue = json.dataValues.find(dataValue => dataValue.dataElement === dataID);
+            if (dataValue) {
+                s = dataValue.value;
             }
         })
             .done(function () {
                 Toggle_WhichDataCompiledTogether(ObjId.WhichDataCompiledTogether, s);
-
             })
             .fail(function () {
             })
@@ -5062,7 +5062,6 @@
     }
 
     function Toggle_WhichDataCompiledTogether(n, v) {
-
         var sReportingCombination = "()";
 
         if (v == undefined) {
@@ -6900,7 +6899,8 @@
                         <span style="font-size: 12px;"> <input id="SN2jwmvCDSs-Xr12mI7VPn3-val" name="entryfield"
                                 title="MAL - PARAM - Exact Micr/RDT double counting figures are known - Combined"
                                 value="[ MAL - PARAM - Exact Micr/RDT double counting figures are known - Combined ]" />
-                        </span></div>
+                        </span>
+                    </div>
                 </div>
 
                 <div id="ExactDoubleCountedFigures_Combined" style="display:none;">
@@ -10082,7 +10082,8 @@
             <div class="question"><span class="question trn">LBL_IS_SEASONAL_MALARIA_CHEMOPREVENTION_CARRIED_OUT</span>
                 <span style="font-size: 12px;"> <input id="gcwfnHj02B8-Xr12mI7VPn3-val" name="entryfield"
                         title="MAL - Is Seasonal malaria chemoprophylaxis is carried out"
-                        value="[ MAL - Is Seasonal malaria chemoprophylaxis is carried out ]" /> </span></div>
+                        value="[ MAL - Is Seasonal malaria chemoprophylaxis is carried out ]" /> </span>
+            </div>
         </div>
     </div>
 
@@ -10290,7 +10291,8 @@
             <div class="question"><span class="question trn">LBL_IS_MASS_DRUG_ADMINISTRATION_MDA_CARRIED_OUT</span>
                 <span style="font-size: 12px;"> <input id="iFOJ97FjYo7-Xr12mI7VPn3-val" name="entryfield"
                         title="MAL - Is Mass Drug Administration (MDA) carried out"
-                        value="[ MAL - Is Mass Drug Administration (MDA) carried out ]" /> </span></div>
+                        value="[ MAL - Is Mass Drug Administration (MDA) carried out ]" /> </span>
+            </div>
         </div>
     </div>
 
