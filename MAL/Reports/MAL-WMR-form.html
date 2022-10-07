@@ -4201,6 +4201,7 @@ function updateImages(strLang){
       getSectorReportingVar();
 
       sendMonitoringNotification();
+      updateReportBaseQuery();
       
       document.getElementById("defaultOpen").click();
 
@@ -4210,8 +4211,8 @@ function updateImages(strLang){
   );
 
 function getSectorReportingVar() {
-    var orgUnitID = dhis2.de.getCurrentOrganisationUnit();
-    var period = $('#selectedPeriodId').val();
+  var orgUnitID = dhis2.de.getCurrentOrganisationUnit();
+  var period = $('#selectedPeriodId').val();
   var dataIDs = "g9uodNzwyRp";
   var s;
   console.log ("orgUnitID: "+orgUnitID);
@@ -4223,7 +4224,7 @@ function getSectorReportingVar() {
       s=dataValue;
   })
   .done(function() {
-      Toggle_WhichDataCompiledTogether(ObjId.WhichDataCompiledTogether, s);
+    Toggle_WhichDataCompiledTogether(ObjId.WhichDataCompiledTogether, s);
   })
   .fail(function() {
   })
@@ -4301,27 +4302,69 @@ function sendMonitoringNotification() {
       users: malDataNotificationUsers,
     };
 
-      if (monitoring == true) {
-        $('input').on('keyup', function(e) { 
-          if (e.key === 'Enter' || e.keyCode === 13) {
-            $.post({
-              url: "../api/messageConversations",
-              type: "POST",
-              contentType: 'application/json',
-              dataType: 'json',
-              data: JSON.stringify(data)
-            })
-            .done((data, status) => {
-              console.log(data, status);
-            });
-          }
-       })
-     }
+    if (monitoring == true) {
+      $('input').on('keyup', function(e) { 
+        if (e.key === 'Enter' || e.keyCode === 13) {
+          $.post({
+            url: "../api/messageConversations",
+            type: "POST",
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data)
+          })
+          .done((data, status) => {
+            console.log(data, status);
+          });
+        }
+      })
+    }
   })
   .done(function() {
   });
 }
 
+function updateReportBaseQuery() {
+  var dataSet = $('#selectedDataSetId').val();
+  var period = $('#selectedPeriodId').val();
+  var initialDataValuesLength = 0;
+
+  var params = {
+    periodId : period,
+    dataSetId : dataSet,
+    organisationUnitId : dhis2.de.getCurrentOrganisationUnit(),
+    multiOrganisationUnit: dhis2.de.multiOrganisationUnit
+  };
+
+  $.ajax({
+    url: 'getDataValues.action',
+    data: params,
+    dataType: 'json'
+  }).done(function(data) {
+    initialDataValuesLength = data.dataValues.length;
+  })
+
+  $('input').on('keyup', function(e) { 
+    if (e.key === 'Enter' || e.keyCode === 13) {
+      $.ajax({
+        url: 'getDataValues.action',
+        data: params,
+        dataType: 'json'
+      }).done(function(data) {
+        if (initialDataValuesLength === 0 || data.dataValues.length === 0) {
+          $.post({
+            url: "../api/29/sqlViews/yitaKbsaxJR/execute",
+            type: "POST",
+            contentType: 'application/json',
+            dataType: 'json',
+          })
+          .done((data, status) => {
+            console.log(data, status);
+          });
+        }
+      });
+    }
+  })
+}
 
 function TriggerRadioButtons(){
     $('input[name="'+ ObjId.IsMicrRDTDoubleCounting_Combined +'"]:checked').change();
