@@ -642,7 +642,7 @@ var dict = {
   "LBL_FORM_NOTE_2": {
    en: "There are some Yes/No' questions that will display additional questions on the form to be answered when 'Yes' is selected.",
   fr: "Il y a quelques questions avec les réponse «Oui/Non»,lorsque la réponse 'Oui' est sélectionné,il y aura d'autres questions supplémentaires à répondre qui s'afficheront sur le formulaire.",
-  es: "Hay algunas preguntas de 'Si/No' que despliegan preguntas adicionales en el formulario que deben responderse cuando se selecciona “si”.",
+  es: "Hay algunas preguntas de 'Si/No' que despliegan preguntas adicionales en el formulario que deben responderse cuando se selecciona 'si'.",
   pt: "Existesm algumas perguntas de 'Sim/Não' que aparecerão perguntas adicionais no formulário, que devem ser respondidas quando se seleciona 'Sim'"},
   "LBL_FORM_NOTE_3": {
    en: "These questions have 'Yes','No' and a third option 'No value'. 'No value'indicates that no answer is provided,the answer is not known, information is not available or your previous answer to this question should be removed.",
@@ -2850,7 +2850,7 @@ var dict = {
       pt: "(Detecção pelos profissionais de saúde de casos de paludismo a nível comunitário e doméstico, por vezes em grupos populacionais considerados de alto risco. A detecção activa de casos pode consistir no rastreio da febre seguido de exame parasitológico de todos os doentes febris ou como exame parasitológico da população alvo sem rastreio prévio da febre. Números de detecção de casos activos  <B>estão incluídos</B> em <B>laboratório</B> números"
   },
   "LBL_ACTIVE_CASE_DETECTION_DEF_NOTE": {
-    en: "Note: Active case detection may be undertaken in response to a confirmed case or cluster of cases, in which a population potentially linked to such cases is screened and tested (referred to as “reactive case detection”), or it may be undertaken in high-risk groups  not prompted by detection of cases (referred to as “proactive case detection”).",
+    en: "Note: Active case detection may be undertaken in response to a confirmed case or cluster of cases, in which a population potentially linked to such cases is screened and tested (referred to as 'reactive case detection'), or it may be undertaken in high-risk groups  not prompted by detection of cases (referred to as 'proactive case detection').",
       fr: "Note : La détection active des cas peut être entreprise en réponse à un cas confirmé ou à un groupe de cas dans lequel une population potentiellement liée à ces cas est dépistée et testée (appelée 'détection réactive des cas') ou elle peut être entreprise dans des groupes à haut risque qui ne sont pas incités par la détection des cas (appelée 'détection proactive des cas'.",
       es: "Nota: La detección activa de casos puede llevarse a cabo en respuesta a un caso confirmado o a un grupo de casos en el que se examina y analiza a una población potencialmente vinculada a dichos casos (denominada 'detección reactiva de casos') o puede llevarse a cabo en grupos de alto riesgo no motivados por la detección de casos (denominada 'detección proactiva de casos').",
       pt: "Nota: A detecção activa de casos pode ser realizada em resposta a um caso confirmado ou a um conjunto de casos em que uma população potencialmente ligada a tais casos é rastreada e testada (referida como 'detecção de casos reactivos') ou pode ser realizada em grupos de alto risco não provocados pela detecção de casos (referida como 'detecção de casos proactivos').",
@@ -4125,10 +4125,10 @@ function updateImages(strLang){
     
 
     $('.ESgGpWE6H5z-Xr12mI7VPn3_OtherSoucreMgmtSelect').val(arr);
-    $('.ESgGpWE6H5z-Xr12mI7VPn3_OtherSoucreMgmtSelect').trigger('change'); // Notify any JS components that the value changed
+    // $('.ESgGpWE6H5z-Xr12mI7VPn3_OtherSoucreMgmtSelect').trigger('change'); // Notify any JS components that the value changed
 
 
-    TriggerRadioButtons();
+    // TriggerRadioButtons();
 
 
     //Trigger Toggle_WhichDataCompiledTogether
@@ -4211,8 +4211,8 @@ function updateImages(strLang){
   );
 
 function getSectorReportingVar() {
-  var orgUnitID = dhis2.de.getCurrentOrganisationUnit();
-  var period = $('#selectedPeriodId').val();
+    var orgUnitID = dhis2.de.getCurrentOrganisationUnit();
+    var period = $('#selectedPeriodId').val();
   var dataIDs = "g9uodNzwyRp";
   var s;
   console.log ("orgUnitID: "+orgUnitID);
@@ -4221,10 +4221,11 @@ function getSectorReportingVar() {
   $.getJSON( global.relativeURL + "/dataValues.json?de=" + dataIDs + "&pe=" + period + "&ou=" + orgUnitID, function(json) {
     if (json.length >0)
       dataValue=json[0];
+console.log(dataValue)
       s=dataValue;
   })
   .done(function() {
-    Toggle_WhichDataCompiledTogether(ObjId.WhichDataCompiledTogether, s);
+      Toggle_WhichDataCompiledTogether(ObjId.WhichDataCompiledTogether, s);
   })
   .fail(function() {
   })
@@ -4302,21 +4303,9 @@ function sendMonitoringNotification() {
       users: malDataNotificationUsers,
     };
 
-    if (monitoring === true) {
-      $('input').change(function() {
-        if ($('input').focusout()) {
-          $.post({
-            url: "../api/messageConversations",
-            type: "POST",
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data)
-          })
-          .done((data, status) => {
-            console.log(data, status);
-          });
-        } else if ($('input').keyup(e)) {
-          if (e.key === 'Enter' || e.keyCode === 13) {
+      if (monitoring === true) {
+        $('input').change(function() {
+          if ($('input').focusout()) {
             $.post({
             url: "../api/messageConversations",
             type: "POST",
@@ -4327,10 +4316,22 @@ function sendMonitoringNotification() {
           .done((data, status) => {
             console.log(data, status);
           });
-          }
-        } 
-      });
-    }
+          } else if ($('input').keyup(e)) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+              $.post({
+            url: "../api/messageConversations",
+            type: "POST",
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify(data)
+          })
+          .done((data, status) => {
+            console.log(data, status);
+          });
+            }
+          } 
+        });
+     }
   })
   .done(function() {
   });
@@ -4621,7 +4622,7 @@ function TriggerRadioButtons(){
 
   var larvalControls = {"": "Please select", "Habitat manipulation and Biological Larviciding": "Habitat manipulation and Biological Larviciding", "Habitat manipulation and Habitat modification": "Habitat manipulation and Habitat modification", "Habitat manipulation and Larviciding": "Habitat manipulation and Larviciding", "Habitat modification and Biological Larviciding": "Habitat modification and Biological Larviciding", "Biological larviciding and Larviciding": "Biological larviciding and Larviciding", "Habitat modification and Larviciding": "Habitat modification and Larviciding"};
 
-  var larvicidingAgents = {"": "Please select","MAL_TEMEPHOS": "Temephos","MAL_PIRIMIPHOS-METHYL": "Pirimiphos-methyl","MAL_PDMS_POLYDIMETHYLSILOXANE": "PDMS (Polydimethylsiloxane)",
+  var larvicidingAgents = {"": "Please select","Temephos": "Temephos","MAL_PIRIMIPHOS-METHYL": "Pirimiphos-methyl","MAL_PDMS_POLYDIMETHYLSILOXANE": "PDMS (Polydimethylsiloxane)",
   "MAL_DIFLUBENZURON": "Diflubenzuron","MAL_PYRIPROXYFEN": "Pyriproxyfen","MAL_NOVALURON": "Novaluron","MAL_SPINOSAD": "Spinosad","MAL_BACILLUS_THURINGIENSIS_AM65-52": "Bacillus thuringiensis subsp. Israelensis strain AM65-52","MAL_BACILLUS SPHAERICU_ABTS-1743_AM65-52": "Bacillus sphaericus strain ABTS-1743, Bacillus thuringiensis subsp. Israelensis strain AM65-52","MAL_OTHER_LARVICIDE": "Other larvicide"
   };
 
@@ -6225,27 +6226,27 @@ function popup(mylink, windowname) {
 	<tbody>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_NAME</td>
-			<td class="ResponseText"><input id="KslQ9RWWUb3-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Name of programme" value="[ MAL - Name of programme ]" /></td>
+			<td class="ResponseText"><input id="KslQ9RWWUb3-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Name of programme" value="[ MAL - Name of programme ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_PERSON_NAME</td>
-			<td class="ResponseText"><input id="AS9dprWpRl8-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Name of person completing the form" value="[ MAL - Name of person completing the form ]" /></td>
+			<td class="ResponseText"><input id="AS9dprWpRl8-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Name of person completing the form" value="[ MAL - Name of person completing the form ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_PERSON_FUNCTION</td>
-			<td class="ResponseText"><input id="S9OusFNTHk1-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Function of person completing the form" value="[ MAL - Function of person completing the form ]" /></td>
+			<td class="ResponseText"><input id="S9OusFNTHk1-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Function of person completing the form" value="[ MAL - Function of person completing the form ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_PERSON_EMAIL</td>
-			<td class="ResponseText"><input id="DBqJCB6betB-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Email of person completing the form" value="[ MAL - Email of person completing the form ]" /></td>
+			<td class="ResponseText"><input id="DBqJCB6betB-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Email of person completing the form" value="[ MAL - Email of person completing the form ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_PERSON_TELE</td>
-			<td class="ResponseText"><input id="ktUGd1NtMnP-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Phone number of person completing the form" value="[ MAL - Phone number of person completing the form ]" /></td>
+			<td class="ResponseText"><input id="ktUGd1NtMnP-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Phone number of person completing the form" value="[ MAL - Phone number of person completing the form ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_PRGM_PERSON_FAX</td>
-			<td class="ResponseText"><input id="BV8GVAlG2lU-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;////////////////////////////////////////////////////////////////////////////////" title="MAL - Fax number of person completing the form" value="[ MAL - Fax number of person completing the form ]" /></td>
+			<td class="ResponseText"><input id="BV8GVAlG2lU-Xr12mI7VPn3-val" name="entryfield" style="width:21em;text-align:left;/" title="MAL - Fax number of person completing the form" value="[ MAL - Fax number of person completing the form ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -6261,15 +6262,15 @@ function popup(mylink, windowname) {
 	<tbody>
 		<tr>
 			<td class="QuestionText trn">MAL_POP_HIGH_RISK</td>
-			<td class="ResponseText"><input id="LQSgzKhQoh8-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people living in high risk areas (reported malaria incidence  &gt;= 1 per 1000 population )" value="[ MAL - Number of people living in high risk areas (reported malaria incidence  &gt;= 1 per 1000 population ) ]" /></td>
+			<td class="ResponseText"><input id="LQSgzKhQoh8-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people living in high risk areas (reported malaria incidence  &gt;= 1 per 1000 population )" value="[ MAL - Number of people living in high risk areas (reported malaria incidence  &gt;= 1 per 1000 population ) ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">MAL_POP_LOW_RISK</td>
-			<td class="ResponseText"><input id="JsmA90dQeAh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people living in low risk areas (reported malaria incidence &lt; 1 per 1000 population )" value="[ MAL - Number of people living in low risk areas (reported malaria incidence &lt; 1 per 1000 population ) ]" /></td>
+			<td class="ResponseText"><input id="JsmA90dQeAh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people living in low risk areas (reported malaria incidence &lt; 1 per 1000 population )" value="[ MAL - Number of people living in low risk areas (reported malaria incidence &lt; 1 per 1000 population ) ]" /></td>
 		</tr>
 		<tr class="CommonQuestions">
 			<td class="QuestionText trn">MAL_POP_MALFREE</td>
-			<td class="ResponseText"><input id="fh1QtNCJUyq-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people living in malaria-free areas (no indigenous transmission)" value="[ MAL - Number of people living in malaria-free areas (no indigenous transmission) ]" /></td>
+			<td class="ResponseText"><input id="fh1QtNCJUyq-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people living in malaria-free areas (no indigenous transmission)" value="[ MAL - Number of people living in malaria-free areas (no indigenous transmission) ]" /></td>
 		</tr>
 		<tr class="CommonQuestions">
 			<td class="QuestionText trn">LBL_TOTAL_POPULATION</td>
@@ -6567,7 +6568,7 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_REMARKS</td>
-			<td colspan="5"><input id="RNTqj2gNtXG-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT Remarks - Public" value="[ MAL - RDT Remarks - Public ]" /></td>
+			<td colspan="5"><input id="RNTqj2gNtXG-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - RDT Remarks - Public" value="[ MAL - RDT Remarks - Public ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -6788,42 +6789,42 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_ALL_AGES</td>
-			<td><input id="tHgKlssW1JJ-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Total Public" value="[ MAL - Total malaria cases (presumed + confirmed) - Total Public ]" /></td>
-			<td><input id="tHgKlssW1JJ-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Total Private" value="[ MAL - Total malaria cases (presumed + confirmed) - Total Private ]" /></td>
-			<td><input id="tHgKlssW1JJ-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Total Community" value="[ MAL - Total malaria cases (presumed + confirmed) - Total Community ]" /></td>
-			<td><input id="tHgKlssW1JJ-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Total Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - Total Combined ]" /></td>
+			<td><input id="tHgKlssW1JJ-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD Public" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD Public ]" /></td>
+			<td><input id="tHgKlssW1JJ-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD Private" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD Private ]" /></td>
+			<td><input id="tHgKlssW1JJ-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD Community" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD Community ]" /></td>
+			<td><input id="tHgKlssW1JJ-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_UNDER_5_YRS</td>
-			<td><input id="sTQUwNUoor1-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Public" value="[ MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Public ]" /></td>
-			<td><input id="sTQUwNUoor1-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Private" value="[ MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Private ]" /></td>
-			<td><input id="sTQUwNUoor1-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Community" value="[ MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Community ]" /></td>
-			<td><input id="sTQUwNUoor1-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - Under 5 yrs Combined ]" /></td>
+			<td><input id="sTQUwNUoor1-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Public" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Public ]" /></td>
+			<td><input id="sTQUwNUoor1-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Private" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Private ]" /></td>
+			<td><input id="sTQUwNUoor1-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Community" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Community ]" /></td>
+			<td><input id="sTQUwNUoor1-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - Under 5 yrs Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_5_AND_ABOVE</td>
-			<td><input id="b9WbZfTFD9q-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - 5 and above Public" value="[ MAL - Total malaria cases (presumed + confirmed) - 5 and above Public ]" /></td>
-			<td><input id="b9WbZfTFD9q-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - 5 and above Private" value="[ MAL - Total malaria cases (presumed + confirmed) - 5 and above Private ]" /></td>
-			<td><input id="b9WbZfTFD9q-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - 5 and above Community" value="[ MAL - Total malaria cases (presumed + confirmed) - 5 and above Community ]" /></td>
-			<td><input id="b9WbZfTFD9q-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - 5 and above Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - 5 and above Combined ]" /></td>
-			<td><input dataelementid="b9WbZfTFD9q" id="totalb9WbZfTFD9q" name="total" readonly="readonly" title="MAL - Total malaria cases (presumed + confirmed) - 5 and above" value="[ MAL - Total malaria cases (presumed + confirmed) - 5 and above ]" /></td>
+			<td><input id="b9WbZfTFD9q-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Public" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Public ]" /></td>
+			<td><input id="b9WbZfTFD9q-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Private" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Private ]" /></td>
+			<td><input id="b9WbZfTFD9q-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Community" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Community ]" /></td>
+			<td><input id="b9WbZfTFD9q-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above Combined ]" /></td>
+			<td><input dataelementid="b9WbZfTFD9q" id="totalb9WbZfTFD9q" name="total" readonly="readonly" title="MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above" value="[ MAL - Total malaria cases (presumed + confirmed) - OPD - 5 and above ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_FEMALE</td>
-			<td><input id="bz5Zz5sZbO5-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - Female Public" value="[ MAL - Total malaria cases (confirmed + presumed) - Female Public ]" /></td>
-			<td><input id="bz5Zz5sZbO5-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - Female Private" value="[ MAL - Total malaria cases (confirmed + presumed) - Female Private ]" /></td>
-			<td><input id="bz5Zz5sZbO5-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - Female Community" value="[ MAL - Total malaria cases (confirmed + presumed) - Female Community ]" /></td>
-			<td><input id="bz5Zz5sZbO5-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - Female Combined" value="[ MAL - Total malaria cases (confirmed + presumed) - Female Combined ]" /></td>
+			<td><input id="bz5Zz5sZbO5-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - OPD - Female Public" value="[ MAL - Total malaria cases (confirmed + presumed) - OPD - Female Public ]" /></td>
+			<td><input id="bz5Zz5sZbO5-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - OPD - Female Private" value="[ MAL - Total malaria cases (confirmed + presumed) - OPD - Female Private ]" /></td>
+			<td><input id="bz5Zz5sZbO5-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - OPD - Female Community" value="[ MAL - Total malaria cases (confirmed + presumed) - OPD - Female Community ]" /></td>
+			<td><input id="bz5Zz5sZbO5-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed) - OPD - Female Combined" value="[ MAL - Total malaria cases (confirmed + presumed) - OPD - Female Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PREGNANT_WOMEN</td>
-			<td><input id="rY7FJXnqwkM-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - PW Public" value="[ MAL - Total malaria cases (presumed + confirmed) - PW Public ]" /></td>
-			<td><input id="rY7FJXnqwkM-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - PW Private" value="[ MAL - Total malaria cases (presumed + confirmed) - PW Private ]" /></td>
-			<td><input id="rY7FJXnqwkM-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - PW Community" value="[ MAL - Total malaria cases (presumed + confirmed) - PW Community ]" /></td>
-			<td><input id="rY7FJXnqwkM-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (presumed + confirmed) - PW Combined" value="[ MAL - Total malaria cases (presumed + confirmed) - PW Combined ]" /></td>
+			<td><input id="rY7FJXnqwkM-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Public" value="[ MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Public ]" /></td>
+			<td><input id="rY7FJXnqwkM-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Private" value="[ MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Private ]" /></td>
+			<td><input id="rY7FJXnqwkM-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Community" value="[ MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Community ]" /></td>
+			<td><input id="rY7FJXnqwkM-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Combined" value="[ MAL - Total malaria cases (confirmed + presumed)  - OPD  - Pregnant women Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -6832,42 +6833,42 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_ALL_AGES</td>
-			<td><input id="VviE12zT1Lr-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria confirmed cases - Total Public" value="[ MAL - Total malaria confirmed cases - Total Public ]" /></td>
-			<td><input id="VviE12zT1Lr-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria confirmed cases - Total Private" value="[ MAL - Total malaria confirmed cases - Total Private ]" /></td>
-			<td><input id="VviE12zT1Lr-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria confirmed cases - Total Community" value="[ MAL - Total malaria confirmed cases - Total Community ]" /></td>
-			<td><input id="VviE12zT1Lr-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria confirmed cases - Total Combined" value="[ MAL - Total malaria confirmed cases - Total Combined ]" /></td>
+			<td><input id="VviE12zT1Lr-XS0jDrjreLW-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD Public" value="[ MAL - Total confirmed malaria cases - OPD Public ]" /></td>
+			<td><input id="VviE12zT1Lr-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD Private" value="[ MAL - Total confirmed malaria cases - OPD Private ]" /></td>
+			<td><input id="VviE12zT1Lr-zzdggIflDgl-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD Community" value="[ MAL - Total confirmed malaria cases - OPD Community ]" /></td>
+			<td><input id="VviE12zT1Lr-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD Combined" value="[ MAL - Total confirmed malaria cases - OPD Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_UNDER_5_YRS</td>
-			<td><input id="nQIwUpvnklv-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria confirmed cases - Under 5 yrs Public" value="[ MAL - Total malaria confirmed cases - Under 5 yrs Public ]" /></td>
-			<td><input id="nQIwUpvnklv-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria confirmed cases - Under 5 yrs Private" value="[ MAL - Total malaria confirmed cases - Under 5 yrs Private ]" /></td>
-			<td><input id="nQIwUpvnklv-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria confirmed cases - Under 5 yrs Community" value="[ MAL - Total malaria confirmed cases - Under 5 yrs Community ]" /></td>
-			<td><input id="nQIwUpvnklv-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria confirmed cases - Under 5 yrs Combined" value="[ MAL - Total malaria confirmed cases - Under 5 yrs Combined ]" /></td>
+			<td><input id="nQIwUpvnklv-XS0jDrjreLW-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Under 5 yrs Public" value="[ MAL - Total confirmed malaria cases - OPD - Under 5 yrs Public ]" /></td>
+			<td><input id="nQIwUpvnklv-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Under 5 yrs Private" value="[ MAL - Total confirmed malaria cases - OPD - Under 5 yrs Private ]" /></td>
+			<td><input id="nQIwUpvnklv-zzdggIflDgl-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Under 5 yrs Community" value="[ MAL - Total confirmed malaria cases - OPD - Under 5 yrs Community ]" /></td>
+			<td><input id="nQIwUpvnklv-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Under 5 yrs Combined" value="[ MAL - Total confirmed malaria cases - OPD - Under 5 yrs Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_5_AND_ABOVE</td>
-			<td><input id="DNLEkaF3ZN1-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria confirmed cases - 5 and above Public" value="[ MAL - Total malaria confirmed cases - 5 and above Public ]" /></td>
-			<td><input id="DNLEkaF3ZN1-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria confirmed cases - 5 and above Private" value="[ MAL - Total malaria confirmed cases - 5 and above Private ]" /></td>
-			<td><input id="DNLEkaF3ZN1-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria confirmed cases - 5 and above Community" value="[ MAL - Total malaria confirmed cases - 5 and above Community ]" /></td>
-			<td><input id="DNLEkaF3ZN1-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria confirmed cases - 5 and above Combined" value="[ MAL - Total malaria confirmed cases - 5 and above Combined ]" /></td>
+			<td><input id="DNLEkaF3ZN1-XS0jDrjreLW-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - 5 and above Public" value="[ MAL - Total confirmed malaria cases - OPD - 5 and above Public ]" /></td>
+			<td><input id="DNLEkaF3ZN1-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - 5 and above Private" value="[ MAL - Total confirmed malaria cases - OPD - 5 and above Private ]" /></td>
+			<td><input id="DNLEkaF3ZN1-zzdggIflDgl-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - 5 and above Community" value="[ MAL - Total confirmed malaria cases - OPD - 5 and above Community ]" /></td>
+			<td><input id="DNLEkaF3ZN1-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - 5 and above Combined" value="[ MAL - Total confirmed malaria cases - OPD - 5 and above Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_FEMALE</td>
-			<td><input id="O1QFP4ehp29-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria confirmed cases - Female Public" value="[ MAL - Total malaria confirmed cases - Female Public ]" /></td>
-			<td><input id="O1QFP4ehp29-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria confirmed cases - Female Private" value="[ MAL - Total malaria confirmed cases - Female Private ]" /></td>
-			<td><input id="O1QFP4ehp29-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria confirmed cases - Female Community" value="[ MAL - Total malaria confirmed cases - Female Community ]" /></td>
-			<td><input id="O1QFP4ehp29-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria confirmed cases - Female Combined" value="[ MAL - Total malaria confirmed cases - Female Combined ]" /></td>
+			<td><input id="O1QFP4ehp29-XS0jDrjreLW-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Female Public" value="[ MAL - Total confirmed malaria cases - OPD - Female Public ]" /></td>
+			<td><input id="O1QFP4ehp29-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Female Private" value="[ MAL - Total confirmed malaria cases - OPD - Female Private ]" /></td>
+			<td><input id="O1QFP4ehp29-zzdggIflDgl-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Female Community" value="[ MAL - Total confirmed malaria cases - OPD - Female Community ]" /></td>
+			<td><input id="O1QFP4ehp29-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - Female Combined" value="[ MAL - Total confirmed malaria cases - OPD - Female Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PREGNANT_WOMEN</td>
-			<td><input id="mryx6z7yZK3-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria confirmed cases - PW Public" value="[ MAL - Total malaria confirmed cases - PW Public ]" /></td>
-			<td><input id="mryx6z7yZK3-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria confirmed cases - PW Private" value="[ MAL - Total malaria confirmed cases - PW Private ]" /></td>
-			<td><input id="mryx6z7yZK3-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria confirmed cases - PW Community" value="[ MAL - Total malaria confirmed cases - PW Community ]" /></td>
-			<td><input id="mryx6z7yZK3-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria confirmed cases - PW Combined" value="[ MAL - Total malaria confirmed cases - PW Combined ]" /></td>
+			<td><input id="mryx6z7yZK3-XS0jDrjreLW-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - PW Public" value="[ MAL - Total confirmed malaria cases - OPD - PW Public ]" /></td>
+			<td><input id="mryx6z7yZK3-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - PW Private" value="[ MAL - Total confirmed malaria cases - OPD - PW Private ]" /></td>
+			<td><input id="mryx6z7yZK3-zzdggIflDgl-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - PW Community" value="[ MAL - Total confirmed malaria cases - OPD - PW Community ]" /></td>
+			<td><input id="mryx6z7yZK3-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total confirmed malaria cases - OPD - PW Combined" value="[ MAL - Total confirmed malaria cases - OPD - PW Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -6876,42 +6877,42 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_ALL_AGES</td>
-			<td><input id="Kueaq7PzJ8f-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria presumed cases - Total Public" value="[ MAL - Total malaria presumed cases - Total Public ]" /></td>
-			<td><input id="Kueaq7PzJ8f-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria presumed cases - Total Private" value="[ MAL - Total malaria presumed cases - Total Private ]" /></td>
-			<td><input id="Kueaq7PzJ8f-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria presumed cases - Total Community" value="[ MAL - Total malaria presumed cases - Total Community ]" /></td>
-			<td><input id="Kueaq7PzJ8f-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria presumed cases - Total Combined" value="[ MAL - Total malaria presumed cases - Total Combined ]" /></td>
+			<td><input id="Kueaq7PzJ8f-XS0jDrjreLW-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD Public" value="[ MAL - Total presumed malaria cases - OPD Public ]" /></td>
+			<td><input id="Kueaq7PzJ8f-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD Private" value="[ MAL - Total presumed malaria cases - OPD Private ]" /></td>
+			<td><input id="Kueaq7PzJ8f-zzdggIflDgl-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD Community" value="[ MAL - Total presumed malaria cases - OPD Community ]" /></td>
+			<td><input id="Kueaq7PzJ8f-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD Combined" value="[ MAL - Total presumed malaria cases - OPD Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_UNDER_5_YRS</td>
-			<td><input id="QTl91sYWJLN-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria presumed cases - Under 5 yrs Public" value="[ MAL - Total malaria presumed cases - Under 5 yrs Public ]" /></td>
-			<td><input id="QTl91sYWJLN-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria presumed cases - Under 5 yrs Private" value="[ MAL - Total malaria presumed cases - Under 5 yrs Private ]" /></td>
-			<td><input id="QTl91sYWJLN-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria presumed cases - Under 5 yrs Community" value="[ MAL - Total malaria presumed cases - Under 5 yrs Community ]" /></td>
-			<td><input id="QTl91sYWJLN-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria presumed cases - Under 5 yrs Combined" value="[ MAL - Total malaria presumed cases - Under 5 yrs Combined ]" /></td>
+			<td><input id="QTl91sYWJLN-XS0jDrjreLW-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Under 5 yrs Public" value="[ MAL - Total presumed malaria cases - OPD - Under 5 yrs Public ]" /></td>
+			<td><input id="QTl91sYWJLN-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Under 5 yrs Private" value="[ MAL - Total presumed malaria cases - OPD - Under 5 yrs Private ]" /></td>
+			<td><input id="QTl91sYWJLN-zzdggIflDgl-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Under 5 yrs Community" value="[ MAL - Total presumed malaria cases - OPD - Under 5 yrs Community ]" /></td>
+			<td><input id="QTl91sYWJLN-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Under 5 yrs Combined" value="[ MAL - Total presumed malaria cases - OPD - Under 5 yrs Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_5_AND_ABOVE</td>
-			<td><input id="QCOgH2vP3y0-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria presumed cases - 5 and above Public" value="[ MAL - Total malaria presumed cases - 5 and above Public ]" /></td>
-			<td><input id="QCOgH2vP3y0-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria presumed cases - 5 and above Private" value="[ MAL - Total malaria presumed cases - 5 and above Private ]" /></td>
-			<td><input id="QCOgH2vP3y0-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria presumed cases - 5 and above Community" value="[ MAL - Total malaria presumed cases - 5 and above Community ]" /></td>
-			<td><input id="QCOgH2vP3y0-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria presumed cases - 5 and above Combined" value="[ MAL - Total malaria presumed cases - 5 and above Combined ]" /></td>
+			<td><input id="QCOgH2vP3y0-XS0jDrjreLW-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - 5 and above Public" value="[ MAL - Total presumed malaria cases - OPD - 5 and above Public ]" /></td>
+			<td><input id="QCOgH2vP3y0-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - 5 and above Private" value="[ MAL - Total presumed malaria cases - OPD - 5 and above Private ]" /></td>
+			<td><input id="QCOgH2vP3y0-zzdggIflDgl-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - 5 and above Community" value="[ MAL - Total presumed malaria cases - OPD - 5 and above Community ]" /></td>
+			<td><input id="QCOgH2vP3y0-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - 5 and above Combined" value="[ MAL - Total presumed malaria cases - OPD - 5 and above Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_FEMALE</td>
-			<td><input id="B6ff4JJa9h2-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria presumed cases - Female Public" value="[ MAL - Total malaria presumed cases - Female Public ]" /></td>
-			<td><input id="B6ff4JJa9h2-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria presumed cases - Female Private" value="[ MAL - Total malaria presumed cases - Female Private ]" /></td>
-			<td><input id="B6ff4JJa9h2-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria presumed cases - Female Community" value="[ MAL - Total malaria presumed cases - Female Community ]" /></td>
-			<td><input id="B6ff4JJa9h2-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria presumed cases - Female Combined" value="[ MAL - Total malaria presumed cases - Female Combined ]" /></td>
+			<td><input id="B6ff4JJa9h2-XS0jDrjreLW-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Female Public" value="[ MAL - Total presumed malaria cases - OPD - Female Public ]" /></td>
+			<td><input id="B6ff4JJa9h2-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Female Private" value="[ MAL - Total presumed malaria cases - OPD - Female Private ]" /></td>
+			<td><input id="B6ff4JJa9h2-zzdggIflDgl-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Female Community" value="[ MAL - Total presumed malaria cases - OPD - Female Community ]" /></td>
+			<td><input id="B6ff4JJa9h2-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Female Combined" value="[ MAL - Total presumed malaria cases - OPD - Female Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PREGNANT_WOMEN</td>
-			<td><input id="KgSxqgmTGLs-XS0jDrjreLW-val" name="entryfield" title="MAL - Total malaria presumed cases - Pregnant women Public" value="[ MAL - Total malaria presumed cases - Pregnant women Public ]" /></td>
-			<td><input id="KgSxqgmTGLs-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total malaria presumed cases - Pregnant women Private" value="[ MAL - Total malaria presumed cases - Pregnant women Private ]" /></td>
-			<td><input id="KgSxqgmTGLs-zzdggIflDgl-val" name="entryfield" title="MAL - Total malaria presumed cases - Pregnant women Community" value="[ MAL - Total malaria presumed cases - Pregnant women Community ]" /></td>
-			<td><input id="KgSxqgmTGLs-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total malaria presumed cases - Pregnant women Combined" value="[ MAL - Total malaria presumed cases - Pregnant women Combined ]" /></td>
+			<td><input id="KgSxqgmTGLs-XS0jDrjreLW-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Pregnant women Public" value="[ MAL - Total presumed malaria cases - OPD - Pregnant women Public ]" /></td>
+			<td><input id="KgSxqgmTGLs-Y0HU7KNK0qH-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Pregnant women Private" value="[ MAL - Total presumed malaria cases - OPD - Pregnant women Private ]" /></td>
+			<td><input id="KgSxqgmTGLs-zzdggIflDgl-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Pregnant women Community" value="[ MAL - Total presumed malaria cases - OPD - Pregnant women Community ]" /></td>
+			<td><input id="KgSxqgmTGLs-SWWaWf0DoJk-val" name="entryfield" title="MAL - Total presumed malaria cases - OPD - Pregnant women Combined" value="[ MAL - Total presumed malaria cases - OPD - Pregnant women Combined ]" /></td>
 			<td>&nbsp;</td>
 		</tr>
 		<tr>
@@ -6929,7 +6930,7 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_REMARKS</td>
-			<td colspan="5"><input id="wO6laSdoISe-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - Outpatient Remarks" value="[ MAL - Outpatient Remarks ]" /></td>
+			<td colspan="5"><input id="wO6laSdoISe-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - Outpatient Remarks" value="[ MAL - Outpatient Remarks ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7134,15 +7135,15 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td>&nbsp;</td>
-			<td style="text-align: center;"><input id="ozar8P2Jlv4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Admission is a subset of OPD" value="[ MAL - Admission is a subset of OPD ]" /></td>
-			<td style="text-align: center;"><input id="Y5i3MznebN2-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Admission is a subset of OPD - Private" value="[ MAL - Admission is a subset of OPD - Private ]" /></td>
+			<td style="text-align: center;"><input id="ozar8P2Jlv4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Admission is a subset of OPD" value="[ MAL - Admission is a subset of OPD ]" /></td>
+			<td style="text-align: center;"><input id="Y5i3MznebN2-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Admission is a subset of OPD - Private" value="[ MAL - Admission is a subset of OPD - Private ]" /></td>
 			<td style="text-align: center;">&nbsp;</td>
-			<td style="text-align: center;"><input id="wvC1tOhsBg6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Admission is a subset of OPD - Combined" value="[ MAL - Admission is a subset of OPD - Combined ]" /></td>
+			<td style="text-align: center;"><input id="wvC1tOhsBg6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Admission is a subset of OPD - Combined" value="[ MAL - Admission is a subset of OPD - Combined ]" /></td>
 			<td style="text-align: center;">&nbsp;</td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_REMARKS</td>
-			<td colspan="5"><input id="tRA0XTaul5r-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - Inpatient Remarks" value="[ MAL - Inpatient Remarks ]" /></td>
+			<td colspan="5"><input id="tRA0XTaul5r-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - Inpatient Remarks" value="[ MAL - Inpatient Remarks ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7306,7 +7307,7 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn">LBL_REMARKS</td>
-			<td colspan="5"><input id="fGIWPbWXZqG-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - Remarks on reported cases and deaths" value="[ MAL - Remarks on reported cases and deaths ]" /></td>
+			<td colspan="5"><input id="fGIWPbWXZqG-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - Remarks on reported cases and deaths" value="[ MAL - Remarks on reported cases and deaths ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7338,9 +7339,9 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn" colspan="2">LBL_IS_THE_EXACT_NUMBER_OF_FACILITIES_KNOWN</td>
-			<td style="text-align: center;"><input id="a4Xq2sa04WY-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Is the exact number of health facilities in the country known - Public" value="[ MAL - Is the exact number of health facilities in the country known - Public ]" /></td>
-			<td style="text-align: center;"><input id="aJpp3hnzwaM-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Is the exact number of health facilities in the country known - Private" value="[ MAL - Is the exact number of health facilities in the country known - Private ]" /></td>
-			<td style="text-align: center;"><input id="xgDVXBjAFZh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Is the exact number of health facilities in the country known - Community" value="[ MAL - Is the exact number of health facilities in the country known - Community ]" /></td>
+			<td style="text-align: center;"><input id="a4Xq2sa04WY-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Is the exact number of health facilities in the country known - Public" value="[ MAL - Is the exact number of health facilities in the country known - Public ]" /></td>
+			<td style="text-align: center;"><input id="aJpp3hnzwaM-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Is the exact number of health facilities in the country known - Private" value="[ MAL - Is the exact number of health facilities in the country known - Private ]" /></td>
+			<td style="text-align: center;"><input id="xgDVXBjAFZh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Is the exact number of health facilities in the country known - Community" value="[ MAL - Is the exact number of health facilities in the country known - Community ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="2" id="NoOfHFPerPeriod">LBL_TOTAL_NUMBER_OF_HEALTH_FACILITIES_EXPECTED_TO_REPORT_EACH_YEAR</td>
@@ -7350,9 +7351,9 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td colspan="2"><span class="trn">LBL_TOTAL_NUMBER_OF_REPORTS_RECEIVED_FROM_HEALTH_FACILITIES_IN_YEAR_B</span></td>
-			<td style="text-align: center;"><input id="R9LQOz0ig4Z-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Total number of reports actually received in (current reporting year) (b) - Public" value="[ MAL - Total number of reports actually received in (current reporting year) (b) - Public ]" /></td>
-			<td style="text-align: center;"><input id="uMjhsdkgKhV-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Total number of reports actually received in (current reporting year) (b)  - Private" value="[ MAL - Total number of reports actually received in (current reporting year) (b)  - Private ]" /></td>
-			<td style="text-align: center;"><input id="WFoeh3C70ZC-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Total number of reports actually received in (current reporting year) (b) - Community" value="[ MAL - Total number of reports actually received in (current reporting year) (b) - Community ]" /></td>
+			<td style="text-align: center;"><input id="R9LQOz0ig4Z-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Total number of reports actually received in (current reporting year) (b) - Public" value="[ MAL - Total number of reports actually received in (current reporting year) (b) - Public ]" /></td>
+			<td style="text-align: center;"><input id="uMjhsdkgKhV-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Total number of reports actually received in (current reporting year) (b)  - Private" value="[ MAL - Total number of reports actually received in (current reporting year) (b)  - Private ]" /></td>
+			<td style="text-align: center;"><input id="WFoeh3C70ZC-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Total number of reports actually received in (current reporting year) (b) - Community" value="[ MAL - Total number of reports actually received in (current reporting year) (b) - Community ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="2">LBL_REPORTING_COMPLETENESS_AND_CALC</td>
@@ -7398,7 +7399,7 @@ function popup(mylink, windowname) {
 			<th>
 			<p class="trn">LBL_REMARKS</p>
 			</th>
-			<td colspan="5"><input id="RloYYU1mxSj-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - Remark on outpatient reporting completeness" value="[ MAL - Remark on outpatient reporting completeness ]" /></td>
+			<td colspan="5"><input id="RloYYU1mxSj-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - Remark on outpatient reporting completeness" value="[ MAL - Remark on outpatient reporting completeness ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7432,7 +7433,7 @@ function popup(mylink, windowname) {
 			<td align="right" class="trn" colspan="2">LBL_TOTAL_NUMBER_OF_CASES_INVESTIGATED</td>
 			<td style="text-align: center;"><input class="previousYears" id="hHe7RKHTcrK-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="hHe7RKHTcrK-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="hHe7RKHTcrK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Total number of cases investigated" value="[ MAL - Total number of cases investigated ]" /></td>
+			<td style="text-align: center;"><input id="hHe7RKHTcrK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Total number of cases investigated" value="[ MAL - Total number of cases investigated ]" /></td>
 		</tr>
 		<tr>
 			<th colspan="1" rowspan="7" scope="row"><span class="trn">LBL_INDIGENOUS_CASES</span><br />
@@ -7440,43 +7441,43 @@ function popup(mylink, windowname) {
 			<td><span class="LBL_TOTAL">Total</span></td>
 			<td style="text-align: center;"><input class="previousYears" id="DYpakDmCvNG-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="DYpakDmCvNG-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="DYpakDmCvNG-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - indigenous" value="[ MAL - Malaria cases classified - indigenous ]" /></td>
+			<td style="text-align: center;"><input id="DYpakDmCvNG-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - indigenous" value="[ MAL - Malaria cases classified - indigenous ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_FALCIPARUM</td>
 			<td style="text-align: center;"><input class="previousYears" id="Z3e8m8Fmcu3-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Z3e8m8Fmcu3-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Z3e8m8Fmcu3-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : P.falciparum" value="[ MAL - Indigenous : P.falciparum ]" /></td>
+			<td style="text-align: center;"><input id="Z3e8m8Fmcu3-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : P.falciparum" value="[ MAL - Indigenous : P.falciparum ]" /></td>
 		</tr>
 		<tr>
 			<td><em><span class="trn">LBL_P_VIVAX</span></em></td>
 			<td style="text-align: center;"><input class="previousYears" id="hlwePfhzrmZ-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="hlwePfhzrmZ-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="hlwePfhzrmZ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : P.vivax" value="[ MAL - Indigenous : P.vivax ]" /></td>
+			<td style="text-align: center;"><input id="hlwePfhzrmZ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : P.vivax" value="[ MAL - Indigenous : P.vivax ]" /></td>
 		</tr>
 		<tr>
 			<td><em class="trn">LBL_P_OVALE</em></td>
 			<td style="text-align: center;"><input class="previousYears" id="wzhEQDqy51G-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="wzhEQDqy51G-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="wzhEQDqy51G-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : P.ovale" value="[ MAL - Indigenous : P.ovale ]" /></td>
+			<td style="text-align: center;"><input id="wzhEQDqy51G-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : P.ovale" value="[ MAL - Indigenous : P.ovale ]" /></td>
 		</tr>
 		<tr>
 			<td><em class="trn">LBL_P_MALARIAE</em></td>
 			<td style="text-align: center;"><input class="previousYears" id="vKNSmjqN5b5-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="vKNSmjqN5b5-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="vKNSmjqN5b5-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : P.malariae" value="[ MAL - Indigenous : P.malariae ]" /></td>
+			<td style="text-align: center;"><input id="vKNSmjqN5b5-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : P.malariae" value="[ MAL - Indigenous : P.malariae ]" /></td>
 		</tr>
 		<tr>
 			<td><em class="trn">LBL_P_KNOWLESI</em></td>
 			<td style="text-align: center;"><input class="previousYears" id="htpNTMsSk9C-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="htpNTMsSk9C-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="htpNTMsSk9C-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : P.knowlesi" value="[ MAL - Indigenous : P.knowlesi ]" /></td>
+			<td style="text-align: center;"><input id="htpNTMsSk9C-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : P.knowlesi" value="[ MAL - Indigenous : P.knowlesi ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MIXED</td>
 			<td style="text-align: center;"><input class="previousYears" id="G3BoJUp9HvU-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="G3BoJUp9HvU-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="G3BoJUp9HvU-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous : Mixed" value="[ MAL - Indigenous : Mixed ]" /></td>
+			<td style="text-align: center;"><input id="G3BoJUp9HvU-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous : Mixed" value="[ MAL - Indigenous : Mixed ]" /></td>
 		</tr>
 		<tr>
 			<th colspan="1" rowspan="7" scope="row"><span class="trn">LBL_IMPORTED_CASES</span><br />
@@ -7485,43 +7486,43 @@ function popup(mylink, windowname) {
 			<td><span class="trn">LBL_TOTAL_IMPORTED_CASES</span></td>
 			<td style="text-align: center;"><input class="previousYears" id="koNkg93tcFv-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="koNkg93tcFv-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="koNkg93tcFv-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - imported" value="[ MAL - Malaria cases classified - imported ]" /></td>
+			<td style="text-align: center;"><input id="koNkg93tcFv-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - imported" value="[ MAL - Malaria cases classified - imported ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_FALCIPARUM</td>
 			<td style="text-align: center;"><input class="previousYears" id="AfglX08hICf-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="AfglX08hICf-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="AfglX08hICf-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: P.falciparum" value="[ MAL - Imported: P.falciparum ]" /></td>
+			<td style="text-align: center;"><input id="AfglX08hICf-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: P.falciparum" value="[ MAL - Imported: P.falciparum ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_VIVAX</td>
 			<td style="text-align: center;"><input class="previousYears" id="JjUOtAdqK5K-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="JjUOtAdqK5K-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="JjUOtAdqK5K-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: P.vivax" value="[ MAL - Imported: P.vivax ]" /></td>
+			<td style="text-align: center;"><input id="JjUOtAdqK5K-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: P.vivax" value="[ MAL - Imported: P.vivax ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_OVALE</td>
 			<td style="text-align: center;"><input class="previousYears" id="kBfsYjNqbmB-Xr12mI7VPn3_year2" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="kBfsYjNqbmB-Xr12mI7VPn3_year1" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="kBfsYjNqbmB-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: P.ovale" value="[ MAL - Imported: P.ovale ]" /></td>
+			<td style="text-align: center;"><input id="kBfsYjNqbmB-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: P.ovale" value="[ MAL - Imported: P.ovale ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_MALARIAE</td>
 			<td style="text-align: center;"><input class="previousYears" id="BmiiE3NCvSh-Xr12mI7VPn3_year2" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="BmiiE3NCvSh-Xr12mI7VPn3_year1" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="BmiiE3NCvSh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: P.malariae" value="[ MAL - Imported: P.malariae ]" /></td>
+			<td style="text-align: center;"><input id="BmiiE3NCvSh-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: P.malariae" value="[ MAL - Imported: P.malariae ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_KNOWLESI</td>
 			<td style="text-align: center;"><input class="previousYears" id="HmP6IQ13rZa-Xr12mI7VPn3_year2" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="HmP6IQ13rZa-Xr12mI7VPn3_year1" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="HmP6IQ13rZa-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: P. knowlesi" value="[ MAL - Imported: P. knowlesi ]" /></td>
+			<td style="text-align: center;"><input id="HmP6IQ13rZa-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: P. knowlesi" value="[ MAL - Imported: P. knowlesi ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MIXED</td>
 			<td style="text-align: center;"><input class="previousYears" id="pGgBmIVsGN3-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pGgBmIVsGN3-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pGgBmIVsGN3-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Imported: mixed" value="[ MAL - Imported: mixed ]" /></td>
+			<td style="text-align: center;"><input id="pGgBmIVsGN3-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Imported: mixed" value="[ MAL - Imported: mixed ]" /></td>
 		</tr>
 		<tr>
 			<th colspan="1" rowspan="7" scope="row"><span class="trn">LBL_INTRODUCED_CASES</span><br />
@@ -7529,31 +7530,31 @@ function popup(mylink, windowname) {
 			<td><span class="trn">Total</span></td>
 			<td style="text-align: center;"><input class="previousYears" id="EQOuTaSaFOn-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="EQOuTaSaFOn-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="EQOuTaSaFOn-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced" value="[ MAL - Malaria cases classified - introduced ]" /></td>
+			<td style="text-align: center;"><input id="EQOuTaSaFOn-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced" value="[ MAL - Malaria cases classified - introduced ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_FALCIPARUM</td>
 			<td style="text-align: center;"><input class="previousYears" id="jpYEc35rrXK-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="jpYEc35rrXK-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="jpYEc35rrXK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced - P. falciparum" value="[ MAL - Malaria cases classified - introduced - P. falciparum ]" /></td>
+			<td style="text-align: center;"><input id="jpYEc35rrXK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced - P. falciparum" value="[ MAL - Malaria cases classified - introduced - P. falciparum ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_VIVAX</td>
 			<td style="text-align: center;"><input class="previousYears" id="rWGEATJ9WmJ-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="rWGEATJ9WmJ-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="rWGEATJ9WmJ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced - P. vivax" value="[ MAL - Malaria cases classified - introduced - P. vivax ]" /></td>
+			<td style="text-align: center;"><input id="rWGEATJ9WmJ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced - P. vivax" value="[ MAL - Malaria cases classified - introduced - P. vivax ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_OVALE</td>
 			<td style="text-align: center;"><input class="previousYears" id="I0o9qwoWouO-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="I0o9qwoWouO-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="I0o9qwoWouO-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced - P. ovale" value="[ MAL - Malaria cases classified - introduced - P. ovale ]" /></td>
+			<td style="text-align: center;"><input id="I0o9qwoWouO-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced - P. ovale" value="[ MAL - Malaria cases classified - introduced - P. ovale ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_MALARIAE</td>
 			<td style="text-align: center;"><input class="previousYears" id="EUNozlUGsOM-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="EUNozlUGsOM-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="EUNozlUGsOM-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced - P. malariae" value="[ MAL - Malaria cases classified - introduced - P. malariae ]" /></td>
+			<td style="text-align: center;"><input id="EUNozlUGsOM-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced - P. malariae" value="[ MAL - Malaria cases classified - introduced - P. malariae ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_KNOWLESI</td>
@@ -7565,7 +7566,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_MIXED</td>
 			<td style="text-align: center;"><input class="previousYears" id="FP8EZufqI6S-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="FP8EZufqI6S-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="FP8EZufqI6S-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - introduced - Mixed" value="[ MAL - Malaria cases classified - introduced - Mixed ]" /></td>
+			<td style="text-align: center;"><input id="FP8EZufqI6S-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - introduced - Mixed" value="[ MAL - Malaria cases classified - introduced - Mixed ]" /></td>
 		</tr>
 		<tr>
 			<th colspan="1" rowspan="4" scope="row"><span class="trn">LBL_OTHER_CASES</span></th>
@@ -7574,33 +7575,33 @@ function popup(mylink, windowname) {
 			<!--NEW-->
 			<td style="text-align: center;"><input class="previousYears" id="lY309oiMifk-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="lY309oiMifk-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="lY309oiMifk-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - induced" value="[ MAL - Malaria cases classified - induced ]" /></td>
+			<td style="text-align: center;"><input id="lY309oiMifk-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - induced" value="[ MAL - Malaria cases classified - induced ]" /></td>
 		</tr>
 		<tr>
 			<td><span class="trn">LBL_RELAPSING_CASE__OR_LONG_INCUBATION</span></td>
 			<!--NEW-->
 			<td style="text-align: center;"><input class="previousYears" id="QFz6w4llj0h-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="QFz6w4llj0h-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="QFz6w4llj0h-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - relapsing" value="[ MAL - Malaria cases classified - relapsing ]" /></td>
+			<td style="text-align: center;"><input id="QFz6w4llj0h-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - relapsing" value="[ MAL - Malaria cases classified - relapsing ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_RECRUDESCENT_CASES</td>
 			<td style="text-align: center;"><input class="previousYears" id="TMaDgAn60aR-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="TMaDgAn60aR-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="TMaDgAn60aR-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases classified - recrudescent" value="[ MAL - Malaria cases classified - recrudescent ]" /></td>
+			<td style="text-align: center;"><input id="TMaDgAn60aR-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases classified - recrudescent" value="[ MAL - Malaria cases classified - recrudescent ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NOT_CLASSIFIED_OTHER</td>
 			<td style="text-align: center;"><input class="previousYears" id="gA2zMWyP9Ka-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="gA2zMWyP9Ka-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="gA2zMWyP9Ka-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Not classified/other cases" value="[ MAL - Not classified/other cases ]" /></td>
+			<td style="text-align: center;"><input id="gA2zMWyP9Ka-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Not classified/other cases" value="[ MAL - Not classified/other cases ]" /></td>
 		</tr>
 		<tr>
 			<th class="trn" colspan="1" rowspan="5" scope="row">LBL_DEATHS</th>
 			<td class="trn">LBL_INDIGENOUS_DEATHS</td>
 			<td style="text-align: center;"><input class="previousYears" id="xzCJwslAdtp-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="xzCJwslAdtp-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="xzCJwslAdtp-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Indigenous deaths" value="[ MAL - Indigenous deaths ]" /></td>
+			<td style="text-align: center;"><input id="xzCJwslAdtp-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Indigenous deaths" value="[ MAL - Indigenous deaths ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_IMPORTED_DEATHS</td>
@@ -7618,7 +7619,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_OTHER_DEATHS</td>
 			<td style="text-align: center;"><input class="previousYears" id="LrRtVqHkCt4-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="LrRtVqHkCt4-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="LrRtVqHkCt4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Other deaths" value="[ MAL - Other deaths ]" /></td>
+			<td style="text-align: center;"><input id="LrRtVqHkCt4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Other deaths" value="[ MAL - Other deaths ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NOT_CLASSIFIED</td>
@@ -7667,11 +7668,11 @@ function popup(mylink, windowname) {
 		<!--new active, endemic, residual active-->
 		<tr>
 			<td><span class="trn">LBL_NUMBER_OF_NEW_FOCI_THAT_REQUIRED_INVESTIGATION</span></td>
-			<td style="text-align: center;"><input id="lZi1cjtvVB6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - New active foci with the current calendar year" value="[ MAL - New active foci with the current calendar year ]" /></td>
+			<td style="text-align: center;"><input id="lZi1cjtvVB6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - New active foci with the current calendar year" value="[ MAL - New active foci with the current calendar year ]" /></td>
 		</tr>
 		<tr>
 			<td><span class="trn">LBL_TOTAL_NUMBER_OF_NEW_FOCI_INVESTIGATED</span></td>
-			<td style="text-align: center;"><input id="s9FmEvF0r4n-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria foci investigated" value="[ MAL - Malaria foci investigated ]" /></td>
+			<td style="text-align: center;"><input id="s9FmEvF0r4n-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria foci investigated" value="[ MAL - Malaria foci investigated ]" /></td>
 		</tr>
 		<tr>
 			<td class="question" colspan="2" style="text-align: center;"><span class="trn" style="font-size: 14px;">LBL_CLASSIFICATION_DIAGRAM</span><br />
@@ -7679,15 +7680,15 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="QuestionText trn">LBL_NUMBER_OF_ACTIVE_FOCI</td>
-			<td style="text-align: center;"><input id="lz1FE0wvo1m-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria foci classified as active (with ongoing transmission, locally acquired case(s) detected within the current transmission calendar year )" value="[ MAL - Malaria foci classified as active (with ongoing transmission, locally acquired case(s) detected within the current transmission calendar year ) ]" /></td>
+			<td style="text-align: center;"><input id="lz1FE0wvo1m-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria foci classified as active (with ongoing transmission, locally acquired case(s) detected within the current transmission calendar year )" value="[ MAL - Malaria foci classified as active (with ongoing transmission, locally acquired case(s) detected within the current transmission calendar year ) ]" /></td>
 		</tr>
 		<tr>
 			<td class="QuestionText trn">LBL_NUMBER_OF_PEOPLE_LIVING_WITHIN_ACTIVE_FOCI</td>
-			<td style="text-align: center;"><input id="Q9z8zQvuDaT-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - No. of people living within active foci (including new active, endemic, residual active)" value="[ MAL - No. of people living within active foci (including new active, endemic, residual active) ]" /></td>
+			<td style="text-align: center;"><input id="Q9z8zQvuDaT-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - No. of people living within active foci (including new active, endemic, residual active)" value="[ MAL - No. of people living within active foci (including new active, endemic, residual active) ]" /></td>
 		</tr>
 		<tr id="FociInvestigation_ResidualNonActive">
 			<td class="trn">LBL_NUMBER_OF_RESIDUAL__NON-ACTIVE_FOCI</td>
-			<td style="text-align: center;"><input id="Qzfvt1YRb1Y-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria foci classified as residual non-active (Transmission interrupted recently, 1-3 years ago)" value="[ MAL - Malaria foci classified as residual non-active (Transmission interrupted recently, 1-3 years ago) ]" /></td>
+			<td style="text-align: center;"><input id="Qzfvt1YRb1Y-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria foci classified as residual non-active (Transmission interrupted recently, 1-3 years ago)" value="[ MAL - Malaria foci classified as residual non-active (Transmission interrupted recently, 1-3 years ago) ]" /></td>
 		</tr>
 		<tr>
 			<th colspan="2"><span class="trn">LBL_IS_OTHER_FOCI_INFORMATION_COLLECTED</span></th>
@@ -7743,15 +7744,15 @@ function popup(mylink, windowname) {
 		</tr>
 		<tr>
 			<td class="trn" colspan="4">LBL_ACD_IN_RESPONSE_TO_PASSIVELY_DETECTED_CASE__REACTIVE</td>
-			<td style="text-align: center;"><input id="Nkv7Wacx0jR-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - ACD in response to passively detected case (reactive) - policy implemented this year" value="[ MAL - ACD in response to passively detected case (reactive) - policy implemented this year ]" /></td>
+			<td style="text-align: center;"><input id="Nkv7Wacx0jR-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - ACD in response to passively detected case (reactive) - policy implemented this year" value="[ MAL - ACD in response to passively detected case (reactive) - policy implemented this year ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="4">LBL_ACD_OF_FEBRILE_CASES_AT_COMMUNITY_LEVEL__PRO-ACTIVE</td>
-			<td style="text-align: center;"><input id="rTDNngUcDnd-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year ]" /></td>
+			<td style="text-align: center;"><input id="rTDNngUcDnd-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year" value="[ MAL - ACD of febrile cases at community level (pro-active) - policy implemented this year ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="4">LBL_ACD_FOR_MASS_SCREENING__INCLUDING_NON-FEBRILE</td>
-			<td style="text-align: center;"><input id="t7abky7P2vW-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - ACD for mass screening (including non-febrile) - policy implemented this year" value="[ MAL - ACD for mass screening (including non-febrile) - policy implemented this year ]" /></td>
+			<td style="text-align: center;"><input id="t7abky7P2vW-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - ACD for mass screening (including non-febrile) - policy implemented this year" value="[ MAL - ACD for mass screening (including non-febrile) - policy implemented this year ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7772,25 +7773,25 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_EXAMINED</td>
 			<td style="text-align: center;"><input class="previousYears" id="a2hiTowGc0N-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="a2hiTowGc0N-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="a2hiTowGc0N-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases tested in ACD (reactive ACD as part of foci investigation)" value="[ MAL - Malaria cases tested in ACD (reactive ACD as part of foci investigation) ]" /></td>
+			<td style="text-align: center;"><input id="a2hiTowGc0N-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases tested in ACD (reactive ACD as part of foci investigation)" value="[ MAL - Malaria cases tested in ACD (reactive ACD as part of foci investigation) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_POSITIVE</td>
 			<td style="text-align: center;"><input class="previousYears" id="ra1VTaKQK60-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="ra1VTaKQK60-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="ra1VTaKQK60-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria cases positive in ACD (reactive ACD as part of foci investigation)" value="[ MAL - Malaria cases positive in ACD (reactive ACD as part of foci investigation) ]" /></td>
+			<td style="text-align: center;"><input id="ra1VTaKQK60-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria cases positive in ACD (reactive ACD as part of foci investigation)" value="[ MAL - Malaria cases positive in ACD (reactive ACD as part of foci investigation) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_FALCIPARUM</td>
 			<td style="text-align: center;"><input class="previousYears" id="gnaDCafIZx2-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="gnaDCafIZx2-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="gnaDCafIZx2-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Microscopy positive P. falciparum (Active case detection)" value="[ MAL - Microscopy positive P. falciparum (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="gnaDCafIZx2-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Microscopy positive P. falciparum (Active case detection)" value="[ MAL - Microscopy positive P. falciparum (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_VIVAX</td>
 			<td style="text-align: center;"><input class="previousYears" id="pEyAqpl5GbH-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pEyAqpl5GbH-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pEyAqpl5GbH-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Microscopy positive P. vivax (Active case detection)" value="[ MAL - Microscopy positive P. vivax (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="pEyAqpl5GbH-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Microscopy positive P. vivax (Active case detection)" value="[ MAL - Microscopy positive P. vivax (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_OVALE</td>
@@ -7814,7 +7815,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_MIXED</td>
 			<td style="text-align: center;"><input class="previousYears" id="Nchxj5YtKDu-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Nchxj5YtKDu-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Nchxj5YtKDu-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Microscopy positive mixed (Active case detection)" value="[ MAL - Microscopy positive mixed (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="Nchxj5YtKDu-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Microscopy positive mixed (Active case detection)" value="[ MAL - Microscopy positive mixed (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER_SPECIES</td>
@@ -7828,37 +7829,37 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_EXAMINED</td>
 			<td style="text-align: center;"><input class="previousYears" id="J3aEbkX5ybD-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="J3aEbkX5ybD-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="J3aEbkX5ybD-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT examined (Active case detection)" value="[ MAL - RDT examined (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="J3aEbkX5ybD-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT examined (Active case detection)" value="[ MAL - RDT examined (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_POSITIVE</td>
 			<td style="text-align: center;"><input class="previousYears" id="nMqeNyCalA4-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="nMqeNyCalA4-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="nMqeNyCalA4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT positive (Active case detection)" value="[ MAL - RDT positive (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="nMqeNyCalA4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT positive (Active case detection)" value="[ MAL - RDT positive (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_FALCIPARUM</td>
 			<td style="text-align: center;"><input class="previousYears" id="kCINATO1J4u-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="kCINATO1J4u-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="kCINATO1J4u-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT positive P. falciparum (Active case detection)" value="[ MAL - RDT positive P. falciparum (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="kCINATO1J4u-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT positive P. falciparum (Active case detection)" value="[ MAL - RDT positive P. falciparum (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_P_VIVAX</td>
 			<td style="text-align: center;"><input class="previousYears" id="I3NVvfOCVrg-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="I3NVvfOCVrg-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="I3NVvfOCVrg-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT positive P. vivax (Active case detection)" value="[ MAL - RDT positive P. vivax (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="I3NVvfOCVrg-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT positive P. vivax (Active case detection)" value="[ MAL - RDT positive P. vivax (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MIXED</td>
 			<td style="text-align: center;"><input class="previousYears" id="Je1wyl0bsmV-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Je1wyl0bsmV-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Je1wyl0bsmV-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT positive mixed species (Active case detection)" value="[ MAL - RDT positive mixed species (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="Je1wyl0bsmV-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT positive mixed species (Active case detection)" value="[ MAL - RDT positive mixed species (Active case detection) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER_SPECIES</td>
 			<td style="text-align: center;"><input class="previousYears" id="plwDquZPtaL-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="plwDquZPtaL-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="plwDquZPtaL-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - RDT positive other species (Active case detection)" value="[ MAL - RDT positive other species (Active case detection) ]" /></td>
+			<td style="text-align: center;"><input id="plwDquZPtaL-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - RDT positive other species (Active case detection)" value="[ MAL - RDT positive other species (Active case detection) ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -7893,32 +7894,32 @@ function popup(mylink, windowname) {
 			<td class="trn" colspan="2">MAL_DISTR_VIA_MASS_CAMP</td>
 			<td style="text-align: center;"><input class="previousYears" id="nUwV959EChS-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="nUwV959EChS-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="nUwV959EChS-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of ITNs distributed through mass campaign" value="[ MAL - Number of ITNs distributed through mass campaign ]" /></td>
+			<td style="text-align: center;"><input id="nUwV959EChS-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of ITNs distributed through mass campaign" value="[ MAL - Number of ITNs distributed through mass campaign ]" /></td>
 		</tr>
 		<tr>
 			<th class="trn" colscope="row" rowspan="3" style="text-align: center;">LBL_ROUTINE</th>
 			<td class="trn">LBL_ANTENATAL_CARE</td>
 			<td style="text-align: center;"><input class="previousYears" id="uK3bbCbJ0y1-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="uK3bbCbJ0y1-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="uK3bbCbJ0y1-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of ITNs distributed through ANC" value="[ MAL - Number of ITNs distributed through ANC ]" /></td>
+			<td style="text-align: center;"><input id="uK3bbCbJ0y1-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of ITNs distributed through ANC" value="[ MAL - Number of ITNs distributed through ANC ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_EPI_WELL_BABY_CLINIC</td>
 			<td style="text-align: center;"><input class="previousYears" id="Xb4tuVUuCF6-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Xb4tuVUuCF6-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Xb4tuVUuCF6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of ITNs distributed through EPI/well baby clinic" value="[ MAL - Number of ITNs distributed through EPI/well baby clinic ]" /></td>
+			<td style="text-align: center;"><input id="Xb4tuVUuCF6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of ITNs distributed through EPI/well baby clinic" value="[ MAL - Number of ITNs distributed through EPI/well baby clinic ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER_CHANNELS</td>
 			<td style="text-align: center;"><input class="previousYears" id="ickzipbh4zg-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="ickzipbh4zg-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="ickzipbh4zg-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of ITNs distributed through other channels" value="[ MAL - Number of ITNs distributed through other channels ]" /></td>
+			<td style="text-align: center;"><input id="ickzipbh4zg-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of ITNs distributed through other channels" value="[ MAL - Number of ITNs distributed through other channels ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="2">LBL_TOTAL_ITNS_DISTRIBUTED</td>
 			<td style="text-align: center;"><input class="previousYears" id="UH47dKFqTRK-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="UH47dKFqTRK-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align:center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="UH47dKFqTRK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Long lasting insecticide treated nets distributed" value="[ MAL - Long lasting insecticide treated nets distributed ]" /></td>
+			<td style="text-align: center;"><input id="UH47dKFqTRK-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Long lasting insecticide treated nets distributed" value="[ MAL - Long lasting insecticide treated nets distributed ]" /></td>
 		</tr>
 		<tr>
 			<th colscope="row" rowspan="5" style="text-align: center;"><span class="trn">LBL_PBO</span></th>
@@ -8026,7 +8027,7 @@ function popup(mylink, windowname) {
 			<td class="trn" colspan="3">LBL_REMARKS</td>
 			<td style="text-align: center;"><input class="previousYears" id="xx7FgGcwuAx-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="xx7FgGcwuAx-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="xx7FgGcwuAx-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Remarks on ITN distribution type" value="[ MAL - Remarks on ITN distribution type ]" /></td>
+			<td style="text-align: center;"><input id="xx7FgGcwuAx-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Remarks on ITN distribution type" value="[ MAL - Remarks on ITN distribution type ]" /></td>
 		</tr>
 		<tr>
 			<td colspan="6" style="text-align: left;"><span class="trn">LBL_OTHER_SHOULD_INCLUDE_SCHOOLS_FAITH_AND_COMMUNITY-BASED_NETWORKS</span></td>
@@ -8064,13 +8065,13 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_PEOPLE_TARGETED_FOR_IRS</td>
 			<td style="text-align: center;"><input class="previousYears" id="Kn70t6YxxEp-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Kn70t6YxxEp-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Kn70t6YxxEp-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people targeted for protection by IRS" value="[ MAL - Number of people targeted for protection by IRS ]" /></td>
+			<td style="text-align: center;"><input id="Kn70t6YxxEp-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people targeted for protection by IRS" value="[ MAL - Number of people targeted for protection by IRS ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_PEOPLE_PROTECTED_BY_IRS</td>
 			<td style="text-align: center;"><input class="previousYears" id="NywGy6uMS5r-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="NywGy6uMS5r-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="NywGy6uMS5r-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - People protected by IRS" value="[ MAL - People protected by IRS ]" /></td>
+			<td style="text-align: center;"><input id="NywGy6uMS5r-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - People protected by IRS" value="[ MAL - People protected by IRS ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PER_OF_TARGETED_POPULATION_PROTECTED_BY_IRS</td>
@@ -8143,7 +8144,7 @@ function popup(mylink, windowname) {
 			<td class="trn" colspan="2">LBL_REMARKS</td>
 			<td style="text-align: center;"><input class="previousYears" id="zPvmF50fbDb-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="zPvmF50fbDb-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="zPvmF50fbDb-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Remarks on IRS" value="[ MAL - Remarks on IRS ]" /></td>
+			<td style="text-align: center;"><input id="zPvmF50fbDb-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Remarks on IRS" value="[ MAL - Remarks on IRS ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -8162,7 +8163,7 @@ function popup(mylink, windowname) {
 </div>
 
 <div id="LARVAL_CONTROL" style="display:none;">
-<div style="display:none;"><input id="ESgGpWE6H5z-Xr12mI7VPn3-val" name="entryfield" style="border:////////////////////////////////////////////////////////////////////////////////" title="MAL - Other larva source management" value="[ MAL - Other larva source management ]" /></div>
+<div style="display:none;"><input id="ESgGpWE6H5z-Xr12mI7VPn3-val" name="entryfield" style="border:/" title="MAL - Other larva source management" value="[ MAL - Other larva source management ]" /></div>
 
 <div id="LC">
 <table border="1" cellpadding="1" cellspacing="1">
@@ -8175,13 +8176,13 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_LARVICIDE_USED</td>
 			<td style="text-align: center;"><select class="larvicidingSelect previousYears" id="scEeosqF1cs-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="border: 1px solid rgb(170, 170, 170); text-align: center; margin-right: 2px; background-color: rgb(255, 255, 255); width: 50%;" title="scEeosqF1cs - Type of larval control - Xr12mI7VPn3 - (default) - string"></select></td>
 			<td style="text-align: center;"><select class="larvicidingSelect previousYears" id="scEeosqF1cs-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="border: 1px solid rgb(170, 170, 170); text-align: center; margin-right: 2px; background-color: rgb(255, 255, 255); width: 50%;" title="scEeosqF1cs - Type of larval control - Xr12mI7VPn3 - (default) - string"></select></td>
-			<td style="text-align: center;"><input id="scEeosqF1cs-Xr12mI7VPn3-val" name="entryfield" style="border:////////////////////////////////////////////////////////////////////////////////" title="MAL - Larvicide used" value="[ MAL - Larvicide used ]" /></td>
+			<td style="text-align: center;"><input id="scEeosqF1cs-Xr12mI7VPn3-val" name="entryfield" style="border:/" title="MAL - Larvicide used" value="[ MAL - Larvicide used ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER_LARVICIDE_USED</td>
 			<td style="text-align: center;"><input class="previousYears" id="nXbbi7efG4U-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="nXbbi7efG4U-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="nXbbi7efG4U-Xr12mI7VPn3-val" name="entryfield" style="border:////////////////////////////////////////////////////////////////////////////////" title="MAL - Other larvicide used - specify" value="[ MAL - Other larvicide used - specify ]" /></td>
+			<td style="text-align: center;"><input id="nXbbi7efG4U-Xr12mI7VPn3-val" name="entryfield" style="border:/" title="MAL - Other larvicide used - specify" value="[ MAL - Other larvicide used - specify ]" /></td>
 		</tr>
 		<tr>
 			<td colspan="2"><span class="trn">LBL_OTHER_LARVAL_SOURCE_MGMT</span><br />
@@ -8225,7 +8226,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_TOTAL_NUMBER_OF_1ST_LINE_TREATMENT_COURSES_DISTRIBUTED_INCLUDING_ACTS</td>
 			<td style="text-align: center;"><input class="previousYears" id="OCuA0tI3BCi-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="OCuA0tI3BCi-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="OCuA0tI3BCi-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - 1st-line treatment courses distributed for treatment (incl. ACTs)" value="[ MAL - 1st-line treatment courses distributed for treatment (incl. ACTs) ]" /></td>
+			<td style="text-align: center;"><input id="OCuA0tI3BCi-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - 1st-line treatment courses distributed for treatment (incl. ACTs)" value="[ MAL - 1st-line treatment courses distributed for treatment (incl. ACTs) ]" /></td>
 			<td class="trn">LBL_CASES_TREATED_1ST_LINE_INCLUDING_ACTS</td>
 			<td style="text-align: center;"><input class="previousYears" id="IGZFEWkAOL2-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="IGZFEWkAOL2-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
@@ -8235,7 +8236,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_ACT_TREATMENT_COURSES_DISTRIBUTED</td>
 			<td style="text-align: center;"><input class="previousYears" id="l7gcisIvTBN-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="l7gcisIvTBN-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="l7gcisIvTBN-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of full treatment ACT course distributed for treatment " value="[ MAL - Number of full treatment ACT course distributed for treatment  ]" /></td>
+			<td style="text-align: center;"><input id="l7gcisIvTBN-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of full treatment ACT course distributed for treatment " value="[ MAL - Number of full treatment ACT course distributed for treatment  ]" /></td>
 			<td class="trn">LBL_NUMBER_CASES_TREATED_ACTS</td>
 			<td style="text-align: center;"><input class="previousYears" id="NLOLNgy6AJW-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="NLOLNgy6AJW-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
@@ -8245,7 +8246,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_1ST_PF_TREATMENT_COURSES_DISTRIBUTED</td>
 			<td style="text-align: center;"><input class="previousYears" id="Yz7kl7AMnk7-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Yz7kl7AMnk7-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Yz7kl7AMnk7-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of 1st-line antimalarial medicine (including ACTs) distributed for treatment of P. falciparum" value="[ MAL - Number of 1st-line antimalarial medicine (including ACTs) distributed for treatment of P. falciparum ]" /></td>
+			<td style="text-align: center;"><input id="Yz7kl7AMnk7-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of 1st-line antimalarial medicine (including ACTs) distributed for treatment of P. falciparum" value="[ MAL - Number of 1st-line antimalarial medicine (including ACTs) distributed for treatment of P. falciparum ]" /></td>
 			<td class="trn">LBL_NUMBER_PF_CASES_TREATED_1STLINE</td>
 			<td style="text-align: center;"><input class="previousYears" id="Q28Etir1XWO-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Q28Etir1XWO-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
@@ -8255,21 +8256,21 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_SINGL_DOSE_PQ_PF_TREATMENT_COURSES_DISTRIBUTED</td>
 			<td style="text-align: center;"><input class="previousYears" id="n38QRTyCTia-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="n38QRTyCTia-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="n38QRTyCTia-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of single low dose primaquine treatment courses distributed for treatment of P. falciparum" value="[ MAL - Number of single low dose primaquine treatment courses distributed for treatment of P. falciparum ]" /></td>
+			<td style="text-align: center;"><input id="n38QRTyCTia-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of single low dose primaquine treatment courses distributed for treatment of P. falciparum" value="[ MAL - Number of single low dose primaquine treatment courses distributed for treatment of P. falciparum ]" /></td>
 			<td class="trn">LBL_NUMBER_PF_CASES_TREAT_WITH_SINGL_DOSE_PQ_ACT</td>
 			<td style="text-align: center;"><input class="previousYears" id="QUk2XwhVL7n-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="QUk2XwhVL7n-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="QUk2XwhVL7n-Xr12mI7VPn3-val" name="entryfield" title="MAL - P. falciparum cases treated with single dose premaquine and ACT" value="[ MAL - P. falciparum cases treated with single dose premaquine and ACT ]" /></td>
+			<td style="text-align: center;"><input id="QUk2XwhVL7n-Xr12mI7VPn3-val" name="entryfield" title="MAL - P. falciparum cases treated with single dose primaquine and ACT" value="[ MAL - P. falciparum cases treated with single dose primaquine and ACT ]" /></td>
 		</tr>
 		<tr id="CQ_PV_TRT_DISTRIB">
 			<td class="trn">LBL_NO_FULL_CQ_TRTMT_COURSES_DISTR_P_VIVAX</td>
 			<td style="text-align: center;"><input class="previousYears" id="ApMsFO6m9IU-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input class="previousYears" id="ApMsFO6m9IUApMsFO6m9IU-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
+			<td style="text-align: center;"><input class="previousYears" id="ApMsFO6m9IU-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input id="ApMsFO6m9IU-Xr12mI7VPn3-val" name="entryfield" title="MAL - Number of CQ treatment courses distributed for treatment of P. vivax" value="[ MAL - Number of CQ treatment courses distributed for treatment of P. vivax ]" /></td>
 			<td class="trn">LBL_NUMBER_PV_CASES_TREATED_CQ</td>
 			<td style="text-align: center;"><input class="previousYears" id="h9DNhuHHgkH-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="h9DNhuHHgkH-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="h9DNhuHHgkH-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - P. vivax cases with treated chloroquine only" value="[ MAL - P. vivax cases with treated chloroquine only ]" /></td>
+			<td style="text-align: center;"><input id="h9DNhuHHgkH-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - P. vivax cases with treated chloroquine only" value="[ MAL - P. vivax cases with treated chloroquine only ]" /></td>
 		</tr>
 		<tr id="PQ_PV_TRT_DISTRIB">
 			<td class="trn">LBL_NO_FULL_PQ_TRTMT_COURSES_DISTR_P_VIVAX</td>
@@ -8279,7 +8280,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_PV_CASES_TREATED_PQ</td>
 			<td style="text-align: center;"><input class="previousYears" id="WoVoIProU89-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="WoVoIProU89-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="WoVoIProU89-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - P. vivax cases treated with premaquine (14 days)" value="[ MAL - P. vivax cases treated with premaquine (14 days) ]" /></td>
+			<td style="text-align: center;"><input id="WoVoIProU89-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - P. vivax cases treated with primaquine (14 days)" value="[ MAL - P. vivax cases treated with primaquine (14 days) ]" /></td>
 		</tr>
 		<tr id="ACT_PV_TRT_DISTRIB">
 			<td class="trn">LBL_NO_ACT_TRTMT_COURSES_DISTR_P_VIVAX</td>
@@ -8289,13 +8290,13 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_PV_CASES_TREATED_ACT</td>
 			<td style="text-align: center;"><input class="previousYears" id="PUCNQUMVuRE-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="PUCNQUMVuRE-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="PUCNQUMVuRE-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - P. vivax cases with treated ACT" value="[ MAL - P. vivax cases with treated ACT ]" /></td>
+			<td style="text-align: center;"><input id="PUCNQUMVuRE-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - P. vivax cases with treated ACT" value="[ MAL - P. vivax cases with treated ACT ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_RDTS_DISTRIBUTED</td>
 			<td style="text-align: center;"><input class="previousYears" id="WKptQ2xGS3S-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="WKptQ2xGS3S-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="WKptQ2xGS3S-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Total number of RDTs distributed" value="[ MAL - Total number of RDTs distributed ]" /></td>
+			<td style="text-align: center;"><input id="WKptQ2xGS3S-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Total number of RDTs distributed" value="[ MAL - Total number of RDTs distributed ]" /></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -8305,7 +8306,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_REMARKS</td>
 			<td style="text-align: center;"><input class="previousYears" id="dhIHEaLShc1-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="dhIHEaLShc1-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="dhIHEaLShc1-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Remarks on diagnosis and treatment" value="[ MAL - Remarks on diagnosis and treatment ]" /></td>
+			<td style="text-align: center;"><input id="dhIHEaLShc1-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Remarks on diagnosis and treatment" value="[ MAL - Remarks on diagnosis and treatment ]" /></td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
 			<td>&nbsp;</td>
@@ -8340,31 +8341,31 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_CHILDREN_IN_AREAS_TARGETED_FOR_SMC</td>
 			<td style="text-align: center;"><input class="previousYears" id="L6i3ENR60uw-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="L6i3ENR60uw-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="L6i3ENR60uw-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of children in areas targeted for SMC" value="[ MAL - Number of children in areas targeted for SMC ]" /></td>
+			<td style="text-align: center;"><input id="L6i3ENR60uw-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of children in areas targeted for SMC" value="[ MAL - Number of children in areas targeted for SMC ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_CHILDREN_TREATED_WITH_AQ_SP_1ST_CYCLE</td>
 			<td style="text-align: center;"><input class="previousYears" id="z6WRMJxYN63-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="z6WRMJxYN63-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="z6WRMJxYN63-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of children treated with (AQ+SP) 1st month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 1st month/SMC cycle ]" /></td>
+			<td style="text-align: center;"><input id="z6WRMJxYN63-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of children treated with (AQ+SP) 1st month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 1st month/SMC cycle ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_CHILDREN_TREATED_WITH_AQ_SP_2ND_CYCLE</td>
 			<td style="text-align: center;"><input class="previousYears" id="Btww5qyf02t-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Btww5qyf02t-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Btww5qyf02t-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of children treated with (AQ+SP) 2nd month/SMC cycle " value="[ MAL - Number of children treated with (AQ+SP) 2nd month/SMC cycle  ]" /></td>
+			<td style="text-align: center;"><input id="Btww5qyf02t-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of children treated with (AQ+SP) 2nd month/SMC cycle " value="[ MAL - Number of children treated with (AQ+SP) 2nd month/SMC cycle  ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_CHILDREN_TREATED_WITH_AQ_SP_3RD_CYCLE</td>
 			<td style="text-align: center;"><input class="previousYears" id="ioo3DrOS7D9-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="ioo3DrOS7D9-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="ioo3DrOS7D9-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of children treated with (AQ+SP) 3rd month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 3rd month/SMC cycle ]" /></td>
+			<td style="text-align: center;"><input id="ioo3DrOS7D9-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of children treated with (AQ+SP) 3rd month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 3rd month/SMC cycle ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_CHILDREN_TREATED_WITH_AQ_SP_4TH_CYCLE</td>
 			<td style="text-align: center;"><input class="previousYears" id="ILkwuHtGZRz-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="ILkwuHtGZRz-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="ILkwuHtGZRz-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of children treated with (AQ+SP) 4th month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 4th month/SMC cycle ]" /></td>
+			<td style="text-align: center;"><input id="ILkwuHtGZRz-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of children treated with (AQ+SP) 4th month/SMC cycle" value="[ MAL - Number of children treated with (AQ+SP) 4th month/SMC cycle ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -8392,7 +8393,7 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_1ST_ANTENATAL_VISITS</td>
 			<td style="text-align: center;"><input class="previousYears" id="n0tgQ4PjnnT-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="n0tgQ4PjnnT-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="n0tgQ4PjnnT-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - ANC 1st visit (malaria)" value="[ MAL - ANC 1st visit (malaria) ]" /></td>
+			<td style="text-align: center;"><input id="n0tgQ4PjnnT-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - ANC 1st visit (malaria)" value="[ MAL - ANC 1st visit (malaria) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_2ND_ANTENATAL_VISITS</td>
@@ -8416,25 +8417,25 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_NUMBER_OF_1ST_IPT_DOSE_SP_GIVEN</td>
 			<td style="text-align: center;"><input class="previousYears" id="vCwegNjEuxN-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="vCwegNjEuxN-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="vCwegNjEuxN-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - SP course received for IPTp (1st dose)" value="[ MAL - SP course received for IPTp (1st dose) ]" /></td>
+			<td style="text-align: center;"><input id="vCwegNjEuxN-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - SP course received for IPTp (1st dose)" value="[ MAL - SP course received for IPTp (1st dose) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_2ND_IPT_DOSE_SP_GIVEN</td>
 			<td style="text-align: center;"><input class="previousYears" id="t4FqHKzAyEn-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="t4FqHKzAyEn-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="t4FqHKzAyEn-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - SP course received for IPTp (2nd dose)" value="[ MAL - SP course received for IPTp (2nd dose) ]" /></td>
+			<td style="text-align: center;"><input id="t4FqHKzAyEn-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - SP course received for IPTp (2nd dose)" value="[ MAL - SP course received for IPTp (2nd dose) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_3RD_IPT_DOSE_SP_GIVEN</td>
 			<td style="text-align: center;"><input class="previousYears" id="SPhiBDEbG0o-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="SPhiBDEbG0o-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="SPhiBDEbG0o-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - SP course received for IPTp (3rd dose)" value="[ MAL - SP course received for IPTp (3rd dose) ]" /></td>
+			<td style="text-align: center;"><input id="SPhiBDEbG0o-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - SP course received for IPTp (3rd dose)" value="[ MAL - SP course received for IPTp (3rd dose) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_NUMBER_OF_4TH_IPT_DOSE_SP_GIVEN</td>
 			<td style="text-align: center;"><input class="previousYears" id="GEgULJaUkyQ-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="GEgULJaUkyQ-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="GEgULJaUkyQ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - SP course received for IPTp (4th dose)" value="[ MAL - SP course received for IPTp (4th dose) ]" /></td>
+			<td style="text-align: center;"><input id="GEgULJaUkyQ-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - SP course received for IPTp (4th dose)" value="[ MAL - SP course received for IPTp (4th dose) ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -8461,19 +8462,19 @@ function popup(mylink, windowname) {
 			<td class="trn" colspan="2">LBL_NUMBER_OF_PEOPLE_TARGETED_FOR_MASS_DRUG_ADMINISTRATION_MDA_IF_ANY</td>
 			<td style="text-align: center;"><input class="previousYears" id="aukTWKTjock-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="aukTWKTjock-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="aukTWKTjock-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people targeted for Mass Drug Administration(MDA), if any?" value="[ MAL - Number of people targeted for Mass Drug Administration(MDA), if any? ]" /></td>
+			<td style="text-align: center;"><input id="aukTWKTjock-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people targeted for Mass Drug Administration(MDA), if any?" value="[ MAL - Number of people targeted for Mass Drug Administration(MDA), if any? ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="2">LBL_NUMBER_OF_PEOPLE_PROTECTED_WITH_MASS_DRUG_ADMINISTRATION_MDA</td>
 			<td style="text-align: center;"><input class="previousYears" id="nJL2KmUXZ9t-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="nJL2KmUXZ9t-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="nJL2KmUXZ9t-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Number of people protected with Mass Drug Administration(MDA), if any?" value="[ MAL - Number of people protected with Mass Drug Administration(MDA), if any? ]" /></td>
+			<td style="text-align: center;"><input id="nJL2KmUXZ9t-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Number of people protected with Mass Drug Administration(MDA), if any?" value="[ MAL - Number of people protected with Mass Drug Administration(MDA), if any? ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn" colspan="2" rowspan="2">LBL_NAME_OF_MDA_DRUG</td>
 			<td style="text-align: center;"><select class="MDADrugsSelect previousYears" id="cXhCtEy97u4-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="border: 1px solid rgb(170, 170, 170); width: 88%; text-align: center; margin-right: 2px; background-color: rgb(255, 255, 255);" title="cXhCtEy97u4 - MDA Drug - Xr12mI7VPn3 - (default) - string"></select></td>
 			<td style="text-align: center;"><select class="MDADrugsSelect previousYears" id="cXhCtEy97u4-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="border: 1px solid rgb(170, 170, 170); width: 88%; text-align: center; margin-right: 2px; background-color: rgb(255, 255, 255);" title="cXhCtEy97u4 - MDA Drug - Xr12mI7VPn3 - (default) - string"></select></td>
-			<td style="text-align: center;"><input id="cXhCtEy97u4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Name of MDA drug" value="[ MAL - Name of MDA drug ]" /><br />
+			<td style="text-align: center;"><input id="cXhCtEy97u4-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Name of MDA drug" value="[ MAL - Name of MDA drug ]" /><br />
 			<span style="font-size: 10px;"><em class="trn">LBL_IF_DRUG_IS_NOT_IN_THE_LIST_PLEASE_SPECIFY_BELOW</em></span></td>
 		</tr>
 		<tr>
@@ -8507,7 +8508,7 @@ function popup(mylink, windowname) {
 			<td class="trn" colspan="2">LBL_IF_OTHER_MDA_DRUG_SPECIFY</td>
 			<td style="text-align: center;"><input class="previousYears" id="VXDF63Rpdrd-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="VXDF63Rpdrd-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="VXDF63Rpdrd-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Other MDA drug" value="[ MAL - Other MDA drug ]" /></td>
+			<td style="text-align: center;"><input id="VXDF63Rpdrd-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Other MDA drug" value="[ MAL - Other MDA drug ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -8533,62 +8534,62 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_MALARIA_BUDGET</td>
 			<td style="text-align: center;"><input class="previousYears" id="XqQySZoSW6j-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="XqQySZoSW6j-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="XqQySZoSW6j-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria budget (USD)" value="[ MAL - Malaria budget (USD) ]" /></td>
+			<td style="text-align: center;"><input id="XqQySZoSW6j-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria budget (USD)" value="[ MAL - Malaria budget (USD) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MALARIA_EXPENDITURE</td>
 			<td style="text-align: center;"><input class="previousYears" id="t9RPhH9zVIm-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="t9RPhH9zVIm-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="t9RPhH9zVIm-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria expenditure (USD)" value="[ MAL - Malaria expenditure (USD) ]" /></td>
+			<td style="text-align: center;"><input id="t9RPhH9zVIm-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Malaria expenditure (USD)" value="[ MAL - Malaria expenditure (USD) ]" /></td>
 		</tr>
 		<tr>
 			<th class="trn" rowspan="8" scope="row" style="text-align: center;">LBL_EXTERNAL</th>
 			<td class="trn">LBL_GLOBAL_FUND__INCLUDING_ALL_PRS</td>
 			<td style="text-align: center;"><input class="previousYears" id="SQ1v0YjfAcW-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="SQ1v0YjfAcW-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="SQ1v0YjfAcW-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Global Fund (USD)" value="[ MAL - Global Fund (USD) ]" /></td>
+			<td style="text-align: center;"><input id="SQ1v0YjfAcW-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Global Fund (USD)" value="[ MAL - Global Fund (USD) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_WORLD_BANK</td>
 			<td style="text-align: center;"><input class="previousYears" id="OGZljNFx3q9-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="OGZljNFx3q9-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="OGZljNFx3q9-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Worldbank (USD)" value="[ MAL - Worldbank (USD) ]" /></td>
+			<td style="text-align: center;"><input id="OGZljNFx3q9-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Worldbank (USD)" value="[ MAL - Worldbank (USD) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_USAID_PMI</td>
 			<td style="text-align: center;"><input class="previousYears" id="JrVZ5GeTlGs-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="JrVZ5GeTlGs-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="JrVZ5GeTlGs-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - USAID/PMI" value="[ MAL - USAID/PMI ]" /></td>
+			<td style="text-align: center;"><input id="JrVZ5GeTlGs-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - USAID/PMI" value="[ MAL - USAID/PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER_BILATERALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="P836yH6gI9d-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="P836yH6gI9d-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="P836yH6gI9d-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Other bilaterals (DFAT, DFID, JICA etc)" value="[ MAL - Other bilaterals (DFAT, DFID, JICA etc) ]" /></td>
+			<td style="text-align: center;"><input id="P836yH6gI9d-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Other bilaterals (DFAT, DFID, JICA etc)" value="[ MAL - Other bilaterals (DFAT, DFID, JICA etc) ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_UNICEF</td>
 			<td style="text-align: center;"><input class="previousYears" id="fMuoomkBkeL-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="fMuoomkBkeL-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="fMuoomkBkeL-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - UNICEF" value="[ MAL - UNICEF ]" /></td>
+			<td style="text-align: center;"><input id="fMuoomkBkeL-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - UNICEF" value="[ MAL - UNICEF ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_WHO</td>
 			<td style="text-align: center;"><input class="previousYears" id="ZrcaG7k08Cl-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="ZrcaG7k08Cl-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="ZrcaG7k08Cl-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - WHO" value="[ MAL - WHO ]" /></td>
+			<td style="text-align: center;"><input id="ZrcaG7k08Cl-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - WHO" value="[ MAL - WHO ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHERS_NGOS_FOUNDATIONS_ETC</td>
 			<td style="text-align: center;"><input class="previousYears" id="vbyRiNvB2Rc-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="vbyRiNvB2Rc-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="vbyRiNvB2Rc-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Other donors" value="[ MAL - Other donors ]" /></td>
+			<td style="text-align: center;"><input id="vbyRiNvB2Rc-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Other donors" value="[ MAL - Other donors ]" /></td>
 		</tr>
 		<tr>
 			<td><span class="trn">LBL_PLEASE_SPECIFY_DONOR_NAME</span></td>
 			<td style="text-align: center;"><input class="previousYears" id="Qbciw17GnGY-Xr12mI7VPn3_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="Qbciw17GnGY-Xr12mI7VPn3_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="Qbciw17GnGY-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Other donor names" value="[ MAL - Other donor names ]" /></td>
+			<td style="text-align: center;"><input id="Qbciw17GnGY-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;/" title="MAL - Other donor names" value="[ MAL - Other donor names ]" /></td>
 		</tr>
 	</tbody>
 </table>
@@ -8617,85 +8618,85 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_HUMAN_RESOURCES_TECHNICAL_ASSISTANCE</td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="HPy14nfta68-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="HPy14nfta68-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Human Resources &amp; Technical Assistance expenditure Government" value="[ MAL - Human Resources &amp; Technical Assistance expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_TRAINING</td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="P3znVsrv8uo-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="P3znVsrv8uo-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Training expenditure Government" value="[ MAL - Training expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ITNS_PBOS</td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="D6mLfabZrx2-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="D6mLfabZrx2-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - ITN expenditure Government" value="[ MAL - ITN expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INSECTICIDE_SPRAYING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="cDrGDh9JdFp-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="cDrGDh9JdFp-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Insecticide &amp; spraying materials expenditure Government" value="[ MAL - Insecticide &amp; spraying materials expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_LARVICIDING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="XyF7TSNefHW-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="XyF7TSNefHW-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Larviciding expenditure Government" value="[ MAL - Larviciding expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_HOUSE_SCREENING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="lZF0irRoY4D-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="lZF0irRoY4D-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - House screening with untreated materials expenditure Government" value="[ MAL - House screening with untreated materials expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_DIAGNOSTICS</td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="tMwk9hyJbrI-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="tMwk9hyJbrI-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Diagnostics expenditure Government" value="[ MAL - Diagnostics expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ANTI-MALARIAL_MEDICINES</td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pXICyStHf7p-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pXICyStHf7p-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Anti-malarial medicine expenditure Government" value="[ MAL - Anti-malarial medicine expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PROCUREMENT_SUPPLY_MANAGEMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pKGJQybfUu1-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pKGJQybfUu1-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Procurement &amp; supply management expenditure Government" value="[ MAL - Procurement &amp; supply management expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INFRASTRUCTURE_EQUIPMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="OuCE0rulNcQ-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="OuCE0rulNcQ-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Infrastructure &amp; equipment expenditure Government" value="[ MAL - Infrastructure &amp; equipment expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_COMMUNICATION_AND_ADVOCACY</td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="c6gKXlmpehL-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="c6gKXlmpehL-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Communication and advocacy expenditure Government" value="[ MAL - Communication and advocacy expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MONITORING_AND_EVALUATION</td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="s69X99SinMi-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="s69X99SinMi-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Monitoring and Evaluation expenditure Government" value="[ MAL - Monitoring and Evaluation expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PLANNING_ADMINISTRATION_OVERHEADS</td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="a3CedGg64tl-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="a3CedGg64tl-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Planning expenditure Government" value="[ MAL - Planning expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER</td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-hnvJqfq3h4w_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-hnvJqfq3h4w_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="e7rKjUETtQS-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="e7rKjUETtQS-hnvJqfq3h4w-val" name="entryfield" style="text-align:center;/" title="MAL - Other expenditure Government" value="[ MAL - Other expenditure Government ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_AMOUNTS_ARE_BUDGETS_DISBURSEMENTS_EXPENDITURE</td>
@@ -8722,85 +8723,85 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_HUMAN_RESOURCES_TECHNICAL_ASSISTANCE</td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="HPy14nfta68-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="HPy14nfta68-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Human Resources &amp; Technical Assistance expenditure Global Fund" value="[ MAL - Human Resources &amp; Technical Assistance expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_TRAINING</td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="P3znVsrv8uo-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="P3znVsrv8uo-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Training expenditure Global Fund" value="[ MAL - Training expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ITNS_PBOS</td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="D6mLfabZrx2-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="D6mLfabZrx2-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - ITN expenditure Global Fund" value="[ MAL - ITN expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INSECTICIDE_SPRAYING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="cDrGDh9JdFp-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="cDrGDh9JdFp-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Insecticide &amp; spraying materials expenditure Global Fund" value="[ MAL - Insecticide &amp; spraying materials expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_LARVICIDING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="XyF7TSNefHW-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="XyF7TSNefHW-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Larviciding expenditure Global Fund" value="[ MAL - Larviciding expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_HOUSE_SCREENING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="lZF0irRoY4D-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="lZF0irRoY4D-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - House screening with untreated materials expenditure Global Fund" value="[ MAL - House screening with untreated materials expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_DIAGNOSTICS</td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="tMwk9hyJbrI-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="tMwk9hyJbrI-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Diagnostics expenditure Global Fund" value="[ MAL - Diagnostics expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ANTI-MALARIAL_MEDICINES</td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pXICyStHf7p-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pXICyStHf7p-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Anti-malarial medicine expenditure Global Fund" value="[ MAL - Anti-malarial medicine expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PROCUREMENT_SUPPLY_MANAGEMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pKGJQybfUu1-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pKGJQybfUu1-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Procurement &amp; supply management expenditure Global Fund" value="[ MAL - Procurement &amp; supply management expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INFRASTRUCTURE_EQUIPMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="OuCE0rulNcQ-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="OuCE0rulNcQ-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Infrastructure &amp; equipment expenditure Global Fund" value="[ MAL - Infrastructure &amp; equipment expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_COMMUNICATION_AND_ADVOCACY</td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="c6gKXlmpehL-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="c6gKXlmpehL-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Communication and advocacy expenditure Global Fund" value="[ MAL - Communication and advocacy expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MONITORING_AND_EVALUATION</td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="s69X99SinMi-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="s69X99SinMi-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Monitoring and Evaluation expenditure Global Fund" value="[ MAL - Monitoring and Evaluation expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PLANNING_ADMINISTRATION_OVERHEADS</td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="a3CedGg64tl-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="a3CedGg64tl-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Planning expenditure Global Fund" value="[ MAL - Planning expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER</td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-JUrSAQzCcdY_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-JUrSAQzCcdY_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="e7rKjUETtQS-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="e7rKjUETtQS-JUrSAQzCcdY-val" name="entryfield" style="text-align:center;/" title="MAL - Other expenditure Global Fund" value="[ MAL - Other expenditure Global Fund ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_AMOUNTS_ARE_BUDGETS_DISBURSEMENTS_EXPENDITURE</td>
@@ -8827,85 +8828,85 @@ function popup(mylink, windowname) {
 			<td class="trn">LBL_HUMAN_RESOURCES_TECHNICAL_ASSISTANCE</td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="HPy14nfta68-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="HPy14nfta68-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="HPy14nfta68-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Human Resources &amp; Technical Assistance expenditure PMI" value="[ MAL - Human Resources &amp; Technical Assistance expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_TRAINING</td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="P3znVsrv8uo-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="P3znVsrv8uo-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="P3znVsrv8uo-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Training expenditure PMI" value="[ MAL - Training expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ITNS_PBOS</td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="D6mLfabZrx2-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="D6mLfabZrx2-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="D6mLfabZrx2-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - ITN expenditure PMI" value="[ MAL - ITN expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INSECTICIDE_SPRAYING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="cDrGDh9JdFp-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="cDrGDh9JdFp-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="cDrGDh9JdFp-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Insecticide &amp; spraying materials expenditure PMI" value="[ MAL - Insecticide &amp; spraying materials expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_LARVICIDING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="XyF7TSNefHW-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="XyF7TSNefHW-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="XyF7TSNefHW-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Larviciding expenditure PMI" value="[ MAL - Larviciding expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_HOUSE_SCREENING_MATERIALS</td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="lZF0irRoY4D-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="lZF0irRoY4D-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="lZF0irRoY4D-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - House screening with untreated materials expenditure PMI" value="[ MAL - House screening with untreated materials expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_DIAGNOSTICS</td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="tMwk9hyJbrI-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="tMwk9hyJbrI-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="tMwk9hyJbrI-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Diagnostics expenditure PMI" value="[ MAL - Diagnostics expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_ANTI-MALARIAL_MEDICINES</td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pXICyStHf7p-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pXICyStHf7p-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pXICyStHf7p-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Anti-malarial medicine expenditure PMI" value="[ MAL - Anti-malarial medicine expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PROCUREMENT_SUPPLY_MANAGEMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="pKGJQybfUu1-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="pKGJQybfUu1-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="pKGJQybfUu1-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Procurement &amp; supply management expenditure PMI" value="[ MAL - Procurement &amp; supply management expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_INFRASTRUCTURE_EQUIPMENT</td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="OuCE0rulNcQ-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="OuCE0rulNcQ-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="OuCE0rulNcQ-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Infrastructure &amp; equipment expenditure PMI" value="[ MAL - Infrastructure &amp; equipment expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_COMMUNICATION_AND_ADVOCACY</td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="c6gKXlmpehL-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="c6gKXlmpehL-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="c6gKXlmpehL-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Communication and advocacy expenditure PMI" value="[ MAL - Communication and advocacy expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_MONITORING_AND_EVALUATION</td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="s69X99SinMi-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="s69X99SinMi-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="s69X99SinMi-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Monitoring and Evaluation expenditure PMI" value="[ MAL - Monitoring and Evaluation expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_PLANNING_ADMINISTRATION_OVERHEADS</td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="a3CedGg64tl-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="a3CedGg64tl-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="a3CedGg64tl-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Planning expenditure PMI" value="[ MAL - Planning expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_OTHER</td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-T8goPxNGa7Z_year2" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
 			<td style="text-align: center;"><input class="previousYears" id="e7rKjUETtQS-T8goPxNGa7Z_year1" onchange="saveDataValue(this)" style="text-align: center;" title="" type="text" value="" /></td>
-			<td style="text-align: center;"><input id="e7rKjUETtQS-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="undefined" value="[ undefined ]" /></td>
+			<td style="text-align: center;"><input id="e7rKjUETtQS-T8goPxNGa7Z-val" name="entryfield" style="text-align:center;/" title="MAL - Other expenditure PMI" value="[ MAL - Other expenditure PMI ]" /></td>
 		</tr>
 		<tr>
 			<td class="trn">LBL_AMOUNTS_ARE_BUDGETS_DISBURSEMENTS_EXPENDITURE</td>
@@ -8926,7 +8927,7 @@ function popup(mylink, windowname) {
 	<tbody>
 		<tr>
 			<td class="trn">LBL_GENERAL_COMMENTS</td>
-			<td colspan="3"><input id="ERjP5H3q0kB-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px////////////////////////////////////////////////////////////////////////////////" title="MAL - Remarks: WMR Form" value="[ MAL - Remarks: WMR Form ]" /></td>
+			<td colspan="3"><input id="ERjP5H3q0kB-Xr12mI7VPn3-val" name="entryfield" style="text-align:left;width:500px/" title="MAL - Remarks: WMR Form" value="[ MAL - Remarks: WMR Form ]" /></td>
 		</tr>
 	</tbody>
 </table>
