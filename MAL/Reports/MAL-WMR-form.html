@@ -546,6 +546,7 @@ color:#FFD100;
 
 
   var xGuid = "";
+  var modifyingUser= "";
 
   var monitoring = false;
   var selectedOrgUnitName = "";
@@ -3715,6 +3716,7 @@ function saveDataMultiSelectValue(field) {
 
     $.getJSON( requestURL, function(json) {
         xGuid = json.id;
+        modifyingUser = json.name;
     })
     .done(function() {
         lockDownReportingYear();
@@ -4251,6 +4253,22 @@ function getMonitoringValue() {
     return monitoring;
 }
 
+function makeAPICall(url) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      url,
+      type: 'GET',
+      dataType: "json",
+      success: function (data) {
+        resolve(data);
+      },
+      error: function (error) {
+        reject(error);
+      },
+    })
+  })
+}
+
 function getSelectedOrgUnitName() {
   var orgUnitID = dhis2.de.currentOrganisationUnitId;
   var requestURL = "../api/organisationUnits/" + orgUnitID + ".json";
@@ -4287,6 +4305,9 @@ function sendMonitoringNotification() {
   var malDataNotifications = "b2lbMkrsNBz";
   var malDataNotificationUsers = null;
   var period = $('#selectedPeriodId').val();
+  var oldDataValue = "";
+  var newDataValue = "";
+  var dataElementId = "";
 
   var requestURL = "../api/userGroups/" + malDataNotifications + ".json?fields=users";
 
@@ -4296,39 +4317,54 @@ function sendMonitoringNotification() {
       malDataNotificationUsers = malDataNotificationUsers = malDataNotificationUsers.filter(malDataNotificationUser => malDataNotificationUser.id !== xGuid);
     }
 
-    var data = {
-      subject: "New data for " + selectedDataSet + " " + period + " " + selectedOrgUnitName,
-      text: "WMR Form monitoring: New data has been submitted for dataset " + selectedDataSet + " and period " + period + " in " + selectedOrgUnitName,
-      users: malDataNotificationUsers,
-    };
+    $('input').on("focus", function() {
+      oldDataValue= $(this).val()
+    })
 
     if (monitoring === true) {
       $('input').change(function() {
-        if ($('input').focusout()) {
-          $.post({
-            url: "../api/messageConversations",
-            type: "POST",
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data)
+        newDataValue = $(this).val();
+        [dataElementId] = this.id.split("-");
+        var dataElementName = "";
+
+        makeAPICall(`../api/dataElements/${dataElementId}.json`)
+          .then((data) => {
+            dataElementName = data.name;
+            var data = {
+              subject: "New data for " + selectedDataSet + " " + period + " " + selectedOrgUnitName,
+              text: "WMR Form monitoring: New data has been submitted for dataset " + selectedDataSet + " and period " + period + " in " + selectedOrgUnitName + ".\nData element " + dataElementName + " has been changed from " + oldDataValue + " to " + newDataValue + ". \nModifying user: " + modifyingUser,
+              users: malDataNotificationUsers,
+            };
+
+            if ($('input').focusout()) {
+              $.post({
+                url: "../api/messageConversations",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data)
+              })
+              .done((data, status) => {
+                console.log(data, status);
+              });
+            } else if ($('input').keyup(e)) {
+              if (e.key === 'Enter' || e.keyCode === 13) {
+                $.post({
+                url: "../api/messageConversations",
+                type: "POST",
+                contentType: 'application/json',
+                dataType: 'json',
+                data: JSON.stringify(data)
+                })
+                .done((data, status) => {
+                  console.log(data, status);
+                });
+              }
+            } 
           })
-          .done((data, status) => {
-            console.log(data, status);
+          .catch((error) => {
+            console.error(error);
           });
-        } else if ($('input').keyup(e)) {
-          if (e.key === 'Enter' || e.keyCode === 13) {
-            $.post({
-            url: "../api/messageConversations",
-            type: "POST",
-            contentType: 'application/json',
-            dataType: 'json',
-            data: JSON.stringify(data)
-          })
-          .done((data, status) => {
-            console.log(data, status);
-          });
-          }
-        } 
       });
     }
   })
@@ -7665,10 +7701,6 @@ function popup(mylink, windowname) {
 			<td style="text-align: center;"><input id="NjOWr5NeVDd-Xr12mI7VPn3-val" name="entryfield" title="MAL - Foci Definition" value="[ MAL - Foci Definition ]" /></td>
 		</tr>
 		<!--new active, endemic, residual active-->
-		<tr>
-			<td><span class="trn">LBL_NUMBER_OF_NEW_FOCI_THAT_REQUIRED_INVESTIGATION</span></td>
-			<td style="text-align: center;"><input id="lZi1cjtvVB6-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - New active foci with the current calendar year" value="[ MAL - New active foci with the current calendar year ]" /></td>
-		</tr>
 		<tr>
 			<td><span class="trn">LBL_TOTAL_NUMBER_OF_NEW_FOCI_INVESTIGATED</span></td>
 			<td style="text-align: center;"><input id="s9FmEvF0r4n-Xr12mI7VPn3-val" name="entryfield" style="text-align:center;////////////////////////////////////////////////////////////////////////////////" title="MAL - Malaria foci investigated" value="[ MAL - Malaria foci investigated ]" /></td>
