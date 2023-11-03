@@ -623,7 +623,13 @@
                                         dataSrc: 2,
                                     },
                                     dom: "lBfrtip",
-                                    buttons: [{ extend: "csv", text: "Export to CSV" }],
+                                    buttons: [
+                                        {
+                                            extend: "csv",
+                                            text: "Export to CSV",
+                                            filename: "invalid_admins_authorities",
+                                        },
+                                    ],
                                 });
                                 // Build "Generic users marked as to be deleted" table
                                 const usersWithInvalidAuthorities = $(
@@ -634,7 +640,13 @@
                                         dataSrc: 2,
                                     },
                                     dom: "lBfrtip",
-                                    buttons: [{ extend: "csv", text: "Export to CSV" }],
+                                    buttons: [
+                                        {
+                                            extend: "csv",
+                                            text: "Export to CSV",
+                                            filename: "invalid_users_authorities",
+                                        },
+                                    ],
                                 });
                                 const extWithInvalidAuthorities = $(
                                     "#invalid_ext_users_authorities"
@@ -644,7 +656,13 @@
                                         dataSrc: 2,
                                     },
                                     dom: "lBfrtip",
-                                    buttons: [{ extend: "csv", text: "Export to CSV" }],
+                                    buttons: [
+                                        {
+                                            extend: "csv",
+                                            text: "Export to CSV",
+                                            filename: "invalid_ext_users_authorities",
+                                        },
+                                    ],
                                 });
                                 const userManagerWithInvalidAuthorities = $(
                                     "#invalid_user_manager_authorities"
@@ -654,7 +672,13 @@
                                         dataSrc: 2,
                                     },
                                     dom: "lBfrtip",
-                                    buttons: [{ extend: "csv", text: "Export to CSV" }],
+                                    buttons: [
+                                        {
+                                            extend: "csv",
+                                            text: "Export to CSV",
+                                            filename: "invalid_user_manager_authorities",
+                                        },
+                                    ],
                                 });
 
                                 $.ajax({
