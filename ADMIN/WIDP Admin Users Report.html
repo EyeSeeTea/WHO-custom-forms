@@ -122,22 +122,6 @@
             type="text/javascript"
             src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"
         ></script>
-        <script>
-            // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
-            jQuery(function () {
-                try {
-                    if ("Dhis2HeaderBar" in window) {
-                        Dhis2HeaderBar.initHeaderBar(document.querySelector("#header"), undefined, {
-                            noLoadingIndicator: true,
-                        });
-                    }
-                } catch (e) {
-                    if ("console" in window) {
-                        console.error(e);
-                    }
-                }
-            });
-        </script>
         <!-- // End menu -->
         <!--[if lte IE 8
             ]><script
@@ -361,30 +345,11 @@
     </head>
 
     <body>
-        <div id="header">
-            <img
-                id="headerBanner"
-                src="../api/staticContent/logo_banner"
-                onclick="window.location.href='../dhis-web-commons-about/redirect.action'"
-                style="cursor: pointer"
-                title="View home page"
-            />
-
-            <div id="dhisDropDownMenu"></div>
-        </div>
-        <span id="showLeftBar">
-            <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
-                <i class="fa fa-arrow-right leftBarIcon"></i>
-            </a>
-        </span>
-
         <style type="text/css">
             #mainPage {
-                margin-left: 20px;
+                margin: 5px 10px 10px 20px !important;
             }
         </style>
-
-        <div id="headerMessage" class="bold"></div>
 
         <div class="page" id="mainPage">
             <!-- Do not set style attr -->

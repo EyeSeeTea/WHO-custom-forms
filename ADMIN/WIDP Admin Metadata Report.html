@@ -62,20 +62,6 @@
     <!-- Menu script is up here due to perceived loading time increase -->
     <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/babel-polyfill.js?_rev=ce9c6db"></script>
     <script type="text/javascript" src="../dhis-web-commons/javascripts/header-bar/header-bar.js?_rev=ce9c6db"></script>
-    <script>
-        // Needs to be wrapped in jQuery to be sure the DOM is parsed as the script is not at the bottom.
-        jQuery(function () {
-            try {
-                if ('Dhis2HeaderBar' in window) {
-                    Dhis2HeaderBar.initHeaderBar(document.querySelector('#header'), undefined, {noLoadingIndicator: true});
-                }
-            } catch (e) {
-                if ('console' in window ) {
-                    console.error(e);
-                }
-            }
-        });
-    </script>
     <!-- // End menu -->
     <!--[if lte IE 8]><script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=ce9c6db"></script><![endif]-->
     <script type="text/javascript" src="../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=ce9c6db"></script>
@@ -144,22 +130,12 @@
   
   <body>
     
-    <div id="header">
-      <img id="headerBanner" src="../api/staticContent/logo_banner" onclick="window.location.href='../dhis-web-commons-about/redirect.action'" style="cursor:pointer" title="View home page">
-
-      <div id="dhisDropDownMenu"></div>
-    </div>
-    <span id="showLeftBar">
-      <a href="javascript:dhis2.leftBar.showAnimated()" title="Show menu">
-        <i class="fa fa-arrow-right leftBarIcon"></i>
-      </a>
-    </span>
-
         <style type="text/css">
-      #mainPage { margin-left: 20px; }
-    </style>
-    
-    <div id="headerMessage" class="bold"></div>
+            #mainPage {
+                margin: 5px 10px 10px 20px !important;
+            }
+        </style>
+
 
     <div class="page" id="mainPage"> <!-- Do not set style attr -->
               <div style="margin-bottom:16px" class="hideInPrint">
@@ -312,15 +288,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
 		    const baseUrl = "..";
 		
 		    // BUILD TABLES
-        // Build "Invalid sharing settings" table
-        const invalidSharingSettingsTable = $(
-          "#invalid_sharing_settings"
-        ).DataTable({
-          order: [[4, "asc"]],
-          rowGroup: {
-            dataSrc: 4
-          }
-        });
+			
 
         // Build "Public Objects" table
         const publicObjectsTable = $("#public_objects").DataTable({
@@ -423,34 +391,9 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               false,
               isDevelopment,
               false,
-              updateInvalidSharingSettingsTable
+              updateChangedMetadataTable
             );
         };
-
-        function updateInvalidSharingSettingsTable(){
-          console.log("table: updateInvalidSharingSettingsTable");
-            updateTable(
-              invalidSharingSettingsTable,
-              baseUrl + "/api/metadata.json?filter=publicAccess:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-              false,
-              isDevelopment,
-              true,
-              updateInvalidSharingSettingsUserGroupsTable
-            );
-        }
-
-        function updateInvalidSharingSettingsUserGroupsTable(){
-          console.log("table: updateInvalidSharingSettingsUserGroupsTable");
-				updateTable(
-				  invalidSharingSettingsTable,
-				  baseUrl + "/api/metadata.json?filter=userGroupAccesses.access:in:[rwr-----,r-r-----]&fields=id,name,publicAccess,user[name,displayName],lastUpdatedBy[name,displayName],userGroupAccesses",
-				  false,
-				  isDevelopment,
-				  true,
-				  updateChangedMetadataTable
-				);
-
-        }
 
         function updateChangedMetadataTable(){
           console.log("table: updateChangedMetadataTable");
@@ -501,7 +444,8 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
               false,
               isDevelopment,
               false,
-              done
+			  done
+              //updateInvalidSharingSettingsUserGroupsTable not working
             );
         };
         
@@ -562,22 +506,7 @@ function updateTable(table, url, updateRow, isDevelopment, removeDataSharingType
             <th>User group accesses</th>
           </tr>
         </thead>
-      </table>
-
-      <h3>Objects with invalid sharing settings (data reporting in metadata that is not data shareable)</h3>
-      <table class="listTable gridTable" id="invalid_sharing_settings">
-        <thead>
-          <tr>
-            <th>Metadata type</th>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Public access</th>
-            <th>Created by</th>
-            <th>Last updated by</th>
-            <th>User group accesses</th>
-          </tr>
-        </thead>
-      </table>
+      </table>	
 
       <h3>Recently edited metadata (Two weeks)</h3>
       <table class="listTable gridTable" id="changed_metadata">
